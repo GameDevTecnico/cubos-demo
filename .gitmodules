@@ -1,0 +1,3 @@
+[submodule "lib/cubos"]
+	path = lib/cubos
+	url = https://github.com/GameDevTecnico/cubos.git
