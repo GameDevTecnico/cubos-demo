@@ -1,7 +1,7 @@
 # CMakeLists.txt
 # Cubos Demo project root build configuration
 
-cmake_minimum_required(VERSION 3.9.0)
+cmake_minimum_required(VERSION 3.20.0)
 project(cubos-demo VERSION 0.1.0)
 
 # Include CubinhosGenerate
@@ -18,6 +18,8 @@ target_link_libraries(demo cubos-engine)
 
 # Assets
 target_compile_definitions(demo PUBLIC DEMO_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/src/assets")
+
+target_compile_features(demo PRIVATE cxx_std_20)
 
 # Components
 cubinhos_generate(demo "${CMAKE_CURRENT_SOURCE_DIR}/src")
