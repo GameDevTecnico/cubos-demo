@@ -1,3 +1,4 @@
+#include <cubos/core/data/debug_serializer.hpp>
 #include <cubos/core/settings.hpp>
 
 #include <cubos/engine/env_settings/plugin.hpp>
@@ -5,11 +6,13 @@
 #include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/voxels/plugin.hpp>
+#include <cubos/engine/input/plugin.hpp>
 
 #include "components.hpp"
 
 using cubos::core::Settings;
 using cubos::core::ecs::Commands;
+using cubos::core::data::Debug;
 using cubos::core::ecs::Query;
 using cubos::core::ecs::Read;
 using cubos::core::ecs::Write;
@@ -19,10 +22,22 @@ using namespace cubos::engine;
 
 static const Asset<Grid> CarAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c75");
 static const Asset<Palette> PaletteAsset = AnyAsset("1aa5e234-28cb-4386-99b4-39386b0fc215");
+static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
+static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
 
 static void settings(Write<Settings> settings)
 {
     settings->setString("assets.io.path", DEMO_ASSETS_FOLDER);
+}
+
+static void loadInputBindings(Read<Assets> assets, Write<Input> input) {
+    auto bindings0 = assets->read<InputBindings>(Player0BindingsAsset);
+    input->bind(*bindings0, 0);
+    //CUBOS_INFO("Loaded Bindings: {}", Debug(input->bindings().at(0)));
+
+    auto bindings1 = assets->read<InputBindings>(Player1BindingsAsset);
+    input->bind(*bindings1, 1);
+    //CUBOS_INFO("Loaded Bindings: {}", Debug(input->bindings().at(0)));
 }
 
 static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer, Write<ActiveCamera> activeCamera)
@@ -68,20 +83,86 @@ static void spawnCar(Commands cmds, Write<Assets> assets) {
     auto car = assets->read(CarAsset);
     glm::vec3 offset = glm::vec3(car->size().x, 0.0F, car->size().z) / -2.0F;
 
-    cmds.create(Car{}, RenderableGrid{CarAsset, offset}, LocalToWorld{})
+    cmds.create(Car{0,}, RenderableGrid{CarAsset, offset}, LocalToWorld{})
         .add(Position{{0.0F, 0.0F, 0.0F}})
+        .add(Rotation{});
+
+    cmds.create(Car{1,}, RenderableGrid{CarAsset, offset}, LocalToWorld{})
+        .add(Position{{60.0F, 0.0F, 0.0F}})
         .add(Rotation{});
 }
 
-static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<DeltaTime> deltaTime)
+static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<Input> input, Read<DeltaTime> deltaTime)
 {
+    /*
+    float acceleration = 35.0F;
+    //float turnSpeed = 5.0F;
+    float drag = 2.0F;
+    float maxAngVel = 250.0F;
+    float angDrag = 3.0F;
+    float sideDrag = 2.0F;
+
+    float wheelAngle = 0.0F;
+    float maxWheelAngle = 50.0F;
+    float wheelTurnInRate = 1.0F;
+    float turnSpeed = 2.0F;
+
+    bool handbrake = false;
+    */
+
+    float acceleration = 35.0F;
+    float drag = 2.0F;
+    float maxAngVel = 250.0F;
+    float angDrag = 3.0F;
+    float sideDrag = 2.0F;
+
+    float maxWheelAngle = 50.0F;
+    float wheelTurnInRate = 1.0F;
+    float turnSpeed = 2.0F;
+
     for (auto [entity, car, position, rotation] : query)
     {
-        car->vel = rotation->quat * glm::vec3(2.0F, 0.0F, 2.0F);
-        car->angVel = 0.3F;
+        float wheelAngle = 0.0F;
+        bool handbrake = false;
 
-        position->vec += deltaTime->value * car->vel;
-        rotation->quat = glm::angleAxis(deltaTime->value * car->angVel, glm::vec3(0.0F, 1.0F, 0.0F)) * rotation->quat;
+        glm::vec3 forward = rotation->quat * glm::vec3(0.0f, 0.0f, 1.0f); 
+        glm::vec3 side = rotation->quat * glm::vec3(1.0f, 0.0f, 0.0f);
+
+        float absVel = glm::length(car->vel);
+        float forwardVel = glm::dot(car->vel, forward);
+        float sideVel = glm::dot(car->vel, side);
+
+        if (input->pressed("space", car->id)) {
+            // handbrake behavior
+            handbrake = true;
+            turnSpeed = 4.0F;
+            sideDrag = 1.0F;
+        }
+
+        if (input->axis("vertical", car->id) != 0.0F && !handbrake) {
+            CUBOS_INFO("Loaded Bindings: {}", input->axis("vertical"));
+            car->vel += forward * acceleration * (input->axis("vertical", car->id)) * deltaTime->value;
+        }
+        else {
+            if (glm::length(car->vel) < 0.05) {
+                car->vel = glm::vec3(0.0F);
+            }
+            car->vel *= glm::max(0.0F, 1.0F - drag * deltaTime->value);
+        }
+        car->vel -= side * sideVel * sideDrag * deltaTime->value;
+
+        if (input->axis("horizontal", car->id) != 0.0F) {
+            wheelAngle += turnSpeed * -(input->axis("horizontal", car->id)) * deltaTime->value;
+            wheelAngle = glm::clamp(wheelAngle, -maxWheelAngle, maxWheelAngle);
+        }
+        else {
+            wheelAngle *= glm::max(0.0F, 1.0F - wheelTurnInRate * deltaTime->value);
+        }
+        position->vec += car->vel * deltaTime->value;
+        rotation->quat = glm::angleAxis(wheelAngle * forwardVel * deltaTime->value, glm::vec3(0.0F, 1.0F, 0.0F)) * rotation->quat;
+    
+        turnSpeed = 2.0F;
+        sideDrag = 2.0F;
     }
 }
 
@@ -91,9 +172,11 @@ int main(int argc, char** argv)
     cubos.addPlugin(envSettingsPlugin);
     cubos.addPlugin(rendererPlugin);
     cubos.addPlugin(voxelsPlugin);
+    cubos.addPlugin(inputPlugin);
     cubos.addComponent<Car>();
 
     cubos.startupSystem(settings).tagged("cubos.settings");
+    cubos.startupSystem(loadInputBindings).tagged("cubos.assets");
     cubos.startupSystem(setup).tagged("cubos.assets").afterTag("cubos.renderer.init");
     cubos.startupSystem(spawnCar).tagged("cubos.assets");
     cubos.system(move);
