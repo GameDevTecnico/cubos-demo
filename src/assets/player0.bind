@@ -1,0 +1,35 @@
+{
+    "actions": {
+        "space": [
+            "Space"
+        ]
+    },
+    "axes": {
+        "vertical": {
+            "pos": [
+                "w"
+            ],
+            "neg": [
+                "s"
+            ]
+        },
+        "horizontal": {
+            "pos": [
+                "d"
+            ],
+            "neg": [
+                "a"
+            ]
+        },
+        "shift-vertical": {
+            "pos": [
+                "S-w",
+                "S-Up"
+            ],
+            "neg": [
+                "S-s",
+                "S-Down"
+            ]
+        }
+    }
+}
