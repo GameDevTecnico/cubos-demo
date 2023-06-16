@@ -8,6 +8,9 @@
 #include <cubos/engine/voxels/plugin.hpp>
 #include <cubos/engine/input/plugin.hpp>
 
+#include <vector>
+
+#include "cameraComponent.hpp"
 #include "components.hpp"
 
 using cubos::core::Settings;
@@ -24,6 +27,10 @@ static const Asset<Grid> CarAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c
 static const Asset<Palette> PaletteAsset = AnyAsset("1aa5e234-28cb-4386-99b4-39386b0fc215");
 static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
+
+// car positions to update camera
+std::vector<glm::vec3> newCarPositions(2, glm::vec3(0.0f, 0.0f, 0.0f));
+std::vector<glm::quat> newCarRotations(2, glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 
 static void settings(Write<Settings> settings)
 {
@@ -72,6 +79,7 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
         cmds.create(Camera{60.0F, 0.1F, 1000.0F}, LocalToWorld{})
             .add(Position{{0.0F, 120.0F, -200.0F}})
             .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
+            .add(FollowEntity{})
             .entity();
 
     // Spawn the sun.
@@ -94,22 +102,6 @@ static void spawnCar(Commands cmds, Write<Assets> assets) {
 
 static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<Input> input, Read<DeltaTime> deltaTime)
 {
-    /*
-    float acceleration = 35.0F;
-    //float turnSpeed = 5.0F;
-    float drag = 2.0F;
-    float maxAngVel = 250.0F;
-    float angDrag = 3.0F;
-    float sideDrag = 2.0F;
-
-    float wheelAngle = 0.0F;
-    float maxWheelAngle = 50.0F;
-    float wheelTurnInRate = 1.0F;
-    float turnSpeed = 2.0F;
-
-    bool handbrake = false;
-    */
-
     float acceleration = 35.0F;
     float drag = 2.0F;
     float maxAngVel = 250.0F;
@@ -163,6 +155,21 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
     
         turnSpeed = 2.0F;
         sideDrag = 2.0F;
+
+        newCarPositions[car->id] = position->vec;
+        newCarRotations[car->id] = rotation->quat;
+    }
+}
+
+static void followCar(Query<Read<Camera>, Write<Position>, Write<Rotation>, Write<FollowEntity>> query) {
+    for (auto [entity, camera, position, rotation, followEntity] : query)
+    {
+        rotation->quat = newCarRotations[followEntity->idToFollow] * 
+                         glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) * 
+                         glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f));
+        position->vec = newCarPositions[followEntity->idToFollow] + 
+                        (glm::vec3(0.0f, 1.0f, 0.0f) * followEntity->offset) + 
+                        (glm::normalize(rotation->quat * glm::vec3(0.0f, 0.0f, 1.0f)) * 60.0f);
     }
 }
 
@@ -174,12 +181,14 @@ int main(int argc, char** argv)
     cubos.addPlugin(voxelsPlugin);
     cubos.addPlugin(inputPlugin);
     cubos.addComponent<Car>();
+    cubos.addComponent<FollowEntity>();
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(loadInputBindings).tagged("cubos.assets");
     cubos.startupSystem(setup).tagged("cubos.assets").afterTag("cubos.renderer.init");
     cubos.startupSystem(spawnCar).tagged("cubos.assets");
-    cubos.system(move);
+    cubos.system(move).tagged("car.move");
+    cubos.system(followCar).afterTag("car.move");
 
     cubos.run();
 }
