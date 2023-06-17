@@ -9,6 +9,7 @@
 #include <cubos/engine/input/plugin.hpp>
 
 #include <vector>
+#include <cmath>
 
 #include "cameraComponent.hpp"
 #include "components.hpp"
@@ -24,6 +25,7 @@ using cubos::core::gl::Palette;
 using namespace cubos::engine;
 
 static const Asset<Grid> CarAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c75");
+static const Asset<Grid> TrackAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c76");
 static const Asset<Palette> PaletteAsset = AnyAsset("1aa5e234-28cb-4386-99b4-39386b0fc215");
 static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
@@ -51,12 +53,13 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
 {
     // Load the palette asset and add two colors to it.
     auto palette = assets->write(PaletteAsset);
-    auto black = palette->add({{0.1F, 0.1F, 0.1F, 1.0F}});
-    auto white = palette->add({{0.9F, 0.9F, 0.9F, 1.0F}});
+    //auto black = palette->add({{0.1F, 0.1F, 0.1F, 1.0F}});
+    //auto white = palette->add({{0.9F, 0.9F, 0.9F, 1.0F}});
 
     // Set the renderer's palette to the one we just modified.
     (*renderer)->setPalette(*palette);
 
+    /*
     // Generate a new grid asset for the floor.
     auto floorGrid = Grid({256, 1, 256});
     for (int x = 0; x < 256; ++x)
@@ -70,9 +73,13 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     floorOffset.y = -1.0F;
 
     auto floorAsset = assets->create(std::move(floorGrid));
+    */
+    auto trackAsset = assets->read(TrackAsset);
+    auto trackOffset = glm::vec3(0.0f, 0.0f, 0.0f);
+    trackOffset.y = -2.0F;
 
     // Spawn the floor entity.
-    cmds.create(RenderableGrid{floorAsset, floorOffset}, LocalToWorld{}, Scale{4.0F});
+    cmds.create(RenderableGrid{TrackAsset, trackOffset}, LocalToWorld{}, Scale{4.0F});
 
     // Spawn the camera entity.
     activeCamera->entity =
@@ -92,12 +99,12 @@ static void spawnCar(Commands cmds, Write<Assets> assets) {
     glm::vec3 offset = glm::vec3(car->size().x, 0.0F, car->size().z) / -2.0F;
 
     cmds.create(Car{0,}, RenderableGrid{CarAsset, offset}, LocalToWorld{})
-        .add(Position{{0.0F, 0.0F, 0.0F}})
-        .add(Rotation{});
+        .add(Position{{320.0F, 0.0F, 636.0F}})
+        .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))});
 
     cmds.create(Car{1,}, RenderableGrid{CarAsset, offset}, LocalToWorld{})
-        .add(Position{{60.0F, 0.0F, 0.0F}})
-        .add(Rotation{});
+        .add(Position{{320.0F, 0.0F, 667.0F}})
+        .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))});
 }
 
 static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<Input> input, Read<DeltaTime> deltaTime)
@@ -114,6 +121,7 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
 
     for (auto [entity, car, position, rotation] : query)
     {
+        int modifier = 1.0f;
         float wheelAngle = 0.0F;
         bool handbrake = false;
 
@@ -150,8 +158,9 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
         else {
             wheelAngle *= glm::max(0.0F, 1.0F - wheelTurnInRate * deltaTime->value);
         }
+        modifier = forwardVel > 0.0f ? modifier : -modifier;
         position->vec += car->vel * deltaTime->value;
-        rotation->quat = glm::angleAxis(wheelAngle * forwardVel * deltaTime->value, glm::vec3(0.0F, 1.0F, 0.0F)) * rotation->quat;
+        rotation->quat = glm::angleAxis(wheelAngle * (float) sqrt(abs(forwardVel)) * modifier * 3.5f * deltaTime->value, glm::vec3(0.0F, 1.0F, 0.0F)) * rotation->quat;
     
         turnSpeed = 2.0F;
         sideDrag = 2.0F;
