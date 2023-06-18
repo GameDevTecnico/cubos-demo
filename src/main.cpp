@@ -9,6 +9,8 @@
 #include <cubos/engine/voxels/plugin.hpp>
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/scene/plugin.hpp>
+#include <cubos/engine/tools/entity_inspector/plugin.hpp>
+#include <cubos/engine/tools/world_inspector/plugin.hpp>
 
 #include <vector>
 #include <cmath>
@@ -169,15 +171,11 @@ static void spawnCar(Commands cmds, Write<Assets> assets, Write<BroadPhaseCollis
         .add(BoxCollider{.shape = {{6.0, 6.0, 14.0}}})
         .entity();
 
-    collisions->addEntity(entity1);
-
     auto entity2 = cmds.create(Car{1,}, RenderableGrid{CarAsset, offset}, LocalToWorld{})
         .add(Position{{320.0F, 0.0F, 667.0F}})
         .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))})
         .add(BoxCollider{.shape = {{6.0, 6.0, 14.0}}})
         .entity();
-        
-    collisions->addEntity(entity2);
 
     cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 4.0F, .range = 200.0F, .spotAngle = 70.0F, .innerSpotAngle = 60.0F}, LocalToWorld{})
         .add(Position{{340.0F, 10.0F, 636.0F}})
@@ -372,32 +370,17 @@ static void updateTransform(Write<State> state, Read<Input> input, Query<Write<P
 }
 */
 
-static void carCollision(Query<Read<BoxCollider>, Read<Car>, Read<LocalToWorld>> query, Read<BroadPhaseCollisions> collisions)
+static void carCollision(Query<Read<BoxCollider>, Read<Car>> query, Read<BroadPhaseCollisions> collisions)
 {
-    for (auto [entity, collider, car, transform] : query)
+    for (auto [entity, collider, car] : query)
     {
         for (auto& entities : collisions->candidates(BroadPhaseCollisions::CollisionType::BoxBox))
         {
-            BoxCollider otherCollider;
-            LocalToWorld otherTransform;
-            if (entities.first == entity)
+            if (entities.first == entity || entities.second == entity)
             {
-                auto [collider2, car2, transform2] = query[entities.second].value();
-                otherCollider = *collider2;
-                otherTransform = *transform2;
+                //CUBOS_INFO("HIT!!!!!!!!!");
+                CUBOS_INFO("HIT!!! {}, {}", Debug(entities.first), Debug(entities.second));
             }
-            else if (entities.second == entity)
-            {
-                auto [collider1, car1, transform1] = query[entities.first].value();
-                otherCollider = *collider1;
-                otherTransform = *transform1;
-            }
-            else {
-                break;
-            }
-            
-            CUBOS_INFO("HIT!!!!!!!!!");
-            return;
         }
     }
 }
@@ -425,6 +408,8 @@ int main(int argc, char** argv)
     cubos.addPlugin(voxelsPlugin);
     cubos.addPlugin(inputPlugin);
     cubos.addPlugin(scenePlugin);
+    cubos.addPlugin(tools::entityInspectorPlugin);
+    cubos.addPlugin(tools::worldInspectorPlugin);
     cubos.addComponent<Car>();
     cubos.addComponent<FollowEntity>();
     cubos.addResource<IsDay>();
