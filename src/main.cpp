@@ -455,13 +455,16 @@ static void carCollision(Commands cmds, Query<Read<LocalToWorld>, Read<Position>
     }
 }
 
-static void debugRender(Query<Read<LocalToWorld>, Read<BoxCollider>, Read<ColliderAABB>> query)
+static void debugRender(Query<Read<LocalToWorld>, Read<BoxCollider>, Read<ColliderAABB>> query, Read<Input> input)
 {
-    for (auto [entity, localToWorld, collider, aabb] : query)
+    if (input->pressed("debug"))
     {
-        cubos::core::gl::Debug::drawWireBox(collider->shape, localToWorld->mat * collider->transform);
-        cubos::core::gl::Debug::drawWireBox(aabb->box(), glm::translate(glm::mat4{1.0}, aabb->center()),
-                                            glm::vec3{1.0, 0.0, 0.0});
+        for (auto [entity, localToWorld, collider, aabb] : query)
+        {
+            cubos::core::gl::Debug::drawWireBox(collider->shape, localToWorld->mat * collider->transform);
+            cubos::core::gl::Debug::drawWireBox(aabb->box(), glm::translate(glm::mat4{1.0}, aabb->center()),
+                                                glm::vec3{1.0, 0.0, 0.0});
+        }
     }
 }
 

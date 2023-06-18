@@ -7,6 +7,12 @@
             "gamepad": [
                 "Y"
             ]
+        },
+        "debug" : {
+            "keys": [
+                "d"
+            ],
+            "gamepad": []
         }
     },
     "axes": {
