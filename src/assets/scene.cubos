@@ -1,86 +1,118 @@
 {
-    "imports": {
-    },
+    "imports": {},
     "entities": {
-        "floor": { 
+        "floor": {
             "cubos/renderable_grid": {
-                "asset" : "059c16e7-a439-44c7-9bdc-6e069dba0c76",
-                "offset" : {
-                    "x" : 0.0,
-                    "y" : -2.0,
-                    "z" : 0.0
+                "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c76",
+                "offset": {
+                    "x": 0.0,
+                    "y": -2.0,
+                    "z": 0.0
                 }
             },
-            "cubos/scale" : 4.0
+            "cubos/scale": 4.0
         },
-        "collider1" : {
-            "cubos/position" : {
-                "x" : 600.0,
-                "y" : 0.0,
-                "z" : 80.0
+        "collider1": {
+            "cubos/position": {
+                "x": 600.0,
+                "y": 0.0,
+                "z": 80.0
             },
-            "cubos/box_collider" : {
-                "shape" : {
-                    "halfSize" : {
-                        "x" : 1000.0,
-                        "y" : 50.0,
-                        "z" : 1.0
+            "cubos/box_collider": {
+                "shape": {
+                    "halfSize": {
+                        "x": 1000.0,
+                        "y": 50.0,
+                        "z": 1.0
                     }
                 },
-                "margin" : 0.04
+                "margin": 0.04
             }
         },
-        "collider2" : {
-            "cubos/position" : {
-                "x" : 700.0,
-                "y" : 0.0,
-                "z" : 600.0
+        "collider2": {
+            "cubos/position": {
+                "x": 700.0,
+                "y": 0.0,
+                "z": 600.0
             },
-            "cubos/box_collider" : {
-                "shape" : {
-                    "halfSize" : {
-                        "x" : 1.0,
-                        "y" : 50.0,
-                        "z" : 1000.0
+            "cubos/box_collider": {
+                "shape": {
+                    "halfSize": {
+                        "x": 1.0,
+                        "y": 50.0,
+                        "z": 1000.0
                     }
                 },
-                "margin" : 0.04
+                "margin": 0.04
             }
         },
-        "collider3" : {
-            "cubos/position" : {
-                "x" : 600.0,
-                "y" : 0.0,
-                "z" : 710.0
+        "collider3": {
+            "cubos/position": {
+                "x": 600.0,
+                "y": 0.0,
+                "z": 710.0
             },
-            "cubos/box_collider" : {
-                "shape" : {
-                    "halfSize" : {
-                        "x" : 1000.0,
-                        "y" : 50.0,
-                        "z" : 1.0
+            "cubos/box_collider": {
+                "shape": {
+                    "halfSize": {
+                        "x": 1000.0,
+                        "y": 50.0,
+                        "z": 1.0
                     }
                 },
-                "margin" : 0.04
+                "margin": 0.04
             }
         },
-        "collider4" : {
-            "cubos/position" : {
-                "x" : 60.0,
-                "y" : 0.0,
-                "z" : 600.0
+        "collider4": {
+            "cubos/position": {
+                "x": 60.0,
+                "y": 0.0,
+                "z": 600.0
             },
-            "cubos/box_collider" : {
-                "shape" : {
-                    "halfSize" : {
-                        "x" : 1.0,
-                        "y" : 50.0,
-                        "z" : 1000.0
+            "cubos/box_collider": {
+                "shape": {
+                    "halfSize": {
+                        "x": 1.0,
+                        "y": 50.0,
+                        "z": 1000.0
                     }
                 },
-                "margin" : 0.04
+                "margin": 0.04
+            }
+        },
+        "collider5": {
+            "cubos/position": {
+                "x": 365.0,
+                "y": 0.0,
+                "z": 530.0
+            },
+            "cubos/box_collider": {
+                "shape": {
+                    "halfSize": {
+                        "x": 190.0,
+                        "y": 50.0,
+                        "z": 50.0
+                    }
+                },
+                "margin": 0.04
+            }
+        },
+        "collider6": {
+            "cubos/position": {
+                "x": 450.0,
+                "y": 0.0,
+                "z": 325.0
+            },
+            "cubos/box_collider": {
+                "shape": {
+                    "halfSize": {
+                        "x": 125.0,
+                        "y": 50.0,
+                        "z": 150.0
+                    }
+                },
+                "margin": 0.04
             }
         }
     }
 }
-  
