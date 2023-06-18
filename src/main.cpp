@@ -244,7 +244,7 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
             car->wheelAngle *= glm::max(0.0F, 1.0F - wheelTurnInRate * deltaTime->value);
         }
         position->vec += car->vel * deltaTime->value;
-        rotation->quat = glm::angleAxis(car->wheelAngle * (float)sqrt(abs(forwardVel)) * 3.5f * deltaTime->value,
+        rotation->quat = glm::angleAxis(car->wheelAngle * (float)sqrt(std::abs(forwardVel)) * 3.5f * deltaTime->value,
                                         glm::vec3(0.0F, 1.0F, 0.0F)) *
                          rotation->quat;
 
