@@ -438,7 +438,14 @@ static void carCollision(Commands cmds, Query<Read<LocalToWorld>, Read<Position>
             {
                 if (car->deadTime == 0.0F)
                 {
-                    cmds.create().add(Explosion{}).add(Position{position->vec});
+                    cmds.create()
+                        .add(Explosion{})
+                        .add(Position{position->vec + glm::vec3{0.0F, 5.0F, 0.0F}})
+                        .add(PointLight{
+                            .color = {1.0F, 0.0F, 0.0F},
+                            .intensity = 5.0F,
+                            .range = 100.0F,
+                        });
                     car->deadTime = 3.0F;
                 }
 
