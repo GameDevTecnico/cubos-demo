@@ -1,8 +1,11 @@
 {
     "actions": {
-        "space": [
-            "Space"
-        ]
+        "space": {
+            "keys" : [
+                "Space"
+            ],
+            "gamepad" : []
+        }
     },
     "axes": {
         "vertical": {
@@ -11,7 +14,8 @@
             ],
             "neg": [
                 "Down"
-            ]
+            ],
+            "gamepad" : []
         },
         "horizontal": {
             "pos": [
@@ -19,17 +23,8 @@
             ],
             "neg": [
                 "Left"
-            ]
-        },
-        "shift-vertical": {
-            "pos": [
-                "S-w",
-                "S-Up"
             ],
-            "neg": [
-                "S-s",
-                "S-Down"
-            ]
+            "gamepad" : []
         }
     }
 }
