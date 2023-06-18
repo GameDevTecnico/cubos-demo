@@ -2,6 +2,7 @@
 #include <cubos/core/settings.hpp>
 
 #include <cubos/engine/env_settings/plugin.hpp>
+#include <cubos/engine/renderer/environment.hpp>
 #include <cubos/engine/renderer/light.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
@@ -34,6 +35,27 @@ static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103
 std::vector<glm::vec3> newCarPositions(2, glm::vec3(0.0f, 0.0f, 0.0f));
 std::vector<glm::quat> newCarRotations(2, glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 
+
+struct DayLights
+{
+    int ambientLight;
+    int directionalLight;
+};
+
+/*
+struct NightLights
+{
+    int headLight1;
+    int headLight2;
+};
+*/
+
+struct IsDay {
+    bool value = true;
+    bool switching = false;
+};
+
+
 static void settings(Write<Settings> settings)
 {
     settings->setString("assets.io.path", DEMO_ASSETS_FOLDER);
@@ -49,7 +71,7 @@ static void loadInputBindings(Read<Assets> assets, Write<Input> input) {
     //CUBOS_INFO("Loaded Bindings: {}", Debug(input->bindings().at(0)));
 }
 
-static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer, Write<ActiveCamera> activeCamera)
+static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer, Write<ActiveCameras> activeCameras, Write<RendererEnvironment> env)
 {
     // Load the palette asset and add two colors to it.
     auto palette = assets->write(PaletteAsset);
@@ -82,16 +104,37 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     cmds.create(RenderableGrid{TrackAsset, trackOffset}, LocalToWorld{}, Scale{4.0F});
 
     // Spawn the camera entity.
-    activeCamera->entity =
+    activeCameras->entities[0] =
         cmds.create(Camera{60.0F, 0.1F, 1000.0F}, LocalToWorld{})
             .add(Position{{0.0F, 120.0F, -200.0F}})
             .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .add(FollowEntity{})
+            .add(FollowEntity{0,})
+            .entity();
+
+    // Spawn the camera entity.
+    activeCameras->entities[1] =
+        cmds.create(Camera{60.0F, 0.1F, 1000.0F}, LocalToWorld{})
+            .add(Position{{0.0F, 120.0F, -200.0F}})
+            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
+            .add(FollowEntity{1,})
             .entity();
 
     // Spawn the sun.
     cmds.create(DirectionalLight{glm::vec3(1.0F), 1.0F}, LocalToWorld{},
                 Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
+    
+    /*
+    cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 3.0F, .range = 200.0F, .spotAngle = 70.0F, .innerSpotAngle = 60.0F}, LocalToWorld{})
+        .add(Position{{360.0F, 10.0F, 620.0F}})
+        .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))});
+    */
+
+    // Set the ambient light.
+    //env->ambient = {0.5F, 0.5F, 0.5F};
+    //env->skyGradient[0] = {0.6F, 1.0F, 0.8F};
+    //env->skyGradient[1] = {0.25F, 0.65F, 1.0F};
+    //env->skyGradient[0] = {0.8F, 0.8F, 1.0F};
+    //env->skyGradient[1] = {0.3F, 0.0F, 0.8F};
 }
 
 static void spawnCar(Commands cmds, Write<Assets> assets) {
@@ -105,6 +148,16 @@ static void spawnCar(Commands cmds, Write<Assets> assets) {
     cmds.create(Car{1,}, RenderableGrid{CarAsset, offset}, LocalToWorld{})
         .add(Position{{320.0F, 0.0F, 667.0F}})
         .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))});
+
+    cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 4.0F, .range = 200.0F, .spotAngle = 70.0F, .innerSpotAngle = 60.0F}, LocalToWorld{})
+        .add(Position{{340.0F, 10.0F, 636.0F}})
+        .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
+        .add(FollowEntity{.idToFollow = 0, .offset = {0.0f, 10.0f, 0.0f}});
+
+    cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 4.0F, .range = 200.0F, .spotAngle = 70.0F, .innerSpotAngle = 60.0F}, LocalToWorld{})
+        .add(Position{{340.0F, 10.0F, 667.0}})
+        .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
+        .add(FollowEntity{.idToFollow = 1, .offset = {0.0f, 10.0f, 0.0f}});
 }
 
 static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<Input> input, Read<DeltaTime> deltaTime)
@@ -182,6 +235,56 @@ static void followCar(Query<Read<Camera>, Write<Position>, Write<Rotation>, Writ
     }
 }
 
+static void switchDayNight(Write<IsDay> isDay, Read<Input> input) {
+    if (input->pressed("space") && !isDay->switching) {
+        isDay->value = !isDay->value;
+        isDay->switching = true;
+    }
+    else if (!input->pressed("space")) {
+        isDay->switching = false;
+    }
+}
+
+static void handleDayLights(Query<Write<DirectionalLight>> query, Read<IsDay> isDay, Write<RendererEnvironment> env) {
+    if (isDay->value) {
+        for (auto [entity, light] : query)
+        { 
+            light->intensity = 1.0f;
+        }
+        env->ambient = {0.5F, 0.5F, 0.5F};
+        env->skyGradient[0] = {0.6F, 1.0F, 0.8F};
+        env->skyGradient[1] = {0.25F, 0.65F, 1.0F};
+    }
+    else {
+        for (auto [entity, light] : query)
+        { 
+            light->intensity = 0.0f;
+        }
+        env->ambient = {0.1F, 0.1F, 0.1F};
+        env->skyGradient[0] = {0.8F, 0.8F, 1.0F};
+        env->skyGradient[1] = {0.3F, 0.0F, 0.8F};
+    }
+}
+
+static void handleNightLights(Query<Write<SpotLight>, Write<Position>, Write<Rotation>, Write<FollowEntity>> query, Read<IsDay> isDay) { //  Read<Input> input
+    for (auto [entity, light, position, rotation, followEntity] : query)
+    {
+        if (!isDay->value) {
+            light->intensity = 4.0f;
+        }
+        else {
+            light->intensity = 0.0f;
+        }
+
+        rotation->quat = newCarRotations[followEntity->idToFollow] * glm::quat(glm::vec3(0, 0, glm::radians(-90.0F))); // glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f));
+                         //glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) * 
+                         //glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f));
+        position->vec = newCarPositions[followEntity->idToFollow] + 
+                        (glm::vec3(0.0f, 1.0f, 0.0f) * followEntity->offset) + 
+                        (glm::normalize(rotation->quat * glm::vec3(0.0f, 0.0f, 1.0f)) * 20.0f);
+    }
+}
+
 int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
@@ -191,6 +294,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(inputPlugin);
     cubos.addComponent<Car>();
     cubos.addComponent<FollowEntity>();
+    cubos.addResource<IsDay>();
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(loadInputBindings).tagged("cubos.assets");
@@ -198,6 +302,9 @@ int main(int argc, char** argv)
     cubos.startupSystem(spawnCar).tagged("cubos.assets");
     cubos.system(move).tagged("car.move");
     cubos.system(followCar).afterTag("car.move");
+    cubos.system(switchDayNight).afterTag("car.move");
+    cubos.system(handleNightLights).afterTag("car.move");
+    cubos.system(handleDayLights).afterTag("car.move");
 
     cubos.run();
 }
