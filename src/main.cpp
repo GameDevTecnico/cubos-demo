@@ -116,27 +116,26 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
 
     // Spawn the camera entity.
     activeCameras->entities[0] =
-        cmds.create(Camera{60.0F, 0.1F, 1000.0F}, LocalToWorld{})
+        cmds.create()
+            .add(Camera{60.0F, 0.1F, 1000.0F})
             .add(Position{{0.0F, 120.0F, -200.0F}})
             .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .add(FollowEntity{
-                0,
-            })
+            .add(FollowEntity{0})
             .entity();
 
     // Spawn the camera entity.
     activeCameras->entities[1] =
-        cmds.create(Camera{60.0F, 0.1F, 1000.0F}, LocalToWorld{})
+        cmds.create()
+            .add(Camera{60.0F, 0.1F, 1000.0F})
             .add(Position{{0.0F, 120.0F, -200.0F}})
             .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .add(FollowEntity{
-                1,
-            })
+            .add(FollowEntity{1})
             .entity();
 
     // Spawn the sun.
-    cmds.create(DirectionalLight{glm::vec3(1.0F), 1.0F}, LocalToWorld{},
-                Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
+    cmds.create()
+        .add(DirectionalLight{glm::vec3(1.0F), 1.0F})
+        .add(Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
 
     /*
     cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 3.0F, .range = 200.0F, .spotAngle = 70.0F,
@@ -157,42 +156,38 @@ static void spawnCar(Commands cmds, Write<Assets> assets, Write<BroadPhaseCollis
     auto car = assets->read(CarAsset);
     glm::vec3 offset = glm::vec3(car->size().x, 0.0F, car->size().z) / -2.0F;
 
-    auto entity1 = cmds.create(
-                           Car{
-                               0,
-                           },
-                           RenderableGrid{CarAsset, offset}, LocalToWorld{})
+    auto entity1 = cmds.create()
+                       .add(Car{0})
+                       .add(RenderableGrid{CarAsset, offset})
                        .add(Position{{320.0F, 0.0F, 636.0F}})
                        .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))})
                        .add(BoxCollider{.shape = {{6.0, 6.0, 14.0}}})
                        .entity();
 
-    auto entity2 = cmds.create(
-                           Car{
-                               1,
-                           },
-                           RenderableGrid{CarAsset, offset}, LocalToWorld{})
+    auto entity2 = cmds.create()
+                       .add(Car{1})
+                       .add(RenderableGrid{CarAsset, offset})
                        .add(Position{{320.0F, 0.0F, 667.0F}})
                        .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))})
                        .add(BoxCollider{.shape = {{6.0, 6.0, 14.0}}})
                        .entity();
 
-    cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F},
-                          .intensity = 4.0F,
-                          .range = 200.0F,
-                          .spotAngle = 70.0F,
-                          .innerSpotAngle = 60.0F},
-                LocalToWorld{})
+    cmds.create()
+        .add(SpotLight{.color = {1.0F, 1.0F, 1.0F},
+                       .intensity = 4.0F,
+                       .range = 200.0F,
+                       .spotAngle = 70.0F,
+                       .innerSpotAngle = 60.0F})
         .add(Position{{340.0F, 10.0F, 636.0F}})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
         .add(FollowEntity{.idToFollow = 0, .offset = {0.0f, 10.0f, 0.0f}});
 
-    cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F},
-                          .intensity = 4.0F,
-                          .range = 200.0F,
-                          .spotAngle = 70.0F,
-                          .innerSpotAngle = 60.0F},
-                LocalToWorld{})
+    cmds.create()
+        .add(SpotLight{.color = {1.0F, 1.0F, 1.0F},
+                       .intensity = 4.0F,
+                       .range = 200.0F,
+                       .spotAngle = 70.0F,
+                       .innerSpotAngle = 60.0F})
         .add(Position{{340.0F, 10.0F, 667.0}})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
         .add(FollowEntity{.idToFollow = 1, .offset = {0.0f, 10.0f, 0.0f}});
