@@ -138,8 +138,6 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
         .add(DirectionalLight{glm::vec3(1.0F), 1.0F})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
 
-    cmds.create().add(Explosion{}).add(Position{{450.0F, 0.0F, 636.0F}});
-
     /*
     cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 3.0F, .range = 200.0F, .spotAngle = 70.0F,
     .innerSpotAngle = 60.0F}, LocalToWorld{}) .add(Position{{360.0F, 10.0F, 620.0F}})
@@ -201,6 +199,11 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
 {
     for (auto [entity, car, position, rotation] : query)
     {
+        if (car->deadTime > 0.0F)
+        {
+            continue;
+        }
+
         float acceleration = settings->getDouble("acceleration", 40.0F);
         float drag = settings->getDouble("drag", 0.1F);
         float maxAngVel = 250.0F;
@@ -390,10 +393,10 @@ static void updateTransform(Write<State> state, Read<Input> input, Query<Write<P
 }
 */
 
-static bool carCollidingWithWall(std::tuple<Read<LocalToWorld>, Read<BoxCollider>, Read<Car>> carData,
+static bool carCollidingWithWall(std::tuple<Read<LocalToWorld>, Read<Position>, Read<BoxCollider>, Write<Car>> carData,
                                  std::tuple<Read<ColliderAABB>> wallData)
 {
-    auto [carTransform, carCollider, car] = carData;
+    auto [carTransform, position, carCollider, car] = carData;
     auto [wallCollider] = wallData;
 
     glm::vec3 carCorners[8];
@@ -415,10 +418,10 @@ static bool carCollidingWithWall(std::tuple<Read<LocalToWorld>, Read<BoxCollider
     return false;
 }
 
-static void carCollision(Query<Read<LocalToWorld>, Read<BoxCollider>, Read<Car>> query,
+static void carCollision(Commands cmds, Query<Read<LocalToWorld>, Read<Position>, Read<BoxCollider>, Write<Car>> query,
                          Query<Read<ColliderAABB>> aabbQuery, Read<BroadPhaseCollisions> collisions)
 {
-    for (auto [entity, transform, collider, car] : query)
+    for (auto [entity, transform, position, collider, car] : query)
     {
         for (auto& entities : collisions->candidates(BroadPhaseCollisions::CollisionType::BoxBox))
         {
@@ -433,6 +436,12 @@ static void carCollision(Query<Read<LocalToWorld>, Read<BoxCollider>, Read<Car>>
                      entities.second == entity &&
                          carCollidingWithWall(query[entity].value(), aabbQuery[entities.first].value()))
             {
+                if (car->deadTime == 0.0F)
+                {
+                    cmds.create().add(Explosion{}).add(Position{position->vec});
+                    car->deadTime = 3.0F;
+                }
+
                 CUBOS_INFO("Car collided with wall");
             }
         }
@@ -446,6 +455,25 @@ static void debugRender(Query<Read<LocalToWorld>, Read<BoxCollider>, Read<Collid
         cubos::core::gl::Debug::drawWireBox(collider->shape, localToWorld->mat * collider->transform);
         cubos::core::gl::Debug::drawWireBox(aabb->box(), glm::translate(glm::mat4{1.0}, aabb->center()),
                                             glm::vec3{1.0, 0.0, 0.0});
+    }
+}
+
+static void respawnCar(Query<Write<Car>, Write<Position>> query, Read<DeltaTime> dt)
+{
+    for (auto [entity, car, position] : query)
+    {
+        if (car->deadTime > 0.0F)
+        {
+            car->deadTime -= dt->value;
+            if (car->deadTime < 0.0F)
+            {
+                car->deadTime = 0.0F;
+                position->vec = {320.0F, 0.0F, 636.0F};
+            }
+
+            car->vel = glm::vec3{0.0F};
+            car->angVel = 0.0F;
+        }
     }
 }
 
@@ -476,6 +504,7 @@ int main(int argc, char** argv)
     cubos.system(debugRender);
     cubos.system(carCollision).afterTag("cubos.collisions");
     cubos.system(move).tagged("car.move").beforeTag("cubos.transform.update");
+    cubos.system(respawnCar).tagged("car.move");
     cubos.system(followCar).afterTag("car.move");
     cubos.system(switchDayNight);
     cubos.system(handleNightLights);

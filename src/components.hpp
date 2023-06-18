@@ -8,4 +8,5 @@ struct [[cubos::component("car", VecStorage)]] Car
     glm::vec3 vel = {0.0f, 0.0f, 0.0f};
     float angVel = 0.0f;
     float wheelAngle = 0.0F;
+    float deadTime = 0.0F;
 };
