@@ -387,16 +387,50 @@ static void updateTransform(Write<State> state, Read<Input> input, Query<Write<P
 }
 */
 
-static void carCollision(Query<Read<BoxCollider>, Read<Car>> query, Read<BroadPhaseCollisions> collisions)
+static bool carCollidingWithWall(std::tuple<Read<LocalToWorld>, Read<BoxCollider>, Read<Car>> carData,
+                                 std::tuple<Read<ColliderAABB>> wallData)
 {
-    for (auto [entity, collider, car] : query)
+    auto [carTransform, carCollider, car] = carData;
+    auto [wallCollider] = wallData;
+
+    glm::vec3 carCorners[8];
+    carCollider->shape.corners(carCorners);
+    glm::mat4 bottomCorners{glm::vec4{carCorners[0], 1.0F}, glm::vec4{carCorners[2], 1.0F},
+                            glm::vec4{carCorners[5], 1.0F}, glm::vec4{carCorners[7], 1.0F}};
+
+    bottomCorners = carTransform->mat * bottomCorners;
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (bottomCorners[i].x > wallCollider->min.x && bottomCorners[i].x < wallCollider->max.x &&
+            bottomCorners[i].z > wallCollider->min.z && bottomCorners[i].z < wallCollider->max.z)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void carCollision(Query<Read<LocalToWorld>, Read<BoxCollider>, Read<Car>> query,
+                         Query<Read<ColliderAABB>> aabbQuery, Read<BroadPhaseCollisions> collisions)
+{
+    for (auto [entity, transform, collider, car] : query)
     {
         for (auto& entities : collisions->candidates(BroadPhaseCollisions::CollisionType::BoxBox))
         {
-            if (entities.first == entity || entities.second == entity)
+            if (entities.first == entity && query[entities.second] ||
+                entities.second == entity && query[entities.first])
             {
                 // CUBOS_INFO("HIT!!!!!!!!!");
-                CUBOS_INFO("HIT!!! {}, {}", Debug(entities.first), Debug(entities.second));
+                CUBOS_INFO("Cars collided");
+            }
+            else if (entities.first == entity &&
+                         carCollidingWithWall(query[entity].value(), aabbQuery[entities.second].value()) ||
+                     entities.second == entity &&
+                         carCollidingWithWall(query[entity].value(), aabbQuery[entities.first].value()))
+            {
+                CUBOS_INFO("Car collided with wall");
             }
         }
     }
@@ -436,6 +470,7 @@ int main(int argc, char** argv)
     cubos.startupSystem(setup).tagged("cubos.assets").afterTag("cubos.renderer.init");
     cubos.startupSystem(spawnCar).tagged("cubos.assets");
     cubos.system(debugRender);
+    cubos.system(carCollision).afterTag("cubos.collisions");
     cubos.system(move).tagged("car.move").beforeTag("cubos.transform.update");
     cubos.system(followCar).afterTag("car.move");
     cubos.system(switchDayNight);
