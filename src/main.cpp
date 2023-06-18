@@ -31,6 +31,7 @@
 
 #include "cameraComponent.hpp"
 #include "components.hpp"
+#include "explosion.hpp"
 
 using cubos::core::Settings;
 using cubos::core::data::Debug;
@@ -136,6 +137,8 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     cmds.create()
         .add(DirectionalLight{glm::vec3(1.0F), 1.0F})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
+
+    cmds.create().add(Explosion{}).add(Position{{450.0F, 0.0F, 636.0F}});
 
     /*
     cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 3.0F, .range = 200.0F, .spotAngle = 70.0F,
@@ -464,6 +467,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(rendererPlugin);
     cubos.addPlugin(inputPlugin);
     cubos.addPlugin(tools::settingsInspectorPlugin);
+    cubos.addPlugin(explosionPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(loadInputBindings).tagged("cubos.assets");
