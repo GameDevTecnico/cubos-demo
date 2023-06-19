@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <cmath>
+#include <imgui.h>
 
 //  aahhhhhh
 
@@ -60,6 +61,12 @@ struct IsDay
     bool switching = false;
 };
 
+struct Race
+{
+    std::vector<std::pair<float, int>> times;
+    Entity finishLine;
+};
+
 static void settings(Write<Settings> settings)
 {
     settings->setString("assets.io.path", DEMO_ASSETS_FOLDER);
@@ -75,7 +82,7 @@ static void loadInputBindings(Read<Assets> assets, Write<Input> input)
 }
 
 static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer, Write<ActiveCameras> activeCameras,
-                  Write<RendererEnvironment> env)
+                  Write<RendererEnvironment> env, Write<Race> race)
 {
     // Load the palette asset and add two colors to it.
     auto palette = assets->write(PaletteAsset);
@@ -86,7 +93,7 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     palette->set(6, {{10.0F, 0.1F, 0.1F, 1.0F}});
 
     auto scene = assets->read(SceneAsset);
-    cmds.spawn(scene->blueprint);
+    race->finishLine = cmds.spawn(scene->blueprint).entity("finish-line");
     // auto black = palette->add({{0.1F, 0.1F, 0.1F, 1.0F}});
     // auto white = palette->add({{0.9F, 0.9F, 0.9F, 1.0F}});
 
@@ -202,6 +209,11 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
         if (car->deadTime > 0.0F)
         {
             continue;
+        }
+
+        if (car->lapTime != -1.0F)
+        {
+            car->lapTime += deltaTime->value;
         }
 
         float acceleration = settings->getDouble("acceleration", 40.0F);
@@ -419,7 +431,7 @@ static bool carCollidingWithWall(std::tuple<Read<LocalToWorld>, Read<Position>, 
 }
 
 static void carCollision(Commands cmds, Query<Read<LocalToWorld>, Read<Position>, Read<BoxCollider>, Write<Car>> query,
-                         Query<Read<ColliderAABB>> aabbQuery, Read<BroadPhaseCollisions> collisions)
+                         Query<Read<ColliderAABB>> aabbQuery, Read<BroadPhaseCollisions> collisions, Write<Race> race)
 {
     for (auto [entity, transform, position, collider, car] : query)
     {
@@ -436,7 +448,16 @@ static void carCollision(Commands cmds, Query<Read<LocalToWorld>, Read<Position>
                      entities.second == entity &&
                          carCollidingWithWall(query[entity].value(), aabbQuery[entities.first].value()))
             {
-                if (car->deadTime == 0.0F)
+                if (entities.first == race->finishLine || entities.second == race->finishLine)
+                {
+                    if (car->lapTime != -1.0F && car->lapTime > 1.0F)
+                    {
+                        race->times.push_back({car->lapTime, car->id});
+                    }
+
+                    car->lapTime = 0.0F;
+                }
+                else if (car->deadTime == 0.0F)
                 {
                     cmds.create()
                         .add(Explosion{})
@@ -448,8 +469,6 @@ static void carCollision(Commands cmds, Query<Read<LocalToWorld>, Read<Position>
                         });
                     car->deadTime = 3.0F;
                 }
-
-                CUBOS_INFO("Car collided with wall");
             }
         }
     }
@@ -474,6 +493,7 @@ static void respawnCar(Query<Write<Car>, Write<Position>, Write<Rotation>> query
     {
         if (car->deadTime > 0.0F)
         {
+            car->lapTime = -1.0F;
             car->deadTime -= dt->value;
             if (car->deadTime < 0.0F)
             {
@@ -486,6 +506,33 @@ static void respawnCar(Query<Write<Car>, Write<Position>, Write<Rotation>> query
             car->angVel = 0.0F;
         }
     }
+}
+
+static void leaderboard(Write<Race> race, Query<Read<Car>> cars)
+{
+    ImGui::Begin("Leaderboard");
+
+    for (auto [entity, car] : cars)
+    {
+        ImGui::Text("Player %d time: %fs", car->id, car->lapTime);
+    }
+
+    ImGui::Separator();
+
+    std::sort(race->times.begin(), race->times.end());
+    if (race->times.empty())
+    {
+        ImGui::Text("No records.");
+    }
+    else
+    {
+        for (auto [time, player] : race->times)
+        {
+            ImGui::Text("Player %d time: %fs", player, time);
+        }
+    }
+
+    ImGui::End();
 }
 
 int main(int argc, char** argv)
@@ -501,6 +548,7 @@ int main(int argc, char** argv)
     cubos.addComponent<Car>();
     cubos.addComponent<FollowEntity>();
     cubos.addResource<IsDay>();
+    cubos.addResource<Race>();
 
     cubos.addPlugin(collisionsPlugin);
     cubos.addPlugin(rendererPlugin);
@@ -520,6 +568,7 @@ int main(int argc, char** argv)
     cubos.system(switchDayNight);
     cubos.system(handleNightLights);
     cubos.system(handleDayLights);
+    cubos.system(leaderboard).tagged("cubos.imgui");
 
     cubos.run();
 }
