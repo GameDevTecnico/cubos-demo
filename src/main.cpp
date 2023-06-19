@@ -91,6 +91,7 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
         CUBOS_INFO("Palette: {}, {}", i, Debug(palette->get(i)));
     }
     palette->set(6, {{10.0F, 0.1F, 0.1F, 1.0F}});
+    palette->set(12, {{0.15F, 0.15F, 0.15F, 1.0F}});
 
     auto scene = assets->read(SceneAsset);
     race->finishLine = cmds.spawn(scene->blueprint).entity("finish-line");
@@ -144,19 +145,6 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     cmds.create()
         .add(DirectionalLight{glm::vec3(1.0F), 1.0F})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
-
-    /*
-    cmds.create(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 3.0F, .range = 200.0F, .spotAngle = 70.0F,
-    .innerSpotAngle = 60.0F}, LocalToWorld{}) .add(Position{{360.0F, 10.0F, 620.0F}})
-        .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))});
-    */
-
-    // Set the ambient light.
-    // env->ambient = {0.5F, 0.5F, 0.5F};
-    // env->skyGradient[0] = {0.6F, 1.0F, 0.8F};
-    // env->skyGradient[1] = {0.25F, 0.65F, 1.0F};
-    // env->skyGradient[0] = {0.8F, 0.8F, 1.0F};
-    // env->skyGradient[1] = {0.3F, 0.0F, 0.8F};
 }
 
 static void spawnCar(Commands cmds, Write<Assets> assets, Write<BroadPhaseCollisions> collisions)
@@ -181,21 +169,13 @@ static void spawnCar(Commands cmds, Write<Assets> assets, Write<BroadPhaseCollis
                        .entity();
 
     cmds.create()
-        .add(SpotLight{.color = {1.0F, 1.0F, 1.0F},
-                       .intensity = 4.0F,
-                       .range = 200.0F,
-                       .spotAngle = 70.0F,
-                       .innerSpotAngle = 60.0F})
+        .add(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 10.0F, .range = 200.0F, .spotAngle = 60.0F})
         .add(Position{{340.0F, 10.0F, 636.0F}})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
         .add(FollowEntity{.idToFollow = 0, .offset = {0.0f, 10.0f, 0.0f}});
 
     cmds.create()
-        .add(SpotLight{.color = {1.0F, 1.0F, 1.0F},
-                       .intensity = 4.0F,
-                       .range = 200.0F,
-                       .spotAngle = 70.0F,
-                       .innerSpotAngle = 60.0F})
+        .add(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 10.0F, .range = 200.0F, .spotAngle = 60.0F})
         .add(Position{{340.0F, 10.0F, 667.0}})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
         .add(FollowEntity{.idToFollow = 1, .offset = {0.0f, 10.0f, 0.0f}});
@@ -308,7 +288,7 @@ static void handleDayLights(Query<Write<DirectionalLight>> query, Read<IsDay> is
         {
             light->intensity = 0.7f;
         }
-        env->ambient = {0.5F, 0.5F, 0.5F};
+        env->ambient = {0.4F, 0.4F, 0.4F};
         env->skyGradient[0] = {0.6F, 1.0F, 0.8F};
         env->skyGradient[1] = {0.25F, 0.65F, 1.0F};
     }
