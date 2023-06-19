@@ -468,9 +468,9 @@ static void debugRender(Query<Read<LocalToWorld>, Read<BoxCollider>, Read<Collid
     }
 }
 
-static void respawnCar(Query<Write<Car>, Write<Position>> query, Read<DeltaTime> dt)
+static void respawnCar(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<DeltaTime> dt)
 {
-    for (auto [entity, car, position] : query)
+    for (auto [entity, car, position, rotation] : query)
     {
         if (car->deadTime > 0.0F)
         {
@@ -479,6 +479,7 @@ static void respawnCar(Query<Write<Car>, Write<Position>> query, Read<DeltaTime>
             {
                 car->deadTime = 0.0F;
                 position->vec = {320.0F, 0.0F, 636.0F};
+                rotation->quat = glm::quat(glm::vec3(0, glm::radians(90.0F), 0));
             }
 
             car->vel = glm::vec3{0.0F};
