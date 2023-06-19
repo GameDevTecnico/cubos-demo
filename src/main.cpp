@@ -251,8 +251,10 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
         float sideVel = glm::dot(car->vel, side);
 
         auto forwardDrag =
-            glm::clamp((forwardVel * forwardVel * forwardDragMul + breaking) * deltaTime->value, 0.0F, forwardVel);
-        auto sideDrag = glm::clamp(sideVel * sideVel * sideDragMul * deltaTime->value, 0.0F, sideVel);
+            glm::sign(forwardVel) * glm::clamp((forwardVel * forwardVel * forwardDragMul + breaking) * deltaTime->value,
+                                               0.0F, glm::abs(forwardVel));
+        auto sideDrag = glm::sign(sideVel) *
+                        glm::clamp(sideVel * sideVel * sideDragMul * deltaTime->value, 0.0F, glm::abs(sideVel));
 
         ImGui::Separator();
         ImGui::Text("Car %d", car->id);
@@ -317,7 +319,7 @@ static void handleDayLights(Query<Write<DirectionalLight>> query, Read<IsDay> is
         {
             light->intensity = 0.0f;
         }
-        env->ambient = {0.1F, 0.1F, 0.1F};
+        env->ambient = {0.2F, 0.2F, 0.2F};
         env->skyGradient[0] = {0.8F, 0.8F, 1.0F};
         env->skyGradient[1] = {0.3F, 0.0F, 0.8F};
     }
@@ -497,7 +499,14 @@ static void respawnCar(Query<Write<Car>, Write<Position>, Write<Rotation>> query
             if (car->deadTime < 0.0F)
             {
                 car->deadTime = 0.0F;
-                position->vec = {320.0F, 0.0F, 636.0F};
+                if (car->id == 0)
+                {
+                    position->vec = {320.0F, 0.0F, 636.0F};
+                }
+                else
+                {
+                    position->vec = {320.0F, 0.0F, 667.0F};
+                }
                 rotation->quat = glm::quat(glm::vec3(0, glm::radians(90.0F), 0));
             }
 
