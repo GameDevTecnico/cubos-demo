@@ -114,6 +114,23 @@
                 "margin": 0.04
             }
         },
+        "collider7": {
+            "cubos/position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "cubos/box_collider": {
+                "shape": {
+                    "halfSize": {
+                        "x": 200.0,
+                        "y": 50.0,
+                        "z": 320.0
+                    }
+                },
+                "margin": 0.04
+            }
+        },
         "finish-line": {
             "cubos/position": {
                 "x": 380.0,

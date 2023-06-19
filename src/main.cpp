@@ -184,6 +184,8 @@ static void spawnCar(Commands cmds, Write<Assets> assets, Write<BroadPhaseCollis
 static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<Input> input,
                  Read<DeltaTime> deltaTime, Write<Settings> settings)
 {
+    ImGui::Begin("Debug");
+
     for (auto [entity, car, position, rotation] : query)
     {
         if (car->deadTime > 0.0F)
@@ -196,62 +198,79 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
             car->lapTime += deltaTime->value;
         }
 
-        float acceleration = settings->getDouble("acceleration", 40.0F);
-        float drag = settings->getDouble("drag", 0.1F);
-        float maxAngVel = 250.0F;
-        float angDrag = settings->getDouble("ang-drag", 5.0F);
-        float sideDrag = settings->getDouble("side-drag", 1.0F);
+        const float maxAcceleration = settings->getDouble("acceleration", 100.0F);
+        const float maxBreaking = settings->getDouble("breaking", 100.0F);
+        const float maxTurn = settings->getDouble("turning", 0.04F);
+        const float forwardDragMul = settings->getDouble("forward drag", 0.001F);
+        const float angDragMul = settings->getDouble("ang drag", 1.0F);
+        const float sideDragMul = settings->getDouble("side drag", 0.1F);
+        const float maxAngVel = settings->getDouble("max ang vel", 10.0F);
+        const float roadGrip = settings->getDouble("road grip [0, 1]", 0.01F);
+        const float turnPeak = settings->getDouble("turn peak", 50.0F);
+        const float turnDecay = settings->getDouble("turn decay", 0.02F);
 
-        float maxWheelAngle = settings->getDouble("max-wheel-angle", 0.04F);
-        float wheelTurnInRate = settings->getDouble("wheel-turn-in-rate", 0.001F);
-        float turnSpeed = settings->getDouble("turn-speed", 0.05F);
+        auto acceleration = glm::clamp(input->axis("accelerate", car->id), 0.0F, 1.0F) * maxAcceleration;
+        auto breaking = glm::clamp(input->axis("break", car->id), 0.0F, 1.0F) * maxBreaking;
+        auto turn = -input->axis("turn", car->id) * maxTurn;
+
+        float absVel = glm::length(car->vel);
+        if (absVel < turnPeak)
+        {
+            turn *= absVel / turnPeak;
+        }
+        else
+        {
+            turn /= 1.0F + glm::sqrt(absVel - turnPeak) * turnDecay;
+        }
+        // turn *= glm::clamp(turnPeak - turnDecay * glm::pow(absVel / glm::sqrt(turnStretch * absVel) - 1.0F, 2.0F),
+        //                    turnMin, 1.0F);
+
+        car->angVel += turn * deltaTime->value;
+        auto angDrag = car->angVel * angDragMul * deltaTime->value;
+        if (car->angVel > 0.0F)
+        {
+            car->angVel -= glm::min(car->angVel, angDrag);
+        }
+        else
+        {
+            car->angVel -= glm::max(car->angVel, angDrag);
+        }
+        car->angVel = glm::clamp(car->angVel, -maxAngVel, maxAngVel);
+
+        auto rotationDelta = glm::angleAxis(car->angVel, glm::vec3{0.0F, 1.0F, 0.0F});
+        rotation->quat = rotationDelta * rotation->quat;
 
         glm::vec3 forward = rotation->quat * glm::vec3(0.0f, 0.0f, 1.0f);
         glm::vec3 side = rotation->quat * glm::vec3(1.0f, 0.0f, 0.0f);
 
-        float absVel = glm::length(car->vel);
+        // car->vel = wheelRot * car->vel;
+        car->vel = car->vel * (1.0F - roadGrip) + rotationDelta * car->vel * roadGrip;
+        car->vel += forward * acceleration * deltaTime->value;
+
         float forwardVel = glm::dot(car->vel, forward);
         float sideVel = glm::dot(car->vel, side);
 
-        if (input->axis("break", car->id) >= 0.0F)
-        {
-            drag += 4.0F * input->axis("break", car->id);
-        }
+        auto forwardDrag =
+            glm::clamp((forwardVel * forwardVel * forwardDragMul + breaking) * deltaTime->value, 0.0F, forwardVel);
+        auto sideDrag = glm::clamp(sideVel * sideVel * sideDragMul * deltaTime->value, 0.0F, sideVel);
 
-        if (input->axis("accelerate", car->id) >= 0.0F)
-        {
-            car->vel += forward * acceleration * (input->axis("accelerate", car->id)) * deltaTime->value;
-        }
-        else
-        {
-            if (glm::length(car->vel) < 0.05)
-            {
-                car->vel = glm::vec3(0.0F);
-            }
-            car->vel *= glm::max(0.0F, 1.0F - drag * deltaTime->value);
-        }
-        car->vel -= side * sideVel * sideDrag * deltaTime->value;
+        ImGui::Separator();
+        ImGui::Text("Car %d", car->id);
+        ImGui::Text("Forward velocity: %f", forwardVel);
+        ImGui::Text("Side velocity: %f", sideVel);
+        ImGui::Text("Forward drag: %f", forwardDrag);
+        ImGui::Text("Side drag: %f", sideDrag);
 
-        if (input->axis("turn", car->id) != 0.0F)
-        {
-            car->wheelAngle += turnSpeed * -(input->axis("turn", car->id)) * deltaTime->value;
-            car->wheelAngle = glm::clamp(car->wheelAngle, -maxWheelAngle, maxWheelAngle);
-        }
-        else
-        {
-            car->wheelAngle *= glm::max(0.0F, 1.0F - wheelTurnInRate * deltaTime->value);
-        }
+        auto dragForce = forward * forwardDrag + side * sideDrag;
+        car->vel -= dragForce;
+
         position->vec += car->vel * deltaTime->value;
-        rotation->quat = glm::angleAxis(car->wheelAngle * (float)sqrt(std::abs(forwardVel)) * 3.5f * deltaTime->value,
-                                        glm::vec3(0.0F, 1.0F, 0.0F)) *
-                         rotation->quat;
-
-        turnSpeed = 2.0F;
-        sideDrag = 2.0F;
 
         newCarPositions[car->id] = position->vec;
         newCarRotations[car->id] = rotation->quat;
     }
+
+    ImGui::End();
 }
 
 static void followCar(Query<Read<Camera>, Write<Position>, Write<Rotation>, Write<FollowEntity>> query)
@@ -542,7 +561,7 @@ int main(int argc, char** argv)
     cubos.startupSystem(spawnCar).tagged("cubos.assets");
     cubos.system(debugRender);
     cubos.system(carCollision).afterTag("cubos.collisions");
-    cubos.system(move).tagged("car.move").beforeTag("cubos.transform.update");
+    cubos.system(move).tagged("car.move").tagged("cubos.imgui").beforeTag("cubos.transform.update");
     cubos.system(respawnCar).tagged("car.move");
     cubos.system(followCar).afterTag("car.move");
     cubos.system(switchDayNight);
