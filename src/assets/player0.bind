@@ -10,9 +10,11 @@
         },
         "debug" : {
             "keys": [
-                "d"
+                "f"
             ],
-            "gamepad": []
+            "gamepad": [
+                "X"
+            ]
         }
     },
     "axes": {

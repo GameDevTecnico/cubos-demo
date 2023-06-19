@@ -9,4 +9,5 @@ struct [[cubos::component("car", VecStorage)]] Car
     float angVel = 0.0f;
     float wheelAngle = 0.0F;
     float deadTime = 0.0F;
+    float lapTime = -1.0F;
 };
