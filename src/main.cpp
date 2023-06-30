@@ -30,7 +30,7 @@
 
 // ------------
 
-#include "cameraComponent.hpp"
+#include "follow.hpp"
 #include "components.hpp"
 #include "explosion.hpp"
 
@@ -50,10 +50,6 @@ static const Asset<Palette> PaletteAsset = AnyAsset("1aa5e234-28cb-4386-99b4-393
 static const Asset<Scene> SceneAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c77");
 static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
-
-// car positions to update camera
-std::vector<glm::vec3> newCarPositions(2, glm::vec3(0.0f, 0.0f, 0.0f));
-std::vector<glm::quat> newCarRotations(2, glm::quat(0.0f, 0.0f, 0.0f, 0.0f));
 
 struct IsDay
 {
@@ -95,51 +91,9 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
 
     auto scene = assets->read(SceneAsset);
     race->finishLine = cmds.spawn(scene->blueprint).entity("finish-line");
-    // auto black = palette->add({{0.1F, 0.1F, 0.1F, 1.0F}});
-    // auto white = palette->add({{0.9F, 0.9F, 0.9F, 1.0F}});
 
     // Set the renderer's palette to the one we just modified.
     (*renderer)->setPalette(*palette);
-
-    /*
-    // Generate a new grid asset for the floor.
-    auto floorGrid = Grid({256, 1, 256});
-    for (int x = 0; x < 256; ++x)
-    {
-        for (int z = 0; z < 256; ++z)
-        {
-            floorGrid.set({x, 0, z}, (x + z) % 2 == 0 ? black : white);
-        }
-    }
-    auto floorOffset = glm::vec3(floorGrid.size().x, 0.0F, floorGrid.size().z) / -2.0F;
-    floorOffset.y = -1.0F;
-
-    auto floorAsset = assets->create(std::move(floorGrid));
-    */
-    auto trackAsset = assets->read(TrackAsset);
-    auto trackOffset = glm::vec3(0.0f, 0.0f, 0.0f);
-    trackOffset.y = -2.0F;
-
-    // Spawn the floor entity.
-    // cmds.create(RenderableGrid{TrackAsset, trackOffset}, LocalToWorld{}, Scale{4.0F});
-
-    // Spawn the camera entity.
-    activeCameras->entities[0] =
-        cmds.create()
-            .add(Camera{60.0F, 0.1F, 1000.0F})
-            .add(Position{{0.0F, 120.0F, -200.0F}})
-            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .add(FollowEntity{0})
-            .entity();
-
-    // Spawn the camera entity.
-    activeCameras->entities[1] =
-        cmds.create()
-            .add(Camera{60.0F, 0.1F, 1000.0F})
-            .add(Position{{0.0F, 120.0F, -200.0F}})
-            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .add(FollowEntity{1})
-            .entity();
 
     // Spawn the sun.
     cmds.create()
@@ -147,7 +101,10 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
         .add(Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
 }
 
-static void spawnCar(Commands cmds, Write<Assets> assets, Write<BroadPhaseCollisions> collisions)
+// create method to assign cameras
+// change stuff
+
+static void spawnCar(Commands cmds, Write<Assets> assets, Write<ActiveCameras> activeCameras)
 {
     auto car = assets->read(CarAsset);
     glm::vec3 offset = glm::vec3(car->size().x, 0.0F, car->size().z) / -2.0F;
@@ -172,13 +129,37 @@ static void spawnCar(Commands cmds, Write<Assets> assets, Write<BroadPhaseCollis
         .add(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 10.0F, .range = 200.0F, .spotAngle = 60.0F})
         .add(Position{{340.0F, 10.0F, 636.0F}})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
-        .add(FollowEntity{.idToFollow = 0, .offset = {0.0f, 10.0f, 0.0f}});
+        .add(FollowEntity{.entityToFollow = entity1, .positionOffset = {0.0f, 10.0f, 0.0f}, .rotationOffset = glm::quat(glm::vec3(0, 0, glm::radians(-90.0F)))});
 
     cmds.create()
         .add(SpotLight{.color = {1.0F, 1.0F, 1.0F}, .intensity = 10.0F, .range = 200.0F, .spotAngle = 60.0F})
         .add(Position{{340.0F, 10.0F, 667.0}})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(-90.0F), 0, glm::radians(-90.0F)))})
-        .add(FollowEntity{.idToFollow = 1, .offset = {0.0f, 10.0f, 0.0f}});
+        .add(FollowEntity{.entityToFollow = entity2, .positionOffset = {0.0f, 10.0f, 0.0f}, .rotationOffset = glm::quat(glm::vec3(0, 0, glm::radians(-90.0F)))});
+
+    // Spawn the camera entity.
+    activeCameras->entities[0] =
+        cmds.create()
+            .add(Camera{60.0F, 0.1F, 1000.0F})
+            .add(Position{{0.0F, 120.0F, -200.0F}})
+            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
+            .add(FollowEntity{.entityToFollow = entity1, 
+                              .positionOffset = {0.0f, 15.0f, -40.0f}, 
+                              .rotationOffset = glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) *
+                                                glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f))})
+            .entity();
+
+    // Spawn the camera entity.
+    activeCameras->entities[1] =
+        cmds.create()
+            .add(Camera{60.0F, 0.1F, 1000.0F})
+            .add(Position{{0.0F, 120.0F, -200.0F}})
+            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
+            .add(FollowEntity{.entityToFollow = entity2, .positionOffset = {0.0f, 15.0f, -40.0f}, 
+                              .rotationOffset = glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) *
+                                                glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f))})
+            .entity();
+
 }
 
 static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read<Input> input,
@@ -267,25 +248,9 @@ static void move(Query<Write<Car>, Write<Position>, Write<Rotation>> query, Read
         car->vel -= dragForce;
 
         position->vec += car->vel * deltaTime->value;
-
-        newCarPositions[car->id] = position->vec;
-        newCarRotations[car->id] = rotation->quat;
     }
 
     ImGui::End();
-}
-
-static void followCar(Query<Read<Camera>, Write<Position>, Write<Rotation>, Write<FollowEntity>> query)
-{
-    for (auto [entity, camera, position, rotation, followEntity] : query)
-    {
-        rotation->quat = newCarRotations[followEntity->idToFollow] *
-                         glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) *
-                         glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f));
-        position->vec = newCarPositions[followEntity->idToFollow] +
-                        (glm::vec3(0.0f, 1.0f, 0.0f) * followEntity->offset) +
-                        (glm::normalize(rotation->quat * glm::vec3(0.0f, 0.0f, 1.0f)) * 60.0f);
-    }
 }
 
 static void switchDayNight(Write<IsDay> isDay, Read<Input> input)
@@ -327,7 +292,7 @@ static void handleDayLights(Query<Write<DirectionalLight>> query, Read<IsDay> is
 
 static void handleNightLights(Query<Write<SpotLight>, Write<Position>, Write<Rotation>, Write<FollowEntity>> query,
                               Read<IsDay> isDay)
-{ //  Read<Input> input
+{
     for (auto [entity, light, position, rotation, followEntity] : query)
     {
         if (!isDay->value)
@@ -338,73 +303,8 @@ static void handleNightLights(Query<Write<SpotLight>, Write<Position>, Write<Rot
         {
             light->intensity = 0.0f;
         }
-
-        rotation->quat =
-            newCarRotations[followEntity->idToFollow] *
-            glm::quat(glm::vec3(0, 0, glm::radians(-90.0F))); // glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f));
-                                                              // glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) *
-                                                              // glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f));
-        position->vec = newCarPositions[followEntity->idToFollow] +
-                        (glm::vec3(0.0f, 1.0f, 0.0f) * followEntity->offset) +
-                        (glm::normalize(rotation->quat * glm::vec3(0.0f, 0.0f, 1.0f)) * 20.0f);
     }
 }
-
-// -------------------------------------------------------------------------------------
-//                          I have no idea what I'm doing zone
-// -------------------------------------------------------------------------------------
-
-/*
-static void addColliders(Write<State> state, Write<BroadPhaseCollisions> collisions, Commands commands)
-{
-    state->a = commands.create()
-                   .add(BoxCollider{})
-                   .add(LocalToWorld{})
-                   .add(Position{glm::vec3{0.0F, 0.0F, -2.0F}})
-                   .add(Rotation{})
-                   .entity();
-    state->aRotationAxis = glm::sphericalRand(1.0F);
-    collisions->addEntity(state->a);
-
-    state->b = commands.create()
-                   .add(BoxCollider{})
-                   .add(LocalToWorld{})
-                   .add(Position{glm::vec3{0.0F, 0.0F, 2.0F}})
-                   .add(Rotation{})
-                   .entity();
-    state->bRotationAxis = glm::sphericalRand(1.0F);
-    collisions->addEntity(state->b);
-}
-
-static void updateTransform(Write<State> state, Read<Input> input, Query<Write<Position>, Write<Rotation>> query)
-{
-    auto [aPos, aRot] = query[state->a].value();
-    auto [bPos, bRot] = query[state->b].value();
-
-    if (state->collided)
-    {
-        if (input->pressed("reset"))
-        {
-            state->collided = false;
-
-            aPos->vec = glm::vec3{0.0F, 0.0F, -2.0F};
-            aRot->quat = glm::quat{1.0F, 0.0F, 0.0F, 0.0F};
-            state->aRotationAxis = glm::sphericalRand(1.0F);
-
-            bPos->vec = glm::vec3{0.0F, 0.0F, 2.0F};
-            bRot->quat = glm::quat{1.0F, 0.0F, 0.0F, 0.0F};
-            state->bRotationAxis = glm::sphericalRand(1.0F);
-        }
-        return;
-    }
-
-    aRot->quat = glm::rotate(aRot->quat, 0.01F, state->aRotationAxis);
-    aPos->vec += glm::vec3{0.0F, 0.0F, 0.01F};
-
-    bRot->quat = glm::rotate(bRot->quat, 0.01F, state->bRotationAxis);
-    bPos->vec += glm::vec3{0.0F, 0.0F, -0.01F};
-}
-*/
 
 static bool carCollidingWithWall(std::tuple<Read<LocalToWorld>, Read<Position>, Read<BoxCollider>, Write<Car>> carData,
                                  std::tuple<Read<ColliderAABB>> wallData)
@@ -554,7 +454,6 @@ int main(int argc, char** argv)
     cubos.addPlugin(tools::entityInspectorPlugin);
     cubos.addPlugin(tools::worldInspectorPlugin);
     cubos.addComponent<Car>();
-    cubos.addComponent<FollowEntity>();
     cubos.addResource<IsDay>();
     cubos.addResource<Race>();
 
@@ -563,6 +462,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(inputPlugin);
     cubos.addPlugin(tools::settingsInspectorPlugin);
     cubos.addPlugin(explosionPlugin);
+    cubos.addPlugin(followPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(loadInputBindings).tagged("cubos.assets");
@@ -572,7 +472,6 @@ int main(int argc, char** argv)
     cubos.system(carCollision).afterTag("cubos.collisions");
     cubos.system(move).tagged("car.move").tagged("cubos.imgui").beforeTag("cubos.transform.update");
     cubos.system(respawnCar).tagged("car.move");
-    cubos.system(followCar).afterTag("car.move");
     cubos.system(switchDayNight);
     cubos.system(handleNightLights);
     cubos.system(handleDayLights);
