@@ -45,10 +45,10 @@ static void explosion(Commands cmds, Query<Write<Explosion>, Read<Position>> que
             velocity *= 50.0F;
 
             cmds.create()
-                .add(Particle{.velocity = velocity,
+                .add(Particle{.startLife = particleLife,
+                              .life = particleLife,
                               .size = glm::linearRand(1.0F, 4.0F),
-                              .startLife = particleLife,
-                              .life = particleLife})
+                              .velocity = velocity})
                 .add(Position{.vec = position->vec})
                 .add(Scale{})
                 .add(RenderableGrid{holder->grid});

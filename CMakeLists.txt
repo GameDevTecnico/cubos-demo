@@ -9,7 +9,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/cubos/cmake")
 include(CubinhosGenerate)
 
 # Build demo executabe
-set(DEMO_SOURCE "src/main.cpp" "src/explosion.cpp")
+set(DEMO_SOURCE "src/main.cpp" "src/explosion.cpp" "src/follow.cpp")
 add_executable(demo ${DEMO_SOURCE})
 
 # Dependencies
