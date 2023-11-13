@@ -21,5 +21,5 @@ static void gizmosSystem(Write<Gizmos> gizmos, Query<Read<LocalToWorld>, Read<Co
 void demo::colliderGizmosPlugin(Cubos& cubos)
 {
     cubos.addPlugin(gizmosPlugin);
-    cubos.system(gizmosSystem).before("cubos.gizmos.draw");
+    cubos.system(gizmosSystem).before("cubos.gizmos.draw").after("cubos.collisions.aabb.update");
 }

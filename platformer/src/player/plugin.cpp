@@ -11,6 +11,7 @@
 
 #include <glm/glm.hpp>
 
+#include "../offset/offset.hpp"
 #include "player.hpp"
 #include "plugin.hpp"
 
@@ -26,13 +27,13 @@ using namespace cubos::engine;
 using namespace demo;
 
 static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, Write<Rotation>> query,
-                 Read<Input> input, Read<DeltaTime> deltaTime, Write<Settings> settings,
+                 Query<Write<Offset>> offsets, Read<Input> input, Read<DeltaTime> deltaTime, Write<Settings> settings,
                  EventReader<CollisionEvent> collisions)
 {
     for (auto collision : collisions)
     {
         // Only handle collisions between players and other entities which are not players.
-        if (!query[collision.entity] || query[collision.other])
+        if (!query[collision.entity] /* || query[collision.other]*/)
         {
             continue;
         }
@@ -65,8 +66,6 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
             velocity->velocity = direction * maxSpeed;
         }
 
-        auto jump = input->pressed("jump", player->id);
-
         auto rotationDelta = glm::angleAxis(turn, glm::vec3{0.0F, 1.0F, 0.0F});
         rotation->quat = rotationDelta * rotation->quat;
 
@@ -84,11 +83,56 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         velocity->force += forward * moveForce;
         // velocity->force += glm::vec3{0.0F, 1.0F, 0.0F} * 600.0F;
 
-        if (jump && player->isOnGround)
+        glm::vec3 targetTorso = {0.0F, 0.0F, 0.0F};
+        glm::vec3 targetLeftHand = {7.0F, -3.0F, 0.0F};
+        glm::vec3 targetRightHand = {-7.0F, -3.0F, 0.0F};
+        glm::vec3 targetLeftFoot = {3.5F, -10.0F, 1.0F};
+        glm::vec3 targetRightFoot = {-3.5F, -10.0F, 1.0F};
+
+        if (player->isOnGround)
         {
-            velocity->impulse += glm::vec3{0.0F, 1.0F, 0.0F} * jumpForce;
+            if (input->pressed("jump", player->id))
+            {
+                velocity->impulse += glm::vec3{0.0F, 1.0F, 0.0F} * jumpForce;
+                player->isOnGround = false;
+            }
+
+            player->animationTime +=
+                glm::sign(moveForce) * deltaTime->value * settings->getDouble("animationSpeed", 20.0F);
+
+            if (moveForce != 0.0F)
+            {
+                targetLeftHand.y += glm::cos(player->animationTime);
+                targetLeftHand.z += glm::sin(player->animationTime);
+                targetRightHand.y += glm::cos(player->animationTime + glm::pi<float>() / 2.0F);
+                targetRightHand.z += glm::sin(player->animationTime + glm::pi<float>() / 2.0F);
+
+                targetLeftFoot.y += glm::cos(player->animationTime) * 0.5 + 0.5;
+                targetLeftFoot.z += glm::sin(player->animationTime);
+                targetRightFoot.y += glm::sin(player->animationTime) * 0.5 + 0.5;
+                targetRightFoot.z += glm::cos(player->animationTime);
+
+                targetTorso.y += glm::sin(player->animationTime) * 0.5;
+            }
+
             player->isOnGround = false;
         }
+        else
+        {
+            targetLeftHand.y += 5.0F;
+            targetRightHand.y += 5.0F;
+        }
+
+        auto [torso] = *offsets[player->torso];
+        auto [leftHand] = *offsets[player->leftHand];
+        auto [rightHand] = *offsets[player->rightHand];
+        auto [leftFoot] = *offsets[player->leftFoot];
+        auto [rightFoot] = *offsets[player->rightFoot];
+        torso->vec = glm::mix(torso->vec, targetTorso, deltaTime->value * 10.0F);
+        leftHand->vec = glm::mix(leftHand->vec, targetLeftHand, deltaTime->value * 10.0F);
+        rightHand->vec = glm::mix(rightHand->vec, targetRightHand, deltaTime->value * 10.0F);
+        leftFoot->vec = glm::mix(leftFoot->vec, targetLeftFoot, deltaTime->value * 10.0F);
+        rightFoot->vec = glm::mix(rightFoot->vec, targetRightFoot, deltaTime->value * 10.0F);
     }
 }
 

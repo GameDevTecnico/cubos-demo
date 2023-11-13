@@ -14,6 +14,8 @@ add_executable(platformer
     src/orbit_camera/plugin.cpp
     src/orbit_camera/controller.cpp
     src/collider_gizmos/plugin.cpp
+    src/offset/plugin.cpp
+    src/offset/offset.cpp
 )
 
 target_link_libraries(platformer tesseratos)
