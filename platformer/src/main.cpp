@@ -11,17 +11,11 @@
 #include <cubos/engine/scene/plugin.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 
-/// [Component Refl]
-#include <cubos/core/ecs/component/reflection.hpp>
-#include <cubos/core/reflection/external/glm.hpp>
-#include <cubos/core/reflection/external/primitives.hpp>
-
 #include <vector>
 #include <cmath>
 #include <imgui.h>
 
-#include "components.hpp"
-#include "playersPlugin.hpp"
+#include "player/plugin.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -30,12 +24,9 @@ using cubos::core::ecs::Write;
 
 using namespace cubos::engine;
 
-static const Asset<VoxelGrid> PlayerAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c75");
 static const Asset<VoxelGrid> PlatformAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c76");
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("1aa5e234-28cb-4386-99b4-39386b0fc215");
 static const Asset<Scene> SceneAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c77");
-static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
-static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
 
 static void settings(Write<Settings> settings)
 {
@@ -55,7 +46,7 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     cmds.create()
         .add(DirectionalLight{glm::vec3(1.0F), 0.7F})
         .add(Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
-    
+
     env->ambient = {0.4F, 0.4F, 0.4F};
     env->skyGradient[0] = {0.6F, 1.0F, 0.8F};
     env->skyGradient[1] = {0.25F, 0.65F, 1.0F};
@@ -67,14 +58,14 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
 int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
-    
+
     cubos.addPlugin(rendererPlugin);
     cubos.addPlugin(voxelsPlugin);
     cubos.addPlugin(inputPlugin);
     cubos.addPlugin(scenePlugin);
     cubos.addPlugin(physicsPlugin);
 
-    cubos.addPlugin(playersPlugin);
+    cubos.addPlugin(demo::playersPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(setup).tagged("cubos.assets").after("cubos.renderer.init");

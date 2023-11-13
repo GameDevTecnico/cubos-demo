@@ -6,8 +6,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../lib/c
 include(QuadradosGenerate)
 
 add_executable(platformer
-    main.cpp
-    playersPlugin.cpp
+    src/main.cpp
+    src/player/plugin.cpp
+    src/player/player.cpp
 )
 
 target_link_libraries(platformer tesseratos)

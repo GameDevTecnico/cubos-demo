@@ -1,4 +1,3 @@
-#include <cubos/engine/cubos.hpp>
 #include <cubos/core/ecs/system/query.hpp>
 
 #include <cubos/engine/renderer/environment.hpp>
@@ -11,15 +10,11 @@
 #include <cubos/engine/scene/plugin.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 
-/// [Component Refl]
-#include <cubos/core/ecs/component/reflection.hpp>
-#include <cubos/core/reflection/external/glm.hpp>
-#include <cubos/core/reflection/external/primitives.hpp>
-
 #include <vector>
 #include <cmath>
 
-#include "playersPlugin.hpp"
+#include "player.hpp"
+#include "plugin.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -28,24 +23,16 @@ using cubos::core::ecs::Write;
 
 using namespace cubos::engine;
 
+using demo::Player;
+
 static const Asset<VoxelGrid> PlayerAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c75");
 static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
 
-CUBOS_REFLECT_IMPL(Player)
-{
-    return cubos::core::ecs::ComponentTypeBuilder<Player>("Player")
-        .withField("id", &Player::id)
-        .build();
-}
-
 static void loadInputBindings(Read<Assets> assets, Write<Input> input)
 {
-    auto bindings0 = assets->read<InputBindings>(Player0BindingsAsset);
-    input->bind(*bindings0, 0);
-
-    auto bindings1 = assets->read<InputBindings>(Player1BindingsAsset);
-    input->bind(*bindings1, 1);
+    input->bind(*assets->read<InputBindings>(Player0BindingsAsset), 0);
+    input->bind(*assets->read<InputBindings>(Player1BindingsAsset), 1);
 }
 
 // create method to assign cameras
@@ -62,8 +49,8 @@ static void spawnPlayers(Commands cmds, Write<Assets> assets, Write<ActiveCamera
                        .add(Position{{0.0F, 0.0F, 0.0F}})
                        .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))})
                        .add(PreviousPosition{{0.0F, 0.0F, 0.0F}})
-                       .add(
-                           PhysicsVelocity{.velocity = {0.0F, 0.0F, 0.0F}, .force = {0.0F, 0.0F, 0.0F}, .impulse = {0.0F, 0.0F, 0.0F}})
+                       .add(PhysicsVelocity{
+                           .velocity = {0.0F, 0.0F, 0.0F}, .force = {0.0F, 0.0F, 0.0F}, .impulse = {0.0F, 0.0F, 0.0F}})
                        .add(PhysicsMass{.mass = 70.0F, .inverseMass = 1.0F / 70.0F})
                        .add(AccumulatedCorrection{{0.0F, 0.0F, 0.0F}})
                        .add(LocalToWorld{})
@@ -75,8 +62,8 @@ static void spawnPlayers(Commands cmds, Write<Assets> assets, Write<ActiveCamera
                        .add(Position{{320.0F, 0.0F, 667.0F}})
                        .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))})
                        .add(PreviousPosition{{0.0F, 0.0F, 0.0F}})
-                       .add(
-                           PhysicsVelocity{.velocity = {0.0F, 0.0F, 0.0F}, .force = {0.0F, 0.0F, 0.0F}, .impulse = {0.0F, 0.0F, 0.0F}})
+                       .add(PhysicsVelocity{
+                           .velocity = {0.0F, 0.0F, 0.0F}, .force = {0.0F, 0.0F, 0.0F}, .impulse = {0.0F, 0.0F, 0.0F}})
                        .add(PhysicsMass{.mass = 70.0F, .inverseMass = 1.0F / 70.0F})
                        .add(AccumulatedCorrection{{0.0F, 0.0F, 0.0F}})
                        .add(LocalToWorld{})
@@ -101,12 +88,11 @@ static void spawnPlayers(Commands cmds, Write<Assets> assets, Write<ActiveCamera
     */
 
     /*
-    add(FollowEntity{.entityToFollow = entity1, 
-                              .positionOffset = {0.0f, 15.0f, -40.0f}, 
+    add(FollowEntity{.entityToFollow = entity1,
+                              .positionOffset = {0.0f, 15.0f, -40.0f},
                               .rotationOffset = glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) *
                                                 glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f))})
     */
-
 }
 
 static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> query, Read<Input> input,
@@ -124,13 +110,14 @@ static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> q
         auto turn = -input->axis("turn", player->id) * rotationSpeed;
 
         float speed = glm::length(velocity->velocity);
-        if (speed > maxSpeed) {
+        if (speed > maxSpeed)
+        {
             auto direction = glm::normalize(velocity->velocity);
             velocity->velocity = direction * maxSpeed;
         }
 
         auto jump = input->pressed("jump", player->id);
-        
+
         auto rotationDelta = glm::angleAxis(turn, glm::vec3{0.0F, 1.0F, 0.0F});
         rotation->quat = rotationDelta * rotation->quat;
 
@@ -146,7 +133,7 @@ static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> q
             velocity->force += forward * dragForce;
         }
         velocity->force += forward * moveForce;
-        //velocity->force += glm::vec3{0.0F, 1.0F, 0.0F} * 600.0F;
+        // velocity->force += glm::vec3{0.0F, 1.0F, 0.0F} * 600.0F;
 
         if (jump && player->isOnGround)
         {
@@ -161,7 +148,7 @@ static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> q
 
 // respawn player
 
-void playersPlugin(Cubos& cubos)
+void demo::playersPlugin(Cubos& cubos)
 {
     cubos.addPlugin(rendererPlugin);
     cubos.addPlugin(voxelsPlugin);
