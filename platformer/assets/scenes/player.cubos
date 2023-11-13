@@ -9,6 +9,7 @@
                 "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75",
                 "offset": {
                     "x": -6,
+                    "y": -9.5,
                     "z": -4.5
                 }
             },
@@ -18,7 +19,13 @@
                 "inverseMass": 0.01
             },
             "cubos::engine::PreviousPosition": {},
-            "cubos::engine::AccumulatedCorrection": {}
+            "cubos::engine::AccumulatedCorrection": {},
+            "cubos::engine::BoxCollisionShape": {
+                "x": 6,
+                "y": 9.5,
+                "z": 4.5
+            },
+            "cubos::engine::Collider": {}
         },
         "camera": {
             "demo::OrbitCameraController": {

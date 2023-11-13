@@ -13,6 +13,7 @@ add_executable(platformer
     src/spawn/spawn.cpp
     src/orbit_camera/plugin.cpp
     src/orbit_camera/controller.cpp
+    src/collider_gizmos/plugin.cpp
 )
 
 target_link_libraries(platformer tesseratos)

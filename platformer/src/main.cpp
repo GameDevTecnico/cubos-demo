@@ -1,6 +1,4 @@
 #include <cubos/engine/cubos.hpp>
-#include <cubos/core/ecs/system/query.hpp>
-
 #include <cubos/engine/renderer/environment.hpp>
 #include <cubos/engine/renderer/directional_light.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
@@ -10,16 +8,14 @@
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/scene/plugin.hpp>
 #include <cubos/engine/physics/plugin.hpp>
+#include <cubos/engine/collisions/plugin.hpp>
 
 #include <tesseratos/plugin.hpp>
-
-#include <vector>
-#include <cmath>
-#include <imgui.h>
 
 #include "player/plugin.hpp"
 #include "orbit_camera/plugin.hpp"
 #include "spawn/plugin.hpp"
+#include "collider_gizmos/plugin.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -66,12 +62,14 @@ int main(int argc, char** argv)
     cubos.addPlugin(inputPlugin);
     cubos.addPlugin(scenePlugin);
     cubos.addPlugin(physicsPlugin);
+    cubos.addPlugin(collisionsPlugin);
 
     cubos.addPlugin(tesseratos::plugin);
 
     cubos.addPlugin(demo::playersPlugin);
     cubos.addPlugin(demo::orbitCameraPlugin);
     cubos.addPlugin(demo::spawnPlugin);
+    cubos.addPlugin(demo::colliderGizmosPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(setup).tagged("cubos.assets").after("cubos.renderer.init");

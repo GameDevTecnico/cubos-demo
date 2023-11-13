@@ -10,7 +10,8 @@
                 "bindings": "1c2497cc-3aec-4455-889f-492001172273"
             },
             "cubos::engine::Position": {
-                "x": -50
+                "x": -50,
+                "y": 20
             }
         },
         "spawn-1": {
@@ -19,7 +20,8 @@
                 "bindings": "093597a1-771b-4196-878c-3ef5c3e27845"
             },
             "cubos::engine::Position": {
-                "x": 50
+                "x": 50,
+                "y": 20
             }
         },
         "platform-1.base": {

@@ -5,13 +5,19 @@
                 "asset": "e8b952de-41ce-4c63-bd0c-af2c6b501882",
                 "offset": {
                     "x": -8,
-                    "y": -1,
+                    "y": -0.5,
                     "z": -8
                 }
             },
             "cubos::engine::Position": {},
             "cubos::engine::Scale": 4.0,
-            "cubos::engine::LocalToWorld": {}
+            "cubos::engine::LocalToWorld": {},
+            "cubos::engine::BoxCollisionShape": {
+                "x": 8,
+                "y": 0.5,
+                "z": 8
+            },
+            "cubos::engine::Collider": {}
         }
     }
 }
