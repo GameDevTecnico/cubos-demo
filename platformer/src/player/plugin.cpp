@@ -4,6 +4,7 @@
 #include <cubos/engine/input/input.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/assets/assets.hpp>
+#include <cubos/engine/collisions/collision_event.hpp>
 
 #include <vector>
 #include <cmath>
@@ -14,6 +15,8 @@
 #include "plugin.hpp"
 
 using cubos::core::ecs::Commands;
+using cubos::core::ecs::Entity;
+using cubos::core::ecs::EventReader;
 using cubos::core::ecs::Query;
 using cubos::core::ecs::Read;
 using cubos::core::ecs::Write;
@@ -22,10 +25,29 @@ using namespace cubos::engine;
 
 using namespace demo;
 
-static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> query, Read<Input> input,
-                 Read<DeltaTime> deltaTime, Write<Settings> settings)
+static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, Write<Rotation>> query,
+                 Read<Input> input, Read<DeltaTime> deltaTime, Write<Settings> settings,
+                 EventReader<CollisionEvent> collisions)
 {
-    for (auto [entity, player, velocity, rotation] : query)
+    for (auto collision : collisions)
+    {
+        // Only handle collisions between players and other entities which are not players.
+        Entity playerEntity;
+        if (query[collision.entity] && !query[collision.other])
+        {
+            playerEntity = collision.entity;
+        }
+        else
+        {
+            continue;
+        }
+
+        auto [player, position, velocity, rotation] = *query[playerEntity];
+        position->vec += collision.normal * collision.penetration;
+        velocity->impulse -= collision.normal * glm::dot(collision.normal, velocity->velocity);
+    }
+
+    for (auto [entity, player, position, velocity, rotation] : query)
     {
         const float force = settings->getDouble("force", 5000.0F);
         const float jumpForce = settings->getDouble("jumpForce", 4000.0F);
@@ -70,7 +92,6 @@ static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> q
     }
 }
 
-// handle ground collision
 // handle dead
 
 void demo::playersPlugin(Cubos& cubos)
