@@ -25,7 +25,7 @@ using namespace cubos::engine;
 
 using demo::Player;
 
-static const Asset<VoxelGrid> PlayerAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c75");
+static const Asset<Scene> PlayerSceneAsset = AnyAsset("931545f5-6c1e-43bf-bb1d-ba2c1f6e9333");
 static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
 
@@ -40,34 +40,9 @@ static void loadInputBindings(Read<Assets> assets, Write<Input> input)
 
 static void spawnPlayers(Commands cmds, Write<Assets> assets, Write<ActiveCameras> activeCameras)
 {
-    auto player = assets->read(PlayerAsset);
-    glm::vec3 offset = glm::vec3(player->size().x, 0.0F, player->size().z) / -2.0F;
-
-    auto entity1 = cmds.create()
-                       .add(Player{0})
-                       .add(RenderableGrid{PlayerAsset, offset})
-                       .add(Position{{0.0F, 0.0F, 0.0F}})
-                       .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))})
-                       .add(PreviousPosition{{0.0F, 0.0F, 0.0F}})
-                       .add(PhysicsVelocity{
-                           .velocity = {0.0F, 0.0F, 0.0F}, .force = {0.0F, 0.0F, 0.0F}, .impulse = {0.0F, 0.0F, 0.0F}})
-                       .add(PhysicsMass{.mass = 70.0F, .inverseMass = 1.0F / 70.0F})
-                       .add(AccumulatedCorrection{{0.0F, 0.0F, 0.0F}})
-                       .add(LocalToWorld{})
-                       .entity();
-
-    auto entity2 = cmds.create()
-                       .add(Player{1})
-                       .add(RenderableGrid{PlayerAsset, offset})
-                       .add(Position{{320.0F, 0.0F, 667.0F}})
-                       .add(Rotation{glm::quat(glm::vec3(0, glm::radians(90.0F), 0))})
-                       .add(PreviousPosition{{0.0F, 0.0F, 0.0F}})
-                       .add(PhysicsVelocity{
-                           .velocity = {0.0F, 0.0F, 0.0F}, .force = {0.0F, 0.0F, 0.0F}, .impulse = {0.0F, 0.0F, 0.0F}})
-                       .add(PhysicsMass{.mass = 70.0F, .inverseMass = 1.0F / 70.0F})
-                       .add(AccumulatedCorrection{{0.0F, 0.0F, 0.0F}})
-                       .add(LocalToWorld{})
-                       .entity();
+    auto player = assets->read(PlayerSceneAsset);
+    cmds.spawn(player->blueprint).add("player", Player{0});
+    cmds.spawn(player->blueprint).add("player", Player{1}, Position{{50.0F, 0.0F, 0.0F}});
 
     // Spawn the camera entity.
     activeCameras->entities[0] =
