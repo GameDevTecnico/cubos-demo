@@ -12,7 +12,6 @@
 
 #include "player.hpp"
 #include "plugin.hpp"
-#include "spawn.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -22,9 +21,6 @@ using cubos::core::ecs::Write;
 using namespace cubos::engine;
 
 using namespace demo;
-
-// create method to assign cameras
-// change stuff
 
 static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> query, Read<Input> input,
                  Read<DeltaTime> deltaTime, Write<Settings> settings)
@@ -77,43 +73,8 @@ static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> q
 // handle ground collision
 // handle dead
 
-// respawn player
-
-static void spawnSystem(Commands cmds, Query<Read<Player>> players, Query<Read<PlayerSpawn>, Read<Position>> spawns,
-                        Write<Assets> assets, Write<Input> input)
-{
-    for (auto [spawnEnt, spawn, position] : spawns)
-    {
-        // Check if the player matching this spawn exists
-        bool foundPlayer = false;
-        for (auto [playerEnt, player] : players)
-        {
-            if (player->id == spawn->playerId)
-            {
-                foundPlayer = true;
-                break;
-            }
-        }
-
-        // If it does, do nothing
-        if (foundPlayer)
-        {
-            continue;
-        }
-
-        // Otherwise, spawn it
-        auto builder = cmds.spawn(assets->read(Asset<Scene>("931545f5-6c1e-43bf-bb1d-ba2c1f6e9333"))->blueprint);
-        builder.get<Player>("player").id = spawn->playerId;
-        builder.get<Position>("player") = *position;
-        input->bind(*assets->read(spawn->bindings), spawn->playerId);
-    }
-}
-
 void demo::playersPlugin(Cubos& cubos)
 {
     cubos.addComponent<Player>();
-    cubos.addComponent<PlayerSpawn>();
-
     cubos.system(move).tagged("player.move").tagged("cubos.physics.apply_forces").before("cubos.transform.update");
-    cubos.system(spawnSystem);
 }

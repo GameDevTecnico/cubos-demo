@@ -6,7 +6,7 @@
 
 namespace demo
 {
-    struct [[cubos::component("")]] PlayerSpawn
+    struct [[cubos::component("")]] Spawn
     {
         CUBOS_REFLECT;
 

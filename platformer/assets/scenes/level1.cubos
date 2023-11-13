@@ -2,7 +2,7 @@
     "imports": {},
     "entities": {
         "spawn-0": {
-            "demo::PlayerSpawn": {
+            "demo::Spawn": {
                 "playerId": 0,
                 "bindings": "1c2497cc-3aec-4455-889f-492001172273"
             },
@@ -11,7 +11,7 @@
             }
         },
         "spawn-1": {
-            "demo::PlayerSpawn": {
+            "demo::Spawn": {
                 "playerId": 1,
                 "bindings": "093597a1-771b-4196-878c-3ef5c3e27845"
             },

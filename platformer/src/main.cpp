@@ -18,6 +18,8 @@
 #include <imgui.h>
 
 #include "player/plugin.hpp"
+#include "orbit_camera/plugin.hpp"
+#include "spawn/plugin.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -47,13 +49,6 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     // Spawn the level.
     cmds.spawn(assets->read(Asset<Scene>("541d2b6e-6171-4dd3-96a2-bd53d55b1eb1"))->blueprint);
 
-    activeCameras->entities[0] =
-        cmds.create()
-            .add(Camera{60.0F, 0.1F, 1000.0F})
-            .add(Position{{0.0F, 10.0F, 100.0F}})
-            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, 0.0F, -1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .entity();
-
     env->ambient = {0.4F, 0.4F, 0.4F};
     env->skyGradient[0] = {0.6F, 1.0F, 0.8F};
     env->skyGradient[1] = {0.25F, 0.65F, 1.0F};
@@ -75,6 +70,8 @@ int main(int argc, char** argv)
     cubos.addPlugin(tesseratos::plugin);
 
     cubos.addPlugin(demo::playersPlugin);
+    cubos.addPlugin(demo::orbitCameraPlugin);
+    cubos.addPlugin(demo::spawnPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(setup).tagged("cubos.assets").after("cubos.renderer.init");

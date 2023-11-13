@@ -9,7 +9,10 @@ add_executable(platformer
     src/main.cpp
     src/player/plugin.cpp
     src/player/player.cpp
-    src/player/spawn.cpp
+    src/spawn/plugin.cpp
+    src/spawn/spawn.cpp
+    src/orbit_camera/plugin.cpp
+    src/orbit_camera/controller.cpp
 )
 
 target_link_libraries(platformer tesseratos)
