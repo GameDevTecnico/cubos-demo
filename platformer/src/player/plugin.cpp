@@ -45,6 +45,11 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         auto [player, position, velocity, rotation] = *query[playerEntity];
         position->vec += collision.normal * collision.penetration;
         velocity->impulse -= collision.normal * glm::dot(collision.normal, velocity->velocity);
+
+        if (collision.normal.y > 0.1F)
+        {
+            player->isOnGround = true;
+        }
     }
 
     for (auto [entity, player, position, velocity, rotation] : query)
