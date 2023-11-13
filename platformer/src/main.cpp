@@ -11,6 +11,8 @@
 #include <cubos/engine/scene/plugin.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 
+#include <tesseratos/plugin.hpp>
+
 #include <vector>
 #include <cmath>
 #include <imgui.h>
@@ -64,6 +66,8 @@ int main(int argc, char** argv)
     cubos.addPlugin(inputPlugin);
     cubos.addPlugin(scenePlugin);
     cubos.addPlugin(physicsPlugin);
+
+    cubos.addPlugin(tesseratos::plugin);
 
     cubos.addPlugin(demo::playersPlugin);
 
