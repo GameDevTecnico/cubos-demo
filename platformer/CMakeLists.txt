@@ -6,10 +6,10 @@ project(cubos-platformer-demo VERSION 0.1.0)
 
 # Include CubinhosGenerate
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../lib/cubos/cmake")
-include(CubinhosGenerate)
+include(QuadradosGenerate)
 
 # Build demo executabe
-set(PROJECT_SOURCE "main.cpp")
+set(PROJECT_SOURCE "main.cpp" "playersPlugin.cpp")
 add_executable(platformer_demo ${PROJECT_SOURCE})
 
 # Dependencies
@@ -22,7 +22,7 @@ target_compile_definitions(platformer_demo PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE
 target_compile_features(platformer_demo PRIVATE cxx_std_20)
 
 # Components
-cubinhos_generate(platformer_demo "${CMAKE_CURRENT_SOURCE_DIR}")
+quadrados_generate(platformer_demo "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Enable CTest and CPack
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

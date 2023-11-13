@@ -1,0 +1,36 @@
+{
+    "actions": {
+        "jump": {
+            "keys": [
+                "Space"
+            ],
+            "gamepad": []
+        },
+        "debug" : {
+            "keys": [
+                "f"
+            ],
+            "gamepad": []
+        }
+    },
+    "axes": {
+        "move": {
+            "pos": [
+                "w"
+            ],
+            "neg": [
+                "s"
+            ],
+            "gamepad": []
+        },
+        "turn": {
+            "pos": [
+                "d"
+            ],
+            "neg": [
+                "a"
+            ],
+            "gamepad": []
+        }
+    }
+}
