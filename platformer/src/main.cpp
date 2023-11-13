@@ -44,10 +44,15 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     // Set the renderer's palette to the one we just modified.
     (*renderer)->setPalette(*palette);
 
-    // Spawn the sun.
-    cmds.create()
-        .add(DirectionalLight{glm::vec3(1.0F), 0.7F})
-        .add(Rotation{glm::quat(glm::vec3(glm::radians(45.0F), glm::radians(45.0F), 0))});
+    // Spawn the level.
+    cmds.spawn(assets->read(Asset<Scene>("541d2b6e-6171-4dd3-96a2-bd53d55b1eb1"))->blueprint);
+
+    activeCameras->entities[0] =
+        cmds.create()
+            .add(Camera{60.0F, 0.1F, 1000.0F})
+            .add(Position{{0.0F, 10.0F, 100.0F}})
+            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, 0.0F, -1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
+            .entity();
 
     env->ambient = {0.4F, 0.4F, 0.4F};
     env->skyGradient[0] = {0.6F, 1.0F, 0.8F};

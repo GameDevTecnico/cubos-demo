@@ -9,6 +9,7 @@ add_executable(platformer
     src/main.cpp
     src/player/plugin.cpp
     src/player/player.cpp
+    src/player/spawn.cpp
 )
 
 target_link_libraries(platformer tesseratos)

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <cubos/core/reflection/reflect.hpp>
+#include <cubos/core/ecs/entity/entity.hpp>
 
 namespace demo
 {
-    struct [[cubos::component("player")]] Player
+    struct [[cubos::component("")]] Player
     {
         CUBOS_REFLECT;
 

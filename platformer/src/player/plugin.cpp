@@ -1,20 +1,18 @@
-#include <cubos/core/ecs/system/query.hpp>
-
-#include <cubos/engine/renderer/environment.hpp>
-#include <cubos/engine/renderer/directional_light.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/settings/settings.hpp>
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/voxels/plugin.hpp>
-#include <cubos/engine/input/plugin.hpp>
-#include <cubos/engine/scene/plugin.hpp>
+#include <cubos/engine/scene/scene.hpp>
+#include <cubos/engine/input/input.hpp>
 #include <cubos/engine/physics/plugin.hpp>
+#include <cubos/engine/assets/assets.hpp>
 
 #include <vector>
 #include <cmath>
 
+#include <glm/glm.hpp>
+
 #include "player.hpp"
 #include "plugin.hpp"
+#include "spawn.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -23,52 +21,10 @@ using cubos::core::ecs::Write;
 
 using namespace cubos::engine;
 
-using demo::Player;
-
-static const Asset<Scene> PlayerSceneAsset = AnyAsset("931545f5-6c1e-43bf-bb1d-ba2c1f6e9333");
-static const Asset<InputBindings> Player0BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
-static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
-
-static void loadInputBindings(Read<Assets> assets, Write<Input> input)
-{
-    input->bind(*assets->read<InputBindings>(Player0BindingsAsset), 0);
-    input->bind(*assets->read<InputBindings>(Player1BindingsAsset), 1);
-}
+using namespace demo;
 
 // create method to assign cameras
 // change stuff
-
-static void spawnPlayers(Commands cmds, Write<Assets> assets, Write<ActiveCameras> activeCameras)
-{
-    auto player = assets->read(PlayerSceneAsset);
-    cmds.spawn(player->blueprint).add("player", Player{0});
-    cmds.spawn(player->blueprint).add("player", Player{1}, Position{{50.0F, 0.0F, 0.0F}});
-
-    // Spawn the camera entity.
-    activeCameras->entities[0] =
-        cmds.create()
-            .add(Camera{60.0F, 0.1F, 1000.0F})
-            .add(Position{{0.0F, 10.0F, 100.0F}})
-            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, 0.0F, -1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .entity();
-
-    // Spawn the camera entity.
-    /*
-    activeCameras->entities[1] =
-        cmds.create()
-            .add(Camera{60.0F, 0.1F, 1000.0F})
-            .add(Position{{0.0F, 120.0F, -200.0F}})
-            .add(Rotation{glm::quatLookAt(glm::normalize(glm::vec3{0.0F, -1.0F, 1.0F}), glm::vec3{0.0F, 1.0F, 0.0F})})
-            .entity();
-    */
-
-    /*
-    add(FollowEntity{.entityToFollow = entity1,
-                              .positionOffset = {0.0f, 15.0f, -40.0f},
-                              .rotationOffset = glm::angleAxis(3.1415f, glm::vec3(0.0F, 1.0F, 0.0F)) *
-                                                glm::angleAxis(-0.2618f, glm::vec3(1.0f, 0.0f, 0.0f))})
-    */
-}
 
 static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> query, Read<Input> input,
                  Read<DeltaTime> deltaTime, Write<Settings> settings)
@@ -123,16 +79,41 @@ static void move(Query<Write<Player>, Write<PhysicsVelocity>, Write<Rotation>> q
 
 // respawn player
 
+static void spawnSystem(Commands cmds, Query<Read<Player>> players, Query<Read<PlayerSpawn>, Read<Position>> spawns,
+                        Write<Assets> assets, Write<Input> input)
+{
+    for (auto [spawnEnt, spawn, position] : spawns)
+    {
+        // Check if the player matching this spawn exists
+        bool foundPlayer = false;
+        for (auto [playerEnt, player] : players)
+        {
+            if (player->id == spawn->playerId)
+            {
+                foundPlayer = true;
+                break;
+            }
+        }
+
+        // If it does, do nothing
+        if (foundPlayer)
+        {
+            continue;
+        }
+
+        // Otherwise, spawn it
+        auto builder = cmds.spawn(assets->read(Asset<Scene>("931545f5-6c1e-43bf-bb1d-ba2c1f6e9333"))->blueprint);
+        builder.get<Player>("player").id = spawn->playerId;
+        builder.get<Position>("player") = *position;
+        input->bind(*assets->read(spawn->bindings), spawn->playerId);
+    }
+}
+
 void demo::playersPlugin(Cubos& cubos)
 {
-    cubos.addPlugin(rendererPlugin);
-    cubos.addPlugin(voxelsPlugin);
-    cubos.addPlugin(inputPlugin);
-    cubos.addPlugin(physicsPlugin);
-
     cubos.addComponent<Player>();
+    cubos.addComponent<PlayerSpawn>();
 
-    cubos.startupSystem(loadInputBindings).tagged("cubos.assets");
-    cubos.startupSystem(spawnPlayers).tagged("cubos.assets");
     cubos.system(move).tagged("player.move").tagged("cubos.physics.apply_forces").before("cubos.transform.update");
+    cubos.system(spawnSystem);
 }

@@ -1,0 +1,35 @@
+{
+    "imports": {},
+    "entities": {
+        "spawn-0": {
+            "demo::PlayerSpawn": {
+                "playerId": 0,
+                "bindings": "1c2497cc-3aec-4455-889f-492001172273"
+            },
+            "cubos::engine::Position": {
+                "x": -50
+            }
+        },
+        "spawn-1": {
+            "demo::PlayerSpawn": {
+                "playerId": 1,
+                "bindings": "093597a1-771b-4196-878c-3ef5c3e27845"
+            },
+            "cubos::engine::Position": {
+                "x": 50
+            }
+        },
+        "sun": {
+            "cubos::engine::Rotation": {
+                "w": 0.854,
+                "x": 0.354,
+                "y": 0.354,
+                "z": -0.146
+            },
+            "cubos::engine::LocalToWorld": {},
+            "cubos::engine::DirectionalLight": {
+                "intensity": 0.7
+            }
+        }
+    }
+}

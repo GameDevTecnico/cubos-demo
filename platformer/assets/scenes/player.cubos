@@ -11,7 +11,8 @@
             },
             "cubos::engine::PhysicsVelocity": {},
             "cubos::engine::PhysicsMass": {
-                "mass": 70.0
+                "mass": 100.0,
+                "inverseMass": 0.01
             },
             "cubos::engine::PreviousPosition": {},
             "cubos::engine::AccumulatedCorrection": {}
