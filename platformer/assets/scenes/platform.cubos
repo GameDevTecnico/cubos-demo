@@ -10,7 +10,6 @@
                 }
             },
             "cubos::engine::Position": {},
-            "cubos::engine::Scale": 4.0,
             "cubos::engine::LocalToWorld": {},
             "cubos::engine::BoxCollisionShape": {
                 "x": 8,

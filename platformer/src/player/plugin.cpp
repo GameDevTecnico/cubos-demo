@@ -32,21 +32,16 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
     for (auto collision : collisions)
     {
         // Only handle collisions between players and other entities which are not players.
-        Entity playerEntity;
-        if (query[collision.entity] && !query[collision.other])
-        {
-            playerEntity = collision.entity;
-        }
-        else
+        if (!query[collision.entity] || query[collision.other])
         {
             continue;
         }
 
-        auto [player, position, velocity, rotation] = *query[playerEntity];
-        position->vec += collision.normal * collision.penetration;
-        velocity->impulse -= collision.normal * glm::dot(collision.normal, velocity->velocity);
+        auto [player, position, velocity, rotation] = *query[collision.entity];
+        position->vec -= collision.normal * collision.penetration;
+        velocity->velocity -= collision.normal * glm::dot(collision.normal, velocity->velocity);
 
-        if (collision.normal.y > 0.1F)
+        if (collision.normal.y < -0.1F)
         {
             player->isOnGround = true;
         }
@@ -55,7 +50,7 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
     for (auto [entity, player, position, velocity, rotation] : query)
     {
         const float force = settings->getDouble("force", 5000.0F);
-        const float jumpForce = settings->getDouble("jumpForce", 4000.0F);
+        const float jumpForce = settings->getDouble("jumpForce", 2000.0F);
         const float dragForce = settings->getDouble("dragForce", -2000.0F);
         const float rotationSpeed = settings->getDouble("rotationSpeed", 0.02F);
         const float maxSpeed = settings->getDouble("maxSpeed", 110.0F);

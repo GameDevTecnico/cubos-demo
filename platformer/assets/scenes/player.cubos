@@ -5,6 +5,7 @@
             "cubos::engine::LocalToWorld": {},
             "cubos::engine::Position": {},
             "cubos::engine::Rotation": {},
+            "cubos::engine::Scale": 0.1,
             "cubos::engine::RenderableGrid": {
                 "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75",
                 "offset": {
@@ -32,7 +33,7 @@
                 "target": "player",
                 "theta": 90.0,
                 "phi": 15.0,
-                "distance": 100.0
+                "distance": 30.0
             },
             "cubos::engine::Camera": {},
             "cubos::engine::LocalToWorld": {},
