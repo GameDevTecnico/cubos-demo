@@ -1,0 +1,17 @@
+{
+    "entities": {
+        "base": {
+            "cubos::engine::RenderableGrid": {
+                "asset": "e8b952de-41ce-4c63-bd0c-af2c6b501882",
+                "offset": {
+                    "x": -8,
+                    "y": -1,
+                    "z": -8
+                }
+            },
+            "cubos::engine::Position": {},
+            "cubos::engine::Scale": 4.0,
+            "cubos::engine::LocalToWorld": {}
+        }
+    }
+}

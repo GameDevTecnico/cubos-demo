@@ -1,5 +1,8 @@
 {
-    "imports": {},
+    "imports": {
+        "platform-1": "99ad5197-9bbf-402c-be66-5128ece83270",
+        "platform-2": "99ad5197-9bbf-402c-be66-5128ece83270"
+    },
     "entities": {
         "spawn-0": {
             "demo::Spawn": {
@@ -15,6 +18,16 @@
                 "playerId": 1,
                 "bindings": "093597a1-771b-4196-878c-3ef5c3e27845"
             },
+            "cubos::engine::Position": {
+                "x": 50
+            }
+        },
+        "platform-1.base": {
+            "cubos::engine::Position": {
+                "x": -50
+            }
+        },
+        "platform-2.base": {
             "cubos::engine::Position": {
                 "x": 50
             }

@@ -1,5 +1,4 @@
 {
-    "imports": {},
     "entities": {
         "player": {
             "demo::Player": {},
