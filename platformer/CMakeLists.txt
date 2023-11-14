@@ -16,6 +16,8 @@ add_executable(platformer
     src/collider_gizmos/plugin.cpp
     src/offset/plugin.cpp
     src/offset/offset.cpp
+    src/death/plugin.cpp
+    src/death/dead.cpp
 )
 
 target_link_libraries(platformer tesseratos)

@@ -5,6 +5,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
 using cubos::core::ecs::Read;
 using cubos::core::ecs::Write;
@@ -13,10 +14,16 @@ using namespace cubos::engine;
 
 using namespace demo;
 
-static void offsetSystem(Query<Read<Offset>> offsets, Query<Write<LocalToWorld>> localToWorlds)
+static void offsetSystem(Commands cmds, Query<Read<Offset>> offsets, Query<Write<LocalToWorld>> localToWorlds)
 {
     for (auto [entity, offset] : offsets)
     {
+        if (!localToWorlds[offset->parent])
+        {
+            cmds.destroy(entity);
+            continue;
+        }
+
         auto [entityLocalToWorld] = *localToWorlds[entity];
         auto [parentLocalToWorld] = *localToWorlds[offset->parent];
         entityLocalToWorld->mat = parentLocalToWorld->mat * glm::translate(glm::mat4(1.0f), offset->vec);

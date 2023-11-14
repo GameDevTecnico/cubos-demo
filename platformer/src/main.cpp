@@ -17,6 +17,7 @@
 #include "spawn/plugin.hpp"
 #include "collider_gizmos/plugin.hpp"
 #include "offset/plugin.hpp"
+#include "death/plugin.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -72,6 +73,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(demo::spawnPlugin);
     cubos.addPlugin(demo::colliderGizmosPlugin);
     cubos.addPlugin(demo::offsetPlugin);
+    cubos.addPlugin(demo::deathPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(setup).tagged("cubos.assets").after("cubos.renderer.init");
