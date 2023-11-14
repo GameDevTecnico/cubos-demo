@@ -17,7 +17,7 @@ using namespace cubos::engine;
 using namespace demo;
 
 static void inputSystem(Read<Input> input, Query<Read<OrbitCameraController>, Write<Rotation>> cameras,
-                        Query<Write<Position>> positions)
+                        Query<Write<Position>> positions, Read<DeltaTime> deltaTime)
 {
     for (auto [orbitEntity, orbitCamera, orbitRotation] : cameras)
     {
@@ -29,7 +29,9 @@ static void inputSystem(Read<Input> input, Query<Read<OrbitCameraController>, Wr
             glm::vec3 offset = {glm::cos(glm::radians(orbitCamera->phi)) * glm::cos(glm::radians(orbitCamera->theta)),
                                 glm::sin(glm::radians(orbitCamera->phi)),
                                 glm::cos(glm::radians(orbitCamera->phi)) * glm::sin(glm::radians(orbitCamera->theta))};
-            orbitPosition->vec = targetPosition->vec + offset * orbitCamera->distance;
+            auto orbitDesiredPosition = targetPosition->vec + offset * orbitCamera->distance;
+            orbitPosition->vec =
+                glm::mix(orbitPosition->vec, orbitDesiredPosition, orbitCamera->speed * deltaTime->value);
             orbitRotation->quat = glm::quatLookAt(-offset, {0.0F, 1.0F, 0.0F});
         }
     }
