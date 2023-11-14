@@ -10,19 +10,46 @@
     "axes": {
         "move": {
             "pos": [
-                "Up"
+                "t"
             ],
             "neg": [
-                "Down"
+                "g"
             ],
             "gamepad": []
         },
         "turn": {
             "pos": [
-                "Right"
+                "f"
             ],
             "neg": [
-                "Left"
+                "h"
+            ],
+            "gamepad": []
+        },
+        "look-vertical": {
+            "pos": [
+                "k"
+            ],
+            "neg": [
+                "i"
+            ],
+            "gamepad": []
+        },
+        "look-horizontal": {
+            "pos": [
+                "j"
+            ],
+            "neg": [
+                "l"
+            ],
+            "gamepad": []
+        },
+        "look-zoom": {
+            "pos": [
+                "u"
+            ],
+            "neg": [
+                "o"
             ],
             "gamepad": []
         }

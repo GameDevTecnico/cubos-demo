@@ -16,8 +16,20 @@ using namespace cubos::engine;
 
 using namespace demo;
 
-static void inputSystem(Read<Input> input, Query<Read<OrbitCameraController>, Write<Rotation>> cameras,
-                        Query<Write<Position>> positions, Read<DeltaTime> deltaTime)
+static void inputSystem(Read<Input> input, Query<Write<OrbitCameraController>> cameras, Read<DeltaTime> deltaTime)
+{
+    for (auto [entity, camera] : cameras)
+    {
+        camera->theta += input->axis("look-horizontal", camera->playerId) * deltaTime->value * camera->rotationSpeed;
+        camera->phi += input->axis("look-vertical", camera->playerId) * deltaTime->value * camera->rotationSpeed;
+        camera->phi = glm::clamp(camera->phi, 0.1F, 179.9F);
+        camera->distance += input->axis("look-zoom", camera->playerId) * deltaTime->value * camera->zoomSpeed;
+        camera->distance = glm::clamp(camera->distance, 1.0F, 100.0F);
+    }
+}
+
+static void followSystem(Query<Write<OrbitCameraController>, Write<Rotation>> cameras, Query<Write<Position>> positions,
+                         Read<DeltaTime> deltaTime)
 {
     for (auto [orbitEntity, orbitCamera, orbitRotation] : cameras)
     {
@@ -25,13 +37,14 @@ static void inputSystem(Read<Input> input, Query<Read<OrbitCameraController>, Wr
         if (auto targetComponents = positions[orbitCamera->target])
         {
             auto [targetPosition] = *targetComponents;
+            orbitCamera->center =
+                glm::mix(orbitCamera->center, targetPosition->vec, orbitCamera->speed * deltaTime->value);
 
             glm::vec3 offset = {glm::cos(glm::radians(orbitCamera->phi)) * glm::cos(glm::radians(orbitCamera->theta)),
                                 glm::sin(glm::radians(orbitCamera->phi)),
                                 glm::cos(glm::radians(orbitCamera->phi)) * glm::sin(glm::radians(orbitCamera->theta))};
-            auto orbitDesiredPosition = targetPosition->vec + offset * orbitCamera->distance;
-            orbitPosition->vec =
-                glm::mix(orbitPosition->vec, orbitDesiredPosition, orbitCamera->speed * deltaTime->value);
+
+            orbitPosition->vec = orbitCamera->center + offset * orbitCamera->distance;
             orbitRotation->quat = glm::quatLookAt(-offset, {0.0F, 1.0F, 0.0F});
         }
     }
@@ -49,5 +62,6 @@ void demo::orbitCameraPlugin(Cubos& cubos)
 {
     cubos.addComponent<OrbitCameraController>();
     cubos.system(inputSystem);
+    cubos.system(followSystem);
     cubos.system(registerSystem);
 }

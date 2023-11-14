@@ -6,7 +6,7 @@
             ],
             "gamepad": []
         },
-        "debug" : {
+        "debug": {
             "keys": [
                 "f"
             ],
@@ -29,6 +29,33 @@
             ],
             "neg": [
                 "a"
+            ],
+            "gamepad": []
+        },
+        "look-vertical": {
+            "pos": [
+                "Down"
+            ],
+            "neg": [
+                "Up"
+            ],
+            "gamepad": []
+        },
+        "look-horizontal": {
+            "pos": [
+                "Left"
+            ],
+            "neg": [
+                "Right"
+            ],
+            "gamepad": []
+        },
+        "look-zoom": {
+            "pos": [
+                "PageUp"
+            ],
+            "neg": [
+                "PageDown"
             ],
             "gamepad": []
         }
