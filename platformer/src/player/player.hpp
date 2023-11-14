@@ -14,6 +14,9 @@ namespace demo
         int id = 0;
         bool isOnGround = false;
         float animationTime = 0.0F;
+        float animationSpeed = 1.0F;
+        float jumpForce = 1000.0F;
+        float speed = 10.0F;
         cubos::core::ecs::Entity torso;
         cubos::core::ecs::Entity leftHand;
         cubos::core::ecs::Entity rightHand;

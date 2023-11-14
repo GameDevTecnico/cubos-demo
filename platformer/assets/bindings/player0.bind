@@ -43,10 +43,10 @@
         },
         "look-horizontal": {
             "pos": [
-                "Left"
+                "Right"
             ],
             "neg": [
-                "Right"
+                "Left"
             ],
             "gamepad": []
         },

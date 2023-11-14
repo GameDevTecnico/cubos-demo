@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "controller.hpp"
+#include "../player/player.hpp"
 
 #include <cubos/engine/input/input.hpp>
 #include <cubos/engine/transform/position.hpp>
@@ -29,7 +30,7 @@ static void inputSystem(Read<Input> input, Query<Write<OrbitCameraController>> c
 }
 
 static void followSystem(Query<Write<OrbitCameraController>, Write<Rotation>> cameras, Query<Write<Position>> positions,
-                         Read<DeltaTime> deltaTime)
+                         Read<DeltaTime> deltaTime, Query<Write<Player>> players)
 {
     for (auto [orbitEntity, orbitCamera, orbitRotation] : cameras)
     {
@@ -46,6 +47,13 @@ static void followSystem(Query<Write<OrbitCameraController>, Write<Rotation>> ca
 
             orbitPosition->vec = orbitCamera->center + offset * orbitCamera->distance;
             orbitRotation->quat = glm::quatLookAt(-offset, {0.0F, 1.0F, 0.0F});
+
+            if (auto playerComponents = players[orbitCamera->target])
+            {
+                auto [player] = *playerComponents;
+                player->forward = glm::normalize(glm::vec3(offset.x, 0.0F, offset.z));
+                player->right = glm::normalize(glm::cross(player->forward, {0.0F, 1.0F, 0.0F}));
+            }
         }
     }
 }

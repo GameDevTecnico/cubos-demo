@@ -51,24 +51,22 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
     for (auto [entity, player, position, velocity, rotation] : query)
     {
         const float force = settings->getDouble("force", 5000.0F);
-        const float jumpForce = settings->getDouble("jumpForce", 2000.0F);
         const float dragForce = settings->getDouble("dragForce", -2000.0F);
         const float rotationSpeed = settings->getDouble("rotationSpeed", 0.02F);
-        const float speed = settings->getDouble("speed", 25.0F);
 
         auto moveVertical = -input->axis("move", player->id);
-        //auto moveHorizontal = input->axis("horizontal", player->id);
+        // auto moveHorizontal = input->axis("horizontal", player->id);
         auto jump = input->pressed("jump", player->id);
 
         if (player->isOnGround)
         {
-            glm::vec3 newVelocity = moveVertical * player->forward * speed;
+            glm::vec3 newVelocity = moveVertical * player->forward * player->speed;
             velocity->velocity.x = newVelocity.x;
             velocity->velocity.z = newVelocity.z;
 
             if (jump)
             {
-                velocity->impulse += glm::vec3{0.0F, 1.0F, 0.0F} * jumpForce;
+                velocity->impulse += glm::vec3{0.0F, 1.0F, 0.0F} * player->jumpForce;
                 player->isOnGround = false;
             }
         }
@@ -82,7 +80,7 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         if (player->isOnGround)
         {
             player->animationTime +=
-                glm::sign(moveVertical) * deltaTime->value * settings->getDouble("animationSpeed", 20.0F);
+                glm::sign(moveVertical) * deltaTime->value * player->speed * player->animationSpeed;
 
             if (moveVertical != 0.0F)
             {
@@ -109,7 +107,8 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
 
         if (velocity->velocity.x != 0.0F || velocity->velocity.z != 0.0F)
         {
-            rotation->quat = glm::quatLookAt(glm::normalize(-velocity->velocity * glm::vec3(1.0F, 0.0F, 1.0F)), glm::vec3{0.0F, 1.0F, 0.0F});
+            rotation->quat = glm::quatLookAt(glm::normalize(-velocity->velocity * glm::vec3(1.0F, 0.0F, 1.0F)),
+                                             glm::vec3{0.0F, 1.0F, 0.0F});
         }
 
         auto [torso] = *offsets[player->torso];
