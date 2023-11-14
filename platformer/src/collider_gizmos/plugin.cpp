@@ -1,7 +1,6 @@
 #include "plugin.hpp"
 
 #include <cubos/engine/collisions/collider.hpp>
-#include <cubos/engine/transform/local_to_world.hpp>
 #include <cubos/engine/gizmos/plugin.hpp>
 
 using cubos::core::ecs::Query;
@@ -10,9 +9,9 @@ using cubos::core::ecs::Write;
 
 using namespace cubos::engine;
 
-static void gizmosSystem(Write<Gizmos> gizmos, Query<Read<LocalToWorld>, Read<Collider>> colliders)
+static void gizmosSystem(Write<Gizmos> gizmos, Query<Read<Collider>> colliders)
 {
-    for (auto [entity, transform, collider] : colliders)
+    for (auto [entity, collider] : colliders)
     {
         gizmos->drawWireBox("collider", collider->worldAABB.diag[0], collider->worldAABB.diag[1]);
     }
