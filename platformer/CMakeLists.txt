@@ -18,6 +18,8 @@ add_executable(platformer
     src/offset/offset.cpp
     src/death/plugin.cpp
     src/death/dead.cpp
+    src/mover/plugin.cpp
+    src/mover/mover.cpp
 )
 
 target_link_libraries(platformer tesseratos)

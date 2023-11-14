@@ -25,8 +25,18 @@
             }
         },
         "platform-1.base": {
-            "cubos::engine::Position": {
-                "x": -10
+            "demo::Mover": {
+                "from": {
+                    "x": -10,
+                    "y": -10,
+                    "z": -5
+                },
+                "to": {
+                    "x": -10,
+                    "y": 10,
+                    "z": 5
+                },
+                "duration": 5.0
             }
         },
         "platform-2.base": {

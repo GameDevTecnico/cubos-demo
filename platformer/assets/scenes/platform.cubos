@@ -16,7 +16,8 @@
                 "y": 0.5,
                 "z": 8
             },
-            "cubos::engine::Collider": {}
+            "cubos::engine::Collider": {},
+            "cubos::engine::PhysicsVelocity": {}
         }
     }
 }
