@@ -1,0 +1,29 @@
+{
+    "entities": {
+        "base": {
+            "cubos::engine::RenderableGrid": {
+                "asset": "e8b952de-41ce-4c63-bd0c-af2c6b501882",
+                "offset": {
+                    "x": -8,
+                    "y": -0.5,
+                    "z": -8
+                }
+            },
+            "cubos::engine::Position": {},
+            "cubos::engine::LocalToWorld": {},
+            "cubos::engine::BoxCollisionShape": {
+                "x": 8,
+                "y": 0.5,
+                "z": 8
+            },
+            "cubos::engine::Collider": {},
+            "cubos::engine::PhysicsVelocity": {},
+            "cubos::engine::PhysicsMass": {
+                "mass": 1.0,
+                "inverseMass": 1.0
+            },
+            "cubos::engine::PreviousPosition": {},
+            "cubos::engine::AccumulatedCorrection": {}
+        }
+    }
+}

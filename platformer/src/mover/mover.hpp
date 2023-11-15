@@ -12,8 +12,8 @@ namespace demo
 
         glm::vec3 from;
         glm::vec3 to;
-        float duration = 2.0F;
-        float time = 0.0F;
+        float speed = 10.0F;
         bool direction = false;
+        bool hasStarted = false;
     };
 } // namespace demo

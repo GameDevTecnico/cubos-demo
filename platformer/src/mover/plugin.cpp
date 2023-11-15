@@ -18,21 +18,29 @@ static void moverSystem(Query<Write<Mover>, Write<Position>, Write<PhysicsVeloci
 {
     for (auto [entity, mover, position, velocity] : movers)
     {
-        mover->time += deltaTime->value * (mover->direction ? 1.0F : -1.0F);
-        if (mover->time > mover->duration || mover->time < 0.0F)
+        if (!mover->hasStarted)
         {
-            mover->time = glm::clamp(mover->time, 0.0F, mover->duration);
-            mover->direction = !mover->direction;
+            position->vec = mover->from;
+            mover->hasStarted = true;
+            mover->direction = true;
         }
 
-        auto prev = position->vec;
-        position->vec = glm::mix(mover->from, mover->to, mover->time / mover->duration);
-        velocity->velocity = (position->vec - prev) / deltaTime->value;
+        auto source = mover->direction ? mover->from : mover->to;
+        auto target = mover->direction ? mover->to : mover->from;
+
+        if (glm::dot(target - position->vec, source - position->vec) > 0.0F)
+        {
+            mover->direction = !mover->direction;
+            std::swap(source, target);
+        }
+
+        velocity->velocity = glm::normalize(target - position->vec) * mover->speed;
+        velocity->force = {0.0F, 9.81F, 0.0F};
     }
 }
 
 void demo::moverPlugin(Cubos& cubos)
 {
     cubos.addComponent<Mover>();
-    cubos.system(moverSystem).before("cubos.transform.update");
+    cubos.system(moverSystem).after("cubos.physics.apply_forces");
 }

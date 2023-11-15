@@ -1,9 +1,9 @@
 {
     "imports": {
-        "platform-1": "99ad5197-9bbf-402c-be66-5128ece83270",
+        "platform-1": "2b8271b9-6f92-4098-90d9-252aeca49755",
         "platform-2": "99ad5197-9bbf-402c-be66-5128ece83270",
         "platform-3": "99ad5197-9bbf-402c-be66-5128ece83270",
-        "platform-4": "99ad5197-9bbf-402c-be66-5128ece83270",
+        "platform-4": "2b8271b9-6f92-4098-90d9-252aeca49755",
         "platform-5": "99ad5197-9bbf-402c-be66-5128ece83270"
     },
     "entities": {
@@ -41,7 +41,7 @@
                     "y": 0,
                     "z": -15
                 },
-                "duration": 5.0
+                "speed": 5.0
             }
         },
         "platform-2.base": {
@@ -68,7 +68,7 @@
                     "y": 0,
                     "z": -5
                 },
-                "duration": 4.0
+                "speed": 5.0
             }
         },
         "platform-5.base": {
