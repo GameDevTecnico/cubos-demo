@@ -72,7 +72,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(demo::playersPlugin);
     cubos.addPlugin(demo::orbitCameraPlugin);
     cubos.addPlugin(demo::spawnPlugin);
-    cubos.addPlugin(demo::colliderGizmosPlugin);
+    //cubos.addPlugin(demo::colliderGizmosPlugin);
     cubos.addPlugin(demo::offsetPlugin);
     cubos.addPlugin(demo::deathPlugin);
     cubos.addPlugin(demo::moverPlugin);
