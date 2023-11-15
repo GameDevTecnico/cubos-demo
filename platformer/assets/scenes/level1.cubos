@@ -1,10 +1,10 @@
 {
     "imports": {
+        "goal": "866d4e1e-ea40-4de5-913c-bae62ab9bb25",
         "platform-1": "2b8271b9-6f92-4098-90d9-252aeca49755",
         "platform-2": "99ad5197-9bbf-402c-be66-5128ece83270",
         "platform-3": "99ad5197-9bbf-402c-be66-5128ece83270",
-        "platform-4": "2b8271b9-6f92-4098-90d9-252aeca49755",
-        "platform-5": "99ad5197-9bbf-402c-be66-5128ece83270"
+        "platform-4": "2b8271b9-6f92-4098-90d9-252aeca49755"
     },
     "entities": {
         "spawn-0": {
@@ -27,6 +27,11 @@
                 "x": 10,
                 "y": 5,
                 "z": -2.5
+            }
+        },
+        "goal.base": {
+            "cubos::engine::Position": {
+                "x": -70
             }
         },
         "platform-1.base": {
@@ -69,13 +74,6 @@
                     "z": -5
                 },
                 "speed": 5.0
-            }
-        },
-        "platform-5.base": {
-            "cubos::engine::Position": {
-                "x": -70,
-                "y": 0,
-                "z": -15
             }
         },
         "sun": {
