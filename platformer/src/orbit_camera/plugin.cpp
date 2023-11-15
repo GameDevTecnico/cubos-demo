@@ -21,10 +21,29 @@ static void inputSystem(Read<Input> input, Query<Write<OrbitCameraController>> c
 {
     for (auto [entity, camera] : cameras)
     {
-        camera->theta += input->axis("look-horizontal", camera->playerId) * deltaTime->value * camera->rotationSpeed;
-        camera->phi += input->axis("look-vertical", camera->playerId) * deltaTime->value * camera->rotationSpeed;
+        auto lookHorizontal = input->axis("look-horizontal", camera->playerId);
+        if (glm::abs(lookHorizontal) < 0.1F)
+        {
+            lookHorizontal = 0.0F;
+        }
+
+        auto lookVertical = input->axis("look-vertical", camera->playerId);
+        if (glm::abs(lookVertical) < 0.1F)
+        {
+            lookVertical = 0.0F;
+        }
+
+        camera->theta += lookHorizontal * deltaTime->value * camera->rotationSpeed;
+        camera->phi += lookVertical * deltaTime->value * camera->rotationSpeed;
         camera->phi = glm::clamp(camera->phi, 0.1F, 89.0F);
-        camera->distance += input->axis("look-zoom", camera->playerId) * deltaTime->value * camera->zoomSpeed;
+
+        auto lookZoom = input->axis("look-zoom", camera->playerId);
+        if (glm::abs(lookZoom) < 0.1F)
+        {
+            lookZoom = 0.0F;
+        }
+
+        camera->distance += lookZoom * deltaTime->value * camera->zoomSpeed;
         camera->distance = glm::clamp(camera->distance, 15.0F, 100.0F);
     }
 }

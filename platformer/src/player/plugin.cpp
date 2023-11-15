@@ -51,7 +51,17 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
     for (auto [entity, player, position, velocity, rotation] : query)
     {
         auto moveVertical = input->axis("vertical", player->id);
+        if (glm::abs(moveVertical) < 0.1F)
+        {
+            moveVertical = 0.0F;
+        }
+
         auto moveHorizontal = input->axis("horizontal", player->id);
+        if (glm::abs(moveHorizontal) < 0.1F)
+        {
+            moveHorizontal = 0.0F;
+        }
+
         auto jump = input->pressed("jump", player->id);
 
         if (player->isOnGround)
