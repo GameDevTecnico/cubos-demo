@@ -53,7 +53,7 @@ static void setup(Commands cmds, Write<Assets> assets, Write<Renderer> renderer,
     env->skyGradient[1] = {0.25F, 0.65F, 1.0F};
 
     damping->value = 0.99F;
-    gravity->value = glm::vec3{0.0F, -25.0F, 0.0F};
+    gravity->value = glm::vec3{0.0F, -100.0F, 0.0F};
 }
 
 int main(int argc, char** argv)

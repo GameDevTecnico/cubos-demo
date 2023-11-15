@@ -9,7 +9,7 @@
                 "rightFoot": "right-foot",
                 "speed": 20.0,
                 "animationSpeed": 1.5,
-                "jumpForce": 1500.0
+                "jumpForce": 2500.0
             },
             "cubos::engine::LocalToWorld": {},
             "cubos::engine::Position": {},

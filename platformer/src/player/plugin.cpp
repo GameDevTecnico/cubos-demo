@@ -54,13 +54,13 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         const float dragForce = settings->getDouble("dragForce", -2000.0F);
         const float rotationSpeed = settings->getDouble("rotationSpeed", 0.02F);
 
-        auto moveVertical = -input->axis("move", player->id);
-        // auto moveHorizontal = input->axis("horizontal", player->id);
+        auto moveVertical = -input->axis("vertical", player->id);
+        auto moveHorizontal = input->axis("horizontal", player->id);
         auto jump = input->pressed("jump", player->id);
 
         if (player->isOnGround)
         {
-            glm::vec3 newVelocity = moveVertical * player->forward * player->speed;
+            glm::vec3 newVelocity = moveVertical * player->forward * player->speed - moveHorizontal * player->right * player->speed;
             velocity->velocity.x = newVelocity.x;
             velocity->velocity.z = newVelocity.z;
 
