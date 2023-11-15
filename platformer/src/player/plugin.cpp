@@ -14,6 +14,7 @@
 #include "../offset/offset.hpp"
 #include "player.hpp"
 #include "plugin.hpp"
+#include "../mover/mover.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Entity;
@@ -27,9 +28,12 @@ using namespace cubos::engine;
 using namespace demo;
 
 static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, Write<Rotation>> query,
+                 Query<Read<Mover>> movers,
                  Query<Write<Offset>> offsets, Read<Input> input, Read<DeltaTime> deltaTime, Write<Settings> settings,
                  EventReader<CollisionEvent> collisions)
 {
+    glm::vec3 addVelocity[] = {{0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}};
+
     for (auto collision : collisions)
     {
         // Only handle collisions between players and other entities which are not players.
@@ -41,6 +45,13 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         auto [player, position, velocity, rotation] = *query[collision.entity];
         position->vec -= collision.normal * collision.penetration;
         velocity->velocity -= collision.normal * glm::dot(collision.normal, velocity->velocity);
+        
+        if (movers[collision.other])
+        {
+            auto [mover] = *movers[collision.other];
+            CUBOS_DEBUG("deslocation: {}, {}, {}", mover->velocity.x, mover->velocity.y, mover->velocity.z);
+            addVelocity[player->id] = mover->velocity;
+        }
 
         if (collision.normal.y < -0.1F)
         {
@@ -70,6 +81,7 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
                 moveVertical * player->forward * player->speed - moveHorizontal * player->right * player->speed;
             velocity->velocity.x = newVelocity.x;
             velocity->velocity.z = newVelocity.z;
+            velocity->velocity += addVelocity[player->id];
 
             if (jump)
             {

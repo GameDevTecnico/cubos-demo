@@ -36,6 +36,7 @@ static void moverSystem(Query<Write<Mover>, Write<Position>, Write<PhysicsVeloci
 
         velocity->velocity = glm::normalize(target - position->vec) * mover->speed;
         velocity->force = {0.0F, 9.81F, 0.0F};
+        mover->velocity = velocity->velocity;
     }
 }
 

@@ -12,6 +12,7 @@ namespace demo
 
         glm::vec3 from;
         glm::vec3 to;
+        glm::vec3 velocity = {0.0F, 0.0F, 0.0F};
         float speed = 10.0F;
         bool direction = false;
         bool hasStarted = false;
