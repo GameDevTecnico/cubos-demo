@@ -50,10 +50,6 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
 
     for (auto [entity, player, position, velocity, rotation] : query)
     {
-        const float force = settings->getDouble("force", 5000.0F);
-        const float dragForce = settings->getDouble("dragForce", -2000.0F);
-        const float rotationSpeed = settings->getDouble("rotationSpeed", 0.02F);
-
         auto moveVertical = -input->axis("vertical", player->id);
         auto moveHorizontal = input->axis("horizontal", player->id);
         auto jump = input->pressed("jump", player->id);
@@ -72,29 +68,28 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         }
 
         glm::vec3 targetTorso = {0.0F, 0.0F, 0.0F};
-        glm::vec3 targetLeftHand = {7.0F, -3.0F, 0.0F};
-        glm::vec3 targetRightHand = {-7.0F, -3.0F, 0.0F};
+        glm::vec3 targetLeftHand = {7.0F, -3.0F, 2.0F};
+        glm::vec3 targetRightHand = {-7.0F, -3.0F, 2.0F};
         glm::vec3 targetLeftFoot = {3.5F, -10.0F, 1.0F};
         glm::vec3 targetRightFoot = {-3.5F, -10.0F, 1.0F};
 
         if (player->isOnGround)
         {
-            player->animationTime +=
-                glm::sign(moveVertical) * deltaTime->value * player->speed * player->animationSpeed;
+            player->animationTime += deltaTime->value * player->speed * player->animationSpeed;
 
-            if (moveVertical != 0.0F)
+            if (moveVertical != 0.0F || moveHorizontal != 0.0F)
             {
                 targetLeftHand.y += glm::cos(player->animationTime);
                 targetLeftHand.z += glm::sin(player->animationTime);
                 targetRightHand.y += glm::cos(player->animationTime + glm::pi<float>() / 2.0F);
                 targetRightHand.z += glm::sin(player->animationTime + glm::pi<float>() / 2.0F);
 
-                targetLeftFoot.y += glm::cos(player->animationTime) * 0.5 + 0.5;
+                targetLeftFoot.y += glm::cos(player->animationTime) * 0.5F + 0.5F;
                 targetLeftFoot.z += glm::sin(player->animationTime);
-                targetRightFoot.y += glm::sin(player->animationTime) * 0.5 + 0.5;
-                targetRightFoot.z += glm::cos(player->animationTime);
+                targetRightFoot.y += glm::cos(player->animationTime + glm::pi<float>()) * 0.5F + 0.5F;
+                targetRightFoot.z += glm::sin(player->animationTime + glm::pi<float>());
 
-                targetTorso.y += glm::sin(player->animationTime) * 0.5;
+                targetTorso.y += glm::sin(player->animationTime) * 0.5F;
             }
 
             player->isOnGround = false;
@@ -107,8 +102,9 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
 
         if (velocity->velocity.x != 0.0F || velocity->velocity.z != 0.0F)
         {
-            rotation->quat = glm::quatLookAt(glm::normalize(-velocity->velocity * glm::vec3(1.0F, 0.0F, 1.0F)),
+            auto desired = glm::quatLookAt(glm::normalize(-velocity->velocity * glm::vec3(1.0F, 0.0F, 1.0F)),
                                              glm::vec3{0.0F, 1.0F, 0.0F});
+            rotation->quat = glm::slerp(rotation->quat, desired, player->rotationSpeed * deltaTime->value);
         }
 
         auto [torso] = *offsets[player->torso];

@@ -7,8 +7,9 @@
                 "rightHand": "right-hand",
                 "leftFoot": "left-foot",
                 "rightFoot": "right-foot",
-                "speed": 20.0,
+                "speed": 15.0,
                 "animationSpeed": 1.5,
+                "rotationSpeed": 20.0,
                 "jumpForce": 2500.0
             },
             "cubos::engine::LocalToWorld": {},
@@ -94,7 +95,7 @@
                 "asset": "8f633d2c-618c-40ca-859d-fe24b9ed7207",
                 "offset": {
                     "x": -2,
-                    "y": -1.5,
+                    "y": -2,
                     "z": -3
                 }
             },
@@ -108,7 +109,7 @@
                 "asset": "6b49fb4e-3d0d-4784-846f-ae4a6fe0bcbf",
                 "offset": {
                     "x": -2,
-                    "y": -1.5,
+                    "y": -2,
                     "z": -3
                 }
             },
