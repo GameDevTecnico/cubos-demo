@@ -4,24 +4,22 @@
             "keys": [
                 "Space"
             ],
-            "gamepad": []
-        },
-        "debug": {
-            "keys": [
-                "f"
-            ],
-            "gamepad": []
+            "gamepad": [
+                "A"
+            ]
         }
     },
     "axes": {
         "vertical": {
             "pos": [
-                "w"
-            ],
-            "neg": [
                 "s"
             ],
-            "gamepad": []
+            "neg": [
+                "w"
+            ],
+            "gamepad": [
+                "LY"
+            ]
         },
         "horizontal": {
             "pos": [
@@ -30,7 +28,9 @@
             "neg": [
                 "a"
             ],
-            "gamepad": []
+            "gamepad": [
+                "LX"
+            ]
         },
         "look-vertical": {
             "pos": [
@@ -39,7 +39,9 @@
             "neg": [
                 "Up"
             ],
-            "gamepad": []
+            "gamepad": [
+                "RY"
+            ]
         },
         "look-horizontal": {
             "pos": [
@@ -48,7 +50,9 @@
             "neg": [
                 "Left"
             ],
-            "gamepad": []
+            "gamepad": [
+                "RX"
+            ]
         },
         "look-zoom": {
             "pos": [
@@ -57,7 +61,9 @@
             "neg": [
                 "PageDown"
             ],
-            "gamepad": []
+            "gamepad": [
+                "RTrigger"
+            ]
         }
     }
 }

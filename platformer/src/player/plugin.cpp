@@ -50,13 +50,14 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
 
     for (auto [entity, player, position, velocity, rotation] : query)
     {
-        auto moveVertical = -input->axis("vertical", player->id);
+        auto moveVertical = input->axis("vertical", player->id);
         auto moveHorizontal = input->axis("horizontal", player->id);
         auto jump = input->pressed("jump", player->id);
 
         if (player->isOnGround)
         {
-            glm::vec3 newVelocity = moveVertical * player->forward * player->speed - moveHorizontal * player->right * player->speed;
+            glm::vec3 newVelocity =
+                moveVertical * player->forward * player->speed - moveHorizontal * player->right * player->speed;
             velocity->velocity.x = newVelocity.x;
             velocity->velocity.z = newVelocity.z;
 
@@ -103,7 +104,7 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         if (velocity->velocity.x != 0.0F || velocity->velocity.z != 0.0F)
         {
             auto desired = glm::quatLookAt(glm::normalize(-velocity->velocity * glm::vec3(1.0F, 0.0F, 1.0F)),
-                                             glm::vec3{0.0F, 1.0F, 0.0F});
+                                           glm::vec3{0.0F, 1.0F, 0.0F});
             rotation->quat = glm::slerp(rotation->quat, desired, player->rotationSpeed * deltaTime->value);
         }
 

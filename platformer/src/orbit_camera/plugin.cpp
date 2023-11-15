@@ -23,9 +23,9 @@ static void inputSystem(Read<Input> input, Query<Write<OrbitCameraController>> c
     {
         camera->theta += input->axis("look-horizontal", camera->playerId) * deltaTime->value * camera->rotationSpeed;
         camera->phi += input->axis("look-vertical", camera->playerId) * deltaTime->value * camera->rotationSpeed;
-        camera->phi = glm::clamp(camera->phi, 0.1F, 179.9F);
+        camera->phi = glm::clamp(camera->phi, 0.1F, 89.0F);
         camera->distance += input->axis("look-zoom", camera->playerId) * deltaTime->value * camera->zoomSpeed;
-        camera->distance = glm::clamp(camera->distance, 1.0F, 100.0F);
+        camera->distance = glm::clamp(camera->distance, 15.0F, 100.0F);
     }
 }
 
