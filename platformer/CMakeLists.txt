@@ -20,6 +20,8 @@ add_executable(platformer
     src/death/dead.cpp
     src/mover/plugin.cpp
     src/mover/mover.cpp
+    src/victory/plugin.cpp
+    src/victory/victory.cpp
 )
 
 target_link_libraries(platformer tesseratos)

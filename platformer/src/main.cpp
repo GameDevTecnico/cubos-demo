@@ -19,6 +19,7 @@
 #include "offset/plugin.hpp"
 #include "death/plugin.hpp"
 #include "mover/plugin.hpp"
+#include "victory/plugin.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -72,10 +73,11 @@ int main(int argc, char** argv)
     cubos.addPlugin(demo::playersPlugin);
     cubos.addPlugin(demo::orbitCameraPlugin);
     cubos.addPlugin(demo::spawnPlugin);
-    //cubos.addPlugin(demo::colliderGizmosPlugin);
+    // cubos.addPlugin(demo::colliderGizmosPlugin);
     cubos.addPlugin(demo::offsetPlugin);
     cubos.addPlugin(demo::deathPlugin);
     cubos.addPlugin(demo::moverPlugin);
+    cubos.addPlugin(demo::victoryPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(setup).tagged("cubos.assets").after("cubos.renderer.init");

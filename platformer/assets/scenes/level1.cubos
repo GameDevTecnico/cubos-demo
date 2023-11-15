@@ -30,6 +30,7 @@
             }
         },
         "goal.base": {
+            "demo::Victory": 0,
             "cubos::engine::Position": {
                 "x": -70
             }
