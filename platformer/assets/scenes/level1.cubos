@@ -1,7 +1,10 @@
 {
     "imports": {
         "platform-1": "99ad5197-9bbf-402c-be66-5128ece83270",
-        "platform-2": "99ad5197-9bbf-402c-be66-5128ece83270"
+        "platform-2": "99ad5197-9bbf-402c-be66-5128ece83270",
+        "platform-3": "99ad5197-9bbf-402c-be66-5128ece83270",
+        "platform-4": "99ad5197-9bbf-402c-be66-5128ece83270",
+        "platform-5": "99ad5197-9bbf-402c-be66-5128ece83270"
     },
     "entities": {
         "spawn-0": {
@@ -10,8 +13,9 @@
                 "bindings": "1c2497cc-3aec-4455-889f-492001172273"
             },
             "cubos::engine::Position": {
-                "x": -10,
-                "y": 10
+                "x": 10,
+                "y": 5,
+                "z": 2.5
             }
         },
         "spawn-1": {
@@ -21,20 +25,21 @@
             },
             "cubos::engine::Position": {
                 "x": 10,
-                "y": 10
+                "y": 5,
+                "z": -2.5
             }
         },
         "platform-1.base": {
             "demo::Mover": {
                 "from": {
                     "x": -10,
-                    "y": -10,
-                    "z": -5
+                    "y": 0,
+                    "z": 0
                 },
                 "to": {
                     "x": -10,
-                    "y": 10,
-                    "z": 5
+                    "y": 0,
+                    "z": -15
                 },
                 "duration": 5.0
             }
@@ -42,6 +47,35 @@
         "platform-2.base": {
             "cubos::engine::Position": {
                 "x": 10
+            }
+        },
+        "platform-3.base": {
+            "cubos::engine::Position": {
+                "x": -30,
+                "y": 0,
+                "z": -15
+            }
+        },
+        "platform-4.base": {
+            "demo::Mover": {
+                "from": {
+                    "x": -50,
+                    "y": 0,
+                    "z": -25
+                },
+                "to": {
+                    "x": -50,
+                    "y": 0,
+                    "z": -5
+                },
+                "duration": 4.0
+            }
+        },
+        "platform-5.base": {
+            "cubos::engine::Position": {
+                "x": -70,
+                "y": 0,
+                "z": -15
             }
         },
         "sun": {
