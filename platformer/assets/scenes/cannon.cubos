@@ -1,0 +1,28 @@
+{
+    "entities": {
+        "base": {
+            "demo::Cannon": {
+                "bullet": "866d4e1e-ea40-4de5-913c-bae62ab9bb27",
+                "bulletTime": 1.0
+            },
+            "cubos::engine::RenderableGrid": {
+                "asset": "8f633d2c-618c-40ca-859d-fe24b9ed7219",
+                "offset": {
+                    "x": -4,
+                    "y": -4,
+                    "z": -4
+                }
+            },
+            "cubos::engine::Scale": 0.5,
+            "cubos::engine::Position": {},
+            "cubos::engine::LocalToWorld": {},
+            "cubos::engine::BoxCollisionShape": {
+                "x": 4,
+                "y": 4,
+                "z": 4
+            },
+            "cubos::engine::Collider": {},
+            "cubos::engine::PhysicsVelocity": {}
+        }
+    }
+}

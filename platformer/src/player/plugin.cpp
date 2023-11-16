@@ -15,6 +15,7 @@
 #include "player.hpp"
 #include "plugin.hpp"
 #include "../mover/mover.hpp"
+#include "../cannon/bullet.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Entity;
@@ -29,7 +30,7 @@ using namespace demo;
 
 static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, Write<Rotation>> query,
                  Query<Read<Mover>> movers, Query<Write<Offset>> offsets, Read<Input> input, Read<DeltaTime> deltaTime,
-                 Write<Settings> settings, EventReader<CollisionEvent> collisions)
+                 Write<Settings> settings, EventReader<CollisionEvent> collisions, Query<Read<Bullet>> bullets)
 {
     glm::vec3 addVelocity[] = {{0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}};
 
@@ -42,6 +43,16 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         }
 
         auto [player, position, velocity, rotation] = *query[collision.entity];
+
+        if (bullets[collision.other])
+        {
+            auto [bullet] = *bullets[collision.other];
+            velocity->velocity += bullet->velocity * 10.0F;
+            velocity->velocity.y += 10.0F;
+            player->isOnGround = false;
+            continue;
+        }
+
         position->vec -= collision.normal * collision.penetration;
         velocity->velocity -= collision.normal * glm::dot(collision.normal, velocity->velocity);
 

@@ -4,7 +4,11 @@
         "platform-1": "2b8271b9-6f92-4098-90d9-252aeca49755",
         "platform-2": "99ad5197-9bbf-402c-be66-5128ece83270",
         "platform-3": "99ad5197-9bbf-402c-be66-5128ece83270",
-        "platform-4": "2b8271b9-6f92-4098-90d9-252aeca49755"
+        "platform-4": "2b8271b9-6f92-4098-90d9-252aeca49755",
+        "cannon-1": "866d4e1e-ea40-4de5-913c-bae62ab9bb26",
+        "cannon-2": "866d4e1e-ea40-4de5-913c-bae62ab9bb26",
+        "cannon-3": "866d4e1e-ea40-4de5-913c-bae62ab9bb26",
+        "cannon-4": "866d4e1e-ea40-4de5-913c-bae62ab9bb26"
     },
     "entities": {
         "spawn-0": {
@@ -33,6 +37,34 @@
             "demo::Victory": 0,
             "cubos::engine::Position": {
                 "x": -70
+            }
+        },
+        "cannon-1.base": {
+            "cubos::engine::Position": {
+                "x": -10,
+                "y": 2,
+                "z": -25
+            }
+        },
+        "cannon-2.base": {
+            "cubos::engine::Position": {
+                "x": -30,
+                "y": 2,
+                "z": -25
+            }
+        },
+        "cannon-3.base": {
+            "cubos::engine::Position": {
+                "x": -50,
+                "y": 2,
+                "z": -25
+            }
+        },
+        "cannon-4.base": {
+            "cubos::engine::Position": {
+                "x": -70,
+                "y": 2,
+                "z": -25
             }
         },
         "platform-1.base": {

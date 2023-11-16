@@ -20,6 +20,7 @@
 #include "death/plugin.hpp"
 #include "mover/plugin.hpp"
 #include "victory/plugin.hpp"
+#include "cannon/plugin.hpp"
 
 using cubos::core::ecs::Commands;
 using cubos::core::ecs::Query;
@@ -78,6 +79,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(demo::deathPlugin);
     cubos.addPlugin(demo::moverPlugin);
     cubos.addPlugin(demo::victoryPlugin);
+    cubos.addPlugin(demo::cannonPlugin);
 
     cubos.startupSystem(settings).tagged("cubos.settings");
     cubos.startupSystem(setup).tagged("cubos.assets").after("cubos.renderer.init");

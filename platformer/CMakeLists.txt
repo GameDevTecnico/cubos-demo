@@ -22,6 +22,9 @@ add_executable(platformer
     src/mover/mover.cpp
     src/victory/plugin.cpp
     src/victory/victory.cpp
+    src/cannon/plugin.cpp
+    src/cannon/cannon.cpp
+    src/cannon/bullet.cpp
 )
 
 target_link_libraries(platformer tesseratos)

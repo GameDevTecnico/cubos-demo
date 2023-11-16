@@ -44,5 +44,5 @@ static void victorySystem(Commands cmds, Query<Read<Victory>> victories, Query<R
 void demo::victoryPlugin(Cubos& cubos)
 {
     cubos.addComponent<Victory>();
-    cubos.system(victorySystem).after("cubos.collisions");
+    //cubos.system(victorySystem).after("cubos.collisions");
 }
