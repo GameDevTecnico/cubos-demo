@@ -1,30 +1,33 @@
 # CMakeLists.txt
-# Cubos Demo project root build configuration
+# Platformer build configuration
 
-cmake_minimum_required(VERSION 3.20.0)
-project(cubos-platformer-demo VERSION 0.1.0)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/../lib/cubos/cmake")
 
-# Include CubinhosGenerate
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../lib/cubos/cmake")
-include(CubinhosGenerate)
+include(QuadradosGenerate)
 
-# Build demo executabe
-set(PROJECT_SOURCE "main.cpp")
-add_executable(platformer_demo ${PROJECT_SOURCE})
+add_executable(platformer
+    src/main.cpp
+    src/player/plugin.cpp
+    src/player/player.cpp
+    src/spawn/plugin.cpp
+    src/spawn/spawn.cpp
+    src/orbit_camera/plugin.cpp
+    src/orbit_camera/controller.cpp
+    src/collider_gizmos/plugin.cpp
+    src/offset/plugin.cpp
+    src/offset/offset.cpp
+    src/death/plugin.cpp
+    src/death/dead.cpp
+    src/mover/plugin.cpp
+    src/mover/mover.cpp
+    src/victory/plugin.cpp
+    src/victory/victory.cpp
+    src/cannon/plugin.cpp
+    src/cannon/cannon.cpp
+    src/cannon/bullet.cpp
+)
 
-# Dependencies
-add_subdirectory(../lib/cubos lib/cubos)
-target_link_libraries(platformer_demo cubos-engine)
-
-# Assets
-target_compile_definitions(platformer_demo PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/assets")
-
-target_compile_features(platformer_demo PRIVATE cxx_std_20)
-
-# Components
-cubinhos_generate(platformer_demo "${CMAKE_CURRENT_SOURCE_DIR}")
-
-# Enable CTest and CPack
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+target_link_libraries(platformer tesseratos)
+target_compile_definitions(platformer PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/assets")
+target_compile_features(platformer PRIVATE cxx_std_20)
+quadrados_generate(platformer "${CMAKE_CURRENT_SOURCE_DIR}")

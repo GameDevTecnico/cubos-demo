@@ -1,0 +1,26 @@
+{
+    "entities": {
+        "base": {
+            "demo::Bullet": {
+                "life": 5.0
+            },
+            "cubos::engine::RenderableGrid": {
+                "asset": "8f633d2c-618c-40ca-859d-fe24b9ed7200",
+                "offset": {
+                    "x": -2,
+                    "y": -2,
+                    "z": -2
+                }
+            },
+            "cubos::engine::Scale": 0.4,
+            "cubos::engine::Position": {},
+            "cubos::engine::LocalToWorld": {},
+            "cubos::engine::BoxCollisionShape": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            },
+            "cubos::engine::Collider": {}
+        }
+    }
+}

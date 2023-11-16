@@ -1,0 +1,119 @@
+{
+    "entities": {
+        "player": {
+            "demo::Player": {
+                "torso": "torso",
+                "leftHand": "left-hand",
+                "rightHand": "right-hand",
+                "leftFoot": "left-foot",
+                "rightFoot": "right-foot",
+                "speed": 15.0,
+                "animationSpeed": 1.5,
+                "rotationSpeed": 20.0,
+                "jumpForce": 2500.0
+            },
+            "cubos::engine::LocalToWorld": {},
+            "cubos::engine::Position": {},
+            "cubos::engine::Rotation": {},
+            "cubos::engine::Scale": 0.1,
+            "cubos::engine::PhysicsVelocity": {},
+            "cubos::engine::PhysicsMass": {
+                "mass": 100.0,
+                "inverseMass": 0.01
+            },
+            "cubos::engine::PreviousPosition": {},
+            "cubos::engine::AccumulatedCorrection": {},
+            "cubos::engine::BoxCollisionShape": {
+                "x": 6,
+                "y": 11.5,
+                "z": 4.5
+            },
+            "cubos::engine::Collider": {}
+        },
+        "camera": {
+            "demo::OrbitCameraController": {
+                "target": "player",
+                "theta": 90.0,
+                "phi": 15.0,
+                "distance": 15.0,
+                "speed": 10.0,
+                "rotationSpeed": 150.0,
+                "zoomSpeed": 30.0
+            },
+            "cubos::engine::Camera": {},
+            "cubos::engine::LocalToWorld": {},
+            "cubos::engine::Position": {},
+            "cubos::engine::Rotation": {}
+        },
+        "torso": {
+            "demo::Offset": {
+                "parent": "player"
+            },
+            "cubos::engine::RenderableGrid": {
+                "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75",
+                "offset": {
+                    "x": -6,
+                    "y": -7.5,
+                    "z": -4.5
+                }
+            },
+            "cubos::engine::LocalToWorld": {}
+        },
+        "left-hand": {
+            "demo::Offset": {
+                "parent": "player"
+            },
+            "cubos::engine::RenderableGrid": {
+                "asset": "ffbf1f87-6ffb-4395-8a30-92883f14dd4a",
+                "offset": {
+                    "x": -1.5,
+                    "y": -1.5,
+                    "z": -1.5
+                }
+            },
+            "cubos::engine::LocalToWorld": {}
+        },
+        "right-hand": {
+            "demo::Offset": {
+                "parent": "player"
+            },
+            "cubos::engine::RenderableGrid": {
+                "asset": "521cec89-3392-450c-90f5-a06e1abd1691",
+                "offset": {
+                    "x": -1.5,
+                    "y": -1.5,
+                    "z": -1.5
+                }
+            },
+            "cubos::engine::LocalToWorld": {}
+        },
+        "left-foot": {
+            "demo::Offset": {
+                "parent": "player"
+            },
+            "cubos::engine::RenderableGrid": {
+                "asset": "8f633d2c-618c-40ca-859d-fe24b9ed7207",
+                "offset": {
+                    "x": -2,
+                    "y": -2,
+                    "z": -3
+                }
+            },
+            "cubos::engine::LocalToWorld": {}
+        },
+        "right-foot": {
+            "demo::Offset": {
+                "parent": "player"
+            },
+            "cubos::engine::RenderableGrid": {
+                "asset": "6b49fb4e-3d0d-4784-846f-ae4a6fe0bcbf",
+                "offset": {
+                    "x": -2,
+                    "y": -2,
+                    "z": -3
+                }
+            },
+            "cubos::engine::LocalToWorld": {}
+        }
+    }
+}

@@ -1,0 +1,69 @@
+{
+    "actions": {
+        "jump": {
+            "keys": [
+                "Space"
+            ],
+            "gamepad": [
+                "A"
+            ]
+        }
+    },
+    "axes": {
+        "vertical": {
+            "pos": [
+                "s"
+            ],
+            "neg": [
+                "w"
+            ],
+            "gamepad": [
+                "LY"
+            ]
+        },
+        "horizontal": {
+            "pos": [
+                "d"
+            ],
+            "neg": [
+                "a"
+            ],
+            "gamepad": [
+                "LX"
+            ]
+        },
+        "look-vertical": {
+            "pos": [
+                "Down"
+            ],
+            "neg": [
+                "Up"
+            ],
+            "gamepad": [
+                "RY"
+            ]
+        },
+        "look-horizontal": {
+            "pos": [
+                "Right"
+            ],
+            "neg": [
+                "Left"
+            ],
+            "gamepad": [
+                "RX"
+            ]
+        },
+        "look-zoom": {
+            "pos": [
+                "PageUp"
+            ],
+            "neg": [
+                "PageDown"
+            ],
+            "gamepad": [
+                "RTrigger"
+            ]
+        }
+    }
+}
