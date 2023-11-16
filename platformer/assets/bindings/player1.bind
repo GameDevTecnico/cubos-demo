@@ -2,7 +2,7 @@
     "actions": {
         "jump": {
             "keys": [
-                "Space"
+                "p"
             ],
             "gamepad": [
                 "A"

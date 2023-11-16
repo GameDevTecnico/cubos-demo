@@ -28,9 +28,8 @@ using namespace cubos::engine;
 using namespace demo;
 
 static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, Write<Rotation>> query,
-                 Query<Read<Mover>> movers,
-                 Query<Write<Offset>> offsets, Read<Input> input, Read<DeltaTime> deltaTime, Write<Settings> settings,
-                 EventReader<CollisionEvent> collisions)
+                 Query<Read<Mover>> movers, Query<Write<Offset>> offsets, Read<Input> input, Read<DeltaTime> deltaTime,
+                 Write<Settings> settings, EventReader<CollisionEvent> collisions)
 {
     glm::vec3 addVelocity[] = {{0.0F, 0.0F, 0.0F}, {0.0F, 0.0F, 0.0F}};
 
@@ -45,7 +44,7 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
         auto [player, position, velocity, rotation] = *query[collision.entity];
         position->vec -= collision.normal * collision.penetration;
         velocity->velocity -= collision.normal * glm::dot(collision.normal, velocity->velocity);
-        
+
         if (movers[collision.other])
         {
             auto [mover] = *movers[collision.other];
@@ -75,12 +74,13 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
 
         auto jump = input->pressed("jump", player->id);
 
+        glm::vec3 move =
+            moveVertical * player->forward * player->speed - moveHorizontal * player->right * player->speed;
+
         if (player->isOnGround)
         {
-            glm::vec3 newVelocity =
-                moveVertical * player->forward * player->speed - moveHorizontal * player->right * player->speed;
-            velocity->velocity.x = newVelocity.x;
-            velocity->velocity.z = newVelocity.z;
+            velocity->velocity.x = move.x;
+            velocity->velocity.z = move.z;
             velocity->velocity += addVelocity[player->id];
 
             if (jump)
@@ -123,10 +123,9 @@ static void move(Query<Write<Player>, Write<Position>, Write<PhysicsVelocity>, W
             targetRightHand.y += 5.0F;
         }
 
-        if (velocity->velocity.x != 0.0F || velocity->velocity.z != 0.0F)
+        if (move.x != 0.0F || move.z != 0.0F)
         {
-            auto desired = glm::quatLookAt(glm::normalize(-velocity->velocity * glm::vec3(1.0F, 0.0F, 1.0F)),
-                                           glm::vec3{0.0F, 1.0F, 0.0F});
+            auto desired = glm::quatLookAt(-glm::normalize(move), glm::vec3{0.0F, 1.0F, 0.0F});
             rotation->quat = glm::slerp(rotation->quat, desired, player->rotationSpeed * deltaTime->value);
         }
 
