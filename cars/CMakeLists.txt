@@ -9,6 +9,11 @@ add_executable(cars
     src/explosion/particle.cpp
     src/explosion/plugin.cpp
 
+    src/race/checkpoint.cpp
+    src/race/obstacle.cpp
+    src/race/plugin.cpp
+    src/race/racer.cpp
+
     src/dead.cpp
     src/main.cpp
 )

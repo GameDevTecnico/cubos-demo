@@ -9,7 +9,6 @@
 #include <glm/gtc/random.hpp>
 
 using namespace cubos::engine;
-using namespace demo;
 
 static const Asset<Scene> ParticleAsset = AnyAsset("3651b5f5-e6be-4d8e-b0fb-1e4d6dddb44c");
 
