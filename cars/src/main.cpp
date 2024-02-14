@@ -19,6 +19,7 @@ using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("1aa5e234-28cb-4386-99b4-39386b0fc215");
 static const Asset<Scene> MainSceneAsset = AnyAsset("059c16e7-a439-44c7-9bdc-6e069dba0c77");
+static const Asset<InputBindings> EditorBindingsAsset = AnyAsset("d9bf75f2-d202-4340-b39f-33e958bdda29");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
 static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
 
@@ -42,6 +43,7 @@ int main(int argc, char** argv)
     cubos.startupSystem("load and set the Input Bindings")
         .tagged("cubos.assets")
         .call([](const Assets& assets, Input& input) {
+            input.bind(*assets.read<InputBindings>(EditorBindingsAsset), 0);
             input.bind(*assets.read<InputBindings>(Player1BindingsAsset), 1);
             input.bind(*assets.read<InputBindings>(Player2BindingsAsset), 2);
         });
@@ -55,7 +57,12 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged("cubos.assets")
-        .call([](Commands cmds, const Assets& assets) { cmds.spawn(assets.read(MainSceneAsset)->blueprint); });
+        .call([](Commands cmds, const Assets& assets, Settings& settings) {
+            if (settings.getBool("production", true))
+            {
+                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+            }
+        });
 
     cubos.run();
 }
