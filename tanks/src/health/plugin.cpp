@@ -1,25 +1,23 @@
-#include "health/plugin.hpp"
+#include "plugin.hpp"
+#include "health.hpp"
+#include "death.hpp"
 
-void healthPlugin(cubos::engine::Cubos& cubos)
+using namespace cubos::engine;
+
+void healthPlugin(Cubos& cubos)
 {
     cubos.addComponent<Health>();
     cubos.addComponent<Death>();
 
-    cubos.startupSystem("set player hp on start").call([](cubos::engine::Query<Health&> query) {
-        //TODO: We might want a way to check if the entity is a player to set diff hp
-        for (auto [health] : query)
-        {
-            health.points = 100;
-        }
-    });
-
-    cubos.system("update player hp").call([](cubos::engine::Query<Entity, const Health&> query, cubos::engine::Commands& cmds){
-        for (auto [entity, health] : query)
-        {
-            if (health.points <= 0)
+    cubos.system("kill entities with non-positive health")
+        .without<Death>() // We don't want to kill dead entities
+        .call([](Commands cmds, Query<Entity, const Health&> query) {
+            for (auto [entity, health] : query)
             {
-                cmds.add(entity, Death{})
+                if (health.points <= 0)
+                {
+                    cmds.add(entity, Death{});
+                }
             }
-        }
-    });
+        });
 }

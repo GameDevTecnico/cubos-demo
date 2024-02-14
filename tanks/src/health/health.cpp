@@ -1,3 +1,5 @@
+#include "health.hpp"
+
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
 
