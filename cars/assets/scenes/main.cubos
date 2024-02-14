@@ -2,144 +2,9 @@
   "entities": {
     "collider1": {
       "cubos::engine::BoxCollisionShape": {
-        "x": 1000.0,
-        "y": 50.0,
-        "z": 1.0
-      },
-      "cubos::engine::Collider": {
-        "a": {
-          "w": 0.0,
-          "x": 1.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "b": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 1.0,
-          "z": 0.0
-        },
-        "c": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 1.0
-        },
-        "d": {
-          "w": 1.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        }
-      },
-      "cubos::engine::Position": {
-        "x": 600.0,
-        "y": 0.0,
-        "z": 80.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0
-    },
-    "collider2": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 1.0,
-        "y": 50.0,
-        "z": 1000.0
-      },
-      "cubos::engine::Collider": {
-        "a": {
-          "w": 0.0,
-          "x": 1.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "b": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 1.0,
-          "z": 0.0
-        },
-        "c": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 1.0
-        },
-        "d": {
-          "w": 1.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        }
-      },
-      "cubos::engine::Position": {
-        "x": 700.0,
-        "y": 0.0,
-        "z": 600.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0
-    },
-    "collider3": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 1000.0,
-        "y": 50.0,
-        "z": 1.0
-      },
-      "cubos::engine::Collider": {
-        "a": {
-          "w": 0.0,
-          "x": 1.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "b": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 1.0,
-          "z": 0.0
-        },
-        "c": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 1.0
-        },
-        "d": {
-          "w": 1.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        }
-      },
-      "cubos::engine::Position": {
-        "x": 600.0,
-        "y": 0.0,
-        "z": 710.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0
-    },
-    "collider4": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 1.0,
-        "y": 50.0,
-        "z": 1000.0
+        "x": 100.0,
+        "y": 5.0,
+        "z": 0.10000000149011612
       },
       "cubos::engine::Collider": {
         "a": {
@@ -170,7 +35,142 @@
       "cubos::engine::Position": {
         "x": 60.0,
         "y": 0.0,
-        "z": 600.0
+        "z": 8.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0
+    },
+    "collider2": {
+      "cubos::engine::BoxCollisionShape": {
+        "x": 0.10000000149011612,
+        "y": 5.0,
+        "z": 100.0
+      },
+      "cubos::engine::Collider": {
+        "a": {
+          "w": 0.0,
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "b": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "c": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        },
+        "d": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 70.0,
+        "y": 0.0,
+        "z": 60.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0
+    },
+    "collider3": {
+      "cubos::engine::BoxCollisionShape": {
+        "x": 100.0,
+        "y": 5.0,
+        "z": 0.10000000149011612
+      },
+      "cubos::engine::Collider": {
+        "a": {
+          "w": 0.0,
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "b": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "c": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        },
+        "d": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 60.0,
+        "y": 0.0,
+        "z": 71.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0
+    },
+    "collider4": {
+      "cubos::engine::BoxCollisionShape": {
+        "x": 0.10000000149011612,
+        "y": 5.0,
+        "z": 100.0
+      },
+      "cubos::engine::Collider": {
+        "a": {
+          "w": 0.0,
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "b": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "c": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        },
+        "d": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 6.0,
+        "y": 0.0,
+        "z": 60.0
       },
       "cubos::engine::Rotation": {
         "w": 1.0,
@@ -182,9 +182,9 @@
     },
     "collider5": {
       "cubos::engine::BoxCollisionShape": {
-        "x": 190.0,
-        "y": 50.0,
-        "z": 50.0
+        "x": 19.0,
+        "y": 5.0,
+        "z": 5.0
       },
       "cubos::engine::Collider": {
         "a": {
@@ -213,9 +213,9 @@
         }
       },
       "cubos::engine::Position": {
-        "x": 365.0,
+        "x": 36.5,
         "y": 0.0,
-        "z": 530.0
+        "z": 53.0
       },
       "cubos::engine::Rotation": {
         "w": 1.0,
@@ -227,9 +227,9 @@
     },
     "collider6": {
       "cubos::engine::BoxCollisionShape": {
-        "x": 115.0,
-        "y": 50.0,
-        "z": 140.0
+        "x": 11.5,
+        "y": 5.0,
+        "z": 14.0
       },
       "cubos::engine::Collider": {
         "a": {
@@ -258,9 +258,9 @@
         }
       },
       "cubos::engine::Position": {
-        "x": 450.0,
+        "x": 45.0,
         "y": 0.0,
-        "z": 325.0
+        "z": 32.5
       },
       "cubos::engine::Rotation": {
         "w": 1.0,
@@ -272,9 +272,9 @@
     },
     "collider7": {
       "cubos::engine::BoxCollisionShape": {
-        "x": 200.0,
-        "y": 50.0,
-        "z": 320.0
+        "x": 20.0,
+        "y": 5.0,
+        "z": 32.0
       },
       "cubos::engine::Collider": {
         "a": {
@@ -317,9 +317,9 @@
     },
     "finish-line": {
       "cubos::engine::BoxCollisionShape": {
-        "x": 10.0,
-        "y": 50.0,
-        "z": 150.0
+        "x": 1.0,
+        "y": 5.0,
+        "z": 15.0
       },
       "cubos::engine::Collider": {
         "a": {
@@ -348,9 +348,9 @@
         }
       },
       "cubos::engine::Position": {
-        "x": 380.0,
+        "x": 38.0,
         "y": 0.0,
-        "z": 650.0
+        "z": 65.0
       },
       "cubos::engine::Rotation": {
         "w": 1.0,
@@ -358,7 +358,11 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Checkpoint": {
+        "isFinishLine": true,
+        "previous": "null"
+      }
     },
     "floor": {
       "cubos::engine::Position": {
@@ -380,7 +384,29 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 4.0
+      "cubos::engine::Scale": 0.4000000059604645
+    },
+    "sun": {
+      "cubos::engine::DirectionalLight": {
+        "color": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "intensity": 1.0
+      },
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.30000001192092896,
+        "y": -0.30000001192092896,
+        "z": 0.5
+      },
+      "cubos::engine::Scale": 1.0
     }
   },
   "imports": {}
