@@ -2,40 +2,38 @@
     "actions": {
         "night": {
             "keys": [
-                "n"
+                "N"
             ],
-            "gamepad": [
+            "gamepadButtons": [
                 "Y"
             ]
         }
     },
     "axes": {
         "break": {
-            "pos": [
+            "positive": [
                 "Down"
             ],
-            "neg": [],
-            "gamepad": [
+            "gamepadAxes": [
                 "LTrigger"
             ]
         },
         "accelerate": {
-            "pos": [
+            "positive": [
                 "Up"
             ],
-            "neg": [],
-            "gamepad": [
+            "gamepadAxes": [
                 "RTrigger"
             ]
         },
         "turn": {
-            "pos": [
+            "positive": [
                 "Right"
             ],
-            "neg": [
+            "negative": [
                 "Left"
             ],
-            "gamepad": [
+            "gamepadAxes": [
                 "LX"
             ]
         }
