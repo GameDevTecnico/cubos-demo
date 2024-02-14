@@ -78,4 +78,12 @@ void demo::carPlugin(Cubos& cubos)
                 position.vec += car.linearVelocity * dt.value;
             }
         });
+
+    cubos.system("freeze car").with<Dead>().call([](Query<Car&> query) {
+        for (auto [car] : query)
+        {
+            car.linearVelocity = glm::vec3(0.0F);
+            car.angularVelocity = 0.0F;
+        }
+    });
 }
