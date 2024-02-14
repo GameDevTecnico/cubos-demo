@@ -44,8 +44,9 @@ void demo::explosionPlugin(Cubos& cubos)
                     cmds.spawn(assets.read(ParticleAsset)->blueprint)
                         .add("particle", Particle{.startLife = explosion.particleLife,
                                                   .life = explosion.particleLife,
-                                                  .size = glm::linearRand(1.0F, 4.0F),
-                                                  .velocity = velocity});
+                                                  .size = glm::linearRand(0.1F, 0.4F),
+                                                  .velocity = velocity})
+                        .add("particle", Position{.vec = position.vec});
                 }
             }
         });
