@@ -3,6 +3,9 @@
 
 add_executable(tanks
     src/main.cpp
+    src/health/death.cpp
+    src/health/health.cpp
+    src/health/plugin.cpp
 )
 
 target_link_libraries(tanks tesseratos)
