@@ -1,3 +1,5 @@
+#include "health/plugin.hpp"
+
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/input/input.hpp>
 #include <cubos/engine/input/bindings.hpp>
@@ -15,6 +17,9 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.addPlugin(tesseratos::plugin);
+
+    // Add game plugins
+    cubos.addPlugin(healthPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged("cubos.settings").call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
