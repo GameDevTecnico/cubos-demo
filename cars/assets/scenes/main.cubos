@@ -43,7 +43,8 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Obstacle": {}
     },
     "collider2": {
       "cubos::engine::BoxCollisionShape": {
@@ -88,7 +89,8 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Obstacle": {}
     },
     "collider3": {
       "cubos::engine::BoxCollisionShape": {
@@ -133,7 +135,8 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Obstacle": {}
     },
     "collider4": {
       "cubos::engine::BoxCollisionShape": {
@@ -178,7 +181,8 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Obstacle": {}
     },
     "collider5": {
       "cubos::engine::BoxCollisionShape": {
@@ -223,7 +227,8 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Obstacle": {}
     },
     "collider6": {
       "cubos::engine::BoxCollisionShape": {
@@ -268,7 +273,8 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Obstacle": {}
     },
     "collider7": {
       "cubos::engine::BoxCollisionShape": {
@@ -313,13 +319,14 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0
+      "cubos::engine::Scale": 1.0,
+      "demo::Obstacle": {}
     },
     "finish-line": {
       "cubos::engine::BoxCollisionShape": {
         "x": 1.0,
         "y": 5.0,
-        "z": 15.0
+        "z": 4.0
       },
       "cubos::engine::Collider": {
         "a": {
@@ -348,7 +355,7 @@
         }
       },
       "cubos::engine::Position": {
-        "x": 38.0,
+        "x": 37.79999923706055,
         "y": 0.0,
         "z": 65.0
       },
@@ -403,7 +410,7 @@
       "cubos::engine::Rotation": {
         "w": 1.0,
         "x": 0.30000001192092896,
-        "y": -0.30000001192092896,
+        "y": -0.10000000149011612,
         "z": 0.5
       },
       "cubos::engine::Scale": 1.0
