@@ -1,0 +1,22 @@
+#pragma once
+
+#include <glm/vec3.hpp>
+#include <vector>
+
+#include <cubos/core/reflection/reflect.hpp>
+
+#include <cubos/engine/prelude.hpp>
+
+namespace demo
+{
+    struct Racer
+    {
+        CUBOS_REFLECT;
+
+        cubos::engine::Entity currentCheckpoint;
+        glm::vec3 startingPosition = {0.0F, 0.0F, 0.0F};
+        glm::quat startingRotation = glm::quat(1.0F, 0.0F, 0.0F, 0.0F);
+        float currentLapTime;
+        std::vector<float> lapTimes;
+    };
+} // namespace demo
