@@ -61,6 +61,7 @@ void demo::racePlugin(Cubos& cubos)
         });
 
     cubos.system("kill racers on obstacle collision")
+        .tagged("race.kill")
         .entity()
         .with<Racer>()
         .without<Dead>()
@@ -76,6 +77,7 @@ void demo::racePlugin(Cubos& cubos)
 
     cubos.system("reset racers after explosion is over")
         .entity()
+        .after("race.kill")
         .with<Dead>()
         .call([](Commands cmds, Query<Entity, Racer&, Position&, Rotation&, Explosion&> query) {
             for (auto [ent, racer, position, rotation, explosion] : query)
