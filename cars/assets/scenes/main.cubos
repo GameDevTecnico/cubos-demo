@@ -393,6 +393,9 @@
       },
       "cubos::engine::Scale": 0.4000000059604645
     },
+    "player1.camera": {
+      "cubos::engine::Scale": 1.0
+    },
     "player1.car": {
       "cubos::engine::Position": {
         "x": 31.799999237060547,
@@ -406,23 +409,26 @@
         "z": 0.0
       },
       "demo::Car": {
-        "angularDragMul": 1.0,
+        "acceleration": 15.0,
         "angularVelocity": 0.0,
-        "forwardDragMul": 0.0010000000474974513,
+        "braking": 10.0,
+        "forwardDrag": 0.009999999776482582,
+        "forwardDragCoefficient": 0.0010000000474974513,
+        "lateralDrag": 0.10000000149011612,
+        "lateralDragCoefficient": 0.009999999776482582,
         "linearVelocity": {
           "x": 0.0,
           "y": 0.0,
           "z": 0.0
         },
-        "maxAcceleration": 10.0,
-        "maxAngularVelocity": 10.0,
-        "maxBreaking": 10.0,
-        "maxTurn": 0.03999999910593033,
+        "maxWheelAngle": 45.0,
+        "maxWheelVelocity": 20.0,
         "player": 1,
-        "roadGrip": 0.009999999776482582,
-        "sideDragMul": 0.10000000149011612,
-        "turnDecay": 0.019999999552965164,
-        "turnPeak": 50.0
+        "steeringSpeed": 25.0,
+        "wheelAngle": 0.0,
+        "wheelBase": 3.200000047683716,
+        "wheelGrip": 50.0,
+        "wheelVelocity": 0.0
       },
       "demo::Racer": {
         "currentCheckpoint": "null",
@@ -441,6 +447,9 @@
         }
       }
     },
+    "player2.camera": {
+      "cubos::engine::Scale": 1.0
+    },
     "player2.car": {
       "cubos::engine::Position": {
         "x": 31.799999237060547,
@@ -454,23 +463,26 @@
         "z": 0.0
       },
       "demo::Car": {
-        "angularDragMul": 1.0,
+        "acceleration": 15.0,
         "angularVelocity": 0.0,
-        "forwardDragMul": 0.0010000000474974513,
+        "braking": 10.0,
+        "forwardDrag": 0.009999999776482582,
+        "forwardDragCoefficient": 0.0010000000474974513,
+        "lateralDrag": 0.10000000149011612,
+        "lateralDragCoefficient": 0.009999999776482582,
         "linearVelocity": {
           "x": 0.0,
           "y": 0.0,
           "z": 0.0
         },
-        "maxAcceleration": 10.0,
-        "maxAngularVelocity": 10.0,
-        "maxBreaking": 10.0,
-        "maxTurn": 0.03999999910593033,
+        "maxWheelAngle": 45.0,
+        "maxWheelVelocity": 20.0,
         "player": 2,
-        "roadGrip": 0.009999999776482582,
-        "sideDragMul": 0.10000000149011612,
-        "turnDecay": 0.019999999552965164,
-        "turnPeak": 50.0
+        "steeringSpeed": 25.0,
+        "wheelAngle": 0.0,
+        "wheelBase": 3.200000047683716,
+        "wheelGrip": 50.0,
+        "wheelVelocity": 0.0
       },
       "demo::Racer": {
         "currentCheckpoint": "null",

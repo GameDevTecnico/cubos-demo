@@ -1,24 +1,6 @@
 {
-    "actions": {
-        "night": {
-            "keys": [
-                "N"
-            ],
-            "gamepadButtons": [
-                "Y"
-            ]
-        },
-        "debug" : {
-            "keys": [
-                "F"
-            ],
-            "gamepadButtons": [
-                "X"
-            ]
-        }
-    },
     "axes": {
-        "break": {
+        "brake": {
             "positive": [
                 "S"
             ],
@@ -26,7 +8,7 @@
                 "LTrigger"
             ]
         },
-        "accelerate": {
+        "throttle": {
             "positive": [
                 "W"
             ],
@@ -34,7 +16,7 @@
                 "RTrigger"
             ]
         },
-        "turn": {
+        "steer": {
             "positive": [
                 "D"
             ],

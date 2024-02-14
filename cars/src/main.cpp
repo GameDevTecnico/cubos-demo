@@ -13,6 +13,7 @@
 #include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/renderer/environment.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
+#include <cubos/engine/splitscreen/plugin.hpp>
 
 #include <tesseratos/plugin.hpp>
 
@@ -28,6 +29,7 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.addPlugin(tesseratos::plugin);
+    cubos.addPlugin(splitscreenPlugin);
 
     // Add game components and plugins.
     cubos.addComponent<demo::Dead>();
@@ -63,10 +65,12 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged("cubos.assets")
-        .call([](Commands cmds, const Assets& assets, Settings& settings) {
+        .call([](Commands cmds, const Assets& assets, Settings& settings, ActiveCameras& cameras) {
             if (settings.getBool("production", true))
             {
-                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+                auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+                cameras.entities[0] = builder.entity("player1.camera");
+                cameras.entities[1] = builder.entity("player2.camera");
             }
         });
 
