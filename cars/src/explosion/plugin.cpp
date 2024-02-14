@@ -18,16 +18,16 @@ void demo::explosionPlugin(Cubos& cubos)
     cubos.addComponent<Particle>();
 
     cubos.system("update explosion")
-        .call([](Commands cmds, const DeltaTime& dt, Assets& assets, Query<Entity, Explosion&, const Position&> query) {
-            for (auto [ent, explosion, position] : query)
+        .call([](Commands cmds, const DeltaTime& dt, Assets& assets, Query<Explosion&, const Position&> query) {
+            for (auto [explosion, position] : query)
             {
-                // If explosion duration is over, destroy its entity.
-                explosion.duration -= dt.value;
+                // If explosion duration is over, stop updating it.
                 if (explosion.duration <= 0.0F)
                 {
-                    cmds.destroy(ent);
                     continue;
                 }
+
+                explosion.duration -= dt.value;
 
                 // Spawn a new particle every time the timer reaches 0.
                 explosion.timer -= dt.value;
