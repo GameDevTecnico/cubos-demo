@@ -11,6 +11,7 @@
 #include <cubos/engine/settings/settings.hpp>
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/renderer/environment.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 
 #include <tesseratos/plugin.hpp>
@@ -27,7 +28,6 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.addPlugin(tesseratos::plugin);
-    cubos.addPlugin(cubos::engine::collisionsPlugin);
 
     // Add game components and plugins.
     cubos.addComponent<demo::Dead>();
@@ -54,6 +54,12 @@ int main(int argc, char** argv)
         .call([](const Assets& assets, Renderer& renderer) {
             renderer->setPalette(*assets.read<VoxelPalette>(PaletteAsset));
         });
+
+    cubos.startupSystem("set environment").call([](RendererEnvironment& environment) {
+        environment.ambient = {0.4F, 0.4F, 0.4F};
+        environment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
+        environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
+    });
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged("cubos.assets")
