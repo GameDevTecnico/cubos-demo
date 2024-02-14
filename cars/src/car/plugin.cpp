@@ -78,6 +78,4 @@ void demo::carPlugin(Cubos& cubos)
                 position.vec += car.linearVelocity * dt.value;
             }
         });
-
-    CUBOS_TODO("handle Car vs Car collisions");
 }

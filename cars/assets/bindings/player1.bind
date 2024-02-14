@@ -2,48 +2,46 @@
     "actions": {
         "night": {
             "keys": [
-                "n"
+                "N"
             ],
-            "gamepad": [
+            "gamepadButtons": [
                 "Y"
             ]
         },
         "debug" : {
             "keys": [
-                "f"
+                "F"
             ],
-            "gamepad": [
+            "gamepadButtons": [
                 "X"
             ]
         }
     },
     "axes": {
         "break": {
-            "pos": [
-                "s"
+            "positive": [
+                "S"
             ],
-            "neg": [],
-            "gamepad": [
+            "gamepadAxes": [
                 "LTrigger"
             ]
         },
         "accelerate": {
-            "pos": [
-                "w"
+            "positive": [
+                "W"
             ],
-            "neg": [],
-            "gamepad": [
+            "gamepadAxes": [
                 "RTrigger"
             ]
         },
         "turn": {
-            "pos": [
-                "d"
+            "positive": [
+                "D"
             ],
-            "neg": [
-                "a"
+            "negative": [
+                "A"
             ],
-            "gamepad": [
+            "gamepadAxes": [
                 "LX"
             ]
         }
