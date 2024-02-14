@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "car.hpp"
+#include "../dead.hpp"
 
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/input/input.hpp>
@@ -11,6 +12,7 @@ void demo::carPlugin(Cubos& cubos)
     cubos.addComponent<Car>();
 
     cubos.system("move car")
+        .without<Dead>() // Don't move dead cars.
         .call([](Commands cmds, const DeltaTime& dt, const Input& input, Query<Car&, Position&, Rotation&> query) {
             for (auto [car, position, rotation] : query)
             {

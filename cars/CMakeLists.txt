@@ -2,12 +2,15 @@
 # Cars demo build configuration
 
 add_executable(cars
-    src/main.cpp
     src/car/car.cpp
     src/car/plugin.cpp
+
     src/explosion/explosion.cpp
     src/explosion/particle.cpp
     src/explosion/plugin.cpp
+
+    src/dead.cpp
+    src/main.cpp
 )
 
 target_link_libraries(cars tesseratos)
