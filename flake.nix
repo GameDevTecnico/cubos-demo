@@ -21,6 +21,13 @@
             # = formatting =
             clang-tools
 
+            # = docs =
+            doxygen
+            (python3.withPackages (ps: [
+              ps.jinja2
+              ps.pygments
+            ]))
+
             # = libs =
             glfw
             glm
