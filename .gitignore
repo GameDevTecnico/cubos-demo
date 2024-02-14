@@ -405,3 +405,4 @@ build
 .ccls-cache
 
 imgui.ini
+settings.json
