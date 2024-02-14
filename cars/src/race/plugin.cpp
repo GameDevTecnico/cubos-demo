@@ -17,6 +17,16 @@ void demo::racePlugin(Cubos& cubos)
     cubos.addComponent<Obstacle>();
     cubos.addComponent<Racer>();
 
+    cubos.system("increase racers lap time").call([](const DeltaTime& dt, Query<Racer&> query) {
+        for (auto [racer] : query)
+        {
+            if (!racer.currentCheckpoint.isNull())
+            {
+                racer.currentLapTime += dt.value;
+            }
+        }
+    });
+
     cubos.system("update racers checkpoints on checkpoint collision")
         .with<Racer>()
         .related<CollidingWith>()
