@@ -393,6 +393,102 @@
       },
       "cubos::engine::Scale": 0.4000000059604645
     },
+    "player1.car": {
+      "cubos::engine::Position": {
+        "x": 31.799999237060547,
+        "y": 0.0,
+        "z": 63.599998474121094
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.7071068286895752,
+        "x": 0.0,
+        "y": 0.7071068286895752,
+        "z": 0.0
+      },
+      "demo::Car": {
+        "angularDragMul": 1.0,
+        "angularVelocity": 0.0,
+        "forwardDragMul": 0.0010000000474974513,
+        "linearVelocity": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "maxAcceleration": 10.0,
+        "maxAngularVelocity": 10.0,
+        "maxBreaking": 10.0,
+        "maxTurn": 0.03999999910593033,
+        "player": 1,
+        "roadGrip": 0.009999999776482582,
+        "sideDragMul": 0.10000000149011612,
+        "turnDecay": 0.019999999552965164,
+        "turnPeak": 50.0
+      },
+      "demo::Racer": {
+        "currentCheckpoint": "null",
+        "currentLapTime": 0.0,
+        "lapTimes": [],
+        "startingPosition": {
+          "x": 31.799999237060547,
+          "y": 0.0,
+          "z": 63.599998474121094
+        },
+        "startingRotation": {
+          "w": 0.7071068286895752,
+          "x": 0.0,
+          "y": 0.7071068286895752,
+          "z": 0.0
+        }
+      }
+    },
+    "player2.car": {
+      "cubos::engine::Position": {
+        "x": 31.799999237060547,
+        "y": 0.0,
+        "z": 66.80000305175781
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.7071068286895752,
+        "x": 0.0,
+        "y": 0.7071068286895752,
+        "z": 0.0
+      },
+      "demo::Car": {
+        "angularDragMul": 1.0,
+        "angularVelocity": 0.0,
+        "forwardDragMul": 0.0010000000474974513,
+        "linearVelocity": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "maxAcceleration": 10.0,
+        "maxAngularVelocity": 10.0,
+        "maxBreaking": 10.0,
+        "maxTurn": 0.03999999910593033,
+        "player": 2,
+        "roadGrip": 0.009999999776482582,
+        "sideDragMul": 0.10000000149011612,
+        "turnDecay": 0.019999999552965164,
+        "turnPeak": 50.0
+      },
+      "demo::Racer": {
+        "currentCheckpoint": "null",
+        "currentLapTime": 0.0,
+        "lapTimes": [],
+        "startingPosition": {
+          "x": 31.799999237060547,
+          "y": 0.0,
+          "z": 66.80000305175781
+        },
+        "startingRotation": {
+          "w": 0.7071068286895752,
+          "x": 0.0,
+          "y": 0.7071068286895752,
+          "z": 0.0
+        }
+      }
+    },
     "sun": {
       "cubos::engine::DirectionalLight": {
         "color": {
@@ -416,5 +512,8 @@
       "cubos::engine::Scale": 1.0
     }
   },
-  "imports": {}
+  "imports": {
+    "player1": "e1346df9-5092-4fd1-be06-ff99e7894d23",
+    "player2": "e1346df9-5092-4fd1-be06-ff99e7894d23"
+  }
 }
