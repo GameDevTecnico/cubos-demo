@@ -55,6 +55,8 @@ void demo::racePlugin(Cubos& cubos)
                         // The racer has finished a lap.
                         racer.lapTimes.push_back(racer.currentLapTime);
                         racer.currentLapTime = 0.0F;
+                        racer.successiveLaps += 1;
+                        racer.maxSuccessiveLaps = glm::max(racer.maxSuccessiveLaps, racer.successiveLaps);
                     }
                 }
             }
@@ -91,6 +93,7 @@ void demo::racePlugin(Cubos& cubos)
                     // Reset the current checkpoint and lap time.
                     racer.currentCheckpoint = {};
                     racer.currentLapTime = 0.0F;
+                    racer.successiveLaps = 0;
 
                     // Remove the Dead and Explosion components.
                     cmds.remove<Dead>(ent);

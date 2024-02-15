@@ -17,7 +17,9 @@ namespace demo
         cubos::engine::Entity currentCheckpoint;
         glm::vec3 startingPosition = {0.0F, 0.0F, 0.0F};
         glm::quat startingRotation = glm::quat(1.0F, 0.0F, 0.0F, 0.0F);
-        float currentLapTime;
+        float currentLapTime = 0.0F;
+        int successiveLaps = 0;
+        int maxSuccessiveLaps = 0;
         std::vector<float> lapTimes;
     };
 } // namespace demo
