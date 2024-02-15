@@ -53,8 +53,8 @@ void demo::racePlugin(Cubos& cubos)
                     if (checkpoint.isFinishLine)
                     {
                         // The racer has finished a lap.
-                        racer.currentLapTime = 0.0F;
                         racer.lapTimes.push_back(racer.currentLapTime);
+                        racer.currentLapTime = 0.0F;
                     }
                 }
             }

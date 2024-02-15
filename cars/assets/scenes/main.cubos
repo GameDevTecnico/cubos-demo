@@ -1,5 +1,54 @@
 {
   "entities": {
+    "checkpoint": {
+      "cubos::engine::BoxCollisionShape": {
+        "x": 0.5,
+        "y": 5.0,
+        "z": 5.0
+      },
+      "cubos::engine::Collider": {
+        "a": {
+          "w": 0.0,
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "b": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "c": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        },
+        "d": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 40.0,
+        "y": 0.0,
+        "z": 13.582549095153809
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0,
+      "demo::Checkpoint": {
+        "isFinishLine": false,
+        "previous": "finish-line"
+      }
+    },
     "collider1": {
       "cubos::engine::BoxCollisionShape": {
         "x": 100.0,
@@ -368,7 +417,7 @@
       "cubos::engine::Scale": 1.0,
       "demo::Checkpoint": {
         "isFinishLine": true,
-        "previous": "null"
+        "previous": "checkpoint"
       }
     },
     "floor": {
