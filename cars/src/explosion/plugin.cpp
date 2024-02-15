@@ -38,7 +38,7 @@ void demo::explosionPlugin(Cubos& cubos)
                     // Pick a random direction for the particle to move in.
                     glm::vec3 velocity = glm::normalize(glm::ballRand(1.0F));
                     velocity.y = glm::abs(velocity.y);
-                    velocity *= 50.0F;
+                    velocity *= 5.0F;
 
                     // Spawn the particle scene and add the Particle component.
                     cmds.spawn(assets.read(ParticleAsset)->blueprint)
@@ -46,7 +46,8 @@ void demo::explosionPlugin(Cubos& cubos)
                                                   .life = explosion.particleLife,
                                                   .size = glm::linearRand(0.1F, 0.4F),
                                                   .velocity = velocity})
-                        .add("particle", Position{.vec = position.vec});
+                        .add("particle", Position{.vec = position.vec})
+                        .add("particle", Scale{.factor = 0.0F});
                 }
             }
         });

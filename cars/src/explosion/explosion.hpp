@@ -9,7 +9,7 @@ namespace demo
         CUBOS_REFLECT;
 
         // How long the explosion will last.
-        float duration = 3.0F;
+        float duration = 1.5F;
 
         // Time in seconds between spawning new particles.
         float particleTime = 0.01F;
