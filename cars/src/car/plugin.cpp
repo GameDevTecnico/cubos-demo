@@ -19,7 +19,7 @@ void demo::carPlugin(Cubos& cubos)
             {
                 // Get the user's input.
                 auto throttle = glm::clamp(input.axis("throttle", car.player), 0.0F, 1.0F);
-                auto brake = glm::clamp(input.axis("brake", car.player), 0.0F, 1.0F);
+                auto reverse = glm::clamp(input.axis("reverse", car.player), 0.0F, 1.0F);
                 auto steer = -input.axis("steer", car.player);
 
                 // Get the car's directional vectors.
@@ -34,20 +34,34 @@ void demo::carPlugin(Cubos& cubos)
                 // Add acceleration the car's velocity.
                 auto acceleration = throttle * car.acceleration;
                 car.linearVelocity += acceleration * forward * dt.value;
+                auto forwardVelocity = glm::dot(car.linearVelocity, forward);
+
+                if (forwardVelocity <= 0.0F)
+                {
+                    // Apply reverse acceleration to the car's velocity.
+                    auto reverseAcceleration = reverse * car.acceleration;
+                    car.linearVelocity -= reverseAcceleration * forward * dt.value;
+                    forwardVelocity = glm::dot(car.linearVelocity, forward);
+                }
 
                 // Limit the car's velocity.
-                auto forwardVelocity = glm::dot(car.linearVelocity, forward);
-                if (forwardVelocity > car.maxVelocity)
+                if (glm::abs(forwardVelocity) > car.maxVelocity)
                 {
-                    car.linearVelocity -= forward * (forwardVelocity - car.maxVelocity);
-                    forwardVelocity = car.maxVelocity;
+                    car.linearVelocity -=
+                        glm::sign(forwardVelocity) * forward * (glm::abs(forwardVelocity) - car.maxVelocity);
+                    forwardVelocity = glm::sign(forwardVelocity) * car.maxVelocity;
                 }
 
                 // Apply drag and braking to the car's velocity.
                 if (forwardVelocity != 0.0F)
                 {
                     auto drag = car.forwardDrag + car.forwardDragCoefficient * glm::abs(forwardVelocity);
-                    drag += brake * car.braking;
+
+                    if (forwardVelocity > 0.0F)
+                    {
+                        drag += reverse * car.braking;
+                    }
+
                     drag *= dt.value;
                     drag = glm::min(drag, glm::abs(forwardVelocity));
                     car.linearVelocity -= forward * drag * glm::sign(forwardVelocity);
