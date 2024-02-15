@@ -5,6 +5,8 @@ add_executable(cars
     src/car/car.cpp
     src/car/plugin.cpp
 
+    src/day_night/plugin.cpp
+
     src/explosion/explosion.cpp
     src/explosion/particle.cpp
     src/explosion/plugin.cpp

@@ -1,5 +1,6 @@
 #include "car/plugin.hpp"
 #include "car/car.hpp"
+#include "day_night/plugin.hpp"
 #include "explosion/plugin.hpp"
 #include "race/plugin.hpp"
 #include "race/racer.hpp"
@@ -38,6 +39,7 @@ int main(int argc, char** argv)
     // Add game components and plugins.
     cubos.addComponent<demo::Dead>();
     cubos.addPlugin(demo::carPlugin);
+    cubos.addPlugin(demo::dayNightPlugin);
     cubos.addPlugin(demo::explosionPlugin);
     cubos.addPlugin(demo::racePlugin);
 
