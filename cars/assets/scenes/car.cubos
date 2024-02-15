@@ -53,6 +53,58 @@
       },
       "cubos::engine::Scale": 0.10000000149011612
     },
+    "left-spot-light": {
+      "cubos::engine::Position": {
+        "x": -4.0,
+        "y": 4.0,
+        "z": 15.0
+      },
+      "cubos::engine::Rotation": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "cubos::engine::Scale": 1.0,
+      "cubos::engine::SpotLight": {
+        "color": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "innerSpotAngle": 60.0,
+        "intensity": 0.0,
+        "range": 50.0,
+        "spotAngle": 120.0
+      },
+      "cubos::engine::ChildOf@car": {}
+    },
+    "right-spot-light": {
+      "cubos::engine::Position": {
+        "x": 4.0,
+        "y": 4.0,
+        "z": 15.0
+      },
+      "cubos::engine::Rotation": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "cubos::engine::Scale": 1.0,
+      "cubos::engine::SpotLight": {
+        "color": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "innerSpotAngle": 60.0,
+        "intensity": 0.0,
+        "range": 50.0,
+        "spotAngle": 120.0
+      },
+      "cubos::engine::ChildOf@car": {}
+    },
     "camera": {
       "cubos::engine::Position": {
         "x": 0.0,

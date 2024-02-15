@@ -46,12 +46,12 @@ void demo::dayNightPlugin(Cubos& cubos)
 
             for (auto [light] : spotLights)
             {
-                light.intensity = state.isNight ? 1.0f : 0.0f;
+                light.intensity = state.isNight ? 2.0f : 0.0f;
             }
 
             if (state.isNight)
             {
-                environment.ambient = {0.2F, 0.2F, 0.2F};
+                environment.ambient = {0.1F, 0.1F, 0.1F};
                 environment.skyGradient[0] = {0.8F, 0.8F, 1.0F};
                 environment.skyGradient[1] = {0.3F, 0.0F, 0.8F};
             }
