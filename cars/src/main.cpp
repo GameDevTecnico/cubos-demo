@@ -91,7 +91,9 @@ int main(int argc, char** argv)
             }
 
             ImGui::Text("Current Lap Time: %f", racer.currentLapTime);
+            ImGui::Text("Current Successive Laps: %d", racer.successiveLaps);
             ImGui::Text("Best Lap Time: %f", bestLapTime);
+            ImGui::Text("Best Successive Laps: %d", racer.maxSuccessiveLaps);
             ImGui::Separator();
             for (int i = 0; i < racer.lapTimes.size(); i++)
             {

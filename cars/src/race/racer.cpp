@@ -11,6 +11,8 @@ CUBOS_REFLECT_IMPL(demo::Racer)
         .withField("startingPosition", &Racer::startingPosition)
         .withField("startingRotation", &Racer::startingRotation)
         .withField("currentLapTime", &Racer::currentLapTime)
+        .withField("successiveLaps", &Racer::successiveLaps)
+        .withField("maxSuccessiveLaps", &Racer::maxSuccessiveLaps)
         .withField("lapTimes", &Racer::lapTimes)
         .build();
 }
