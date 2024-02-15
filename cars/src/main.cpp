@@ -1,7 +1,11 @@
 #include "car/plugin.hpp"
+#include "car/car.hpp"
 #include "explosion/plugin.hpp"
 #include "race/plugin.hpp"
+#include "race/racer.hpp"
 #include "dead.hpp"
+
+#include <imgui.h>
 
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/input/input.hpp>
@@ -73,6 +77,30 @@ int main(int argc, char** argv)
                 cameras.entities[1] = builder.entity("player2.camera");
             }
         });
+
+    cubos.system("show lap times").tagged("cubos.imgui").call([](Query<const demo::Car&, const demo::Racer&> query) {
+        for (auto [car, racer] : query)
+        {
+            std::string title = "Lap Times for Player " + std::to_string(car.player);
+            ImGui::Begin(title.c_str());
+
+            float bestLapTime = INFINITY;
+            for (auto lapTime : racer.lapTimes)
+            {
+                bestLapTime = glm::min(bestLapTime, lapTime);
+            }
+
+            ImGui::Text("Current Lap Time: %f", racer.currentLapTime);
+            ImGui::Text("Best Lap Time: %f", bestLapTime);
+            ImGui::Separator();
+            for (int i = 0; i < racer.lapTimes.size(); i++)
+            {
+                ImGui::Text("Lap %d Time: %f", i + 1, racer.lapTimes[i]);
+            }
+
+            ImGui::End();
+        }
+    });
 
     cubos.run();
 }
