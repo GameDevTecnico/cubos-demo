@@ -4,6 +4,11 @@
             "keys": [
                 "R"
             ]
+        },
+        "day-night-toggle": {
+            "keys": [
+                "N"
+            ]
         }
     },
     "axes": {
