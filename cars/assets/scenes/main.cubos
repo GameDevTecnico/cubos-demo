@@ -458,26 +458,25 @@
         "z": 0.0
       },
       "demo::Car": {
-        "acceleration": 15.0,
+        "acceleration": 5.0,
         "angularVelocity": 0.0,
-        "braking": 10.0,
-        "forwardDrag": 0.009999999776482582,
-        "forwardDragCoefficient": 0.0010000000474974513,
-        "lateralDrag": 0.10000000149011612,
-        "lateralDragCoefficient": 0.009999999776482582,
+        "braking": 20.0,
+        "forwardDrag": 0.10000000149011612,
+        "forwardDragCoefficient": 0.009999999776482582,
+        "lateralDrag": 0.0,
+        "lateralDragCoefficient": 0.0,
         "linearVelocity": {
           "x": 0.0,
           "y": 0.0,
           "z": 0.0
         },
-        "maxWheelAngle": 45.0,
-        "maxWheelVelocity": 20.0,
+        "maxVelocity": 20.0,
+        "maxWheelAngle": 15.0,
         "player": 1,
-        "steeringSpeed": 25.0,
+        "steeringSpeed": 30.0,
         "wheelAngle": 0.0,
         "wheelBase": 3.200000047683716,
-        "wheelGrip": 50.0,
-        "wheelVelocity": 0.0
+        "wheelGrip": 0.30000001192092896
       },
       "demo::Racer": {
         "currentCheckpoint": "null",
@@ -514,26 +513,25 @@
         "z": 0.0
       },
       "demo::Car": {
-        "acceleration": 15.0,
+        "acceleration": 5.0,
         "angularVelocity": 0.0,
-        "braking": 10.0,
-        "forwardDrag": 0.009999999776482582,
-        "forwardDragCoefficient": 0.0010000000474974513,
-        "lateralDrag": 0.10000000149011612,
-        "lateralDragCoefficient": 0.009999999776482582,
+        "braking": 20.0,
+        "forwardDrag": 0.10000000149011612,
+        "forwardDragCoefficient": 0.009999999776482582,
+        "lateralDrag": 0.0,
+        "lateralDragCoefficient": 0.0,
         "linearVelocity": {
           "x": 0.0,
           "y": 0.0,
           "z": 0.0
         },
-        "maxWheelAngle": 45.0,
-        "maxWheelVelocity": 20.0,
+        "maxVelocity": 20.0,
+        "maxWheelAngle": 15.0,
         "player": 2,
-        "steeringSpeed": 25.0,
+        "steeringSpeed": 30.0,
         "wheelAngle": 0.0,
         "wheelBase": 3.200000047683716,
-        "wheelGrip": 50.0,
-        "wheelVelocity": 0.0
+        "wheelGrip": 0.30000001192092896
       },
       "demo::Racer": {
         "currentCheckpoint": "null",
