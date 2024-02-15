@@ -6,6 +6,8 @@ add_executable(tanks
     src/health/death.cpp
     src/health/health.cpp
     src/health/plugin.cpp
+    src/orbit_camera/controller.cpp
+    src/orbit_camera/plugin.cpp
 )
 
 target_link_libraries(tanks tesseratos)
