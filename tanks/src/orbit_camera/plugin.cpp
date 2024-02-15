@@ -10,8 +10,6 @@
 #include <glm/glm.hpp>
 
 using cubos::core::ecs::Query;
-using cubos::core::ecs::Read;
-using cubos::core::ecs::Write;
 
 using namespace cubos::engine;
 
@@ -20,7 +18,7 @@ void orbitCameraPlugin(Cubos& cubos)
     cubos.addComponent<OrbitCameraController>();
 
     cubos.system("inputSystem").call([
-    ](Read<Input> input, Query<Write<OrbitCameraController>> cameras, Read<DeltaTime> deltaTime))
+    ](const Input& input, Query<Entity, OrbitCameraController&> cameras, const DeltaTime& deltaTime))
     {
         for (auto [entity, camera] : cameras)
         {
@@ -52,8 +50,8 @@ void orbitCameraPlugin(Cubos& cubos)
     }
 
     cubos.system("followSystem")
-        .call([](Query<Write<OrbitCameraController>, Write<Rotation>> cameras, Query<Write<Position>> positions,
-                 Read<DeltaTime> deltaTime, Query<Write<Player>> players))
+        .call([](Query<Entity, OrbitCameraController&, Rotation&> cameras, Query<Position&> positions,
+                 const DeltaTime& deltaTime, Query<Player&> players))
     {
         for (auto [orbitEntity, orbitCamera, orbitRotation] : cameras)
         {
@@ -83,7 +81,7 @@ void orbitCameraPlugin(Cubos& cubos)
     }
 
     cubos.system("registerSystem").call([
-    ](Write<ActiveCameras> activeCameras, Query<Read<OrbitCameraController>> orbitCameras))
+    ](ActiveCameras& activeCameras, Query<Entity, const OrbitCameraController&> orbitCameras))
     {
         for (auto [orbitEntity, orbitCamera] : orbitCameras)
         {
