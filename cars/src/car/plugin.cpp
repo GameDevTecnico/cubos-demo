@@ -17,17 +17,6 @@ void demo::carPlugin(Cubos& cubos)
         .call([](Commands cmds, const DeltaTime& dt, const Input& input, Query<Car&, Position&, Rotation&> query) {
             for (auto [car, position, rotation] : query)
             {
-                // When the user provides no input, the wheel's velocity will be set to the car's velocity.
-                // When the user breaks, the wheel's velocity will be set to a number lower than  the car's velocity.
-                // When the user accelerates, the wheel's velocity will be set to a number greater than the car's
-                // velocity, up to a maximum value.
-                //
-                // If the difference between the car's velocity and the wheel's velocity is higher than the wheels'
-                // grip, the car will skid. In this case, the car's angular velocity will be kept constant, until the
-                // car's speed is low enough to allow the wheels to grip again.
-                //
-                // Otherwise the car's angular velocity will be modified based on the car's speed and the user's input.
-
                 // Get the user's input.
                 auto throttle = glm::clamp(input.axis("throttle", car.player), 0.0F, 1.0F);
                 auto brake = glm::clamp(input.axis("brake", car.player), 0.0F, 1.0F);
@@ -42,41 +31,58 @@ void demo::carPlugin(Cubos& cubos)
                 auto wheelAngleDelta = steer * car.maxWheelAngle - car.wheelAngle;
                 car.wheelAngle += glm::clamp(wheelAngleDelta, -maxSteering, maxSteering);
 
-                // Update wheels' velocity.
-                auto wheelAcceleration = throttle * car.acceleration;
-                car.wheelVelocity += wheelAcceleration * dt.value;
-                auto wheelBraking = brake * car.braking * dt.value;
-                car.wheelVelocity -= glm::min(wheelBraking, car.wheelVelocity);
-                car.wheelVelocity = glm::clamp(car.wheelVelocity, 0.0F, car.maxWheelVelocity);
+                // Add acceleration the car's velocity.
+                auto acceleration = throttle * car.acceleration;
+                car.linearVelocity += acceleration * forward * dt.value;
 
-                // Pass as much of the wheel's velocity into the the car's velocity as possible.
-                auto remainingGrip = car.wheelGrip * dt.value;
-                auto velocityDifference = car.wheelVelocity - glm::dot(car.linearVelocity, forward);
-                velocityDifference = glm::clamp(velocityDifference, -2.0F * remainingGrip, 2.0F * remainingGrip);
-                remainingGrip -= 0.5F * glm::abs(velocityDifference);
-                car.linearVelocity += 0.5F * velocityDifference * forward;
-                car.wheelVelocity -= 0.5F * velocityDifference;
+                // Limit the car's velocity.
+                auto forwardVelocity = glm::dot(car.linearVelocity, forward);
+                if (forwardVelocity > car.maxVelocity)
+                {
+                    car.linearVelocity -= forward * (forwardVelocity - car.maxVelocity);
+                    forwardVelocity = car.maxVelocity;
+                }
+
+                // Apply drag and braking to the car's velocity.
+                if (forwardVelocity != 0.0F)
+                {
+                    auto drag = car.forwardDrag + car.forwardDragCoefficient * glm::abs(forwardVelocity);
+                    drag += brake * car.braking;
+                    drag *= dt.value;
+                    drag = glm::min(drag, glm::abs(forwardVelocity));
+                    car.linearVelocity -= forward * drag * glm::sign(forwardVelocity);
+                }
+
+                auto lateralVelocity = glm::dot(car.linearVelocity, right);
+                if (lateralVelocity != 0.0F)
+                {
+                    auto drag = car.lateralDrag + car.lateralDragCoefficient * glm::abs(lateralVelocity);
+                    drag *= dt.value;
+                    drag = glm::min(drag, glm::abs(lateralVelocity));
+                    car.linearVelocity -= right * drag * glm::sign(lateralVelocity);
+                }
+
+                auto grip = car.wheelGrip;
 
                 // Calculate the centripetal acceleration necessary for the car to follow the curve.
-                auto turningLinearVelocity = glm::dot(car.linearVelocity, forward);
+                forwardVelocity = glm::dot(car.linearVelocity, forward);
                 auto turningRadius = car.wheelBase / glm::sin(glm::radians(glm::abs(car.wheelAngle)));
-                auto turningAngularVelocity = glm::sign(car.wheelAngle) * turningLinearVelocity / turningRadius;
+                auto turningAngularVelocity = glm::sign(car.wheelAngle) * forwardVelocity / turningRadius;
                 auto centripetalAcceleration = turningAngularVelocity * turningAngularVelocity / turningRadius;
 
                 // Calculate how much of the car's velocity can be changed to follow the curve.
-                auto turningGrip = 1.0F;
+                auto turningRate = 1.0F;
                 if (centripetalAcceleration > 0.0F)
                 {
-                    turningGrip = glm::min(1.0F, remainingGrip / glm::abs(centripetalAcceleration));
+                    turningRate = glm::min(1.0F, grip / glm::abs(centripetalAcceleration));
                 }
 
                 // Calculate the angular velocity necessary for the car to follow the curve.
                 if (centripetalAcceleration > 0.0F)
                 {
-                    // Kill any lateral velocity.
                     car.angularVelocity = turningAngularVelocity;
                 }
-                else if (remainingGrip > 0.0F)
+                else if (turningRate > 0.0F)
                 {
                     car.angularVelocity = 0.0F;
                 }
@@ -86,26 +92,8 @@ void demo::carPlugin(Cubos& cubos)
                 rotation.quat = rotationDelta * rotation.quat;
 
                 // Rotate the car's velocity to match the car's new orientation.
-                car.linearVelocity = (rotationDelta * turningGrip) * car.linearVelocity;
-
-                // Apply drag to the car's velocity.
-                auto forwardVelocity = glm::dot(car.linearVelocity, forward);
-                if (forwardVelocity != 0.0F)
-                {
-                    auto drag = car.forwardDrag + car.forwardDragCoefficient * glm::abs(forwardVelocity);
-                    drag *= car.wheelGrip * dt.value;
-                    drag = glm::min(drag, glm::abs(forwardVelocity));
-                    car.linearVelocity -= forward * drag * glm::sign(forwardVelocity);
-                }
-
-                auto lateralVelocity = glm::dot(car.linearVelocity, right);
-                if (lateralVelocity != 0.0F)
-                {
-                    auto drag = car.lateralDrag + car.lateralDragCoefficient * glm::abs(lateralVelocity);
-                    drag *= car.wheelGrip * dt.value;
-                    drag = glm::min(drag, glm::abs(lateralVelocity));
-                    car.linearVelocity -= right * drag * glm::sign(lateralVelocity);
-                }
+                car.linearVelocity =
+                    car.linearVelocity * (1.0F - turningRate) + rotationDelta * car.linearVelocity * turningRate;
 
                 // Update the car's position.
                 position.vec += car.linearVelocity * dt.value;
@@ -117,7 +105,6 @@ void demo::carPlugin(Cubos& cubos)
         {
             car.linearVelocity = glm::vec3(0.0F);
             car.angularVelocity = 0.0F;
-            car.wheelVelocity = 0.0F;
             car.wheelAngle = 0.0F;
         }
     });
