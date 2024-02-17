@@ -9,7 +9,7 @@
     "axes": {
         "reverse": {
             "positive": [
-                "S"
+                "Down"
             ],
             "gamepadAxes": [
                 "LTrigger"
@@ -17,7 +17,7 @@
         },
         "throttle": {
             "positive": [
-                "W"
+                "Up"
             ],
             "gamepadAxes": [
                 "RTrigger"
@@ -25,10 +25,10 @@
         },
         "steer": {
             "positive": [
-                "D"
+                "Right"
             ],
             "negative": [
-                "A"
+                "Left"
             ],
             "gamepadAxes": [
                 "LX"
