@@ -6,6 +6,10 @@ add_executable(tanks
     src/health/death.cpp
     src/health/health.cpp
     src/health/plugin.cpp
+    src/bullet/bullet.cpp
+    src/bullet/plugin.cpp
+    src/gun/gun.cpp
+    src/gun/plugin.cpp
 )
 
 target_link_libraries(tanks tesseratos)
