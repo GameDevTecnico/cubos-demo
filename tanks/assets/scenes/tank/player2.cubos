@@ -1,0 +1,27 @@
+{
+  "entities": {
+    "tank.body": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "1218cd2c-7fb9-41de-ac12-52f11ae1e8f6",
+        "offset": {
+          "x": -10.0,
+          "y": 0.0,
+          "z": -10.0
+        }
+      }
+    },
+    "tank.turret": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "0df27d31-cb59-4a80-bc13-4d942075dc09",
+        "offset": {
+          "x": -10.0,
+          "y": 0.0,
+          "z": -10.0
+        }
+      }
+    }
+  },
+  "imports": {
+    "tank": "c73579b5-604a-4dac-abf8-2e5a8b82c96e"
+  }
+}
