@@ -12,6 +12,8 @@ add_executable(tanks
     src/gun/plugin.cpp
     src/tank/tank.cpp
     src/tank/plugin.cpp
+    src/flag/flag.cpp
+    src/flag/plugin.cpp
 )
 
 target_link_libraries(tanks tesseratos)
