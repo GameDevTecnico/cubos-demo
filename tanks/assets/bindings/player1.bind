@@ -33,6 +33,17 @@
             "gamepadAxes": [
                 "LX"
             ]
+        },
+        "tower-rotaytion": {
+            "positive": [
+                "E"
+            ],
+            "negative": [
+                "Q"
+            ],
+            "gamepadAxes": [
+                "RX"
+            ]
         }
     }
 }
