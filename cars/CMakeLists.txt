@@ -23,3 +23,4 @@ add_executable(cars
 target_link_libraries(cars tesseratos)
 target_compile_definitions(cars PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/assets")
 target_compile_features(cars PRIVATE cxx_std_20)
+common_demo_options(cars)
