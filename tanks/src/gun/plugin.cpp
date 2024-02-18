@@ -11,6 +11,7 @@
 using namespace cubos::engine;
 
 static const Asset<Scene> BulletSceneAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a331d7842f6");
+static const Asset<Scene> ExplosionSceneAsset = AnyAsset("a1a8d7bc-8d45-4aa2-ab53-462bf7b6733a");
 
 void gunPlugin(Cubos& cubos)
 {
@@ -33,6 +34,12 @@ void gunPlugin(Cubos& cubos)
                     auto impulse = Impulse{};
                     impulse.add(glm::vec3(glm::mat4(rotation.quat) * glm::vec4(gun.bulletImpulse, 1.0F)));
                     builder.add("bullet", impulse);
+
+                    // add explosion
+                    auto explosionBuilder = cmds.spawn(assets.read(ExplosionSceneAsset)->blueprint);
+                    explosionBuilder.add("explosion", Position{.vec = localToWorld.mat[3]});
+                    explosionBuilder.add("explosion", Rotation{.quat = rotation.quat});
+
                     gun.timeSinceLastShot = 0.0F;
                 }
             }
