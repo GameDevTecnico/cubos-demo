@@ -1,3 +1,4 @@
+#include "player.hpp"
 #include "health/plugin.hpp"
 #include "gun/plugin.hpp"
 #include "bullet/plugin.hpp"
@@ -30,6 +31,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(tesseratos::plugin);
 
     // Add game plugins
+    cubos.addComponent<Player>();
     cubos.addPlugin(healthPlugin);
     cubos.addPlugin(collisionsPlugin);
     cubos.addPlugin(physicsPlugin);
