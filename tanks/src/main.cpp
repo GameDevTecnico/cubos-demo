@@ -12,12 +12,14 @@
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/renderer/environment.hpp>
+#include <cubos/engine/scene/scene.hpp>
 
 #include <tesseratos/plugin.hpp>
 
 using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("1aa5e234-28cb-4386-99b4-39386b0fc215");
+static const Asset<Scene> MainSceneAsset = AnyAsset("86b845ff-3dff-4eb3-b792-43f1179774a5");
 static const Asset<InputBindings> EditorBindingsAsset = AnyAsset("d9bf75f2-d202-4340-b39f-33e958bdda29");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c3");
 static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("bf49ba61-5103-41bc-92e0-8a442d7842c4");
@@ -59,6 +61,15 @@ int main(int argc, char** argv)
         environment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
         environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
     });
+
+    cubos.startupSystem("load and spawn the Main Scene")
+        .tagged("cubos.assets")
+        .call([](Commands cmds, const Assets& assets, Settings& settings, ActiveCameras& cameras) {
+            if (settings.getBool("production", true))
+            {
+                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+            }
+        });
 
     cubos.run();
 }
