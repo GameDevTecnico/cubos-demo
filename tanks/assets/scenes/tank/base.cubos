@@ -1,0 +1,34 @@
+{
+  "entities": {
+    "body": {
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 0.20000000298023224
+    },
+    "turret": {
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0,
+      "cubos::engine::ChildOf@body": {}
+    }
+  },
+  "imports": {}
+}
