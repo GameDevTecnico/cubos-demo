@@ -7,7 +7,7 @@
 
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
-#include <cubos/engine/collisions/narrow_phase/colliding_with.hpp>
+#include <cubos/engine/collisions/colliding_with.hpp>
 
 using namespace cubos::engine;
 
