@@ -2,7 +2,7 @@
     "actions": {
         "shoot": {
             "keys": [
-                "N"
+                "F"
             ]
         }
     },
@@ -35,17 +35,6 @@
             ]
         },
         "tower-rotation": {
-            "positive": [
-                "E"
-            ],
-            "negative": [
-                "Q"
-            ],
-            "gamepadAxes": [
-                "RX"
-            ]
-        }
-        "tower-rotaytion": {
             "positive": [
                 "E"
             ],

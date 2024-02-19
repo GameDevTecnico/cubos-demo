@@ -8,6 +8,11 @@
           "y": 0.0,
           "z": -10.0
         }
+      },
+      "Tank": {
+        "player": 1,
+        "speed": 5,
+        "angularVelocity": 2
       }
     },
     "tank.turret": {
@@ -18,6 +23,13 @@
           "y": 0.0,
           "z": -10.0
         }
+      },
+      "Turret": {
+        "player": 1,
+        "rotationVelocity": 2
+      },
+      "Gun": {
+        "player": 1
       }
     }
   },

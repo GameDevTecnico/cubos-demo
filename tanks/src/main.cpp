@@ -3,6 +3,7 @@
 #include "gun/plugin.hpp"
 #include "bullet/plugin.hpp"
 #include "particles/plugin.hpp"
+#include "tank/plugin.hpp"
 
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/input/input.hpp>
@@ -41,6 +42,7 @@ int main(int argc, char** argv)
     cubos.addPlugin(gunPlugin);
     cubos.addPlugin(bulletPlugin);
     cubos.addPlugin(explosionPlugin);
+    cubos.addPlugin(tankPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged("cubos.settings").call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);

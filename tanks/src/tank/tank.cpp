@@ -5,15 +5,17 @@
 
 CUBOS_REFLECT_IMPL(Tank)
 {
-    return cubos::core::ecs::TypeBuilder<Tank>("Tank").withField("player", &Tank::player).build();
+    return cubos::core::ecs::TypeBuilder<Tank>("Tank")
+        .withField("player", &Tank::player)
+        .withField("speed", &Tank::speed)
+        .withField("angularVelocity", &Tank::angularVelocity)
+        .build();
 }
 
-CUBOS_REFLECT_IMPL(TankTower)
+CUBOS_REFLECT_IMPL(Turret)
 {
-    return cubos::core::ecs::TypeBuilder<TankTower>("TankTower").build();
-}
-
-CUBOS_REFLECT_IMPL(TankBody)
-{
-    return cubos::core::ecs::TypeBuilder<TankBody>("TankBody").withField("speed", &TankBody::speed).withField("angularVelocity", &TankBody::angularVelocity).build();
+    return cubos::core::ecs::TypeBuilder<Turret>("Turret")
+        .withField("player", &Turret::player)
+        .withField("rotationVelocity", &Turret::rotationVelocity)
+        .build();
 }
