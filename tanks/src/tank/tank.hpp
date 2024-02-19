@@ -2,20 +2,17 @@
 
 #include <cubos/core/reflection/reflect.hpp>
 
-struct Tank{
+struct Tank
+{
     CUBOS_REFLECT;
     int player;
-};
-
-struct TankTower
-{
-    CUBOS_REFLECT;
-    float rotationVelocity;
-};
-
-struct TankBody
-{
-    CUBOS_REFLECT;
     float speed;
     float angularVelocity;
+};
+
+struct Turret
+{
+    CUBOS_REFLECT;
+    int player;
+    float rotationVelocity;
 };
