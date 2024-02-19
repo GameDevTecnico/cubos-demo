@@ -15,6 +15,7 @@
 #include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/renderer/environment.hpp>
 #include <cubos/engine/scene/scene.hpp>
+#include <cubos/engine/splitscreen/plugin.hpp>
 
 #include <tesseratos/plugin.hpp>
 
@@ -30,6 +31,7 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.addPlugin(tesseratos::plugin);
+    cubos.addPlugin(splitscreenPlugin);
 
     // Add game plugins
     cubos.addComponent<Player>();
@@ -71,7 +73,9 @@ int main(int argc, char** argv)
         .call([](Commands cmds, const Assets& assets, Settings& settings, ActiveCameras& cameras) {
             if (settings.getBool("production", true))
             {
-                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+                auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+                cameras.entities[0] = builder.entity("player1.tank.camera");
+                cameras.entities[1] = builder.entity("player2.tank.camera");
             }
         });
 
