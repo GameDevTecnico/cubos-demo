@@ -16,11 +16,47 @@ static const Asset<Scene> ParticleAsset = AnyAsset("3651b5f5-e6be-4d8e-b0fb-1e4d
 void explosionPlugin(Cubos& cubos)
 {
     cubos.addComponent<GunShootExplosion>();
-    // cubos.addComponent<BulletHitExplosion>();
+    cubos.addComponent<BulletHitExplosion>();
     cubos.addComponent<Particle>();
 
     // system for managing the effects when a bullet hits a target
-    // maybe different color acording to tank or wall
+    // maybe different color according to tank or wall
+    cubos.system("update bullet explosion")
+        .call([](Commands cmds, const DeltaTime& dt, Assets& assets,
+                 Query<Entity, BulletHitExplosion&, const Position&> query) {
+            for (auto [ent, explosion, position] : query)
+            {
+                // If explosion duration is over, stop updating it.
+                if (explosion.duration <= 0.0F)
+                {
+                    cmds.destroy(ent);
+                    continue;
+                }
+
+                explosion.duration -= dt.value;
+
+                // Spawn a new particle every time the timer reaches 0.
+                explosion.timer -= dt.value;
+                auto readAsset = assets.read(ParticleAsset);
+                while (explosion.timer <= 0.0F)
+                {
+                    explosion.timer += explosion.particleTime;
+
+                    // Pick a random direction for the particle to move in.
+                    glm::vec3 velocity = glm::normalize(glm::ballRand(1.0F));
+                    velocity *= 5.0F;
+
+                    // Spawn the particle scene and add the Particle component.
+                    cmds.spawn(readAsset->blueprint)
+                        .add("particle", Particle{.startLife = explosion.particleLife,
+                                                  .life = explosion.particleLife,
+                                                  .size = glm::linearRand(0.05F, 0.2F),
+                                                  .velocity = velocity})
+                        .add("particle", Position{.vec = position.vec})
+                        .add("particle", Scale{.factor = 0.0F});
+                }
+            }
+        });
 
     // system for managing the gun explosion effects
     cubos.system("update gun explosion")
@@ -39,6 +75,7 @@ void explosionPlugin(Cubos& cubos)
 
                 // Spawn a new particle every time the timer reaches 0.
                 explosion.timer -= dt.value;
+                auto readAsset = assets.read(ParticleAsset);
                 while (explosion.timer <= 0.0F)
                 {
                     explosion.timer += explosion.particleTime;
@@ -53,7 +90,7 @@ void explosionPlugin(Cubos& cubos)
                     velocity *= 10.0F;
 
                     // Spawn the particle scene and add the Particle component.
-                    cmds.spawn(assets.read(ParticleAsset)->blueprint)
+                    cmds.spawn(readAsset->blueprint)
                         .add("particle", Particle{.startLife = explosion.particleLife,
                                                   .life = explosion.particleLife,
                                                   .size = glm::linearRand(0.05F, 0.2F),
