@@ -14,6 +14,7 @@ add_executable(tanks
     src/tank/plugin.cpp
     src/particles/particle.cpp
     src/particles/gun_shoot_explosion.cpp
+    src/particles/bullet_hit_explosion.cpp
     src/particles/plugin.cpp
 )
 
