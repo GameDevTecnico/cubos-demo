@@ -1,10 +1,11 @@
 #include "plugin.hpp"
 #include "../health/health.hpp"
+#include "../health/plugin.hpp"
 #include <cubos/engine/collisions/colliding_with.hpp>
+#include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/assets/asset.hpp>
-#include <cubos/engine/assets/assets.hpp>
+#include <cubos/engine/assets/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -12,10 +13,15 @@ static const Asset<Scene> ExplosionSceneAsset = AnyAsset("a1a8d7bc-8d45-4aa2-ab5
 
 void bulletPlugin(Cubos& cubos)
 {
-    cubos.addComponent<Bullet>();
+    cubos.depends(assetsPlugin);
+    cubos.depends(transformPlugin);
+    cubos.depends(collisionsPlugin);
+    cubos.depends(healthPlugin);
+
+    cubos.component<Bullet>();
 
     cubos.system("hit entity")
-        .after("cubos.collisions.narrow")
+        .after(collisionsTag)
         .call([](Commands cmds, const Assets& assets,
                  Query<Entity, Bullet&, const Position&, const CollidingWith&, Entity, Opt<Health&>> query) {
             for (auto [ent1, bullet, position, colliding, ent2, health] : query)
@@ -40,7 +46,7 @@ void bulletPlugin(Cubos& cubos)
             {
                 cmds.destroy(ent);
             }
-            bullet.time += dt.value;
+            bullet.time += dt.value();
         }
     });
 }

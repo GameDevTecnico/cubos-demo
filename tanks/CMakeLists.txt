@@ -3,7 +3,8 @@
 
 add_executable(tanks
     src/main.cpp
-    src/player.cpp
+    src/player/player.cpp
+    src/player/plugin.cpp
     src/health/death.cpp
     src/health/health.cpp
     src/health/plugin.cpp

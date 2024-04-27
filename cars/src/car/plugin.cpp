@@ -1,19 +1,26 @@
 #include "plugin.hpp"
 #include "car.hpp"
-#include "../dead.hpp"
+#include "../dead/plugin.hpp"
+#include "../dead/dead.hpp"
 
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/input/input.hpp>
+#include <cubos/engine/input/plugin.hpp>
+#include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/collisions/colliding_with.hpp>
 
 using namespace cubos::engine;
 
 void demo::carPlugin(Cubos& cubos)
 {
-    cubos.addComponent<Car>();
+    cubos.depends(transformPlugin);
+    cubos.depends(deadPlugin);
+    cubos.depends(inputPlugin);
+    cubos.depends(collisionsPlugin);
+
+    cubos.component<Car>();
 
     cubos.system("move car")
-        .before("cubos.transform.update")
+        .before(transformUpdateTag)
         .without<Dead>() // Don't move dead cars.
         .call([](Commands cmds, const DeltaTime& dt, const Input& input, Query<Car&, Position&, Rotation&> query) {
             for (auto [car, position, rotation] : query)
@@ -28,20 +35,20 @@ void demo::carPlugin(Cubos& cubos)
                 auto right = rotation.quat * glm::vec3(1.0F, 0.0F, 0.0F);
 
                 // Turn the car's wheels.
-                auto maxSteering = car.steeringSpeed * dt.value;
+                auto maxSteering = car.steeringSpeed * dt.value();
                 auto wheelAngleDelta = steer * car.maxWheelAngle - car.wheelAngle;
                 car.wheelAngle += glm::clamp(wheelAngleDelta, -maxSteering, maxSteering);
 
                 // Add acceleration the car's velocity.
                 auto acceleration = throttle * car.acceleration;
-                car.linearVelocity += acceleration * forward * dt.value;
+                car.linearVelocity += acceleration * forward * dt.value();
                 auto forwardVelocity = glm::dot(car.linearVelocity, forward);
 
                 if (forwardVelocity <= 0.0F)
                 {
                     // Apply reverse acceleration to the car's velocity.
                     auto reverseAcceleration = reverse * car.acceleration;
-                    car.linearVelocity -= reverseAcceleration * forward * dt.value;
+                    car.linearVelocity -= reverseAcceleration * forward * dt.value();
                     forwardVelocity = glm::dot(car.linearVelocity, forward);
                 }
 
@@ -63,7 +70,7 @@ void demo::carPlugin(Cubos& cubos)
                         drag += reverse * car.braking;
                     }
 
-                    drag *= dt.value;
+                    drag *= dt.value();
                     drag = glm::min(drag, glm::abs(forwardVelocity));
                     car.linearVelocity -= forward * drag * glm::sign(forwardVelocity);
                 }
@@ -72,7 +79,7 @@ void demo::carPlugin(Cubos& cubos)
                 if (lateralVelocity != 0.0F)
                 {
                     auto drag = car.lateralDrag + car.lateralDragCoefficient * glm::abs(lateralVelocity);
-                    drag *= dt.value;
+                    drag *= dt.value();
                     drag = glm::min(drag, glm::abs(lateralVelocity));
                     car.linearVelocity -= right * drag * glm::sign(lateralVelocity);
                 }
@@ -103,7 +110,7 @@ void demo::carPlugin(Cubos& cubos)
                 }
 
                 // Update the car's rotation.
-                auto rotationDelta = glm::angleAxis(car.angularVelocity * dt.value, glm::vec3(0.0F, 1.0F, 0.0F));
+                auto rotationDelta = glm::angleAxis(car.angularVelocity * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
                 rotation.quat = rotationDelta * rotation.quat;
 
                 // Rotate the car's velocity to match the car's new orientation.
@@ -111,7 +118,7 @@ void demo::carPlugin(Cubos& cubos)
                     car.linearVelocity * (1.0F - turningRate) + rotationDelta * car.linearVelocity * turningRate;
 
                 // Update the car's position.
-                position.vec += car.linearVelocity * dt.value;
+                position.vec += car.linearVelocity * dt.value();
             }
         });
 

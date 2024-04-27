@@ -2,27 +2,39 @@
 #include "checkpoint.hpp"
 #include "obstacle.hpp"
 #include "racer.hpp"
-#include "../dead.hpp"
+#include "../dead/dead.hpp"
+#include "../dead/plugin.hpp"
 #include "../explosion/explosion.hpp"
+#include "../explosion/plugin.hpp"
 
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/collisions/colliding_with.hpp>
+#include <cubos/engine/collisions/plugin.hpp>
 
 using namespace cubos::engine;
 
+static CUBOS_DEFINE_TAG(raceKill);
+
 void demo::racePlugin(Cubos& cubos)
 {
-    cubos.addComponent<Checkpoint>();
-    cubos.addComponent<Obstacle>();
-    cubos.addComponent<Racer>();
+    cubos.depends(deadPlugin);
+    cubos.depends(explosionPlugin);
+    cubos.depends(transformPlugin);
+    cubos.depends(collisionsPlugin);
+
+    cubos.component<Checkpoint>();
+    cubos.component<Obstacle>();
+    cubos.component<Racer>();
+
+    cubos.tag(raceKill);
 
     cubos.system("increase racers lap time").call([](const DeltaTime& dt, Query<Racer&> query) {
         for (auto [racer] : query)
         {
             if (!racer.currentCheckpoint.isNull())
             {
-                racer.currentLapTime += dt.value;
+                racer.currentLapTime += dt.value();
             }
         }
     });
@@ -63,7 +75,7 @@ void demo::racePlugin(Cubos& cubos)
         });
 
     cubos.system("kill racers on obstacle collision")
-        .tagged("race.kill")
+        .tagged(raceKill)
         .entity()
         .with<Racer>()
         .without<Dead>()
@@ -79,7 +91,7 @@ void demo::racePlugin(Cubos& cubos)
 
     cubos.system("reset racers after explosion is over")
         .entity()
-        .after("race.kill")
+        .after(raceKill)
         .with<Dead>()
         .call([](Commands cmds, Query<Entity, Racer&, Position&, Rotation&, Explosion&> query) {
             for (auto [ent, racer, position, rotation, explosion] : query)

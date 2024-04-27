@@ -16,7 +16,9 @@ add_executable(cars
     src/race/plugin.cpp
     src/race/racer.cpp
 
-    src/dead.cpp
+    src/dead/dead.cpp
+    src/dead/plugin.cpp
+
     src/main.cpp
 )
 

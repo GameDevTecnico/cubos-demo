@@ -2,16 +2,18 @@
 #include "tank.hpp"
 
 #include <glm/glm.hpp>
-#include <cubos/engine/transform/position.hpp>
-#include <cubos/engine/transform/rotation.hpp>
-#include <cubos/engine/input/input.hpp>
+#include <cubos/engine/transform/plugin.hpp>
+#include <cubos/engine/input/plugin.hpp>
 
 using namespace cubos::engine;
 
 void tankPlugin(Cubos& cubos)
 {
-    cubos.addComponent<Tank>();
-    cubos.addComponent<Turret>();
+    cubos.depends(transformPlugin);
+    cubos.depends(inputPlugin);
+
+    cubos.component<Tank>();
+    cubos.component<Turret>();
 
     cubos.system("move tanks")
         .call([](const DeltaTime& dt, const Input& input, Query<Tank&, Position&, Rotation&> query) {
@@ -25,9 +27,9 @@ void tankPlugin(Cubos& cubos)
                 auto forward = rotation.quat * glm::vec3(1.0F, 0.0F, 0.0F);
 
                 auto rotationDelta =
-                    glm::angleAxis(steer * tank.angularVelocity * dt.value, glm::vec3(0.0F, 1.0F, 0.0F));
+                    glm::angleAxis(steer * tank.angularVelocity * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
                 rotation.quat = rotationDelta * rotation.quat;
-                position.vec += forward * tank.speed * movement * dt.value;
+                position.vec += forward * tank.speed * movement * dt.value();
             }
         });
 
@@ -37,7 +39,7 @@ void tankPlugin(Cubos& cubos)
             auto steer = input.axis("tower-rotation", tower.player);
 
             auto towerRotationDelta =
-                glm::angleAxis(steer * tower.rotationVelocity * dt.value, glm::vec3(0.0F, 1.0F, 0.0F));
+                glm::angleAxis(steer * tower.rotationVelocity * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
             rotation.quat = towerRotationDelta * rotation.quat;
         }
     });

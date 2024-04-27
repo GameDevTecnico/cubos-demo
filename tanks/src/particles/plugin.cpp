@@ -4,7 +4,7 @@
 #include "particle.hpp"
 
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/scene/plugin.hpp>
 
 #include <glm/gtc/random.hpp>
@@ -15,9 +15,12 @@ static const Asset<Scene> ParticleAsset = AnyAsset("3651b5f5-e6be-4d8e-b0fb-1e4d
 
 void explosionPlugin(Cubos& cubos)
 {
-    cubos.addComponent<GunShootExplosion>();
-    cubos.addComponent<BulletHitExplosion>();
-    cubos.addComponent<Particle>();
+    cubos.depends(transformPlugin);
+    cubos.depends(assetsPlugin);
+
+    cubos.component<GunShootExplosion>();
+    cubos.component<BulletHitExplosion>();
+    cubos.component<Particle>();
 
     // system for managing the effects when a bullet hits a target
     // maybe different color according to tank or wall
@@ -33,10 +36,10 @@ void explosionPlugin(Cubos& cubos)
                     continue;
                 }
 
-                explosion.duration -= dt.value;
+                explosion.duration -= dt.value();
 
                 // Spawn a new particle every time the timer reaches 0.
-                explosion.timer -= dt.value;
+                explosion.timer -= dt.value();
                 auto readAsset = assets.read(ParticleAsset);
                 while (explosion.timer <= 0.0F)
                 {
@@ -71,10 +74,10 @@ void explosionPlugin(Cubos& cubos)
                     continue;
                 }
 
-                explosion.duration -= dt.value;
+                explosion.duration -= dt.value();
 
                 // Spawn a new particle every time the timer reaches 0.
-                explosion.timer -= dt.value;
+                explosion.timer -= dt.value();
                 auto readAsset = assets.read(ParticleAsset);
                 while (explosion.timer <= 0.0F)
                 {
@@ -105,7 +108,7 @@ void explosionPlugin(Cubos& cubos)
         .call([](Commands cmds, const DeltaTime& dt, Query<Entity, Particle&, Position&, Scale&> query) {
             for (auto [ent, particle, position, scale] : query)
             {
-                particle.life -= dt.value;
+                particle.life -= dt.value();
                 if (particle.life <= 0.0F)
                 {
                     // If particle life is over, destroy its entity.
@@ -113,8 +116,8 @@ void explosionPlugin(Cubos& cubos)
                     continue;
                 }
 
-                position.vec += particle.velocity * dt.value;
-                particle.velocity /= 1.0 + 1.0 * dt.value;
+                position.vec += particle.velocity * dt.value();
+                particle.velocity /= 1.0 + 1.0 * dt.value();
                 scale.factor = (particle.life / particle.startLife) * particle.size;
             }
         });

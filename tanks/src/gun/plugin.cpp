@@ -3,10 +3,9 @@
 #include <cubos/engine/input/input.hpp>
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/transform/plugin.hpp>
-
-#include <cubos/engine/assets/asset.hpp>
-#include <cubos/engine/assets/assets.hpp>
 #include <cubos/engine/physics/plugin.hpp>
+#include <cubos/engine/input/plugin.hpp>
+#include <cubos/engine/assets/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -15,7 +14,11 @@ static const Asset<Scene> ExplosionSceneAsset = AnyAsset("a1a8d7bc-8d45-4aa2-ab5
 
 void gunPlugin(Cubos& cubos)
 {
-    cubos.addComponent<Gun>();
+    cubos.depends(inputPlugin);
+    cubos.depends(assetsPlugin);
+    cubos.depends(transformPlugin);
+
+    cubos.component<Gun>();
 
     cubos.system("shoot projectile")
         .call([](Commands cmds, const DeltaTime& dt, const Input& input, const Assets& assets,
@@ -23,7 +26,7 @@ void gunPlugin(Cubos& cubos)
             // increase bullet time
             for (auto [gun, localToWorld, childOf, rotation] : query)
             {
-                gun.timeSinceLastShot += dt.value;
+                gun.timeSinceLastShot += dt.value();
 
                 // shoot if we can and want to
                 if (input.pressed("shoot", gun.player) && gun.timeSinceLastShot >= gun.minTimeBetweenShots)

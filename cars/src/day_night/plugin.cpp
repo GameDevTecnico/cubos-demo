@@ -1,9 +1,10 @@
 #include "plugin.hpp"
 
-#include <cubos/engine/renderer/directional_light.hpp>
-#include <cubos/engine/renderer/environment.hpp>
-#include <cubos/engine/renderer/spot_light.hpp>
-#include <cubos/engine/input/input.hpp>
+#include <cubos/engine/render/lights/directional.hpp>
+#include <cubos/engine/render/lights/environment.hpp>
+#include <cubos/engine/render/lights/spot.hpp>
+#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/input/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -18,7 +19,10 @@ namespace
 
 void demo::dayNightPlugin(Cubos& cubos)
 {
-    cubos.addResource<State>();
+    cubos.depends(rendererPlugin);
+    cubos.depends(inputPlugin);
+
+    cubos.resource<State>();
 
     cubos.system("toggle day/night").call([](State& state, Input& input) {
         if (input.pressed("day-night-toggle"))
@@ -36,8 +40,8 @@ void demo::dayNightPlugin(Cubos& cubos)
     });
 
     cubos.system("set Renderer Environment")
-        .tagged("cubos.renderer.frame")
-        .call([](State& state, RendererEnvironment& environment, Query<DirectionalLight&> sun,
+        .tagged(rendererFrameTag)
+        .call([](State& state, RenderEnvironment& environment, Query<DirectionalLight&> sun,
                  Query<SpotLight&> spotLights) {
             for (auto [light] : sun)
             {

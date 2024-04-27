@@ -4,21 +4,23 @@
 #include "explosion/plugin.hpp"
 #include "race/plugin.hpp"
 #include "race/racer.hpp"
-#include "dead.hpp"
+#include "dead/plugin.hpp"
 
 #include <imgui.h>
 
-#include <cubos/engine/prelude.hpp>
 #include <cubos/engine/input/input.hpp>
 #include <cubos/engine/input/bindings.hpp>
 #include <cubos/engine/assets/asset.hpp>
 #include <cubos/engine/assets/assets.hpp>
-#include <cubos/engine/settings/settings.hpp>
+#include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
+#include <cubos/engine/defaults/plugin.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
-#include <cubos/engine/renderer/environment.hpp>
+#include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/splitscreen/plugin.hpp>
+#include <cubos/engine/imgui/plugin.hpp>
+#include <cubos/engine/utils/free_camera/plugin.hpp>
 
 #include <tesseratos/plugin.hpp>
 
@@ -33,23 +35,24 @@ static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("bf49ba61-5103
 int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
-    cubos.addPlugin(tesseratos::plugin);
-    cubos.addPlugin(splitscreenPlugin);
+    cubos.plugin(defaultsPlugin);
+    cubos.plugin(freeCameraPlugin);
+    cubos.plugin(tesseratos::plugin);
 
     // Add game components and plugins.
-    cubos.addComponent<demo::Dead>();
-    cubos.addPlugin(demo::carPlugin);
-    cubos.addPlugin(demo::dayNightPlugin);
-    cubos.addPlugin(demo::explosionPlugin);
-    cubos.addPlugin(demo::racePlugin);
+    cubos.plugin(demo::deadPlugin);
+    cubos.plugin(demo::carPlugin);
+    cubos.plugin(demo::dayNightPlugin);
+    cubos.plugin(demo::explosionPlugin);
+    cubos.plugin(demo::racePlugin);
 
-    cubos.startupSystem("configure Assets plugin").tagged("cubos.settings").call([](Settings& settings) {
+    cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
         settings.setBool("assets.io.readOnly", false);
     });
 
     cubos.startupSystem("load and set the Input Bindings")
-        .tagged("cubos.assets")
+        .tagged(assetsTag)
         .call([](const Assets& assets, Input& input) {
             input.bind(*assets.read<InputBindings>(EditorBindingsAsset), 0);
             input.bind(*assets.read<InputBindings>(Player1BindingsAsset), 1);
@@ -57,20 +60,20 @@ int main(int argc, char** argv)
         });
 
     cubos.startupSystem("load and set the Voxel Palette")
-        .tagged("cubos.assets")
-        .after("cubos.renderer.init")
+        .tagged(assetsTag)
+        .after(rendererInitTag)
         .call([](const Assets& assets, Renderer& renderer) {
             renderer->setPalette(*assets.read<VoxelPalette>(PaletteAsset));
         });
 
-    cubos.startupSystem("set environment").call([](RendererEnvironment& environment) {
+    cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
         environment.ambient = {0.4F, 0.4F, 0.4F};
         environment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
         environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
     });
 
     cubos.startupSystem("load and spawn the Main Scene")
-        .tagged("cubos.assets")
+        .tagged(assetsTag)
         .call([](Commands cmds, const Assets& assets, Settings& settings, ActiveCameras& cameras) {
             if (settings.getBool("production", true))
             {
@@ -80,7 +83,7 @@ int main(int argc, char** argv)
             }
         });
 
-    cubos.system("show lap times").tagged("cubos.imgui").call([](Query<const demo::Car&, const demo::Racer&> query) {
+    cubos.system("show lap times").tagged(imguiTag).call([](Query<const demo::Car&, const demo::Racer&> query) {
         for (auto [car, racer] : query)
         {
             std::string title = "Lap Times for Player " + std::to_string(car.player);

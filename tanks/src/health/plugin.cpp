@@ -6,8 +6,8 @@ using namespace cubos::engine;
 
 void healthPlugin(Cubos& cubos)
 {
-    cubos.addComponent<Health>();
-    cubos.addComponent<Death>();
+    cubos.component<Health>();
+    cubos.component<Death>();
 
     cubos.system("kill entities with non-positive health")
         .without<Death>() // We don't want to kill dead entities
