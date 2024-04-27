@@ -1,0 +1,40 @@
+{
+    "actions": {
+        "debug-camera-toggle": {
+            "keys": [
+                "R"
+            ]
+        },
+        "day-night-toggle": {
+            "keys": [
+                "N"
+            ]
+        }
+    },
+    "axes": {
+        "debug-move-lateral": {
+            "positive": [
+                "D"
+            ],
+            "negative": [
+                "A"
+            ]
+        },
+        "debug-move-vertical": {
+            "positive": [
+                "E"
+            ],
+            "negative": [
+                "Q"
+            ]
+        },
+        "debug-move-longitudinal": {
+            "positive": [
+                "W"
+            ],
+            "negative": [
+                "S"
+            ]
+        }
+    }
+}

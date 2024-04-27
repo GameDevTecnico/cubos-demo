@@ -1,0 +1,31 @@
+{
+    "axes": {
+        "reverse": {
+            "positive": [
+                "S"
+            ],
+            "gamepadAxes": [
+                "LTrigger"
+            ]
+        },
+        "throttle": {
+            "positive": [
+                "W"
+            ],
+            "gamepadAxes": [
+                "RTrigger"
+            ]
+        },
+        "steer": {
+            "positive": [
+                "D"
+            ],
+            "negative": [
+                "A"
+            ],
+            "gamepadAxes": [
+                "LX"
+            ]
+        }
+    }
+}
