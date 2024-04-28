@@ -22,6 +22,9 @@ namespace demo
         /// @brief How many tiles are in the side of a single chunk.
         int chunkSide = 8;
 
+        /// @brief How many voxels wide is a single tile.
+        int tileSide = 8;
+
         /// @brief Map of tile indices to their voxel grids.
         std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> types;
 

@@ -1,0 +1,26 @@
+{
+    "axes": {
+        "move-x": {
+            "positive": [
+                "Down"
+            ],
+            "negative": [
+                "Up"
+            ],
+            "gamepadAxes": [
+                "LX"
+            ]
+        },
+        "move-y": {
+            "positive": [
+                "Left"
+            ],
+            "negative": [
+                "Right"
+            ],
+            "gamepadAxes": [
+                "LY"
+            ]
+        }
+    }
+}

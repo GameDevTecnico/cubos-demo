@@ -12,6 +12,7 @@ CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
         .withField("seed", &TileMapGenerator::seed)
         .withField("mapSide", &TileMapGenerator::mapSide)
         .withField("chunkSide", &TileMapGenerator::chunkSide)
+        .withField("tileSide", &TileMapGenerator::tileSide)
         .withField("grass", &TileMapGenerator::grass)
         .withField("roadLine", &TileMapGenerator::roadLine)
         .withField("roadSimple", &TileMapGenerator::roadSimple)
@@ -31,6 +32,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
             for (auto [entity, generator] : query)
             {
                 TileMap map{.chunkSide = generator.chunkSide,
+                            .tileSide = generator.tileSide,
                             .types = {
                                 generator.grass,
                                 generator.roadLine,

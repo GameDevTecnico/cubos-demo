@@ -1,0 +1,20 @@
+{
+    "entities": {
+        "base.body": {
+            "cubos::engine::RenderableGrid": {
+                "asset": "8127cf38-825a-464a-8912-c29c2c3570bf",
+                "offset": {
+                    "x": -4.0,
+                    "y": 0.0,
+                    "z": -4.0
+                }
+            },
+            "demo::PlayerController": {
+                "player": 2
+            }
+        }
+    },
+    "imports": {
+        "base": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c"
+    }
+}

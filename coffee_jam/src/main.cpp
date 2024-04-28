@@ -28,6 +28,7 @@ static const Asset<VoxelPalette> PaletteAsset = AnyAsset("5c813e4f-8bbb-4a69-8d2
 static const Asset<Scene> MainSceneAsset = AnyAsset("1d2c5bae-f6ec-4986-bc9a-d2863b317c47");
 static const Asset<InputBindings> EditorBindingsAsset = AnyAsset("2f295ec8-aada-41dd-814b-281c5b5859ae");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
+static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("ca74927e-8f5e-4e45-b9e5-184533e2a646");
 
 int main(int argc, char** argv)
 {
@@ -53,6 +54,7 @@ int main(int argc, char** argv)
         .call([](const Assets& assets, Input& input) {
             input.bind(*assets.read<InputBindings>(EditorBindingsAsset), 0);
             input.bind(*assets.read<InputBindings>(Player1BindingsAsset), 1);
+            input.bind(*assets.read<InputBindings>(Player2BindingsAsset), 2);
         });
 
     cubos.startupSystem("load and set the Voxel Palette")
@@ -75,6 +77,7 @@ int main(int argc, char** argv)
             {
                 auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
                 cameras.entities[0] = builder.entity("player1.base.camera");
+                cameras.entities[1] = builder.entity("player2.base.camera");
             }
         });
 
