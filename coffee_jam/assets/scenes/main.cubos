@@ -23,49 +23,13 @@
       "cubos::engine::Scale": 1.0
     },
     "map": {
-      "demo::TileMap": {
-        "types": {
-          "grass": "c04aa95d-42ff-488d-9be7-843a6c40935b",
-          "road": "d088afea-dd71-4c30-b248-e6fcb7cf6757",
-          "sidewalk": "9c18b6fd-3e9e-400e-857b-42619c1c2615"
-        },
-        "tiles": [
-          [
-            "grass",
-            "sidewalk",
-            "road",
-            "sidewalk",
-            "grass"
-          ],
-          [
-            "grass",
-            "sidewalk",
-            "road",
-            "sidewalk",
-            "grass"
-          ],
-          [
-            "grass",
-            "sidewalk",
-            "road",
-            "sidewalk",
-            "grass"
-          ],
-          [
-            "grass",
-            "sidewalk",
-            "road",
-            "sidewalk",
-            "grass"
-          ],
-          [
-            "grass",
-            "sidewalk",
-            "road",
-            "sidewalk",
-            "grass"
-          ]
-        ]
+      "demo::TileMapGenerator": {
+        "mapSide": 64,
+        "chunkSide": 16,
+        "grass": "e0d9109d-97b3-400d-8f5d-d828f2bc7d85",
+        "roadLine": "e03ac906-f2cd-4f66-bdbb-eeb485d83968",
+        "roadSimple": "52c91b69-03ae-4643-9927-6ebc5107d441",
+        "sidewalk": "b00eacaa-e28e-47a4-86e9-ada73c086317"
       }
     }
   },

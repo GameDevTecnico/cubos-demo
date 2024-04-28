@@ -4,7 +4,8 @@
 add_executable(coffee-jam
     src/main.cpp
     src/follow/plugin.cpp
-    src/tiles/plugin.cpp
+    src/tile_map/plugin.cpp
+    src/tile_map_generator/plugin.cpp
     src/walker/plugin.cpp
     src/player_controller/plugin.cpp
 )
