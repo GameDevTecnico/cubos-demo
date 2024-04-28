@@ -11,9 +11,11 @@ using namespace cubos::engine;
 CUBOS_REFLECT_IMPL(demo::Walker)
 {
     return cubos::core::ecs::TypeBuilder<Walker>("demo::Walker")
+        .withField("position", &Walker::position)
         .withField("direction", &Walker::direction)
         .withField("jumpHeight", &Walker::jumpHeight)
         .withField("speed", &Walker::speed)
+        .withField("progress", &Walker::progress)
         .build();
 }
 

@@ -15,6 +15,8 @@ namespace demo
         float phi{0.0F};
         float theta{0.0F};
         float speed{1.0F};
+
+        bool initialized{false};
     };
 
     void followPlugin(cubos::engine::Cubos& cubos);
