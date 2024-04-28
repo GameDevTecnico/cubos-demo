@@ -17,7 +17,8 @@
 #include <tesseratos/plugin.hpp>
 
 #include "follow/plugin.hpp"
-#include "tiles/plugin.hpp"
+#include "tile_map/plugin.hpp"
+#include "tile_map_generator/plugin.hpp"
 #include "walker/plugin.hpp"
 #include "player_controller/plugin.hpp"
 
@@ -37,7 +38,8 @@ int main(int argc, char** argv)
 
     // Add game plugins
     cubos.plugin(demo::followPlugin);
-    cubos.plugin(demo::tilesPlugin);
+    cubos.plugin(demo::tileMapPlugin);
+    cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::walkerPlugin);
     cubos.plugin(demo::playerControllerPlugin);
 
