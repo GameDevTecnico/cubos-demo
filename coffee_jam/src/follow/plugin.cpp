@@ -26,7 +26,7 @@ void demo::followPlugin(Cubos& cubos)
 
     cubos.system("update Follow relation transforms")
         .before(transformUpdateTag)
-        .call([](const DeltaTime& dt, Query<Position&, Rotation&, const Follow&, const Position&> query) {
+        .call([](const DeltaTime& dt, Query<Position&, Rotation&, Follow&, const Position&> query) {
             for (auto [position, rotation, follow, targetPosition] : query)
             {
                 // Calculate the position we want to be in.
@@ -40,7 +40,16 @@ void demo::followPlugin(Cubos& cubos)
                 // Move towards the desired position.
                 glm::vec3 moveDirection = desired - position.vec;
                 auto distanceToDesired = glm::length(moveDirection);
-                position.vec += moveDirection * glm::min(1.0F, follow.speed * dt.value() / distanceToDesired);
+
+                if (follow.initialized)
+                {
+                    position.vec += moveDirection * glm::min(1.0F, follow.speed * dt.value() / distanceToDesired);
+                }
+                else
+                {
+                    position.vec = desired;
+                    follow.initialized = true;
+                }
 
                 // Set the rotation to look at where the target would be if we had reached the desired position.
                 rotation.quat = glm::quatLookAt(glm::normalize(-offset), glm::vec3(0.0F, 1.0F, 0.0F));

@@ -9,6 +9,10 @@
       },
       "cubos::engine::Scale": 1.0,
       "demo::Walker": {
+        "position": {
+          "x": 4,
+          "y": 4
+        },
         "speed": 5.0,
         "jumpHeight": 2.5
       }
