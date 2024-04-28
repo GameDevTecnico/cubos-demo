@@ -17,6 +17,7 @@
 #include <tesseratos/plugin.hpp>
 
 #include "follow/plugin.hpp"
+#include "tiles/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -34,6 +35,7 @@ int main(int argc, char** argv)
 
     // Add game plugins
     cubos.plugin(demo::followPlugin);
+    cubos.plugin(demo::tilesPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);

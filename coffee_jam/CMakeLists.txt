@@ -4,6 +4,7 @@
 add_executable(coffee-jam
     src/main.cpp
     src/follow/plugin.cpp
+    src/tiles/plugin.cpp
 )
 
 target_link_libraries(coffee-jam tesseratos)
