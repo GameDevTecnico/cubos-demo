@@ -13,7 +13,7 @@ CUBOS_REFLECT_IMPL(demo::Follow)
         .withField("distance", &Follow::distance)
         .withField("phi", &Follow::phi)
         .withField("theta", &Follow::theta)
-        .withField("speed", &Follow::speed)
+        .withField("halfTime", &Follow::halfTime)
         .tree() // Many-to-one relation.
         .build();
 }
@@ -38,12 +38,11 @@ void demo::followPlugin(Cubos& cubos)
                 glm::vec3 desired = targetPosition.vec + offset;
 
                 // Move towards the desired position.
-                glm::vec3 moveDirection = desired - position.vec;
-                auto distanceToDesired = glm::length(moveDirection);
-
                 if (follow.initialized)
                 {
-                    position.vec += moveDirection * glm::min(1.0F, follow.speed * dt.value() / distanceToDesired);
+                    // Interpolate the right amount to reach half of the distance in halfTime.
+                    auto alpha = 1.0F - glm::pow(0.5F, dt.value() / follow.halfTime);
+                    position.vec = glm::mix(position.vec, desired, alpha);
                 }
                 else
                 {

@@ -35,7 +35,7 @@
         "distance": 80.0,
         "phi": 10.0,
         "theta": 45.0,
-        "speed": 50.0
+        "halfTime": 0.25
       }
     }
   },
