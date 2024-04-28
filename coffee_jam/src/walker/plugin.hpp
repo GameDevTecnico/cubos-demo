@@ -30,6 +30,9 @@ namespace demo
 
         /// @brief Animation progress of the current movement, from 0.0 to 1.0.
         float progress = 0.0F;
+
+        /// @brief Whether the entity has already been initialized.
+        bool initialized = false;
     };
 
     void walkerPlugin(cubos::engine::Cubos& cubos);
