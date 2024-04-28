@@ -14,7 +14,9 @@ namespace demo
         float distance{1.0F};
         float phi{0.0F};
         float theta{0.0F};
-        float speed{1.0F};
+
+        /// @brief Time in seconds until the camera reaches half of the distance to the target.
+        float halfTime{1.0F};
 
         bool initialized{false};
     };
