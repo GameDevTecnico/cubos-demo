@@ -8,6 +8,9 @@
                     "y": 0.0,
                     "z": -4.0
                 }
+            },
+            "demo::PlayerController": {
+                "player": 1
             }
         }
     },

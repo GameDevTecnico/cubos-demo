@@ -18,13 +18,15 @@
 
 #include "follow/plugin.hpp"
 #include "tiles/plugin.hpp"
+#include "walker/plugin.hpp"
+#include "player_controller/plugin.hpp"
 
 using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("5c813e4f-8bbb-4a69-8d2a-036169deb974");
 static const Asset<Scene> MainSceneAsset = AnyAsset("1d2c5bae-f6ec-4986-bc9a-d2863b317c47");
 static const Asset<InputBindings> EditorBindingsAsset = AnyAsset("2f295ec8-aada-41dd-814b-281c5b5859ae");
-static const Asset<InputBindings> PlayerBindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
+static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
 
 int main(int argc, char** argv)
 {
@@ -36,6 +38,8 @@ int main(int argc, char** argv)
     // Add game plugins
     cubos.plugin(demo::followPlugin);
     cubos.plugin(demo::tilesPlugin);
+    cubos.plugin(demo::walkerPlugin);
+    cubos.plugin(demo::playerControllerPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
@@ -46,7 +50,7 @@ int main(int argc, char** argv)
         .tagged(assetsTag)
         .call([](const Assets& assets, Input& input) {
             input.bind(*assets.read<InputBindings>(EditorBindingsAsset), 0);
-            input.bind(*assets.read<InputBindings>(PlayerBindingsAsset), 1);
+            input.bind(*assets.read<InputBindings>(Player1BindingsAsset), 1);
         });
 
     cubos.startupSystem("load and set the Voxel Palette")

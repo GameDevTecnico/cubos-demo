@@ -4,9 +4,9 @@
       "cubos::engine::RenderableGrid": {
         "asset": "e03ac906-f2cd-4f66-bdbb-eeb485d83968",
         "offset": {
-          "x": -8.0,
+          "x": 0.0,
           "y": -1.0,
-          "z": -8.0
+          "z": 0.0
         }
       }
     }
