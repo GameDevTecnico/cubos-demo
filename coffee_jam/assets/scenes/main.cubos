@@ -23,5 +23,7 @@
       "cubos::engine::Scale": 1.0
     }
   },
-  "imports": {}
+  "imports": {
+    "player1": "e24115b4-00fb-4d85-8a92-e487acbbcf7e"
+  }
 }

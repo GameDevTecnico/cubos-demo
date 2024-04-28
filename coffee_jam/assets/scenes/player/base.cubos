@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "body": {
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0
+    },
+    "camera": {
+      "cubos::engine::Camera": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0,
+      "demo::Follow@body": {
+        "distance": 80.0,
+        "phi": 10.0,
+        "theta": 45.0,
+        "speed": 50.0
+      }
+    }
+  },
+  "imports": {}
+}

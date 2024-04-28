@@ -16,9 +16,11 @@
 
 #include <tesseratos/plugin.hpp>
 
+#include "follow/plugin.hpp"
+
 using namespace cubos::engine;
 
-static const Asset<VoxelPalette> PaletteAsset = AnyAsset("07fb6a49-0e0b-4634-bd67-0fa53a20ae85");
+static const Asset<VoxelPalette> PaletteAsset = AnyAsset("5c813e4f-8bbb-4a69-8d2a-036169deb974");
 static const Asset<Scene> MainSceneAsset = AnyAsset("1d2c5bae-f6ec-4986-bc9a-d2863b317c47");
 static const Asset<InputBindings> EditorBindingsAsset = AnyAsset("2f295ec8-aada-41dd-814b-281c5b5859ae");
 static const Asset<InputBindings> PlayerBindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
@@ -30,7 +32,8 @@ int main(int argc, char** argv)
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(tesseratos::plugin);
 
-    // Add plugins
+    // Add game plugins
+    cubos.plugin(demo::followPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
@@ -48,7 +51,7 @@ int main(int argc, char** argv)
         .tagged(assetsTag)
         .after(rendererInitTag)
         .call([](const Assets& assets, Renderer& renderer) {
-            // TODO: renderer->setPalette(*assets.read<VoxelPalette>(PaletteAsset));
+            renderer->setPalette(*assets.read<VoxelPalette>(PaletteAsset));
         });
 
     cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
@@ -63,7 +66,7 @@ int main(int argc, char** argv)
             if (settings.getBool("production", true))
             {
                 auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
-                // TODO: cameras.entities[0] = builder.entity("player.camera");
+                cameras.entities[0] = builder.entity("player1.base.camera");
             }
         });
 
