@@ -38,6 +38,25 @@
     },
     "player2.base.body": {
       "cubos::engine::ChildOf@map": {}
+    },
+    "my-object": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "b7d99fd8-1715-4acf-83f1-2b3e1bc234c2",
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::ChildOf@map": {},
+      "cubos::engine::Position": {},
+      "cubos::engine::Rotation": {},
+      "demo::Object": {
+        "position": {
+          "x": 10,
+          "y": 10
+        }
+      }
     }
   },
   "imports": {
