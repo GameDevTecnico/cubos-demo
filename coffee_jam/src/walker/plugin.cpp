@@ -14,7 +14,8 @@ CUBOS_REFLECT_IMPL(demo::Walker)
         .withField("position", &Walker::position)
         .withField("direction", &Walker::direction)
         .withField("jumpHeight", &Walker::jumpHeight)
-        .withField("speed", &Walker::speed)
+        .withField("moveSpeed", &Walker::moveSpeed)
+        .withField("halfRotationTime", &Walker::halfRotationTime)
         .withField("progress", &Walker::progress)
         .build();
 }
@@ -48,15 +49,18 @@ void demo::walkerPlugin(Cubos& cubos)
                 glm::vec2 target = static_cast<glm::vec2>(walker.position + walker.direction);
 
                 // Increase the progress value and calculate the new position of the entity.
-                walker.progress = glm::clamp(walker.progress + dt.value() * walker.speed, 0.0F, 1.0F);
+                walker.progress = glm::clamp(walker.progress + dt.value() * walker.moveSpeed, 0.0F, 1.0F);
                 position.vec.x = 4.0F + 8.0F * glm::mix(source.x, target.x, walker.progress);
                 position.vec.y = glm::mix(0.0F, walker.jumpHeight, glm::sin(walker.progress * glm::pi<float>()));
                 position.vec.z = 4.0F + 8.0F * glm::mix(source.y, target.y, walker.progress);
 
                 // Set the entity's rotation as appropriate.
-                rotation.quat = glm::quatLookAt(-glm::normalize(glm::vec3(static_cast<float>(walker.direction.x), 0.0F,
-                                                                          static_cast<float>(walker.direction.y))),
-                                                glm::vec3{0.0F, 1.0F, 0.0F});
+                auto targetRotation =
+                    glm::quatLookAt(-glm::normalize(glm::vec3(static_cast<float>(walker.direction.x), 0.0F,
+                                                              static_cast<float>(walker.direction.y))),
+                                    glm::vec3{0.0F, 1.0F, 0.0F});
+                float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value() / walker.halfRotationTime);
+                rotation.quat = glm::slerp(rotation.quat, targetRotation, rotationAlpha);
 
                 // If the entity has reached the target position, reset the direction.
                 if (walker.progress == 1.0F)
