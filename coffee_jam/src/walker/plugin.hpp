@@ -22,8 +22,11 @@ namespace demo
         /// @brief Jump height of the entity.
         float jumpHeight = 0.0F;
 
-        /// @brief Speed of the entity.
-        float speed = 1.0F;
+        /// @brief Move speed of the entity.
+        float moveSpeed = 1.0F;
+
+        /// @brief Time which the entity takes to rotate half of the way to the target rotation.
+        float halfRotationTime = 1.0F;
 
         /// @brief Animation progress of the current movement, from 0.0 to 1.0.
         float progress = 0.0F;
