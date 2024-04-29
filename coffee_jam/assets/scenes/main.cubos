@@ -34,6 +34,15 @@
         "crate": "961e6a09-53aa-42f0-ab73-5d04cd4072f0"
       }
     },
+    "hammer.hammer": {
+      "cubos::engine::ChildOf@map": {},
+      "demo::Object": {
+        "position": {
+          "x": 30,
+          "y": 30
+        }
+      }
+    },
     "player1.base.body": {
       "cubos::engine::ChildOf@map": {}
     },
@@ -42,6 +51,7 @@
     }
   },
   "imports": {
+    "hammer": "7442faec-69d6-4bac-8046-559783a08f99",
     "player1": "e24115b4-00fb-4d85-8a92-e487acbbcf7e",
     "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2"
   }
