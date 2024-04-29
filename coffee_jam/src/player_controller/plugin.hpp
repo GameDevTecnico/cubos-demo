@@ -4,7 +4,9 @@
 
 #include <cubos/core/reflection/reflect.hpp>
 
+#include <cubos/engine/assets/asset.hpp>
 #include <cubos/engine/prelude.hpp>
+#include <cubos/engine/voxels/grid.hpp>
 
 namespace demo
 {
@@ -24,6 +26,12 @@ namespace demo
 
         /// @brief Action used to interact with objects.
         std::string interact = "interact";
+
+        /// @brief Normal voxel model of the character.
+        cubos::engine::Asset<cubos::engine::VoxelGrid> normal;
+
+        /// @brief 'Holding' voxel model of the character.
+        cubos::engine::Asset<cubos::engine::VoxelGrid> holding;
     };
 
     void playerControllerPlugin(cubos::engine::Cubos& cubos);
