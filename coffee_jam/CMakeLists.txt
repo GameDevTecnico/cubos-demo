@@ -9,6 +9,8 @@ add_executable(coffee-jam
     src/walker/plugin.cpp
     src/object/plugin.cpp
     src/holdable/plugin.cpp
+    src/interaction/plugin.cpp
+    src/breakable/plugin.cpp
     src/player_controller/plugin.cpp
 )
 
