@@ -21,6 +21,9 @@ namespace demo
 
         /// @brief Axis used to move the character in the y direction.
         std::string moveY = "move-y";
+
+        /// @brief Action used to interact with objects.
+        std::string interact = "interact";
     };
 
     void playerControllerPlugin(cubos::engine::Cubos& cubos);
