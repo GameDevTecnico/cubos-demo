@@ -4,6 +4,7 @@
 
 #include <cubos/engine/assets/asset.hpp>
 #include <cubos/engine/voxels/grid.hpp>
+#include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/prelude.hpp>
 
 #include <unordered_map>
@@ -35,6 +36,11 @@ namespace demo
         cubos::engine::Asset<cubos::engine::VoxelGrid> roadLine;
         cubos::engine::Asset<cubos::engine::VoxelGrid> roadSimple;
         cubos::engine::Asset<cubos::engine::VoxelGrid> sidewalk;
+        /// @}
+
+        /// @name Scenes for the different objects which may be lying around.
+        /// @{
+        cubos::engine::Asset<cubos::engine::Scene> crate;
         /// @}
     };
 

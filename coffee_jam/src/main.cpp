@@ -42,11 +42,11 @@ int main(int argc, char** argv)
     // Add game plugins
     cubos.plugin(demo::followPlugin);
     cubos.plugin(demo::tileMapPlugin);
-    cubos.plugin(demo::tileMapGeneratorPlugin);
-    cubos.plugin(demo::walkerPlugin);
     cubos.plugin(demo::objectPlugin);
+    cubos.plugin(demo::walkerPlugin);
     cubos.plugin(demo::holdablePlugin);
     cubos.plugin(demo::playerControllerPlugin);
+    cubos.plugin(demo::tileMapGeneratorPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
