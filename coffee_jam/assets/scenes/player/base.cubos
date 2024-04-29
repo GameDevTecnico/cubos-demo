@@ -1,6 +1,13 @@
 {
   "entities": {
     "body": {
+      "cubos::engine::RenderableGrid": {
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
       "cubos::engine::Rotation": {
         "w": 1.0,
         "x": 0.0,

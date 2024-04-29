@@ -10,6 +10,7 @@
 
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
+#include <cubos/engine/renderer/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -19,6 +20,8 @@ CUBOS_REFLECT_IMPL(demo::PlayerController)
         .withField("player", &PlayerController::player)
         .withField("moveX", &PlayerController::moveX)
         .withField("moveY", &PlayerController::moveY)
+        .withField("normal", &PlayerController::normal)
+        .withField("holding", &PlayerController::holding)
         .build();
 }
 
@@ -30,21 +33,27 @@ void demo::playerControllerPlugin(Cubos& cubos)
     cubos.depends(tileMapPlugin);
     cubos.depends(objectPlugin);
     cubos.depends(holdablePlugin);
+    cubos.depends(rendererPlugin);
 
     cubos.component<PlayerController>();
 
     cubos.system("do PlayerController")
         .after(inputUpdateTag)
         .call([](Commands cmds, Input& input,
-                 Query<Entity, PlayerController&, Walker&, const ChildOf&, TileMap&, Entity> players,
+                 Query<Entity, RenderableGrid&, PlayerController&, Walker&, const ChildOf&, TileMap&, Entity> players,
                  Query<const Object&, const Holdable&> holdableObjects,
                  Query<Entity, const Holdable&, const ChildOf&> heldObjects) {
-            for (auto [playerEnt, controller, walker, childOf, map, mapEnt] : players)
+            for (auto [playerEnt, grid, controller, walker, childOf, map, mapEnt] : players)
             {
                 if (walker.direction != glm::ivec2{0, 0})
                 {
                     // The entity is already moving, so we can skip it.
                     continue;
+                }
+
+                if (grid.asset.isNull())
+                {
+                    grid.asset = controller.normal;
                 }
 
                 if (input.justPressed(controller.interact.c_str(), controller.player))
@@ -69,6 +78,9 @@ void demo::playerControllerPlugin(Cubos& cubos)
                             map.entities[target.y][target.x] = heldEnt;
                             cmds.relate(heldEnt, mapEnt, ChildOf{});
                             cmds.add(heldEnt, Object{.position = target, .size = {1, 1}});
+
+                            // Switch back to the normal voxel model.
+                            grid.asset = controller.normal;
                         }
                         else
                         {
@@ -85,6 +97,9 @@ void demo::playerControllerPlugin(Cubos& cubos)
                         cmds.remove<Object>(targetEntity);
                         cmds.relate(targetEntity, playerEnt, ChildOf{});
                         cmds.add(targetEntity, Position{{0.0F, 8.0F, 0.0F}});
+
+                        // Switch back the 'holding' voxel model.
+                        grid.asset = controller.holding;
                     }
                 }
                 else
