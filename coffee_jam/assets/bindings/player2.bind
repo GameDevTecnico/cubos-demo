@@ -1,4 +1,11 @@
 {
+    "actions": {
+        "interact": {
+            "keys": [
+                "M"
+            ]
+        }
+    },
     "axes": {
         "move-x": {
             "positive": [

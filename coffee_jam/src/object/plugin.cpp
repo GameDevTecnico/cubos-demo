@@ -46,7 +46,8 @@ void demo::objectPlugin(Cubos& cubos)
                 {
                     for (int x = object.position.x; x < object.position.x + object.size.x; ++x)
                     {
-                        CUBOS_ASSERT(map.entities[y][x].isNull(), "Tile is already occupied");
+                        CUBOS_ASSERT(map.entities[y][x].isNull() || map.entities[y][x] == ent,
+                                     "Tile is already occupied by another entity");
                         map.entities[y][x] = ent;
                     }
                 }

@@ -21,6 +21,7 @@
 #include "tile_map_generator/plugin.hpp"
 #include "walker/plugin.hpp"
 #include "object/plugin.hpp"
+#include "holdable/plugin.hpp"
 #include "player_controller/plugin.hpp"
 
 using namespace cubos::engine;
@@ -44,6 +45,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::walkerPlugin);
     cubos.plugin(demo::objectPlugin);
+    cubos.plugin(demo::holdablePlugin);
     cubos.plugin(demo::playerControllerPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
