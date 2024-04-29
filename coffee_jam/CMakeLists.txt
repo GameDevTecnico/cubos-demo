@@ -11,6 +11,7 @@ add_executable(coffee-jam
     src/holdable/plugin.cpp
     src/interaction/plugin.cpp
     src/breakable/plugin.cpp
+    src/hammer/plugin.cpp
     src/player_controller/plugin.cpp
 )
 

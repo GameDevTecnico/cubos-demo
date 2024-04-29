@@ -1,8 +1,8 @@
 {
   "entities": {
-    "planks": {
+    "hammer": {
       "cubos::engine::RenderableGrid": {
-        "asset": "61d52ff2-2e24-41f4-a9fd-ca12bbafab3e",
+        "asset": "aceb9382-100a-48ca-91d4-07a90fc4777c",
         "offset": {
           "x": -4.0,
           "y": 0.0,
@@ -11,7 +11,8 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
-      "demo::Holdable": {}
+      "demo::Holdable": {},
+      "demo::Hammer": {}
     }
   },
   "imports": {}

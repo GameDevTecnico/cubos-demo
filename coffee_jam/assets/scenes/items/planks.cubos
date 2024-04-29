@@ -1,0 +1,22 @@
+{
+  "entities": {
+    "planks": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "61d52ff2-2e24-41f4-a9fd-ca12bbafab3e",
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::Position": {},
+      "cubos::engine::Rotation": {},
+      "demo::Holdable": {},
+      "demo::Ingredient": {
+        "result": "617ecec1-c006-42b6-9a6d-3b941e5fe4d3",
+        "root": "barricade"
+      }
+    }
+  },
+  "imports": {}
+}
