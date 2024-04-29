@@ -30,7 +30,8 @@
         "grass": "e0d9109d-97b3-400d-8f5d-d828f2bc7d85",
         "roadLine": "e03ac906-f2cd-4f66-bdbb-eeb485d83968",
         "roadSimple": "52c91b69-03ae-4643-9927-6ebc5107d441",
-        "sidewalk": "b00eacaa-e28e-47a4-86e9-ada73c086317"
+        "sidewalk": "b00eacaa-e28e-47a4-86e9-ada73c086317",
+        "crate": "961e6a09-53aa-42f0-ab73-5d04cd4072f0"
       }
     },
     "player1.base.body": {
@@ -38,26 +39,6 @@
     },
     "player2.base.body": {
       "cubos::engine::ChildOf@map": {}
-    },
-    "my-object": {
-      "cubos::engine::RenderableGrid": {
-        "asset": "b7d99fd8-1715-4acf-83f1-2b3e1bc234c2",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::ChildOf@map": {},
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "demo::Object": {
-        "position": {
-          "x": 10,
-          "y": 10
-        }
-      },
-      "demo::Holdable": {}
     }
   },
   "imports": {

@@ -1,8 +1,14 @@
 #include "plugin.hpp"
 #include "../tile_map/plugin.hpp"
+#include "../object/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
+
+#include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/transform/plugin.hpp>
+
+#include <random>
 
 using namespace cubos::engine;
 
@@ -17,18 +23,22 @@ CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
         .withField("roadLine", &TileMapGenerator::roadLine)
         .withField("roadSimple", &TileMapGenerator::roadSimple)
         .withField("sidewalk", &TileMapGenerator::sidewalk)
+        .withField("crate", &TileMapGenerator::crate)
         .build();
 }
 
 void demo::tileMapGeneratorPlugin(Cubos& cubos)
 {
     cubos.depends(tileMapPlugin);
+    cubos.depends(assetsPlugin);
+    cubos.depends(objectPlugin);
+    cubos.depends(transformPlugin);
 
     cubos.component<TileMapGenerator>();
 
     cubos.observer("generate TileMap")
         .onAdd<TileMapGenerator>()
-        .call([](Commands cmds, Query<Entity, const TileMapGenerator&> query) {
+        .call([](Commands cmds, Assets& assets, Query<Entity, const TileMapGenerator&> query) {
             for (auto [entity, generator] : query)
             {
                 TileMap map{.chunkSide = generator.chunkSide,
@@ -39,6 +49,9 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                                 generator.roadSimple,
                                 generator.sidewalk,
                             }};
+
+                std::mt19937 mt(generator.seed);
+                std::uniform_real_distribution<float> randomDist(0.0F, 1.0F);
 
                 map.tiles.resize(generator.mapSide, std::vector<unsigned char>(generator.mapSide, 0));
 
@@ -58,6 +71,13 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         else if (rx >= 4 && rx <= 12)
                         {
                             map.tiles[ty][tx] = 3;
+                        }
+
+                        if (randomDist(mt) < 0.01F)
+                        {
+                            auto crate = cmds.spawn(assets.read(generator.crate)->blueprint).entity("crate");
+                            cmds.relate(crate, entity, ChildOf{});
+                            cmds.add(crate, Object{.position = {tx, ty}, .size = {1, 1}});
                         }
                     }
                 }
