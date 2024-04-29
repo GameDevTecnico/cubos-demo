@@ -14,6 +14,7 @@ CUBOS_REFLECT_IMPL(demo::Walker)
     return cubos::core::ecs::TypeBuilder<Walker>("demo::Walker")
         .withField("position", &Walker::position)
         .withField("direction", &Walker::direction)
+        .withField("facing", &Walker::facing)
         .withField("jumpHeight", &Walker::jumpHeight)
         .withField("moveSpeed", &Walker::moveSpeed)
         .withField("halfRotationTime", &Walker::halfRotationTime)
@@ -62,54 +63,56 @@ void demo::walkerPlugin(Cubos& cubos)
                     walker.initialized = true;
                 }
 
-                if (walker.direction == glm::ivec2{0, 0})
-                {
-                    continue; // Entity is not moving, skip it.
-                }
-
-                // Check if movement is valid.
                 auto targetTile = walker.position + walker.direction;
-                if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.tiles.size() ||
-                    targetTile.y >= map.tiles.size() ||
-                    (!map.entities[targetTile.y][targetTile.x].isNull() &&
-                     map.entities[targetTile.y][targetTile.x] != ent))
+                if (walker.direction != glm::ivec2{0, 0})
                 {
-                    // There's already an entity in the target tile, stop the movement.
-                    walker.direction = {0, 0};
-                    continue;
+                    walker.facing = walker.direction;
+
+                    // Check if movement is valid.
+                    if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.tiles.size() ||
+                        targetTile.y >= map.tiles.size() ||
+                        (!map.entities[targetTile.y][targetTile.x].isNull() &&
+                         map.entities[targetTile.y][targetTile.x] != ent))
+                    {
+                        // There's already an entity in the target tile, stop the movement.
+                        walker.direction = {0, 0};
+                    }
                 }
 
-                // Occupy the target tile.
-                map.entities[targetTile.y][targetTile.x] = ent;
+                if (walker.direction != glm::ivec2{0, 0})
+                {
+                    // Occupy the target tile.
+                    map.entities[targetTile.y][targetTile.x] = ent;
 
-                // Get the source and target positions of the entity's movement.
-                glm::vec2 source = static_cast<glm::vec2>(walker.position);
-                glm::vec2 target = static_cast<glm::vec2>(walker.position + walker.direction);
+                    // Get the source and target positions of the entity's movement.
+                    glm::vec2 source = static_cast<glm::vec2>(walker.position);
+                    glm::vec2 target = static_cast<glm::vec2>(walker.position + walker.direction);
 
-                // Increase the progress value and calculate the new position of the entity.
-                walker.progress = glm::clamp(walker.progress + dt.value() * walker.moveSpeed, 0.0F, 1.0F);
-                position.vec.x = tileSide / 2.0F + tileSide * glm::mix(source.x, target.x, walker.progress);
-                position.vec.y = glm::mix(0.0F, walker.jumpHeight, glm::sin(walker.progress * glm::pi<float>()));
-                position.vec.z = tileSide / 2.0F + tileSide * glm::mix(source.y, target.y, walker.progress);
+                    // Increase the progress value and calculate the new position of the entity.
+                    walker.progress = glm::clamp(walker.progress + dt.value() * walker.moveSpeed, 0.0F, 1.0F);
+                    position.vec.x = tileSide / 2.0F + tileSide * glm::mix(source.x, target.x, walker.progress);
+                    position.vec.y = glm::mix(0.0F, walker.jumpHeight, glm::sin(walker.progress * glm::pi<float>()));
+                    position.vec.z = tileSide / 2.0F + tileSide * glm::mix(source.y, target.y, walker.progress);
+
+                    // If the entity has reached the target position, reset the direction.
+                    if (walker.progress == 1.0F)
+                    {
+                        // Clear the source tile.
+                        map.entities[walker.position.y][walker.position.x] = Entity{};
+
+                        walker.position += walker.direction;
+                        walker.direction = {0, 0};
+                        walker.progress = 0.0F;
+                    }
+                }
 
                 // Set the entity's rotation as appropriate.
                 auto targetRotation =
-                    glm::quatLookAt(-glm::normalize(glm::vec3(static_cast<float>(walker.direction.x), 0.0F,
-                                                              static_cast<float>(walker.direction.y))),
+                    glm::quatLookAt(-glm::normalize(glm::vec3(static_cast<float>(walker.facing.x), 0.0F,
+                                                              static_cast<float>(walker.facing.y))),
                                     glm::vec3{0.0F, 1.0F, 0.0F});
                 float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value() / walker.halfRotationTime);
                 rotation.quat = glm::slerp(rotation.quat, targetRotation, rotationAlpha);
-
-                // If the entity has reached the target position, reset the direction.
-                if (walker.progress == 1.0F)
-                {
-                    // Clear the source tile.
-                    map.entities[walker.position.y][walker.position.x] = Entity{};
-
-                    walker.position += walker.direction;
-                    walker.direction = {0, 0};
-                    walker.progress = 0.0F;
-                }
             }
         });
 }

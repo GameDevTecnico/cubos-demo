@@ -19,6 +19,9 @@ namespace demo
         /// @brief Direction in which the entity is moving. Automatically reset to {0, 0} when the entity arrives.
         glm::ivec2 direction = {0, 0};
 
+        /// @brief Direction which the entity is currently facing.
+        glm::ivec2 facing = {0, 1};
+
         /// @brief Jump height of the entity.
         float jumpHeight = 0.0F;
 
