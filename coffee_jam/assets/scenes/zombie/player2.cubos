@@ -1,0 +1,14 @@
+{
+    "entities": {
+        "base.body": {
+            "demo::PlayerController": {
+                "player": 2,
+                "normal": "8127cf38-825a-464a-8912-c29c2c3570bf",
+                "holding": "5450d3e7-b176-4552-a217-086ac8ab767f"
+            }
+        }
+    },
+    "imports": {
+        "base": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c"
+    }
+}

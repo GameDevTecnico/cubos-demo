@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "body": {
+      "cubos::engine::RenderableGrid": {
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0,
+      "cubos::engine::ChildOf@main.map": {}
+    }
+  },
+  "imports": {
+    "main": "1d2c5bae-f6ec-4986-bc9a-d2863b317c47"
+  }
+}
