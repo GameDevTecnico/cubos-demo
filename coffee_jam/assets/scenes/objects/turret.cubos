@@ -11,6 +11,12 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
+      "demo::Turret": {
+        "cooldown": 1.0,
+        "rotationTime": 2.0,
+        "maxAmmoForReload": 5,
+        "ammoPerReload": 5
+      },
       "demo::Ingredient": {
         "result": "efa94da9-0b63-4550-b15a-f2240418183f",
         "root": "plate"

@@ -26,6 +26,7 @@
 #include "breakable/plugin.hpp"
 #include "hammer/plugin.hpp"
 #include "player_controller/plugin.hpp"
+#include "turret/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -52,6 +53,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::playerControllerPlugin);
     cubos.plugin(demo::breakablePlugin);
     cubos.plugin(demo::hammerPlugin);
+    cubos.plugin(demo::turretPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {

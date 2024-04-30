@@ -13,6 +13,7 @@ add_executable(coffee-jam
     src/breakable/plugin.cpp
     src/hammer/plugin.cpp
     src/player_controller/plugin.cpp
+    src/turret/plugin.cpp
 )
 
 target_link_libraries(coffee-jam tesseratos)
