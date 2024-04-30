@@ -22,15 +22,6 @@ CUBOS_REFLECT_IMPL(demo::Ingredient)
         .build();
 }
 
-static void destroyChildren(Commands& cmds, Entity ent, Query<Entity, const ChildOf&>& children)
-{
-    for (auto [childEnt, childOf] : children.pin(1, ent))
-    {
-        destroyChildren(cmds, childEnt, children);
-        cmds.destroy(childEnt);
-    }
-}
-
 void demo::hammerPlugin(Cubos& cubos)
 {
     cubos.depends(assetsPlugin);
@@ -46,14 +37,12 @@ void demo::hammerPlugin(Cubos& cubos)
         .call(
             [](Commands cmds, Assets& assets,
                Query<Entity, const Interaction&, const Object&, const Ingredient&, const ChildOf&, Entity> ingredients,
-               Query<const Hammer&, const ChildOf&> hammers, Query<Entity, const ChildOf&> children) {
+               Query<const Hammer&, const ChildOf&> hammers) {
                 for (auto [ent, interaction, object, ingredient, childOf, parentEnt] : ingredients)
                 {
                     if (!hammers.pin(1, interaction.entity).empty())
                     {
                         cmds.destroy(ent);
-                        destroyChildren(cmds, ent, children);
-
                         auto dropEnt = cmds.spawn(assets.read(ingredient.result)->blueprint).entity(ingredient.root);
                         cmds.relate(dropEnt, parentEnt, ChildOf{});
                         cmds.add(dropEnt, Object{.position = object.position, .size = object.size});
