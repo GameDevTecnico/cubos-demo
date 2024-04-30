@@ -35,22 +35,60 @@ void demo::objectPlugin(Cubos& cubos)
 
                 object.initialized = true;
 
-                auto tileSide = static_cast<float>(map.tileSide);
-                position.vec.x = tileSide / 2.0F + tileSide * static_cast<float>(object.position.x);
-                position.vec.y = 0.0F;
-                position.vec.z = tileSide / 2.0F + tileSide * static_cast<float>(object.position.y);
-                rotation.quat = glm::identity<glm::quat>();
+                // Change position until free space is found.
+                while (true)
+                {
+                    bool free = true;
+                    for (int y = object.position.y; y < object.position.y + object.size.y; ++y)
+                    {
+                        for (int x = object.position.x; x < object.position.x + object.size.x; ++x)
+                        {
+                            if (!map.entities[y][x].isNull() && map.entities[y][x] != ent)
+                            {
+                                free = false;
+                                break;
+                            }
+                        }
+
+                        if (!free)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (free)
+                    {
+                        break;
+                    }
+
+                    int direction = rand() % 4;
+                    object.position.x += direction == 0 ? 1 : direction == 1 ? -1 : 0;
+                    object.position.y += direction == 2 ? 1 : direction == 3 ? -1 : 0;
+
+                    if (object.position.x >= map.floorTiles.size())
+                    {
+                        object.position.x = 0;
+                    }
+                    if (object.position.y >= map.floorTiles.size())
+                    {
+                        object.position.y = 0;
+                    }
+                }
 
                 // Mark the tile as occupied.
                 for (int y = object.position.y; y < object.position.y + object.size.y; ++y)
                 {
                     for (int x = object.position.x; x < object.position.x + object.size.x; ++x)
                     {
-                        CUBOS_ASSERT(map.entities[y][x].isNull() || map.entities[y][x] == ent,
-                                     "Tile is already occupied by another entity");
                         map.entities[y][x] = ent;
                     }
                 }
+
+                auto tileSide = static_cast<float>(map.tileSide);
+                position.vec.x = tileSide / 2.0F + tileSide * static_cast<float>(object.position.x);
+                position.vec.y = 0.0F;
+                position.vec.z = tileSide / 2.0F + tileSide * static_cast<float>(object.position.y);
+                rotation.quat = glm::identity<glm::quat>();
             }
         });
 

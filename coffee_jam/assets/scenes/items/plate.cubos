@@ -1,8 +1,8 @@
 {
   "entities": {
-    "crate": {
+    "plate": {
       "cubos::engine::RenderableGrid": {
-        "asset": "b7d99fd8-1715-4acf-83f1-2b3e1bc234c2",
+        "asset": "966a2850-c079-48b5-948b-8d09de797d7f",
         "offset": {
           "x": -4.0,
           "y": 0.0,
@@ -11,12 +11,7 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
-      "demo::Breakable": {
-        "drop": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
-        "root": "planks",
-        "minDrops": 1,
-        "maxDrops": 1
-      }
+      "demo::Holdable": {}
     }
   },
   "imports": {}

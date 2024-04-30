@@ -18,6 +18,12 @@ namespace demo
 
         /// @brief Name of the root entity of the drop scene.
         std::string root;
+
+        /// @brief Minimum number of items dropped.
+        int minDrops{1};
+
+        /// @brief Maximum number of items dropped.
+        int maxDrops{1};
     };
 
     void breakablePlugin(cubos::engine::Cubos& cubos);

@@ -20,7 +20,7 @@
           "x": 32,
           "y": 32
         },
-        "moveSpeed": 25.0,
+        "moveSpeed": 5.0,
         "halfRotationTime": 0.03,
         "jumpHeight": 2.5
       }

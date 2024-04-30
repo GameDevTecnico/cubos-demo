@@ -18,9 +18,6 @@ namespace demo
     {
         CUBOS_REFLECT;
 
-        /// @brief Seed for the random number generator.
-        int seed = 0;
-
         /// @brief How many tiles are in the side of the entire map.
         int mapSide = 64;
 
@@ -57,6 +54,7 @@ namespace demo
         /// @name Scenes for the different objects which may be lying around.
         /// @{
         cubos::engine::Asset<cubos::engine::Scene> crate;
+        cubos::engine::Asset<cubos::engine::Scene> car1;
         /// @}
     };
 
