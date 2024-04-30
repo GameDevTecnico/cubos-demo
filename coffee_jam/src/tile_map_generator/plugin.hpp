@@ -30,10 +30,18 @@ namespace demo
         /// @brief How many voxels wide is a single tile.
         int tileSide = 8;
 
+        /// @brief How many tiles are used as a border around the map.
+        int border = 8;
+
         /// @name Voxel grids for the different floor types.
         /// @{
         cubos::engine::Asset<cubos::engine::VoxelGrid> grass;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> roadDash;
         cubos::engine::Asset<cubos::engine::VoxelGrid> roadLine;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> roadCorner;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> roadCurve;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> roadTJunction;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> roadJunction;
         cubos::engine::Asset<cubos::engine::VoxelGrid> roadSimple;
         cubos::engine::Asset<cubos::engine::VoxelGrid> sidewalk;
         /// @}
