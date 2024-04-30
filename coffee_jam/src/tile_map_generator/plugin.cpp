@@ -8,15 +8,15 @@
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 
+#include <ctime>
 #include <random>
 
 using namespace cubos::engine;
-using demo::Tile;
+using namespace demo;
 
 CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
 {
     return cubos::core::ecs::TypeBuilder<TileMapGenerator>("demo::TileMapGenerator")
-        .withField("seed", &TileMapGenerator::seed)
         .withField("mapSide", &TileMapGenerator::mapSide)
         .withField("chunkSide", &TileMapGenerator::chunkSide)
         .withField("tileSide", &TileMapGenerator::tileSide)
@@ -30,11 +30,12 @@ CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
         .withField("roadJunction", &TileMapGenerator::roadJunction)
         .withField("roadSimple", &TileMapGenerator::roadSimple)
         .withField("sidewalk", &TileMapGenerator::sidewalk)
-        .withField("crate", &TileMapGenerator::crate)
         .withField("fenceStraight", &TileMapGenerator::fenceStraight)
         .withField("fenceCurve", &TileMapGenerator::fenceCurve)
         .withField("wallStraight", &TileMapGenerator::wallStraight)
         .withField("wallCurve", &TileMapGenerator::wallCurve)
+        .withField("crate", &TileMapGenerator::crate)
+        .withField("car1", &TileMapGenerator::car1)
         .build();
 }
 
@@ -61,10 +62,19 @@ namespace
         unsigned char wallCurve;
     };
 
+    struct ObjectTypes
+    {
+        AssetRead<Scene> crate;
+        AssetRead<Scene> car1;
+    };
+
     struct Cursor
     {
+        Entity mapEnt;
+        Commands& cmds;
         const FloorTypes& floors;
         const WallTypes& walls;
+        const ObjectTypes& objects;
         demo::Tile& floor;
         demo::Tile& wall;
         int tx;
@@ -225,7 +235,7 @@ static bool makeRoadX(const Cursor& cursor, Rect rect)
     return false;
 }
 
-static void makeParkingLotRoad(const Cursor& cursor, Rect totalRect, int placeSizeX, int placeSizeY, int roadWidth)
+static void makeParkingLotSection(const Cursor& cursor, Rect totalRect, int placeSizeX, int placeSizeY, int roadWidth)
 {
     if (!totalRect.contains(cursor.tx, cursor.ty))
     {
@@ -268,6 +278,13 @@ static void makeParkingLotRoad(const Cursor& cursor, Rect totalRect, int placeSi
         else if ((cursor.ty - totalRect.y1) % (placeSizeY + 1) == 0)
         {
             cursor.floor = {cursor.floors.roadTJunction, 1};
+
+            if (rand() % 100 <= 25)
+            {
+                auto car = cursor.cmds.spawn(cursor.objects.car1->blueprint).entity("car");
+                cursor.cmds.relate(car, cursor.mapEnt, ChildOf{});
+                cursor.cmds.add(car, Object{.position = {cursor.tx - placeSizeX, cursor.ty + 1}, .size = {3, 2}});
+            }
         }
     }
     else if (cursor.tx == totalRect.x2 - placeSizeX - 1)
@@ -291,22 +308,6 @@ static void makeParkingLotRoad(const Cursor& cursor, Rect totalRect, int placeSi
     {
         cursor.floor = {cursor.floors.roadLine, 1};
     }
-
-    /*makeRoadLine(cursor, Rect::lineY(totalRect.y1, totalRect.y2, totalRect.x1), false);
-    makeRoadLine(cursor, Rect::lineY(totalRect.y1, totalRect.y2, totalRect.x1 + placeSizeX + 1), false);
-    makeRoadLine(cursor, Rect::lineY(totalRect.y1, totalRect.y2, totalRect.x1 + placeSizeX + roadWidth + 2), false);
-    makeRoadLine(cursor, Rect::lineY(totalRect.y1, totalRect.y2, totalRect.x1 + placeSizeX * 2 + roadWidth + 3), false);
-
-    for (int i = 0; i <= placeCountY; ++i)
-    {
-        makeRoadLine(cursor,
-                     Rect::lineX(totalRect.x1, totalRect.x1 + placeSizeX + 1, totalRect.y1 + i * (placeSizeY + 1)),
-                     false);
-        makeRoadLine(cursor,
-                     Rect::lineX(totalRect.x1 + placeSizeX + roadWidth + 2,
-                                 totalRect.x1 + placeSizeX * 2 + roadWidth + 3, totalRect.y1 + i * (placeSizeY + 1)),
-                     false);
-    }*/
 }
 
 static bool makeParkingLot(const Cursor& cursor, Rect rect)
@@ -331,14 +332,14 @@ static bool makeParkingLot(const Cursor& cursor, Rect rect)
     auto sideSectionCount = (rect.sizeX() - 1) / (sideSectionWidth - 1);
     for (int i = 0; i < sideSectionCount; ++i)
     {
-        makeParkingLotRoad(cursor,
-                           Rect{rect.x1 + i * (sideSectionWidth - 1), rect.y1,
-                                rect.x1 + (i + 1) * (sideSectionWidth - 1), rect.y1 + sideSectionLength - 1},
-                           placeSizeX, placeSizeY, sideSectionRoadWidth);
-        makeParkingLotRoad(cursor,
-                           Rect{rect.x1 + i * (sideSectionWidth - 1), rect.y2 - sideSectionLength + 1,
-                                rect.x1 + (i + 1) * (sideSectionWidth - 1), rect.y2},
-                           placeSizeX, placeSizeY, sideSectionRoadWidth);
+        makeParkingLotSection(cursor,
+                              Rect{rect.x1 + i * (sideSectionWidth - 1), rect.y1,
+                                   rect.x1 + (i + 1) * (sideSectionWidth - 1), rect.y1 + sideSectionLength - 1},
+                              placeSizeX, placeSizeY, sideSectionRoadWidth);
+        makeParkingLotSection(cursor,
+                              Rect{rect.x1 + i * (sideSectionWidth - 1), rect.y2 - sideSectionLength + 1,
+                                   rect.x1 + (i + 1) * (sideSectionWidth - 1), rect.y2},
+                              placeSizeX, placeSizeY, sideSectionRoadWidth);
     }
 
     return true;
@@ -358,6 +359,8 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Query<Entity, const TileMapGenerator&> query) {
             for (auto [entity, generator] : query)
             {
+                srand(time(nullptr));
+
                 TileMap map{.chunkSide = generator.chunkSide, .tileSide = generator.tileSide};
 
                 FloorTypes floors{};
@@ -377,8 +380,10 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 walls.wallStraight = registerWall(map, generator.wallStraight);
                 walls.wallCurve = registerWall(map, generator.wallCurve);
 
-                std::mt19937 mt(generator.seed);
-                std::uniform_real_distribution<float> randomDist(0.0F, 1.0F);
+                ObjectTypes objects{
+                    .crate = assets.read(generator.crate),
+                    .car1 = assets.read(generator.car1),
+                };
 
                 map.floorTiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{0, 0}));
                 map.wallTiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{UINT8_MAX, 0}));
@@ -390,8 +395,11 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                     for (int tx = 0; tx < generator.mapSide; ++tx)
                     {
                         Cursor cursor{
+                            .mapEnt = entity,
+                            .cmds = cmds,
                             .floors = floors,
                             .walls = walls,
+                            .objects = objects,
                             .floor = map.floorTiles[ty][tx],
                             .wall = map.wallTiles[ty][tx],
                             .tx = tx,
@@ -407,14 +415,6 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         // Make a road which enters the parking lot.
                         int parkingLotCenterY = (parkingLotRect.y1 + parkingLotRect.y2) / 2;
                         makeRoadX(cursor, Rect{0, parkingLotCenterY - 2, parkingLotRect.x1, parkingLotCenterY + 2});
-
-                        // Inside tile.
-                        /*if (wall.type == UINT8_MAX && randomDist(mt) < 0.01F)
-                        {
-                            auto crate = cmds.spawn(assets.read(generator.crate)->blueprint).entity("crate");
-                            cmds.relate(crate, entity, ChildOf{});
-                            cmds.add(crate, Object{.position = {tx, ty}, .size = {1, 1}});
-                        }*/
                     }
                 }
 

@@ -1,8 +1,8 @@
 {
   "entities": {
-    "crate": {
+    "car": {
       "cubos::engine::RenderableGrid": {
-        "asset": "b7d99fd8-1715-4acf-83f1-2b3e1bc234c2",
+        "asset": "63414965-81df-48a5-b18c-36ea3c39941d",
         "offset": {
           "x": -4.0,
           "y": 0.0,
@@ -12,10 +12,10 @@
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
       "demo::Breakable": {
-        "drop": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
-        "root": "planks",
+        "drop": "efa94da9-0b63-4550-b15a-f2240418183f",
+        "root": "plate",
         "minDrops": 1,
-        "maxDrops": 1
+        "maxDrops": 3
       }
     }
   },
