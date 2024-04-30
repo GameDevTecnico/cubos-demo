@@ -410,7 +410,19 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         auto parkingLotRect = mapRect.border(generator.border);
                         parkingLotRect.x2 += 1;
                         parkingLotRect.y1 += 1;
-                        makeParkingLot(cursor, parkingLotRect);
+                        if (makeParkingLot(cursor, parkingLotRect))
+                        {
+                            // Randomly add crates inside the parking lot.
+                            if (rand() % 200 == 0)
+                            {
+                                for (int i = 0; i < 5; ++i)
+                                {
+                                    auto crate = cursor.cmds.spawn(cursor.objects.crate->blueprint).entity("crate");
+                                    cursor.cmds.relate(crate, cursor.mapEnt, ChildOf{});
+                                    cursor.cmds.add(crate, Object{.position = {cursor.tx, cursor.ty}, .size = {1, 1}});
+                                }
+                            }
+                        }
 
                         // Make a road which enters the parking lot.
                         int parkingLotCenterY = (parkingLotRect.y1 + parkingLotRect.y2) / 2;
