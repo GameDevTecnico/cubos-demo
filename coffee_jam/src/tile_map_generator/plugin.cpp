@@ -24,6 +24,10 @@ CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
         .withField("roadSimple", &TileMapGenerator::roadSimple)
         .withField("sidewalk", &TileMapGenerator::sidewalk)
         .withField("crate", &TileMapGenerator::crate)
+        .withField("fenceStraight", &TileMapGenerator::fenceStraight)
+        .withField("fenceCurve", &TileMapGenerator::fenceCurve)
+        .withField("wallStraight", &TileMapGenerator::wallStraight)
+        .withField("wallCurve", &TileMapGenerator::wallCurve)
         .build();
 }
 
@@ -41,19 +45,30 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Query<Entity, const TileMapGenerator&> query) {
             for (auto [entity, generator] : query)
             {
-                TileMap map{.chunkSide = generator.chunkSide,
-                            .tileSide = generator.tileSide,
-                            .types = {
-                                generator.grass,
-                                generator.roadLine,
-                                generator.roadSimple,
-                                generator.sidewalk,
-                            }};
+                TileMap map{
+                    .chunkSide = generator.chunkSide,
+                    .tileSide = generator.tileSide,
+                    .floorTypes =
+                        {
+                            generator.grass,
+                            generator.roadLine,
+                            generator.roadSimple,
+                            generator.sidewalk,
+                        },
+                    .wallTypes =
+                        {
+                            generator.fenceStraight,
+                            generator.fenceCurve,
+                            generator.wallStraight,
+                            generator.wallCurve,
+                        },
+                };
 
                 std::mt19937 mt(generator.seed);
                 std::uniform_real_distribution<float> randomDist(0.0F, 1.0F);
 
-                map.tiles.resize(generator.mapSide, std::vector<unsigned char>(generator.mapSide, 0));
+                map.floorTiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{0, 0}));
+                map.wallTiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{UINT8_MAX, 0}));
 
                 for (int ty = 0; ty < generator.mapSide; ++ty)
                 {
@@ -62,18 +77,22 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         int rx = tx % 24;
                         if (rx == 8)
                         {
-                            map.tiles[ty][tx] = 1;
+                            map.floorTiles[ty][tx].type = 1;
                         }
                         else if (rx >= 7 && rx <= 9)
                         {
-                            map.tiles[ty][tx] = 2;
+                            map.floorTiles[ty][tx].type = 2;
                         }
                         else if (rx >= 4 && rx <= 12)
                         {
-                            map.tiles[ty][tx] = 3;
+                            map.floorTiles[ty][tx].type = 3;
                         }
 
-                        if (randomDist(mt) < 0.01F)
+                        if (rx == 0)
+                        {
+                            map.wallTiles[ty][tx] = {.type = 0, .rotation = 1};
+                        }
+                        else if (randomDist(mt) < 0.01F)
                         {
                             auto crate = cmds.spawn(assets.read(generator.crate)->blueprint).entity("crate");
                             cmds.relate(crate, entity, ChildOf{});
