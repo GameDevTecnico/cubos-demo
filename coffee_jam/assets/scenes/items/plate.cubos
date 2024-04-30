@@ -11,7 +11,7 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
-      "demo::Holdable": {},
+      "demo::Holdable": true,
       "demo::Ingredient": {
         "result": "f5d7596a-9b51-4429-a4cd-61181de030a1",
         "root": "turret"

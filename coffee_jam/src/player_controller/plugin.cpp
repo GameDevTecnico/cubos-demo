@@ -26,6 +26,21 @@ CUBOS_REFLECT_IMPL(demo::PlayerController)
         .build();
 }
 
+static int getTopOfStack(Entity entity, Query<Entity, const demo::Holdable&, const ChildOf&> heldObjects,
+                         Entity& topEntity)
+{
+    topEntity = entity;
+
+    int topHeight = 1;
+    while (auto match = heldObjects.pin(1, topEntity).first())
+    {
+        auto [next, holdable, childOf] = *match;
+        topEntity = next;
+        topHeight++;
+    }
+    return topHeight;
+}
+
 void demo::playerControllerPlugin(Cubos& cubos)
 {
     cubos.depends(inputPlugin);
@@ -74,7 +89,31 @@ void demo::playerControllerPlugin(Cubos& cubos)
                     {
                         auto [heldEnt, holdable, holdableChildOf] = *match;
 
-                        if (targetEnt.isNull())
+                        auto targetHoldableMatch = holdableObjects.at(targetEnt);
+                        if (holdable.stackable && targetHoldableMatch)
+                        {
+                            auto [targetObject, targetHoldable] = *targetHoldableMatch;
+                            if (!targetHoldable.stackable)
+                            {
+                                // The target entity is not stackable, so we cannot stack the held entity with it.
+                                continue;
+                            }
+
+                            Entity topEnt;
+                            if (getTopOfStack(targetEnt, heldObjects, topEnt) >= 3)
+                            {
+                                // The stack is too high, so we cannot stack the held entity with it.
+                                continue;
+                            }
+
+                            // Stack the held entity on top of the target entity.
+                            cmds.relate(heldEnt, topEnt, ChildOf{});
+                            cmds.add(heldEnt, Position{{0.0F, 1.0F, 0.0F}});
+
+                            // Switch back to the normal voxel model.
+                            grid.asset = controller.normal;
+                        }
+                        else if (targetEnt.isNull())
                         {
                             // Place the object in the target position, as it is empty.
                             map.entities[target.y][target.x] = heldEnt;
@@ -94,14 +133,16 @@ void demo::playerControllerPlugin(Cubos& cubos)
                     }
                     else if (auto match = holdableObjects.at(targetEnt))
                     {
-                        // Pick up object at the target position.
+                        // Pick up holdable at the target position (or top of stack, if stackable).
+                        getTopOfStack(targetEnt, heldObjects, targetEnt);
                         auto [object, holdable] = *match;
                         CUBOS_ASSERT((object.size == glm::ivec2{1, 1}),
                                      "Only (1,1)-sized holdable objects are supported");
 
-                        cmds.remove<Object>(targetEnt);
-                        cmds.relate(targetEnt, playerEnt, ChildOf{});
-                        cmds.add(targetEnt, Position{{0.0F, 8.0F, 0.0F}});
+                        cmds.remove<Object>(targetEnt)
+                            .relate(targetEnt, playerEnt, ChildOf{})
+                            .add(targetEnt, Position{{0.0F, 8.0F, 0.0F}})
+                            .add(targetEnt, Rotation{glm::angleAxis(glm::radians(90.0F), glm::vec3{0.0F, 1.0F, 0.0F})});
 
                         // Switch back the 'holding' voxel model.
                         grid.asset = controller.holding;
