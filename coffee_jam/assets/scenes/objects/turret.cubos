@@ -1,0 +1,37 @@
+{
+  "entities": {
+    "turret": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "f8dfdd5c-49fc-47e7-be75-864b5d36e7ae",
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::Position": {},
+      "cubos::engine::Rotation": {},
+      "demo::Ingredient": {
+        "result": "efa94da9-0b63-4550-b15a-f2240418183f",
+        "root": "plate"
+      }
+    },
+    "gun": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "1fe428c5-bb0b-4fc3-b152-d780f219da46",
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::ChildOf@turret": {}
+    }
+  },
+  "imports": {}
+}
