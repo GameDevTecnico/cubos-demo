@@ -39,17 +39,17 @@ void demo::walkerPlugin(Cubos& cubos)
                 if (!walker.initialized)
                 {
                     // If the initial position is already occupied, try to find an empty one nearby.
-                    walker.position.x = glm::clamp(walker.position.x, 0, static_cast<int>(map.tiles.size() - 1));
-                    walker.position.y = glm::clamp(walker.position.y, 0, static_cast<int>(map.tiles.size() - 1));
+                    walker.position.x = glm::clamp(walker.position.x, 0, static_cast<int>(map.floorTiles.size() - 1));
+                    walker.position.y = glm::clamp(walker.position.y, 0, static_cast<int>(map.floorTiles.size() - 1));
                     while (!map.entities[walker.position.y][walker.position.x].isNull())
                     {
                         walker.position += glm::ivec2{1, 0};
-                        if (walker.position.x >= map.tiles.size())
+                        if (walker.position.x >= map.floorTiles.size())
                         {
                             walker.position.x = 0;
                             walker.position.y += 1;
                         }
-                        if (walker.position.y >= map.tiles.size())
+                        if (walker.position.y >= map.floorTiles.size())
                         {
                             walker.position.y = 0;
                         }
@@ -69,8 +69,8 @@ void demo::walkerPlugin(Cubos& cubos)
                     walker.facing = walker.direction;
 
                     // Check if movement is valid.
-                    if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.tiles.size() ||
-                        targetTile.y >= map.tiles.size() ||
+                    if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.floorTiles.size() ||
+                        targetTile.y >= map.floorTiles.size() ||
                         (!map.entities[targetTile.y][targetTile.x].isNull() &&
                          map.entities[targetTile.y][targetTile.x] != ent))
                     {

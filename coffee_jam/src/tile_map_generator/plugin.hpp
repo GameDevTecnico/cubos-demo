@@ -30,12 +30,20 @@ namespace demo
         /// @brief How many voxels wide is a single tile.
         int tileSide = 8;
 
-        /// @name Voxel grids for the different tile types.
+        /// @name Voxel grids for the different floor types.
         /// @{
         cubos::engine::Asset<cubos::engine::VoxelGrid> grass;
         cubos::engine::Asset<cubos::engine::VoxelGrid> roadLine;
         cubos::engine::Asset<cubos::engine::VoxelGrid> roadSimple;
         cubos::engine::Asset<cubos::engine::VoxelGrid> sidewalk;
+        /// @}
+
+        /// @name Voxel grids for the different wall types.
+        /// @{
+        cubos::engine::Asset<cubos::engine::VoxelGrid> fenceStraight;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> fenceCurve;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> wallStraight;
+        cubos::engine::Asset<cubos::engine::VoxelGrid> wallCurve;
         /// @}
 
         /// @name Scenes for the different objects which may be lying around.

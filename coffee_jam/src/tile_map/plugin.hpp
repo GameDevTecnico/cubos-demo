@@ -12,6 +12,18 @@
 
 namespace demo
 {
+    /// @brief Tile data.
+    struct Tile
+    {
+        CUBOS_REFLECT;
+
+        /// @brief Index of the tile's grid in the corresponding tile type vector.
+        unsigned char type;
+
+        /// @brief Rotation of the tile in 90-degree increments.
+        unsigned char rotation;
+    };
+
     /// @brief Component which keeps information about the tile-map.
     ///
     /// On addition, immediately creates entities for the tile chunks.
@@ -25,11 +37,20 @@ namespace demo
         /// @brief How many voxels wide is a single tile.
         int tileSide = 8;
 
-        /// @brief Map of tile indices to their voxel grids.
-        std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> types;
+        /// @brief How many voxels high is a single wall tile.
+        int wallHeight = 8;
 
-        /// @brief Tile-map data. Each dimension's size must be a multiple of @ref chunkSide.
-        std::vector<std::vector<unsigned char>> tiles;
+        /// @brief Map of floor tile indices to their voxel grids.
+        std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> floorTypes;
+
+        /// @brief Map of wall tile indices to their voxel grids.
+        std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> wallTypes;
+
+        /// @brief Tile-map floor data. Each dimension's size must be a multiple of @ref chunkSide.
+        std::vector<std::vector<Tile>> floorTiles;
+
+        /// @brief Tile-map wall data. Each dimension's size must be a multiple of @ref chunkSide.
+        std::vector<std::vector<Tile>> wallTiles;
 
         /// @brief Entity occupying each tile (if any).
         std::vector<std::vector<cubos::engine::Entity>> entities;
