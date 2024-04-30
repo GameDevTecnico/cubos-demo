@@ -17,8 +17,8 @@
       "cubos::engine::Scale": 1.0,
       "demo::Walker": {
         "position": {
-          "x": 32,
-          "y": 32
+          "x": 30,
+          "y": 48
         },
         "moveSpeed": 5.0,
         "halfRotationTime": 0.03,
