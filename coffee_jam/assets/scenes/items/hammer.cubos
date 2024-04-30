@@ -11,7 +11,7 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
-      "demo::Holdable": {},
+      "demo::Holdable": false,
       "demo::Hammer": {}
     }
   },

@@ -10,6 +10,9 @@ namespace demo
     struct Holdable
     {
         CUBOS_REFLECT;
+
+        /// @brief Whether the entity can be stacked with other entities.
+        bool stackable{false};
     };
 
     void holdablePlugin(cubos::engine::Cubos& cubos);

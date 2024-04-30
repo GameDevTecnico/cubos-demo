@@ -11,7 +11,7 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
-      "demo::Holdable": {},
+      "demo::Holdable": true,
       "demo::Ingredient": {
         "result": "617ecec1-c006-42b6-9a6d-3b941e5fe4d3",
         "root": "barricade"
