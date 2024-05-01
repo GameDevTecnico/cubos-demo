@@ -28,6 +28,18 @@ namespace demo
         /// @brief Time in seconds the turret takes to rotate 180 degrees.
         float rotationTime = 1.0F;
 
+        /// @brief Height at which the bullet is spawned.
+        float bulletHeight = 8.0F;
+
+        /// @brief Distance at which the bullet is spawned.
+        float bulletDistance = 1.0F;
+
+        /// @brief Speed at which the bullet moves.
+        float bulletSpeed = 10.0F;
+
+        /// @brief Maximum time in seconds the bullet can exist.
+        float maxBulletTime = 5.0F;
+
         /// @brief Current ammo count.
         int ammo = 0;
 
@@ -42,6 +54,24 @@ namespace demo
     struct Ammo
     {
         CUBOS_REFLECT;
+    };
+
+    /// @brief Component for bullet entities.
+    struct Bullet
+    {
+        CUBOS_REFLECT;
+
+        /// @brief Entity that shot the bullet.
+        cubos::engine::Entity shooter;
+
+        /// @brief How fast the bullet moves.
+        float speed = 10.0F;
+
+        /// @brief Time in seconds since the bullet was spawned.
+        float time = 0.0F;
+
+        /// @brief Maximum time in seconds the bullet can exist.
+        float maxTime = 5.0F;
     };
 
     void turretPlugin(cubos::engine::Cubos& cubos);
