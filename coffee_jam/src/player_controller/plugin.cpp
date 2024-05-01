@@ -112,7 +112,9 @@ void demo::playerControllerPlugin(Cubos& cubos)
 
                             // Stack the held entity on top of the target entity.
                             cmds.relate(heldEnt, topEnt, ChildOf{});
-                            cmds.add(heldEnt, Position{{0.0F, 1.0F, 0.0F}});
+                            cmds.add(heldEnt, Position{{0.0F, 1.0F, 0.0F}})
+                                .add(heldEnt,
+                                     Rotation{glm::angleAxis(glm::radians(90.0F), glm::vec3{0.0F, 1.0F, 0.0F})});
                         }
                         else if (targetEnt.isNull())
                         {
@@ -140,7 +142,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
                         cmds.remove<Object>(targetEnt)
                             .relate(targetEnt, playerEnt, ChildOf{})
                             .add(targetEnt, Position{{0.0F, 8.0F, 0.0F}})
-                            .add(targetEnt, Rotation{glm::angleAxis(glm::radians(90.0F), glm::vec3{0.0F, 1.0F, 0.0F})});
+                            .add(targetEnt, Rotation{});
                     }
                     else if (!targetEnt.isNull())
                     {
