@@ -415,7 +415,8 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                             // Randomly add crates inside the parking lot.
                             if (rand() % 200 == 0)
                             {
-                                for (int i = 0; i < 5; ++i)
+                                int size = 1 + rand() % 5;
+                                for (int i = 0; i < size; ++i)
                                 {
                                     auto crate = cursor.cmds.spawn(cursor.objects.crate->blueprint).entity("crate");
                                     cursor.cmds.relate(crate, cursor.mapEnt, ChildOf{});
