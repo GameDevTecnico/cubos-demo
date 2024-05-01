@@ -2,17 +2,17 @@
 #include "../walker/plugin.hpp"
 #include "../player_controller/plugin.hpp"
 #include "../tile_map/plugin.hpp"
-#include "cubos/engine/assets/plugin.hpp"
+#include "../path_finding/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
 #include <cubos/core/reflection/external/string.hpp>
+#include <cubos/core/reflection/external/glm.hpp>
 #include <cubos/core/log.hpp>
 
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
-#include <cubos/engine/assets/asset.hpp>
-#include <cubos/engine/assets/assets.hpp>
+#include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
 #include <glm/ext/vector_int2.hpp>
@@ -22,9 +22,8 @@ using namespace cubos::engine;
 CUBOS_REFLECT_IMPL(demo::ZombieController)
 {
     return cubos::core::ecs::TypeBuilder<ZombieController>("demo::ZombieController")
-        .withField("moveX", &ZombieController::moveX)
-        .withField("moveY", &ZombieController::moveY)
-        .withField("normal", &ZombieController::normal)
+        .withField("rePathTime", &ZombieController::rePathTime)
+        .withField("rePathTimeAcc", &ZombieController::rePathTimeAcc)
         .build();
 }
 
@@ -35,66 +34,132 @@ void demo::zombiePlugin(Cubos& cubos)
     cubos.depends(tileMapPlugin);
     cubos.depends(assetsPlugin);
     cubos.depends(transformPlugin);
-    static Asset<Scene> ZombieAsset = AnyAsset("4d8ff909-46df-49c4-adf0-ca409b34510f");
-    std::srand(std::time(nullptr));
+    cubos.depends(pathFindingPlugin);
 
     cubos.component<ZombieController>();
 
-    /*cubos.startupSystem("Initialize zombie")
-        .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets, Query<Entity, TileMap&> query) {
-            auto zombieEnt = cmds.spawn(assets.read(ZombieAsset)->blueprint).entity("base.body");
-            cmds.add(zombieEnt, Walker{.position = {32, 32}, .initialized = true});
-            for (auto [entity, map] : query)
-            {
-                cmds.relate(zombieEnt, entity, ChildOf{});
-                break;
-            }
-        });*/
-
     cubos.system("do ZombieController")
-        .call([](Commands cmds, Query<Entity, ZombieController&, Walker&, ChildOf&, TileMap&, Entity> zombies,
+        .call([](Commands cmds, const DeltaTime& dt,
+                 Query<Entity, ZombieController&, Walker&, Opt<const PathTask&>, Opt<Path&>, ChildOf&, TileMap&, Entity>
+                     zombies,
                  Query<Entity, PlayerController&, Walker&> players) {
             std::vector<glm::ivec2> playerPositions;
             for (auto [playerEnt, controller, walker] : players)
             {
                 playerPositions.push_back(walker.position);
             }
-            for (auto [zombieEnt, controller, walker, childof, map, mapEnt] : zombies)
+            for (auto [zombieEnt, controller, walker, pathTask, path, _, map, mapEnt] : zombies)
             {
-                if (walker.direction != glm::ivec2{0, 0})
+                if (walker.direction != glm::ivec2{0, 0} || !walker.initialized)
                 {
                     // The entity is already moving, so we can skip it.
                     continue;
                 }
-                auto target = walker.position + walker.facing;
-                if (target.x < 0 || target.x >= map.entities.size() || target.y < 0 || target.y >= map.entities.size())
+
+                // If we're calculating a path, then wait for the answer before moving.
+                if (pathTask)
                 {
-                    // The position the player is facing is out of bounds.
                     continue;
                 }
 
-                // Choose closest target
-                glm::ivec2 positionTargeted = playerPositions[0];
+                // Find the player which is closest to the zombie.
+                glm::ivec2 targetPosition = playerPositions[0];
                 for (auto position : playerPositions)
                 {
                     if (glm::distance((glm::vec2)walker.position, (glm::vec2)position) <
-                        glm::distance((glm::vec2)walker.position, (glm::vec2)positionTargeted))
+                        glm::distance((glm::vec2)walker.position, (glm::vec2)targetPosition))
                     {
-                        positionTargeted = position;
+                        targetPosition = position;
                     }
                 }
 
-                // Move the character
-                (positionTargeted.x > walker.position.x) ? walker.direction.x = 1 : walker.direction.x = -1;
-                int randomChoice = std::rand() % 2;
-                if (randomChoice)
+                if (glm::abs(walker.position.x - targetPosition.x) + glm::abs(walker.position.y - targetPosition.y) <=
+                    1)
                 {
-                    walker.direction.x = 0;
+                    // If there's a player adjacent to the zombie, just attack them.
+                    // TODO: implement chomp
+                    continue;
                 }
-                if (walker.direction.x == 0)
+
+                if (path)
                 {
-                    (positionTargeted.y > walker.position.y) ? walker.direction.y = 1 : walker.direction.y = -1;
+                    if (path->path.empty())
+                    {
+                        // We asked for a path, but there isn't one. We'll just move in the direction of the closest
+                        // player. Eventually, we'll ask for a new path.
+                        controller.rePathTimeAcc += dt.value();
+                        if (controller.rePathTimeAcc > controller.rePathTime)
+                        {
+                            controller.rePathTimeAcc = 0.0F;
+                            cmds.remove<Path>(zombieEnt);
+                        }
+                    }
+                    else
+                    {
+                        // We have a non-empty path, so we'll just follow it.
+                        if (path->path.back() == walker.position)
+                        {
+                            path->path.pop_back();
+                            if (path->path.empty())
+                            {
+                                cmds.remove<Path>(zombieEnt);
+                                continue;
+                            }
+
+                            walker.direction = path->path.back() - walker.position;
+                            continue;
+                        }
+
+                        // We're stuck, discard the path, and just move in the direction of the closest player.
+                        cmds.remove<Path>(zombieEnt);
+                    }
+                }
+
+                if (controller.lastPosition == walker.position)
+                {
+                    // The previous movement failed.
+                    if (!path)
+                    {
+                        // Generate a new path to the closest player.
+                        controller.lastPosition = {-1, -1};
+                        cmds.add(zombieEnt, PathTask{walker.position, targetPosition});
+                    }
+                    else
+                    {
+                        // There isn't a valid path to the closest player. Attack whatever is in front of us.
+                        // TODO
+                    }
+                }
+                else
+                {
+                    controller.lastPosition = walker.position;
+
+                    // Just move in the direction of the closest player.
+                    bool directionPreference = std::rand() % 2 == 0;
+
+                    if (targetPosition.x == walker.position.x ||
+                        (directionPreference && targetPosition.y != walker.position.y))
+                    {
+                        if (targetPosition.y < walker.position.y)
+                        {
+                            walker.direction = {0, -1};
+                        }
+                        else
+                        {
+                            walker.direction = {0, 1};
+                        }
+                    }
+                    else
+                    {
+                        if (targetPosition.x < walker.position.x)
+                        {
+                            walker.direction = {-1, 0};
+                        }
+                        else
+                        {
+                            walker.direction = {1, 0};
+                        }
+                    }
                 }
             }
         });
