@@ -29,6 +29,7 @@
 #include "turret/plugin.hpp"
 #include "path_finding/plugin.hpp"
 #include "zombie/plugin.hpp"
+#include "health/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -58,6 +59,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::pathFindingPlugin);
     cubos.plugin(demo::zombiePlugin);
+    cubos.plugin(demo::healthPlugin);
     cubos.plugin(demo::turretPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {

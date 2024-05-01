@@ -22,6 +22,9 @@
         "root": "planks",
         "minDrops": 1,
         "maxDrops": 3
+      },
+      "demo::Health": {
+        "enemy": 0
       }
     }
   },

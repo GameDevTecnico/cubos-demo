@@ -12,7 +12,10 @@
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
       "demo::Holdable": true,
-      "demo::IsIngredientAsset": "4827a4d2-c84d-46cf-b334-ff213e0018c0"
+      "demo::IsIngredientAsset": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
+      "demo::Health": {
+        "enemy": 0
+      }
     }
   },
   "imports": {}

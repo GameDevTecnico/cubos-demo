@@ -44,6 +44,9 @@
         "phi": 10.0,
         "theta": 45.0,
         "halfTime": 0.25
+      },
+      "demo::Health": {
+        "enemy": 1
       }
     }
   },

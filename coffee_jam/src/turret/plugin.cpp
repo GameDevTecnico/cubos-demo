@@ -2,7 +2,9 @@
 #include "../interaction/plugin.hpp"
 #include "../object/plugin.hpp"
 #include "../zombie/plugin.hpp"
+#include "../health/plugin.hpp"
 #include "../tile_map/plugin.hpp"
+#include "cubos/engine/prelude.hpp"
 
 #include <random>
 
@@ -57,6 +59,7 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.depends(interactionPlugin);
     cubos.depends(zombiePlugin);
     cubos.depends(tileMapPlugin);
+    cubos.depends(healthPlugin);
 
     cubos.component<Turret>();
     cubos.component<Ammo>();
@@ -166,7 +169,7 @@ void demo::turretPlugin(Cubos& cubos)
 
     cubos.system("update Bullets")
         .call([](Commands cmds, const DeltaTime& dt, Query<Entity, Position&, const Rotation&, Bullet&> bullets,
-                 Query<TileMap&> maps, Query<const CollidingWith&, Entity> collidingWith) {
+                 Query<TileMap&> maps, Query<const CollidingWith&, Entity, Opt<Health&>> collidingWith) {
             if (maps.empty())
             {
                 return;
@@ -186,13 +189,20 @@ void demo::turretPlugin(Cubos& cubos)
                 // Move the bullet forward.
                 position.vec += rotation.quat * glm::vec3{bullet.speed, 0.0F, 0.0F} * dt.value();
 
-                for (auto [_, hit] : collidingWith.pin(0, ent))
+                for (auto [_, hit, health] : collidingWith.pin(0, ent))
                 {
                     if (hit == bullet.shooter)
                     {
                         continue;
                     }
 
+                    if (health.contains())
+                    {
+                        if (health->enemy)
+                        {
+                            health->hp--;
+                        }
+                    }
                     cmds.destroy(ent);
                     break;
                 }

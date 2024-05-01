@@ -23,7 +23,10 @@
         "y": 0.25,
         "z": 1.0
       },
-      "cubos::engine::Collider": {}
+      "cubos::engine::Collider": {},
+      "demo::Health": {
+        "enemy": 0
+      }
     }
   }
 }
