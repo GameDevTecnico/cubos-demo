@@ -16,7 +16,11 @@
         "y": 6.0,
         "z": 4.0
       },
-      "cubos::engine::Collider": {}
+      "cubos::engine::Collider": {},
+      "demo::Health": {
+        "hp" : 3,
+        "enemy": 0
+      }
     }
   },
   "imports": {}

@@ -23,6 +23,9 @@
         "jumpHeight": 2.5
       },
       "demo::ZombieController": {}
+      "demo::Health": {
+        "enemy": 1
+      }
     }
   },
   "imports": {}

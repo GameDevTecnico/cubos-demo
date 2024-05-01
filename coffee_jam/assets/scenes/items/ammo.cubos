@@ -12,7 +12,10 @@
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
       "demo::Ammo": {},
-      "demo::Holdable": true
+      "demo::Holdable": true,
+      "demo::Health": {
+        "enemy": 0
+      }
     }
   },
   "imports": {}

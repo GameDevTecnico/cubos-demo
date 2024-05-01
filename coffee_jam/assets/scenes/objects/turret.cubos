@@ -45,7 +45,10 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::ChildOf@turret": {}
+      "cubos::engine::ChildOf@turret": {},
+      "demo::Health": {
+        "enemy": 0
+      }
     }
   },
   "imports": {}

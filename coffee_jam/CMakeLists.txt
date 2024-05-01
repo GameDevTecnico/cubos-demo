@@ -16,6 +16,7 @@ add_executable(coffee-jam
     src/turret/plugin.cpp
     src/path_finding/plugin.cpp
     src/zombie/plugin.cpp
+    src/health/plugin.cpp
 )
 
 target_link_libraries(coffee-jam tesseratos)
