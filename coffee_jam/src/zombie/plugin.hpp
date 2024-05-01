@@ -16,14 +16,14 @@ namespace demo
     {
         CUBOS_REFLECT;
 
-        /// @brief Axis used to move the character in the x direction.
-        std::string moveX = "move-x";
+        /// @brief Time until the zombie tries to search for another path.
+        float rePathTime = 10.0F;
 
-        /// @brief Axis used to move the character in the y direction.
-        std::string moveY = "move-y";
+        /// @brief Time accumulator for the re-path time.
+        float rePathTimeAcc = 0.0F;
 
-        /// @brief Normal voxel model of the character.
-        cubos::engine::Asset<cubos::engine::VoxelGrid> normal;
+        /// @brief Last position of the walker, used to check if the walker is stuck.
+        glm::ivec2 lastPosition = {-1, -1};
     };
 
     void zombiePlugin(cubos::engine::Cubos& cubos);

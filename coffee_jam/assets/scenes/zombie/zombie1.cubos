@@ -1,11 +1,17 @@
 {
-    "entities": {
-        "base.body": {
-            "demo::ZombieController": {
-            }
-        }
-    },
-    "imports": {
-        "base": "cac2dbde-79db-4b45-8331-d83f829bc310"
+  "entities": {
+    "base.body": {
+      "cubos::engine::RenderableGrid": {
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        },
+        "asset": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
+      }
     }
+  },
+  "imports": {
+    "base": "cac2dbde-79db-4b45-8331-d83f829bc310"
+  }
 }

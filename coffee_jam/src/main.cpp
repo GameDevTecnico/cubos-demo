@@ -27,6 +27,7 @@
 #include "hammer/plugin.hpp"
 #include "player_controller/plugin.hpp"
 #include "turret/plugin.hpp"
+#include "path_finding/plugin.hpp"
 #include "zombie/plugin.hpp"
 
 using namespace cubos::engine;
@@ -55,6 +56,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::breakablePlugin);
     cubos.plugin(demo::hammerPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
+    cubos.plugin(demo::pathFindingPlugin);
     cubos.plugin(demo::zombiePlugin);
     cubos.plugin(demo::turretPlugin);
 

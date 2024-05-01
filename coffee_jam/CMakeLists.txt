@@ -14,6 +14,7 @@ add_executable(coffee-jam
     src/hammer/plugin.cpp
     src/player_controller/plugin.cpp
     src/turret/plugin.cpp
+    src/path_finding/plugin.cpp
     src/zombie/plugin.cpp
 )
 

@@ -1,14 +1,6 @@
 {
   "entities": {
     "body": {
-      "cubos::engine::RenderableGrid": {
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        },
-        "asset": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
-      },
       "cubos::engine::Rotation": {
         "w": 1.0,
         "x": 0.0,
@@ -26,10 +18,11 @@
           "x": 30,
           "y": 48
         },
-        "moveSpeed": 5.0,
+        "moveSpeed": 4.0,
         "halfRotationTime": 0.03,
         "jumpHeight": 2.5
-      }
+      },
+      "demo::ZombieController": {}
     }
   },
   "imports": {}
