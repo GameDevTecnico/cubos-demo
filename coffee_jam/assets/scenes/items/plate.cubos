@@ -12,10 +12,7 @@
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
       "demo::Holdable": true,
-      "demo::Ingredient": {
-        "result": "f5d7596a-9b51-4429-a4cd-61181de030a1",
-        "root": "turret"
-      }
+      "demo::IsIngredientAsset": "efa94da9-0b63-4550-b15a-f2240418183f"
     }
   },
   "imports": {}

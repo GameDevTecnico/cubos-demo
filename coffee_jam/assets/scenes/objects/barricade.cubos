@@ -10,11 +10,7 @@
         }
       },
       "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "demo::Ingredient": {
-        "result": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
-        "root": "planks"
-      }
+      "cubos::engine::Rotation": {}
     }
   },
   "imports": {}
