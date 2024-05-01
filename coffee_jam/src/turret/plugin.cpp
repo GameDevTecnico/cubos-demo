@@ -59,7 +59,7 @@ void demo::turretPlugin(Cubos& cubos)
             {
                 for (auto [entity, ammo, childOf] : ammo.pin(1, interaction.entity))
                 {
-                    if (turret.ammo <= turret.maxAmmoForReload)
+                    if (turret.ammo < turret.maxAmmoForReload)
                     {
                         cmds.destroy(entity);
                         turret.ammo += turret.ammoPerReload;

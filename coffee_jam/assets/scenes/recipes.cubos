@@ -26,6 +26,13 @@
         "root": "turret"
       },
       "demo::Requires@plate": 3
+    },
+    "ammo": {
+      "demo::Recipe": {
+        "result": "afb7dbc0-4387-4b62-8f28-9a1e249b1a9a",
+        "root": "ammo"
+      },
+      "demo::Requires@plate": 1
     }
   }
 }
