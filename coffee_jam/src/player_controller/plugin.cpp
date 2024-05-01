@@ -68,9 +68,13 @@ void demo::playerControllerPlugin(Cubos& cubos)
                     continue;
                 }
 
-                if (grid.asset.isNull())
+                if (heldObjects.pin(1, playerEnt).empty())
                 {
                     grid.asset = controller.normal;
+                }
+                else
+                {
+                    grid.asset = controller.holding;
                 }
 
                 if (input.justPressed(controller.interact.c_str(), controller.player))
@@ -109,9 +113,6 @@ void demo::playerControllerPlugin(Cubos& cubos)
                             // Stack the held entity on top of the target entity.
                             cmds.relate(heldEnt, topEnt, ChildOf{});
                             cmds.add(heldEnt, Position{{0.0F, 1.0F, 0.0F}});
-
-                            // Switch back to the normal voxel model.
-                            grid.asset = controller.normal;
                         }
                         else if (targetEnt.isNull())
                         {
@@ -119,9 +120,6 @@ void demo::playerControllerPlugin(Cubos& cubos)
                             map.entities[target.y][target.x] = heldEnt;
                             cmds.relate(heldEnt, mapEnt, ChildOf{});
                             cmds.add(heldEnt, Object{.position = target, .size = {1, 1}});
-
-                            // Switch back to the normal voxel model.
-                            grid.asset = controller.normal;
                         }
                         else
                         {
@@ -143,9 +141,6 @@ void demo::playerControllerPlugin(Cubos& cubos)
                             .relate(targetEnt, playerEnt, ChildOf{})
                             .add(targetEnt, Position{{0.0F, 8.0F, 0.0F}})
                             .add(targetEnt, Rotation{glm::angleAxis(glm::radians(90.0F), glm::vec3{0.0F, 1.0F, 0.0F})});
-
-                        // Switch back the 'holding' voxel model.
-                        grid.asset = controller.holding;
                     }
                     else if (!targetEnt.isNull())
                     {

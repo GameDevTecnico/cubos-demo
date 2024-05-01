@@ -1,6 +1,7 @@
 #include "plugin.hpp"
 #include "../interaction/plugin.hpp"
 #include "../object/plugin.hpp"
+#include "../holdable/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 
@@ -86,6 +87,7 @@ void demo::hammerPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(interactionPlugin);
     cubos.depends(objectPlugin);
+    cubos.depends(holdablePlugin);
 
     cubos.component<Hammer>();
     cubos.component<Recipe>();
@@ -175,11 +177,18 @@ void demo::hammerPlugin(Cubos& cubos)
         .entity(2)
         .call([](Commands cmds, Assets& assets,
                  Query<Entity, const Interaction&, const Object&, Entity, Entity> interactions,
-                 Query<const Requires&, const Ingredient&> ingredients, Query<const Hammer&, const ChildOf&> hammers) {
+                 Query<const Requires&, const Ingredient&> ingredients, Query<const Hammer&, const ChildOf&> hammers,
+                 Query<const Holdable&, const ChildOf&> stacked) {
             for (auto [ent, interaction, object, recipeEnt, mapEnt] : interactions)
             {
                 if (!hammers.pin(1, interaction.entity).empty())
                 {
+                    // If the interaction is with a stack of ingredients, do nothing.
+                    if (!stacked.pin(1, ent).empty())
+                    {
+                        continue;
+                    }
+
                     cmds.destroy(ent);
 
                     // Spawn pile of ingredients.
