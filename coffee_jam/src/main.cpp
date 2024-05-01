@@ -54,9 +54,9 @@ int main(int argc, char** argv)
     cubos.plugin(demo::playerControllerPlugin);
     cubos.plugin(demo::breakablePlugin);
     cubos.plugin(demo::hammerPlugin);
-    cubos.plugin(demo::turretPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::zombiePlugin);
+    cubos.plugin(demo::turretPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);

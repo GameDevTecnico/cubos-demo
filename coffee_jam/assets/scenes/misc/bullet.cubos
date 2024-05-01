@@ -1,0 +1,14 @@
+{
+  "entities": {
+    "bullet": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "e57bb515-6ca8-47dd-8568-431958e06c58",
+        "offset": {
+          "x": -1.5,
+          "y": 0.0,
+          "z": -1.0
+        }
+      }
+    }
+  }
+}

@@ -12,10 +12,17 @@
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
       "demo::Turret": {
-        "cooldown": 1.0,
-        "rotationTime": 2.0,
+        "bullet": "e078c394-e169-4117-b3a7-9e8650738f5d",
+        "root": "bullet",
+        "cooldown": 2.0,
+        "rotationTime": 5.0,
+        "bulletHeight": 5.0,
+        "bulletDistance": 5.5,
+        "bulletSpeed": 100.0,
+        "maxBulletTime": 2.0,
         "maxAmmoForReload": 5,
-        "ammoPerReload": 5
+        "ammoPerReload": 5,
+        "ammo": 5
       }
     },
     "gun": {

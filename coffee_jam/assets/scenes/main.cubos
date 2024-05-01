@@ -62,6 +62,15 @@
     },
     "zombie1.base.body": {
       "cubos::engine::ChildOf@map": {}
+    },
+    "turret1.turret": {
+      "cubos::engine::ChildOf@map": {},
+      "demo::Object": {
+        "position": {
+          "x": 30,
+          "y": 48
+        }
+      }
     }
   },
   "imports": {
@@ -69,6 +78,7 @@
     "recipes": "e5871129-c6ea-4c85-aa40-42329f71361f",
     "player1": "e24115b4-00fb-4d85-8a92-e487acbbcf7e",
     "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2",
-    "zombie1": "4d8ff909-46df-49c4-adf0-ca409b34510f"
+    "zombie1": "4d8ff909-46df-49c4-adf0-ca409b34510f",
+    "turret1": "f5d7596a-9b51-4429-a4cd-61181de030a1"
   }
 }
