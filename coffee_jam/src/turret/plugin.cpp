@@ -11,6 +11,8 @@
 
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
+#include <cubos/engine/collisions/plugin.hpp>
+#include <cubos/engine/collisions/colliding_with.hpp>
 
 using namespace cubos::engine;
 
@@ -51,6 +53,7 @@ void demo::turretPlugin(Cubos& cubos)
 {
     cubos.depends(assetsPlugin);
     cubos.depends(transformPlugin);
+    cubos.depends(collisionsPlugin);
     cubos.depends(interactionPlugin);
     cubos.depends(zombiePlugin);
     cubos.depends(tileMapPlugin);
@@ -163,7 +166,7 @@ void demo::turretPlugin(Cubos& cubos)
 
     cubos.system("update Bullets")
         .call([](Commands cmds, const DeltaTime& dt, Query<Entity, Position&, const Rotation&, Bullet&> bullets,
-                 Query<TileMap&> maps) {
+                 Query<TileMap&> maps, Query<const CollidingWith&, Entity> collidingWith) {
             if (maps.empty())
             {
                 return;
@@ -182,6 +185,17 @@ void demo::turretPlugin(Cubos& cubos)
 
                 // Move the bullet forward.
                 position.vec += rotation.quat * glm::vec3{bullet.speed, 0.0F, 0.0F} * dt.value();
+
+                for (auto [_, hit] : collidingWith.pin(0, ent))
+                {
+                    if (hit == bullet.shooter)
+                    {
+                        continue;
+                    }
+
+                    cmds.destroy(ent);
+                    break;
+                }
             }
         });
 }
