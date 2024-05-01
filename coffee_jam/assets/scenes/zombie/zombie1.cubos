@@ -2,7 +2,6 @@
     "entities": {
         "base.body": {
             "demo::ZombieController": {
-                "normal": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
             }
         }
     },

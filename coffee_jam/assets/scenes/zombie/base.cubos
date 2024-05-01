@@ -6,7 +6,8 @@
           "x": -4.0,
           "y": 0.0,
           "z": -4.0
-        }
+        },
+        "asset": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
       },
       "cubos::engine::Rotation": {
         "w": 1.0,
@@ -15,10 +16,17 @@
         "z": 0.0
       },
       "cubos::engine::Scale": 1.0,
-      "cubos::engine::ChildOf@main.map": {}
+      "demo::Walker": {
+        "position": {
+          "x": 30,
+          "y": 48
+        },
+        "moveSpeed": 5.0,
+        "halfRotationTime": 0.03,
+        "jumpHeight": 2.5
+      }
     }
   },
   "imports": {
-    "main": "1d2c5bae-f6ec-4986-bc9a-d2863b317c47"
   }
 }
