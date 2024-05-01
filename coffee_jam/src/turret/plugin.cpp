@@ -164,6 +164,11 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.system("update Bullets")
         .call([](Commands cmds, const DeltaTime& dt, Query<Entity, Position&, const Rotation&, Bullet&> bullets,
                  Query<TileMap&> maps) {
+            if (maps.empty())
+            {
+                return;
+            }
+
             auto [map] = *maps.first();
 
             for (auto [ent, position, rotation, bullet] : bullets)

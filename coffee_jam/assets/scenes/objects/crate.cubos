@@ -11,6 +11,12 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 3.0,
+        "y": 6.0,
+        "z": 3.0
+      },
+      "cubos::engine::Collider": {},
       "demo::Breakable": {
         "drop": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
         "root": "planks",

@@ -17,7 +17,13 @@
         },
         "intensity": 1.0,
         "range": 20.0
-      }
+      },
+      "cubos::engine::BoxCollisionShape": {
+        "x": 1.5,
+        "y": 0.25,
+        "z": 1.0
+      },
+      "cubos::engine::Collider": {}
     }
   }
 }
