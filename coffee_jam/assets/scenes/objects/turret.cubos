@@ -11,6 +11,12 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 3.0,
+        "y": 6.0,
+        "z": 3.0
+      },
+      "cubos::engine::Collider": {},
       "demo::Turret": {
         "bullet": "e078c394-e169-4117-b3a7-9e8650738f5d",
         "root": "bullet",

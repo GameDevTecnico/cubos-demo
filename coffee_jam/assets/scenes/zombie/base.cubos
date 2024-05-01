@@ -15,7 +15,12 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0,
+      "cubos::engine::BoxCollisionShape": {
+        "x": 3.0,
+        "y": 7.0,
+        "z": 2.0
+      },
+      "cubos::engine::Collider": {},
       "demo::Walker": {
         "position": {
           "x": 30,
@@ -27,6 +32,5 @@
       }
     }
   },
-  "imports": {
-  }
+  "imports": {}
 }

@@ -11,6 +11,18 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 11.0,
+        "y": 10.0,
+        "z": 6.0
+      },
+      "cubos::engine::Collider": {
+        "d": {
+          "x": 8.0,
+          "y": 0.0,
+          "z": 4.0
+        }
+      },
       "demo::Breakable": {
         "drop": "efa94da9-0b63-4550-b15a-f2240418183f",
         "root": "plate",
