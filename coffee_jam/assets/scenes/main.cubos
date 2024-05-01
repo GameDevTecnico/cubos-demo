@@ -59,12 +59,16 @@
     },
     "player2.base.body": {
       "cubos::engine::ChildOf@map": {}
+    },
+    "zombie1.base.body": {
+      "cubos::engine::ChildOf@map": {}
     }
   },
   "imports": {
     "hammer": "7442faec-69d6-4bac-8046-559783a08f99",
     "recipes": "e5871129-c6ea-4c85-aa40-42329f71361f",
     "player1": "e24115b4-00fb-4d85-8a92-e487acbbcf7e",
-    "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2"
+    "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2",
+    "zombie1": "4d8ff909-46df-49c4-adf0-ca409b34510f"
   }
 }
