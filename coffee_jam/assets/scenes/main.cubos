@@ -101,20 +101,24 @@
     "player2.base.body": {
       "cubos::engine::ChildOf@map": {}
     },
-    "zombie1.base.body": {
-      "cubos::engine::ChildOf@map": {}
-    },
-    "zombie2.base.body": {
-      "cubos::engine::ChildOf@map": {}
-    },
-    "zombie3.base.body": {
-      "cubos::engine::ChildOf@map": {}
-    },
-    "zombie4.base.body": {
-      "cubos::engine::ChildOf@map": {}
-    },
-    "zombie5.base.body": {
-      "cubos::engine::ChildOf@map": {}
+    "waves": {
+      "cubos::engine::ChildOf@map": {},
+      "demo::Waves": {
+        "waveZombiesBase": 1,
+        "waveZombiesIncrease": 2,
+        "wavesPerNight": 3,
+        "zombie": "4d8ff909-46df-49c4-adf0-ca409b34510f",
+        "zombieRoot": "zombie.body",
+        "walker": {
+          "position": {
+            "x": 10,
+            "y": 48
+          },
+          "moveSpeed": 4.0,
+          "halfRotationTime": 0.03,
+          "jumpHeight": 2.5
+        }
+      }
     },
     "turret1.turret": {
       "cubos::engine::ChildOf@map": {},
@@ -134,11 +138,6 @@
     "counter2": "51b6b40f-50a2-4446-a69d-f4105e856905",
     "player1": "e24115b4-00fb-4d85-8a92-e487acbbcf7e",
     "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2",
-    "zombie1": "4d8ff909-46df-49c4-adf0-ca409b34510f",
-    "zombie2": "4d8ff909-46df-49c4-adf0-ca409b34510f",
-    "zombie3": "4d8ff909-46df-49c4-adf0-ca409b34510f",
-    "zombie4": "4d8ff909-46df-49c4-adf0-ca409b34510f",
-    "zombie5": "4d8ff909-46df-49c4-adf0-ca409b34510f",
     "turret1": "f5d7596a-9b51-4429-a4cd-61181de030a1"
   }
 }
