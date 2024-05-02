@@ -12,7 +12,7 @@ namespace demo
         CUBOS_REFLECT;
 
         /// @brief How long each day lasts in seconds.
-        float dayDuration = 15.0F;
+        float dayDuration = 120.0F;
 
         /// @brief How many days the players have survived.
         int daysSurvived = 0;
