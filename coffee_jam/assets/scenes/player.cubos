@@ -1,6 +1,6 @@
 {
   "entities": {
-    "body": {
+    "player": {
       "cubos::engine::RenderableGrid": {
         "offset": {
           "x": -4.0,
@@ -15,22 +15,13 @@
         "z": 0.0
       },
       "cubos::engine::Scale": 1.0,
-      "demo::Walker": {
-        "position": {
-          "x": 30,
-          "y": 48
-        },
-        "moveSpeed": 5.0,
-        "halfRotationTime": 0.03,
-        "jumpHeight": 2.5
-      },
       "demo::Health": {
         "hp": 3,
         "team": 0
       }
     },
     "lantern": {
-      "cubos::engine::ChildOf@body": {},
+      "cubos::engine::ChildOf@player": {},
       "cubos::engine::Position": {
         "x": 0.0,
         "y": 5.0,
@@ -67,7 +58,7 @@
         "z": 0.0
       },
       "cubos::engine::Scale": 1.0,
-      "demo::Follow@body": {
+      "demo::Follow@player": {
         "distance": 80.0,
         "phi": 10.0,
         "theta": 45.0,

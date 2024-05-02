@@ -26,6 +26,7 @@
 #include "breakable/plugin.hpp"
 #include "hammer/plugin.hpp"
 #include "player_controller/plugin.hpp"
+#include "player_spawn_point/plugin.hpp"
 #include "turret/plugin.hpp"
 #include "path_finding/plugin.hpp"
 #include "zombie/plugin.hpp"
@@ -71,6 +72,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::dayNightPlugin);
     cubos.plugin(demo::wavesPlugin);
     cubos.plugin(demo::shopPlugin);
+    cubos.plugin(demo::playerSpawnPointPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
@@ -100,15 +102,11 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets, ActiveCameras& cameras) {
-            auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
-            cameras.entities[0] = builder.entity("player1.base.camera");
-            cameras.entities[1] = builder.entity("player2.base.camera");
-        });
+        .call([](Commands cmds, const Assets& assets) { cmds.spawn(assets.read(MainSceneAsset)->blueprint); });
 
-    cubos.system("restart game on game over")
-        .call([](Commands cmds, const Assets& assets, ActiveCameras& cameras, Query<Entity> all,
-                 Query<const demo::PlayerController&> players, demo::Progression& progression) {
+    cubos.system("reload Main Scene on game over")
+        .call([](Commands cmds, const Assets& assets, Query<Entity> all, Query<const demo::PlayerController&> players,
+                 demo::Progression& progression) {
             if (players.empty())
             {
                 for (auto [entity] : all)
@@ -116,10 +114,7 @@ int main(int argc, char** argv)
                     cmds.destroy(entity);
                 }
 
-                auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
-                cameras.entities[0] = builder.entity("player1.base.camera");
-                cameras.entities[1] = builder.entity("player2.base.camera");
-
+                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
                 progression = {};
             }
         });
