@@ -139,10 +139,11 @@ void demo::turretPlugin(Cubos& cubos)
                 // Figure out the target rotation of the gun.
                 auto leadPosition = closestZombiePosition;
                 float tPrev = 0.0F;
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    auto time_bullet = glm::distance(leadPosition, turretPosition2D) / turret.bulletSpeed - tPrev;
-                    leadPosition += ((glm::vec2)targetwalker.direction * (float)(targetwalker.moveSpeed * time_bullet));
+                    auto time_bullet = glm::distance(leadPosition, turretPosition2D) / turret.bulletSpeed;
+                    leadPosition +=
+                        ((glm::vec2)targetwalker.direction * (float)(targetwalker.moveSpeed * (time_bullet - tPrev)));
                     tPrev = time_bullet;
                 }
                 /*
