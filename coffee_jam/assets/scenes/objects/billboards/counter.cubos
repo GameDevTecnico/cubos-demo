@@ -1,0 +1,28 @@
+{
+  "entities": {
+    "counter": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "b058af9c-e323-4024-9179-9a3e2f88cddf",
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::Position": {},
+      "cubos::engine::Rotation": {}
+    },
+    "light": {
+      "cubos::engine::PointLight": {
+        "range": 35.0
+      },
+      "cubos::engine::Position": {
+        "x": 2.0,
+        "y": 14.0,
+        "z": 0.0
+      },
+      "cubos::engine::ChildOf@counter": {}
+    }
+  },
+  "imports": {}
+}

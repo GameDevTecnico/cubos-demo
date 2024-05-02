@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "clock": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "f0795d0c-df04-4d85-b705-33ec02a52b8d",
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::Position": {},
+      "cubos::engine::Rotation": {}
+    },
+    "pointer": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "8196f3bb-8c55-4457-bbe1-5b5c99a8071b",
+        "offset": {
+          "x": -1.0,
+          "y": 0.0,
+          "z": 0.5
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 2.0,
+        "y": 14.0,
+        "z": 3.0
+      },
+      "cubos::engine::Rotation": {},
+      "cubos::engine::ChildOf@clock": {}
+    },
+    "light": {
+      "cubos::engine::PointLight": {
+        "range": 35.0
+      },
+      "cubos::engine::Position": {
+        "x": 2.0,
+        "y": 14.0,
+        "z": 4.0
+      },
+      "cubos::engine::ChildOf@clock": {}
+    }
+  },
+  "imports": {}
+}
