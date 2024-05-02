@@ -18,6 +18,8 @@ CUBOS_REFLECT_IMPL(demo::Walker)
         .withField("jumpHeight", &Walker::jumpHeight)
         .withField("moveSpeed", &Walker::moveSpeed)
         .withField("halfRotationTime", &Walker::halfRotationTime)
+        .withField("minPosition", &Walker::minPosition)
+        .withField("maxPosition", &Walker::maxPosition)
         .withField("progress", &Walker::progress)
         .build();
 }
@@ -70,11 +72,13 @@ void demo::walkerPlugin(Cubos& cubos)
 
                     // Check if movement is valid.
                     if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.floorTiles.size() ||
-                        targetTile.y >= map.floorTiles.size() ||
+                        targetTile.y >= map.floorTiles.size() || targetTile.x < walker.minPosition.x ||
+                        targetTile.y < walker.minPosition.y || targetTile.x > walker.maxPosition.x ||
+                        targetTile.y > walker.maxPosition.y ||
                         (!map.entities[targetTile.y][targetTile.x].isNull() &&
                          map.entities[targetTile.y][targetTile.x] != ent))
                     {
-                        // There's already an entity in the target tile, stop the movement.
+                        // There's already an entity in the target tile, or its out of bounsd, stop the movement.
                         walker.direction = {0, 0};
                     }
                 }

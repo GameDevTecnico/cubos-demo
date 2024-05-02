@@ -31,6 +31,12 @@ namespace demo
         /// @brief Time which the entity takes to rotate half of the way to the target rotation.
         float halfRotationTime = 1.0F;
 
+        /// @brief Minimum allowed position.
+        glm::ivec2 minPosition{-100000000, -100000000};
+
+        /// @brief Maximum allowed position.
+        glm::ivec2 maxPosition{100000000, 100000000};
+
         /// @brief Animation progress of the current movement, from 0.0 to 1.0.
         float progress = 0.0F;
 
