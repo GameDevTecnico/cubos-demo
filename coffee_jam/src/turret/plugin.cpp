@@ -15,6 +15,7 @@
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/collisions/colliding_with.hpp>
+#include <cubos/engine/renderer/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -22,6 +23,7 @@ CUBOS_REFLECT_IMPL(demo::Turret)
 {
     return cubos::core::ecs::TypeBuilder<Turret>("demo::Turret")
         .withField("bullet", &Turret::bullet)
+        .withField("gunModels", &Turret::gunModels)
         .withField("root", &Turret::root)
         .withField("range", &Turret::range)
         .withField("cooldown", &Turret::cooldown)
@@ -58,6 +60,7 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.depends(assetsPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(collisionsPlugin);
+    cubos.depends(rendererPlugin);
     cubos.depends(interactionPlugin);
     cubos.depends(zombiePlugin);
     cubos.depends(tileMapPlugin);
@@ -170,6 +173,18 @@ void demo::turretPlugin(Cubos& cubos)
                 }
             }
         });
+
+    cubos.system("animate Turret Gun ammo count").call([](Query<RenderableGrid&, const ChildOf&, const Turret&> query) {
+        for (auto [grid, _, turret] : query)
+        {
+            float ammoRatio = (float)turret.ammo / (float)turret.maxAmmoForReload;
+            ammoRatio = glm::clamp(ammoRatio, 0.0F, 1.0F);
+
+            // Decide which of the models to use based on the ammo ratio.
+            int modelIndex = glm::ceil(ammoRatio * (float)(turret.gunModels.size() - 1));
+            grid.asset = turret.gunModels[modelIndex];
+        }
+    });
 
     cubos.system("update Bullets")
         .call([](Commands cmds, const DeltaTime& dt, Query<Entity, Position&, const Rotation&, Bullet&> bullets,
