@@ -28,7 +28,7 @@
       },
       "cubos::engine::Rotation": {},
       "cubos::engine::ChildOf@clock": {},
-      "demo::Clock": 5.0
+      "demo::Clock": 1.0
     },
     "light": {
       "cubos::engine::PointLight": {

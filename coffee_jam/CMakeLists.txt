@@ -19,6 +19,7 @@ add_executable(coffee-jam
     src/health/plugin.cpp
     src/progression/plugin.cpp
     src/displays/plugin.cpp
+    src/day_night/plugin.cpp
 )
 
 target_link_libraries(coffee-jam tesseratos)
