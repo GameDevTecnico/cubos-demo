@@ -166,4 +166,15 @@ void demo::playerControllerPlugin(Cubos& cubos)
                 }
             }
         });
+
+    cubos.observer("drop item on player death")
+        .onRemove<PlayerController>(1)
+        .call([](Commands cmds,
+                 Query<Entity, const Holdable&, const ChildOf&, const Walker&, const ChildOf&, Entity> holdables) {
+            for (auto [itemEnt, holdable, _1, walker, _2, mapEnt] : holdables)
+            {
+                cmds.relate(itemEnt, mapEnt, ChildOf{});
+                cmds.add(itemEnt, Object{.position = walker.position, .size = {1, 1}});
+            }
+        });
 }
