@@ -6,8 +6,8 @@
 
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/assets/asset.hpp>
-#include <cubos/engine/assets/assets.hpp>
 #include <cubos/engine/voxels/grid.hpp>
+#include <cubos/engine/scene/scene.hpp>
 
 namespace demo
 {
@@ -27,6 +27,15 @@ namespace demo
 
         /// @brief Time accumulator for the hit time.
         float hitTimeAcc = 0.0F;
+
+        /// @brief Item to drop on death.
+        cubos::engine::Asset<cubos::engine::Scene> item;
+
+        /// @brief Item root entity name.
+        std::string itemRoot;
+
+        /// @brief Item drop rate (from 0 to 1).
+        float itemRate = 0.5F;
 
         /// @brief Last position of the walker, used to check if the walker is stuck.
         glm::ivec2 lastPosition = {-1, -1};

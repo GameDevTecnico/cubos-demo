@@ -24,7 +24,10 @@
       },
       "demo::ZombieController": {
         "rePathTime": 3.0,
-        "hitTime": 1.0
+        "hitTime": 1.0,
+        "item": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3",
+        "itemRoot": "coin",
+        "itemRate": 0.5
       },
       "demo::Health": {
         "hp": 1,
