@@ -95,6 +95,32 @@
         }
       }
     },
+    "plate-shop.vending-machine": {
+      "cubos::engine::ChildOf@map": {},
+      "demo::Object": {
+        "position": {
+          "x": 25,
+          "y": 52
+        },
+        "size": {
+          "x": 1,
+          "y": 1
+        }
+      }
+    },
+    "planks-shop.vending-machine": {
+      "cubos::engine::ChildOf@map": {},
+      "demo::Object": {
+        "position": {
+          "x": 25,
+          "y": 54
+        },
+        "size": {
+          "x": 1,
+          "y": 1
+        }
+      }
+    },
     "player1.base.body": {
       "cubos::engine::ChildOf@map": {}
     },
@@ -136,6 +162,8 @@
     "clock": "49621b43-724b-4795-bf1d-4770b3d20b26",
     "counter1": "51b6b40f-50a2-4446-a69d-f4105e856905",
     "counter2": "51b6b40f-50a2-4446-a69d-f4105e856905",
+    "plate-shop": "8a1826b1-9243-4312-af2c-10c810d48911",
+    "planks-shop": "7ede14e0-b747-4f92-9789-8c776d7ebb21",
     "player1": "e24115b4-00fb-4d85-8a92-e487acbbcf7e",
     "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2",
     "turret1": "f5d7596a-9b51-4429-a4cd-61181de030a1"
