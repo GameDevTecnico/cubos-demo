@@ -49,7 +49,7 @@
       "cubos::engine::ChildOf@map": {},
       "demo::Object": {
         "position": {
-          "x": 24,
+          "x": 28,
           "y": 48
         },
         "force": true
@@ -151,15 +151,6 @@
           "jumpHeight": 2.5
         }
       }
-    },
-    "turret1.turret": {
-      "cubos::engine::ChildOf@map": {},
-      "demo::Object": {
-        "position": {
-          "x": 30,
-          "y": 48
-        }
-      }
     }
   },
   "imports": {
@@ -171,7 +162,6 @@
     "plate-shop": "8a1826b1-9243-4312-af2c-10c810d48911",
     "planks-shop": "7ede14e0-b747-4f92-9789-8c776d7ebb21",
     "player1": "e24115b4-00fb-4d85-8a92-e487acbbcf7e",
-    "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2",
-    "turret1": "f5d7596a-9b51-4429-a4cd-61181de030a1"
+    "player2": "3575370b-7740-43e0-a5b9-5a9612656ac2"
   }
 }
