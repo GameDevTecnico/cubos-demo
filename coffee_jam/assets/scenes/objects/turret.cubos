@@ -20,6 +20,7 @@
       "demo::Turret": {
         "bullet": "e078c394-e169-4117-b3a7-9e8650738f5d",
         "root": "bullet",
+        "range": 100.0,
         "cooldown": 2.0,
         "rotationTime": 5.0,
         "bulletHeight": 5.0,

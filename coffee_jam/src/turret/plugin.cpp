@@ -23,6 +23,7 @@ CUBOS_REFLECT_IMPL(demo::Turret)
     return cubos::core::ecs::TypeBuilder<Turret>("demo::Turret")
         .withField("bullet", &Turret::bullet)
         .withField("root", &Turret::root)
+        .withField("range", &Turret::range)
         .withField("cooldown", &Turret::cooldown)
         .withField("timeSinceLastShot", &Turret::timeSinceLastShot)
         .withField("rotationTime", &Turret::rotationTime)
@@ -122,7 +123,8 @@ void demo::turretPlugin(Cubos& cubos)
                 }
 
                 glm::vec2 turretPosition2D{turretPosition.vec.x, turretPosition.vec.z};
-                if (closestZombieDistance2 == INFINITY || closestZombiePosition == turretPosition2D)
+                if (closestZombieDistance2 == INFINITY || closestZombiePosition == turretPosition2D ||
+                    closestZombieDistance2 > turret.range * turret.range)
                 {
                     continue;
                 }

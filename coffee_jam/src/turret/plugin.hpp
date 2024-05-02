@@ -19,6 +19,9 @@ namespace demo
         /// @brief Name of the root entity of the bullet scene.
         std::string root;
 
+        /// @brief Maximum range of the turret.
+        float range = 50.0F;
+
         /// @brief Time in seconds between shots.
         float cooldown = 1.0F;
 
