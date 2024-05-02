@@ -110,8 +110,10 @@ void demo::objectPlugin(Cubos& cubos)
                 {
                     for (int x = object.position.x; x < object.position.x + object.size.x; ++x)
                     {
-                        CUBOS_ASSERT(map.entities[y][x] == ent, "Tile is not occupied by the entity");
-                        map.entities[y][x] = {};
+                        if (map.entities[y][x] == ent)
+                        {
+                            map.entities[y][x] = {};
+                        }
                     }
                 }
             }
