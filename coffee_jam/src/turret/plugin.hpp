@@ -35,7 +35,7 @@ namespace demo
         float timeSinceLastShot = 0.0F;
 
         /// @brief Time in seconds the turret takes to rotate 180 degrees.
-        float rotationTime = 1.0F;
+        float rotationTime = 0.1F;
 
         /// @brief Height at which the bullet is spawned.
         float bulletHeight = 8.0F;

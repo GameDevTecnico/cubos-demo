@@ -28,7 +28,7 @@
         "root": "bullet",
         "range": 100.0,
         "cooldown": 2.0,
-        "rotationTime": 5.0,
+        "rotationTime": 1.0,
         "bulletHeight": 6.0,
         "bulletDistance": 5.5,
         "bulletSpeed": 100.0,
