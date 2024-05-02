@@ -25,6 +25,30 @@
         "jumpHeight": 2.5
       }
     },
+    "lantern": {
+      "cubos::engine::ChildOf@body": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 5.0,
+        "z": 0.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.0,
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "cubos::engine::SpotLight": {
+        "color": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        },
+        "range": 200.0,
+        "spotAngle": 120.0,
+        "innerSpotAngle": 80.0
+      }
+    },
     "camera": {
       "cubos::engine::Camera": {},
       "cubos::engine::Position": {
