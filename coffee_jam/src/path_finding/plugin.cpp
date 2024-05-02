@@ -43,7 +43,7 @@ namespace
 
     struct Node
     {
-        int occupied{0};
+        float cost{0};
         float f{INFINITY};
         float g{INFINITY};
         float h{INFINITY};
@@ -82,13 +82,11 @@ static bool aStar(std::vector<std::vector<Node>>& nodes, glm::ivec2 from, glm::i
             auto next = current + direction;
             if (next.x < 0 || next.y < 0 || next.x >= nodes.size() || next.y >= nodes.size())
                 continue;
-            if (nodes[next.y][next.x].occupied != 0)
-                continue;
 
             if (closedSet.find({next.x, next.y}) != closedSet.end())
                 continue;
 
-            auto g = nodes[current.y][current.x].g + 1.0F;
+            auto g = nodes[current.y][current.x].g + nodes[next.y][next.x].cost;
             auto h = heuristic(next, to);
             auto f = g + h;
 
@@ -132,16 +130,17 @@ void demo::pathFindingPlugin(Cubos& cubos)
                     {
                         if (tileMap.entities[y][x].isNull())
                         {
-                            nodes[y][x].occupied = 0;
+                            nodes[y][x].cost = 1.0F;
                         }
                         else if (!healths.at(tileMap.entities[y][x]).contains())
                         {
                             // Indestructible object.
-                            nodes[y][x].occupied = 1;
+                            nodes[y][x].cost = INFINITY;
                         }
                         else
                         {
-                            nodes[y][x].occupied = 2;
+                            auto [health] = *healths.at(tileMap.entities[y][x]);
+                            nodes[y][x].cost = health.hp;
                         }
                     }
                 }
