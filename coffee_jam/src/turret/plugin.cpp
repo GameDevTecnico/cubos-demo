@@ -48,6 +48,7 @@ CUBOS_REFLECT_IMPL(demo::Bullet)
         .withField("speed", &Bullet::speed)
         .withField("time", &Bullet::time)
         .withField("maxTime", &Bullet::maxTime)
+        .withField("team", &Bullet::team)
         .build();
 }
 
@@ -96,8 +97,8 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.system("aim and shoot Turret")
         .with<ZombieController>()
         .call([](Commands cmds, Assets& assets, DeltaTime& dt, Query<const Position&> zombies,
-                 Query<Rotation&, const ChildOf&, const Position&, Turret&, Entity> turrets) {
-            for (auto [gunRotation, _, turretPosition, turret, turretEnt] : turrets)
+                 Query<Rotation&, const ChildOf&, const Position&, const Health&, Turret&, Entity> turrets) {
+            for (auto [gunRotation, _, turretPosition, health, turret, turretEnt] : turrets)
             {
                 turret.timeSinceLastShot += dt.value();
 
@@ -161,6 +162,7 @@ void demo::turretPlugin(Cubos& cubos)
                                                   .shooter = turretEnt,
                                                   .speed = turret.bulletSpeed,
                                                   .maxTime = turret.maxBulletTime,
+                                                  .team = health.team,
                                               });
                     }
                 }
@@ -198,7 +200,7 @@ void demo::turretPlugin(Cubos& cubos)
 
                     if (health.contains())
                     {
-                        if (health->enemy)
+                        if (health->team != bullet.team)
                         {
                             health->hp--;
                         }

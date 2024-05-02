@@ -23,6 +23,10 @@
         "moveSpeed": 5.0,
         "halfRotationTime": 0.03,
         "jumpHeight": 2.5
+      },
+      "demo::Health": {
+        "hp": 3,
+        "team": 0
       }
     },
     "lantern": {
@@ -68,9 +72,6 @@
         "phi": 10.0,
         "theta": 45.0,
         "halfTime": 0.25
-      },
-      "demo::Health": {
-        "enemy": 1
       }
     }
   },

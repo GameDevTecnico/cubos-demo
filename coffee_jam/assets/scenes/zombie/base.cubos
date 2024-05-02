@@ -24,7 +24,8 @@
       },
       "demo::ZombieController": {},
       "demo::Health": {
-        "enemy": 1
+        "hp": 1,
+        "team": 1
       }
     }
   },

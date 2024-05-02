@@ -13,7 +13,7 @@ namespace demo
 
         /// @brief Health points .
         int hp = 1;
-        int enemy = 1;
+        int team = 0;
     };
 
     void healthPlugin(cubos::engine::Cubos& cubos);

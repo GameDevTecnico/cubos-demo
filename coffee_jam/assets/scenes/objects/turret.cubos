@@ -29,6 +29,10 @@
         "maxAmmoForReload": 5,
         "ammoPerReload": 5,
         "ammo": 5
+      },
+      "demo::Health": {
+        "hp": 5,
+        "team": 0
       }
     },
     "gun": {
@@ -45,10 +49,7 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::ChildOf@turret": {},
-      "demo::Health": {
-        "enemy": 0
-      }
+      "cubos::engine::ChildOf@turret": {}
     }
   },
   "imports": {}
