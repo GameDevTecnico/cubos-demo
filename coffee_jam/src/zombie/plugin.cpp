@@ -3,6 +3,7 @@
 #include "../player_controller/plugin.hpp"
 #include "../tile_map/plugin.hpp"
 #include "../path_finding/plugin.hpp"
+#include "../health/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -24,6 +25,9 @@ CUBOS_REFLECT_IMPL(demo::ZombieController)
     return cubos::core::ecs::TypeBuilder<ZombieController>("demo::ZombieController")
         .withField("rePathTime", &ZombieController::rePathTime)
         .withField("rePathTimeAcc", &ZombieController::rePathTimeAcc)
+        .withField("hitTime", &ZombieController::hitTime)
+        .withField("hitTimeAcc", &ZombieController::hitTimeAcc)
+        .withField("lastPosition", &ZombieController::lastPosition)
         .build();
 }
 
@@ -35,21 +39,23 @@ void demo::zombiePlugin(Cubos& cubos)
     cubos.depends(assetsPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(pathFindingPlugin);
+    cubos.depends(healthPlugin);
 
     cubos.component<ZombieController>();
 
     cubos.system("do ZombieController")
         .call([](Commands cmds, const DeltaTime& dt,
-                 Query<Entity, ZombieController&, Walker&, Opt<const PathTask&>, Opt<Path&>, ChildOf&, TileMap&, Entity>
+                 Query<Entity, ZombieController&, Walker&, const Health&, Opt<const PathTask&>, Opt<Path&>, ChildOf&,
+                       TileMap&, Entity>
                      zombies,
-                 Query<Entity, PlayerController&, Walker&> players) {
-            std::vector<glm::ivec2> playerPositions;
-            for (auto [playerEnt, controller, walker] : players)
+                 Query<Entity, PlayerController&, Walker&> players, Query<Health&> healths) {
+            for (auto [zombieEnt, controller, walker, zombieHealth, pathTask, path, _1, map, mapEnt] : zombies)
             {
-                playerPositions.push_back(walker.position);
-            }
-            for (auto [zombieEnt, controller, walker, pathTask, path, _, map, mapEnt] : zombies)
-            {
+                if (controller.hitTimeAcc < controller.hitTime)
+                {
+                    controller.hitTimeAcc += dt.value();
+                }
+
                 if (walker.direction != glm::ivec2{0, 0} || !walker.initialized)
                 {
                     // The entity is already moving, so we can skip it.
@@ -63,21 +69,36 @@ void demo::zombiePlugin(Cubos& cubos)
                 }
 
                 // Find the player which is closest to the zombie.
-                glm::ivec2 targetPosition = playerPositions[0];
-                for (auto position : playerPositions)
+                Entity targetPlayer{};
+                glm::ivec2 targetPosition{};
+                for (auto [playerEnt, _2, playerWalker] : players)
                 {
-                    if (glm::distance((glm::vec2)walker.position, (glm::vec2)position) <
-                        glm::distance((glm::vec2)walker.position, (glm::vec2)targetPosition))
+                    if (targetPlayer.isNull() ||
+                        glm::distance((glm::vec2)walker.position, (glm::vec2)targetPosition) >
+                            glm::distance((glm::vec2)walker.position, (glm::vec2)playerWalker.position))
                     {
-                        targetPosition = position;
+                        targetPlayer = playerEnt;
+                        targetPosition = playerWalker.position;
                     }
+                }
+
+                // If there isn't a target player, just do nothing.
+                if (targetPlayer.isNull())
+                {
+                    continue;
                 }
 
                 if (glm::abs(walker.position.x - targetPosition.x) + glm::abs(walker.position.y - targetPosition.y) <=
                     1)
                 {
                     // If there's a player adjacent to the zombie, just attack them.
-                    // TODO: implement chomp
+                    if (controller.hitTimeAcc >= controller.hitTime)
+                    {
+                        controller.hitTimeAcc = 0.0F;
+                        auto [health] = *healths.at(targetPlayer);
+                        health.hp -= 1;
+                    }
+
                     continue;
                 }
 
@@ -115,20 +136,12 @@ void demo::zombiePlugin(Cubos& cubos)
                     }
                 }
 
-                if (controller.lastPosition == walker.position)
+                if (controller.lastPosition == walker.position && !path)
                 {
-                    // The previous movement failed.
-                    if (!path)
-                    {
-                        // Generate a new path to the closest player.
-                        controller.lastPosition = {-1, -1};
-                        cmds.add(zombieEnt, PathTask{walker.position, targetPosition});
-                    }
-                    else
-                    {
-                        // There isn't a valid path to the closest player. Attack whatever is in front of us.
-                        // TODO
-                    }
+                    // The previous movement failed, and we do not have a pth.
+                    // Generate a new path to the closest player.
+                    controller.lastPosition = {-1, -1};
+                    cmds.add(zombieEnt, PathTask{walker.position, targetPosition});
                 }
                 else
                 {
@@ -158,6 +171,19 @@ void demo::zombiePlugin(Cubos& cubos)
                         else
                         {
                             walker.direction = {1, 0};
+                        }
+                    }
+
+                    auto entityAhead =
+                        map.entities[walker.position.y + walker.direction.y][walker.position.x + walker.direction.x];
+                    if (auto match = healths.at(entityAhead))
+                    {
+                        // If the entity ahead is damageable, and isn't in our team, attack it.
+                        auto [health] = *match;
+                        if (health.team != zombieHealth.team && controller.hitTimeAcc >= controller.hitTime)
+                        {
+                            controller.hitTimeAcc = 0.0F;
+                            health.hp -= 1;
                         }
                     }
                 }

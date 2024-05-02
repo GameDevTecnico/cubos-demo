@@ -22,6 +22,12 @@ namespace demo
         /// @brief Time accumulator for the re-path time.
         float rePathTimeAcc = 0.0F;
 
+        /// @brief Time until the zombies can hit the player again.
+        float hitTime = 1.0F;
+
+        /// @brief Time accumulator for the hit time.
+        float hitTimeAcc = 0.0F;
+
         /// @brief Last position of the walker, used to check if the walker is stuck.
         glm::ivec2 lastPosition = {-1, -1};
     };
