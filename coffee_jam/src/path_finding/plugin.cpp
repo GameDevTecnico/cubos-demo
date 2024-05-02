@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../tile_map/plugin.hpp"
+#include "../health/plugin.hpp"
 
 #include <set>
 #include <queue>
@@ -42,7 +43,7 @@ namespace
 
     struct Node
     {
-        bool occupied{false};
+        int occupied{0};
         float f{INFINITY};
         float g{INFINITY};
         float h{INFINITY};
@@ -81,7 +82,7 @@ static bool aStar(std::vector<std::vector<Node>>& nodes, glm::ivec2 from, glm::i
             auto next = current + direction;
             if (next.x < 0 || next.y < 0 || next.x >= nodes.size() || next.y >= nodes.size())
                 continue;
-            if (nodes[next.y][next.x].occupied)
+            if (nodes[next.y][next.x].occupied != 0)
                 continue;
 
             if (closedSet.find({next.x, next.y}) != closedSet.end())
@@ -109,6 +110,7 @@ void demo::pathFindingPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
     cubos.depends(tileMapPlugin);
+    cubos.depends(healthPlugin);
 
     cubos.resource<State>(4);
 
@@ -117,7 +119,8 @@ void demo::pathFindingPlugin(Cubos& cubos)
 
     cubos.observer("start PathTask")
         .onAdd<PathTask>()
-        .call([](State& state, Query<const PathTask&, const ChildOf&, const TileMap&> query) {
+        .call([](State& state, Query<const PathTask&, const ChildOf&, const TileMap&> query,
+                 Query<const Health&> healths) {
             for (auto [pathTask, childOf, tileMap] : query)
             {
                 std::vector<std::vector<Node>> nodes{tileMap.entities.size(),
@@ -127,29 +130,63 @@ void demo::pathFindingPlugin(Cubos& cubos)
                 {
                     for (std::size_t x = 0; x < tileMap.entities.size(); ++x)
                     {
-                        nodes[y][x].occupied = !tileMap.entities[y][x].isNull();
+                        if (tileMap.entities[y][x].isNull())
+                        {
+                            nodes[y][x].occupied = 0;
+                        }
+                        else if (!healths.at(tileMap.entities[y][x]).contains())
+                        {
+                            // Indestructible object.
+                            nodes[y][x].occupied = 1;
+                        }
+                        else
+                        {
+                            nodes[y][x].occupied = 2;
+                        }
                     }
                 }
 
-                nodes[pathTask.from.y][pathTask.from.x].occupied = false;
-                nodes[pathTask.to.y][pathTask.to.x].occupied = false;
+                nodes[pathTask.from.y][pathTask.from.x].occupied = 0;
+                nodes[pathTask.to.y][pathTask.to.x].occupied = 0;
 
                 state.pool.addTask(
                     [from = pathTask.from, to = pathTask.to, task = pathTask.task, nodes = std::move(nodes)]() mutable {
                         std::vector<glm::ivec2> path{};
-                        if (aStar(nodes, from, to))
+                        if (!aStar(nodes, from, to))
                         {
-                            auto current = to;
-                            while (current != from)
+                            // Try again, but ignore destructible nodes.
+                            for (std::size_t y = 0; y < nodes.size(); ++y)
                             {
-                                path.push_back(current);
-                                current = nodes[current.y][current.x].parent;
+                                for (std::size_t x = 0; x < nodes.size(); ++x)
+                                {
+                                    // Reset the nodes.
+                                    nodes[y][x].f = INFINITY;
+                                    nodes[y][x].g = INFINITY;
+                                    nodes[y][x].h = INFINITY;
+                                    nodes[y][x].parent = {};
+
+                                    // Mark any destructible nodes as free.
+                                    if (nodes[y][x].occupied == 2)
+                                    {
+                                        nodes[y][x].occupied = 0;
+                                    }
+                                }
                             }
-                            path.push_back(from);
+
+                            if (!aStar(nodes, from, to))
+                            {
+                                task.finish(std::move(path));
+                                return;
+                            }
                         }
-                        else
+
+                        auto current = to;
+                        while (current != from)
                         {
+                            path.push_back(current);
+                            current = nodes[current.y][current.x].parent;
                         }
+                        path.push_back(from);
                         task.finish(std::move(path));
                     });
             }

@@ -61,8 +61,8 @@ int main(int argc, char** argv)
     cubos.plugin(demo::breakablePlugin);
     cubos.plugin(demo::hammerPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
-    cubos.plugin(demo::pathFindingPlugin);
     cubos.plugin(demo::healthPlugin);
+    cubos.plugin(demo::pathFindingPlugin);
     cubos.plugin(demo::zombiePlugin);
     cubos.plugin(demo::turretPlugin);
     cubos.plugin(demo::progressionPlugin);
