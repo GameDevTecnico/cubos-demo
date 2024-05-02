@@ -78,7 +78,15 @@
           },
           "moveSpeed": 5.0,
           "halfRotationTime": 0.03,
-          "jumpHeight": 2.5
+          "jumpHeight": 2.5,
+          "minPosition": {
+            "x": 25,
+            "y": 0
+          },
+          "maxPosition": {
+            "x": 96,
+            "y": 96
+          }
         }
       }
     },
