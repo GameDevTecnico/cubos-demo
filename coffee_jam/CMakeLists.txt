@@ -21,6 +21,7 @@ add_executable(coffee-jam
     src/displays/plugin.cpp
     src/day_night/plugin.cpp
     src/waves/plugin.cpp
+    src/shop/plugin.cpp
 )
 
 target_link_libraries(coffee-jam tesseratos)

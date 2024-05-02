@@ -4,6 +4,7 @@
 #include "../tile_map/plugin.hpp"
 #include "../path_finding/plugin.hpp"
 #include "../health/plugin.hpp"
+#include "../object/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -27,6 +28,9 @@ CUBOS_REFLECT_IMPL(demo::ZombieController)
         .withField("rePathTimeAcc", &ZombieController::rePathTimeAcc)
         .withField("hitTime", &ZombieController::hitTime)
         .withField("hitTimeAcc", &ZombieController::hitTimeAcc)
+        .withField("item", &ZombieController::item)
+        .withField("itemRoot", &ZombieController::itemRoot)
+        .withField("itemRate", &ZombieController::itemRate)
         .withField("lastPosition", &ZombieController::lastPosition)
         .build();
 }
@@ -40,6 +44,7 @@ void demo::zombiePlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(pathFindingPlugin);
     cubos.depends(healthPlugin);
+    cubos.depends(objectPlugin);
 
     cubos.component<ZombieController>();
 
@@ -186,6 +191,21 @@ void demo::zombiePlugin(Cubos& cubos)
                             health.hp -= 1;
                         }
                     }
+                }
+            }
+        });
+
+    cubos.observer("drop item on Zombie death")
+        .onRemove<ZombieController>()
+        .call([](Commands cmds, Assets& assets,
+                 Query<const Walker&, const ZombieController&, const ChildOf&, Entity> query) {
+            for (auto [walker, controller, _, mapEnt] : query)
+            {
+                if (std::rand() / (float)RAND_MAX < controller.itemRate)
+                {
+                    auto dropEnt = cmds.spawn(assets.read(controller.item)->blueprint).entity(controller.itemRoot);
+                    cmds.relate(dropEnt, mapEnt, ChildOf{});
+                    cmds.add(dropEnt, Object{.position = walker.position, .size = {1, 1}});
                 }
             }
         });
