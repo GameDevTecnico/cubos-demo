@@ -77,6 +77,7 @@ int main(int argc, char** argv)
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
         settings.setBool("assets.io.readOnly", false);
+        settings.setBool("cubos.renderer.screenPicking.enabled", false);
     });
 
     cubos.startupSystem("load and set the Input Bindings")
