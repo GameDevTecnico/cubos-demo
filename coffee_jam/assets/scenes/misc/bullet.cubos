@@ -15,8 +15,8 @@
           "y": 1.0,
           "z": 0.2
         },
-        "intensity": 1.0,
-        "range": 20.0
+        "intensity": 3.0,
+        "range": 30.0
       },
       "cubos::engine::BoxCollisionShape": {
         "x": 1.5,
