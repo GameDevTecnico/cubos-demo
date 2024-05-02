@@ -13,7 +13,7 @@
       "cubos::engine::Rotation": {},
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
-        "y": 6.0,
+        "y": 5.0,
         "z": 4.0
       },
       "cubos::engine::Collider": {},
