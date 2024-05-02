@@ -14,6 +14,7 @@ CUBOS_REFLECT_IMPL(demo::Object)
     return cubos::core::ecs::TypeBuilder<Object>("demo::Object")
         .withField("position", &Object::position)
         .withField("size", &Object::size)
+        .withField("force", &Object::force)
         .build();
 }
 
@@ -25,15 +26,13 @@ void demo::objectPlugin(Cubos& cubos)
     cubos.component<Object>();
 
     cubos.system("initialize Object positions")
-        .call([](Query<Entity, Position&, Rotation&, Object&, const ChildOf&, TileMap&> query) {
+        .call([](Commands cmds, Query<Entity, Position&, Rotation&, Object&, const ChildOf&, TileMap&> query) {
             for (auto [ent, position, rotation, object, childOf, map] : query)
             {
                 if (object.initialized)
                 {
                     continue;
                 }
-
-                object.initialized = true;
 
                 // Change position until free space is found.
                 while (true)
@@ -45,6 +44,13 @@ void demo::objectPlugin(Cubos& cubos)
                         {
                             if (!map.entities[y][x].isNull() && map.entities[y][x] != ent)
                             {
+                                if (object.force)
+                                {
+                                    // Will try again next frame.
+                                    cmds.destroy(map.entities[y][x]);
+                                    return;
+                                }
+
                                 free = false;
                                 break;
                             }
@@ -89,6 +95,8 @@ void demo::objectPlugin(Cubos& cubos)
                 position.vec.y = 0.0F;
                 position.vec.z = tileSide / 2.0F + tileSide * static_cast<float>(object.position.y);
                 rotation.quat = glm::identity<glm::quat>();
+
+                object.initialized = true;
             }
         });
 

@@ -19,6 +19,9 @@ namespace demo
         /// @brief How many tiles the object occupies.
         glm::ivec2 size{1, 1};
 
+        /// @brief Replaces any other object in the same position.
+        bool force = false;
+
         bool initialized = false;
     };
 

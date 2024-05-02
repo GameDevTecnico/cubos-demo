@@ -49,9 +49,10 @@
       "cubos::engine::ChildOf@map": {},
       "demo::Object": {
         "position": {
-          "x": 30,
+          "x": 24,
           "y": 48
-        }
+        },
+        "force": true
       }
     },
     "clock.clock": {
@@ -64,7 +65,8 @@
         "size": {
           "x": 1,
           "y": 2
-        }
+        },
+        "force": true
       }
     },
     "counter1.counter": {
@@ -78,7 +80,8 @@
         "size": {
           "x": 1,
           "y": 1
-        }
+        },
+        "force": true
       }
     },
     "counter2.counter": {
@@ -92,7 +95,8 @@
         "size": {
           "x": 1,
           "y": 1
-        }
+        },
+        "force": true
       }
     },
     "plate-shop.vending-machine": {
@@ -105,7 +109,8 @@
         "size": {
           "x": 1,
           "y": 1
-        }
+        },
+        "force": true
       }
     },
     "planks-shop.vending-machine": {
@@ -118,7 +123,8 @@
         "size": {
           "x": 1,
           "y": 1
-        }
+        },
+        "force": true
       }
     },
     "player1.base.body": {
