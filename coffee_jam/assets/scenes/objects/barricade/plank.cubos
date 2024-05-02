@@ -2,7 +2,7 @@
   "entities": {
     "barricade": {
       "cubos::engine::RenderableGrid": {
-        "asset": "5e8ea171-e719-4209-8775-aefe799ef453",
+        "asset": "4007ed4b-5a45-48ec-84fe-1fe99b8c0c80",
         "offset": {
           "x": -4.0,
           "y": 0.0,
