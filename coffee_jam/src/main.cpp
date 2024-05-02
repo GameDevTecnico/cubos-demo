@@ -100,12 +100,27 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets, Settings& settings, ActiveCameras& cameras) {
-            if (settings.getBool("production", true))
+        .call([](Commands cmds, const Assets& assets, ActiveCameras& cameras) {
+            auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+            cameras.entities[0] = builder.entity("player1.base.camera");
+            cameras.entities[1] = builder.entity("player2.base.camera");
+        });
+
+    cubos.system("restart game on game over")
+        .call([](Commands cmds, const Assets& assets, ActiveCameras& cameras, Query<Entity> all,
+                 Query<const demo::PlayerController&> players, demo::Progression& progression) {
+            if (players.empty())
             {
+                for (auto [entity] : all)
+                {
+                    cmds.destroy(entity);
+                }
+
                 auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
                 cameras.entities[0] = builder.entity("player1.base.camera");
                 cameras.entities[1] = builder.entity("player2.base.camera");
+
+                progression = {};
             }
         });
 

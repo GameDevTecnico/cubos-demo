@@ -70,5 +70,10 @@ void demo::wavesPlugin(Cubos& cubos)
 
     cubos.observer("increase score on zombie death")
         .onRemove<ZombieController>()
-        .call([](Query<> query, Progression& progression) { progression.score += 1; });
+        .call([](Query<> query, Progression& progression) {
+            if (progression.scoreToFinishNight != -1)
+            {
+                progression.score += 1;
+            }
+        });
 }
