@@ -22,7 +22,10 @@
         "halfRotationTime": 0.03,
         "jumpHeight": 2.5
       },
-      "demo::ZombieController": {},
+      "demo::ZombieController": {
+        "rePathTime": 3.0,
+        "hitTime": 1.0
+      },
       "demo::Health": {
         "hp": 1,
         "team": 1
