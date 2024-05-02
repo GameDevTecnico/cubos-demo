@@ -1,0 +1,16 @@
+{
+  "entities": {
+    "vending-machine": {
+      "cubos::engine::RenderableGrid": {
+        "asset": "65b69bb8-13bd-45a9-a703-8293a2ff19ca",
+        "offset": {
+          "x": -4.0,
+          "y": 0.0,
+          "z": -4.0
+        }
+      },
+      "cubos::engine::Position": {},
+      "cubos::engine::Rotation": {}
+    }
+  }
+}
