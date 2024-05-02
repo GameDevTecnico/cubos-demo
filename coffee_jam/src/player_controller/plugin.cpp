@@ -110,11 +110,12 @@ void demo::playerControllerPlugin(Cubos& cubos)
                                 continue;
                             }
 
-                            // Stack the held entity on top of the target entity.
+                            // Stack the held entity on top of the target entity with a random rotation.
+                            auto rotation = ((float)rand() / (float)RAND_MAX) * 180.0F;
                             cmds.relate(heldEnt, topEnt, ChildOf{});
                             cmds.add(heldEnt, Position{{0.0F, 1.0F, 0.0F}})
                                 .add(heldEnt,
-                                     Rotation{glm::angleAxis(glm::radians(90.0F), glm::vec3{0.0F, 1.0F, 0.0F})});
+                                     Rotation{glm::angleAxis(glm::radians(rotation), glm::vec3{0.0F, 1.0F, 0.0F})});
                         }
                         else if (targetEnt.isNull())
                         {

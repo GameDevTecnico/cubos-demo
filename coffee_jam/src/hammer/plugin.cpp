@@ -206,9 +206,10 @@ void demo::hammerPlugin(Cubos& cubos)
                             }
                             else
                             {
+                                auto rotation = ((float)rand() / (float)RAND_MAX) * 180.0F;
                                 cmds.add(dropEnt, Position{{0.0F, 1.0F, 0.0F}})
                                     .add(dropEnt,
-                                         Rotation{glm::angleAxis(glm::radians(90.0F), glm::vec3(0.0F, 1.0F, 0.0F))});
+                                         Rotation{glm::angleAxis(glm::radians(rotation), glm::vec3(0.0F, 1.0F, 0.0F))});
                             }
 
                             topEnt = dropEnt;
