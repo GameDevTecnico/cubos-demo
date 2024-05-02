@@ -30,6 +30,8 @@
 #include "path_finding/plugin.hpp"
 #include "zombie/plugin.hpp"
 #include "health/plugin.hpp"
+#include "progression/plugin.hpp"
+#include "displays/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -61,6 +63,8 @@ int main(int argc, char** argv)
     cubos.plugin(demo::zombiePlugin);
     cubos.plugin(demo::healthPlugin);
     cubos.plugin(demo::turretPlugin);
+    cubos.plugin(demo::progressionPlugin);
+    cubos.plugin(demo::displaysPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);

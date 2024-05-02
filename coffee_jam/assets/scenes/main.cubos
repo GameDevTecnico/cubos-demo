@@ -69,6 +69,7 @@
     },
     "counter1.counter": {
       "cubos::engine::ChildOf@map": {},
+      "demo::DayCounterDivisor": 1,
       "demo::Object": {
         "position": {
           "x": 23,
@@ -82,6 +83,7 @@
     },
     "counter2.counter": {
       "cubos::engine::ChildOf@map": {},
+      "demo::DayCounterDivisor": 10,
       "demo::Object": {
         "position": {
           "x": 23,
