@@ -1,6 +1,6 @@
 {
   "entities": {
-    "base.body": {
+    "zombie.body": {
       "cubos::engine::RenderableGrid": {
         "offset": {
           "x": -4.0,
@@ -12,6 +12,6 @@
     }
   },
   "imports": {
-    "base": "cac2dbde-79db-4b45-8331-d83f829bc310"
+    "zombie": "cac2dbde-79db-4b45-8331-d83f829bc310"
   }
 }

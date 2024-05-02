@@ -33,6 +33,7 @@
 #include "progression/plugin.hpp"
 #include "displays/plugin.hpp"
 #include "day_night/plugin.hpp"
+#include "waves/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -67,6 +68,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::progressionPlugin);
     cubos.plugin(demo::displaysPlugin);
     cubos.plugin(demo::dayNightPlugin);
+    cubos.plugin(demo::wavesPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);

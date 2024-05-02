@@ -115,4 +115,23 @@ void demo::walkerPlugin(Cubos& cubos)
                 rotation.quat = glm::slerp(rotation.quat, targetRotation, rotationAlpha);
             }
         });
+
+    cubos.observer("clear up Walker positions")
+        .onRemove<Walker>()
+        .call([](Query<Entity, Walker&, const ChildOf&, TileMap&> query) {
+            for (auto [ent, walker, childOf, map] : query)
+            {
+                // Mark the tile as free.
+                CUBOS_ASSERT(map.entities[walker.position.y][walker.position.x] == ent,
+                             "Tile is not occupied by the entity");
+                map.entities[walker.position.y][walker.position.x] = {};
+
+                auto target = walker.position + walker.direction;
+                if (target.x >= 0 && target.y >= 0 && target.x < map.floorTiles.size() &&
+                    target.y < map.floorTiles.size() && map.entities[target.y][target.x] == ent)
+                {
+                    map.entities[target.y][target.x] = {};
+                }
+            }
+        });
 }
