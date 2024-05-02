@@ -5,6 +5,7 @@
 #include <cubos/engine/assets/asset.hpp>
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/scene/scene.hpp>
+#include <cubos/engine/voxels/grid.hpp>
 
 namespace demo
 {
@@ -15,6 +16,11 @@ namespace demo
 
         /// @brief Bullet scene to instantiate when shooting.
         cubos::engine::Asset<cubos::engine::Scene> bullet;
+
+        /// @brief Models to use for the turret's gun.
+        ///
+        /// The first model should represent the turret's gun without bullets, and the last model with full ammo.
+        std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> gunModels;
 
         /// @brief Name of the root entity of the bullet scene.
         std::string root;

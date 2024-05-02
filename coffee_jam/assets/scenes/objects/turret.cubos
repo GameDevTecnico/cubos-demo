@@ -19,6 +19,12 @@
       "cubos::engine::Collider": {},
       "demo::Turret": {
         "bullet": "e078c394-e169-4117-b3a7-9e8650738f5d",
+        "gunModels": [
+          "1fe428c5-bb0b-4fc3-b152-d780f219da46",
+          "0c58a79c-495f-4c26-a4f9-07a0db16c0de",
+          "dba6b41a-d896-4cd9-8f38-b2e1665ba248",
+          "412bda4c-8392-4bd4-b0ff-4c0f9544b935"
+        ],
         "root": "bullet",
         "range": 100.0,
         "cooldown": 2.0,
@@ -28,8 +34,8 @@
         "bulletSpeed": 100.0,
         "maxBulletTime": 2.0,
         "maxAmmoForReload": 5,
-        "ammoPerReload": 5,
-        "ammo": 5
+        "ammoPerReload": 10,
+        "ammo": 0
       },
       "demo::Health": {
         "hp": 5,
@@ -38,7 +44,6 @@
     },
     "gun": {
       "cubos::engine::RenderableGrid": {
-        "asset": "1fe428c5-bb0b-4fc3-b152-d780f219da46",
         "offset": {
           "x": -4.0,
           "y": 0.0,
