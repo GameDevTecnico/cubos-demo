@@ -11,7 +11,7 @@ CUBOS_REFLECT_IMPL(demo::Health)
 {
     return cubos::core::ecs::TypeBuilder<Health>("demo::Health")
         .withField("hp", &Health::hp)
-        .withField("enemy", &Health::enemy)
+        .withField("team", &Health::team)
         .build();
 }
 

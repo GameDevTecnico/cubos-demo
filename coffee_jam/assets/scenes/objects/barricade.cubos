@@ -18,8 +18,8 @@
       },
       "cubos::engine::Collider": {},
       "demo::Health": {
-        "hp" : 3,
-        "enemy": 0
+        "hp": 10,
+        "team": 0
       }
     }
   },

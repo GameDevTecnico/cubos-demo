@@ -24,7 +24,8 @@
         "maxDrops": 3
       },
       "demo::Health": {
-        "enemy": 0
+        "hp": 1,
+        "team": 0
       }
     }
   },

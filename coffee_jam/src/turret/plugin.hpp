@@ -72,6 +72,9 @@ namespace demo
 
         /// @brief Maximum time in seconds the bullet can exist.
         float maxTime = 5.0F;
+
+        /// @brief Bullet team.
+        int team = 0;
     };
 
     void turretPlugin(cubos::engine::Cubos& cubos);
