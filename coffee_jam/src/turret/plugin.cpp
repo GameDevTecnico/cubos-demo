@@ -3,6 +3,7 @@
 #include "../object/plugin.hpp"
 #include "../zombie/plugin.hpp"
 #include "../health/plugin.hpp"
+#include "../walker/plugin.hpp"
 #include "../tile_map/plugin.hpp"
 #include "cubos/engine/prelude.hpp"
 
@@ -65,6 +66,7 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.depends(zombiePlugin);
     cubos.depends(tileMapPlugin);
     cubos.depends(healthPlugin);
+    cubos.depends(walkerPlugin);
 
     cubos.component<Turret>();
     cubos.component<Ammo>();
@@ -100,7 +102,7 @@ void demo::turretPlugin(Cubos& cubos)
 
     cubos.system("aim and shoot Turret")
         .with<ZombieController>()
-        .call([](Commands cmds, Assets& assets, DeltaTime& dt, Query<const Position&> zombies,
+        .call([](Commands cmds, Assets& assets, DeltaTime& dt, Query<const Position&, const Walker&> zombies,
                  Query<Rotation&, const ChildOf&, const Position&, const Health&, Turret&, Entity> turrets) {
             for (auto [gunRotation, _, turretPosition, health, turret, turretEnt] : turrets)
             {
@@ -115,13 +117,15 @@ void demo::turretPlugin(Cubos& cubos)
                 float closestZombieDistance2 = INFINITY;
                 glm::vec2 closestZombiePosition{INFINITY, INFINITY};
 
-                for (auto [zombiePosition] : zombies)
+                Walker targetwalker;
+                for (auto [zombiePosition, walker] : zombies)
                 {
                     float distance2 = glm::distance2(turretPosition.vec, zombiePosition.vec);
                     if (distance2 < closestZombieDistance2)
                     {
                         closestZombieDistance2 = distance2;
                         closestZombiePosition = {zombiePosition.vec.x, zombiePosition.vec.z};
+                        targetwalker = walker;
                     }
                 }
 
@@ -133,7 +137,27 @@ void demo::turretPlugin(Cubos& cubos)
                 }
 
                 // Figure out the target rotation of the gun.
-                glm::vec2 targetDirection = glm::normalize(closestZombiePosition - turretPosition2D);
+                auto leadPosition = closestZombiePosition;
+                float tPrev = 0.0F;
+                for (int i = 0; i < 5; i++)
+                {
+                    auto time_bullet = glm::distance(leadPosition, turretPosition2D) / turret.bulletSpeed - tPrev;
+                    leadPosition += ((glm::vec2)targetwalker.direction * (float)(targetwalker.moveSpeed * time_bullet));
+                    tPrev = time_bullet;
+                }
+                /*
+                for (int steps = 0; steps < 5; steps++)
+                {
+                    leadPosition += targetwalker.direction;
+                    if ((glm::distance2(leadPosition, turretPosition2D) / turret.bulletSpeed) <
+                        (steps / targetwalker.moveSpeed))
+                    {
+                        CUBOS_INFO("tiro");
+                        break;
+                    }
+                }
+                */
+                glm::vec2 targetDirection = glm::normalize(leadPosition - turretPosition2D);
                 float targetAngle = std::atan2(-targetDirection.y, targetDirection.x);
                 auto targetGunRotation = glm::angleAxis(targetAngle, glm::vec3{0.0F, 1.0F, 0.0F});
 
