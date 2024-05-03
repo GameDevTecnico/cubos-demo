@@ -11,7 +11,10 @@
       },
       "cubos::engine::Position": {},
       "cubos::engine::Rotation": {},
-      "demo::Skip": {}
+      "demo::Skip": {
+        "reward": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3",
+        "root": "coin"
+      }
     }
   }
 }
