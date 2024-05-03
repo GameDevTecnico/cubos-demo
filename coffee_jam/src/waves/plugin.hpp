@@ -26,6 +26,12 @@ namespace demo
         /// @brief Number of waves per night.
         int wavesPerNight = 3;
 
+        /// @brief Time until the wave starts after the night begins.
+        float waveDelay = 5.0F;
+
+        /// @brief Accumulated time for the delay.
+        float waveDelayAcc = 0.0F;
+
         /// @brief Zombie scene to spawn.
         cubos::engine::Asset<cubos::engine::Scene> zombie;
 
