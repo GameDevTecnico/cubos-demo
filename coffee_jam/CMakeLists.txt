@@ -23,6 +23,7 @@ add_executable(coffee-jam
     src/waves/plugin.cpp
     src/shop/plugin.cpp
     src/player_spawn_point/plugin.cpp
+    src/skip/plugin.cpp
 )
 
 target_link_libraries(coffee-jam tesseratos)

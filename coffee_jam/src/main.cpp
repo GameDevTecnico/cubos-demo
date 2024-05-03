@@ -34,6 +34,7 @@
 #include "day_night/plugin.hpp"
 #include "waves/plugin.hpp"
 #include "shop/plugin.hpp"
+#include "skip/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -66,6 +67,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::wavesPlugin);
     cubos.plugin(demo::shopPlugin);
     cubos.plugin(demo::playerSpawnPointPlugin);
+    cubos.plugin(demo::skipPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
