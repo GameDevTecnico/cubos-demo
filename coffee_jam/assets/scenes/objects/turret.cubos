@@ -40,7 +40,8 @@
       "demo::Health": {
         "hp": 5,
         "team": 0
-      }
+      },
+      "demo::Target": 0.0
     },
     "gun": {
       "cubos::engine::RenderableGrid": {

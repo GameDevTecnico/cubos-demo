@@ -18,7 +18,8 @@
       "demo::Health": {
         "hp": 3,
         "team": 0
-      }
+      },
+      "demo::Target": 0.0
     },
     "lantern": {
       "cubos::engine::ChildOf@player": {},
