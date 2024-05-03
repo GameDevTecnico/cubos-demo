@@ -192,7 +192,7 @@
         "force": true
       }
     },
-    "waves": {
+    "waves-normal": {
       "cubos::engine::ChildOf@map": {},
       "demo::Waves": {
         "waveZombiesBase": 1,
@@ -207,6 +207,25 @@
           },
           "moveSpeed": 4.0,
           "halfRotationTime": 0.03,
+          "jumpHeight": 2.5
+        }
+      }
+    },
+    "waves-tall": {
+      "cubos::engine::ChildOf@map": {},
+      "demo::Waves": {
+        "waveZombiesBase": -3,
+        "waveZombiesIncrease": 1,
+        "wavesPerNight": 3,
+        "zombie": "553ba8d5-b017-4c2b-85d9-aa9d6a76d631",
+        "zombieRoot": "zombie.body",
+        "walker": {
+          "position": {
+            "x": 10,
+            "y": 47
+          },
+          "moveSpeed": 3.0,
+          "halfRotationTime": 0.025,
           "jumpHeight": 2.5
         }
       }

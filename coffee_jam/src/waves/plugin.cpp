@@ -54,9 +54,12 @@ void demo::wavesPlugin(Cubos& cubos)
                 progression.scoreToFinishNight = 0;
                 for (auto [wave, _1, _2] : waves)
                 {
-                    progression.scoreToFinishNight +=
-                        (wave.waveZombiesBase + wave.waveZombiesIncrease * progression.daysSurvived) *
-                        wave.wavesPerNight;
+                    auto score = (wave.waveZombiesBase + wave.waveZombiesIncrease * progression.daysSurvived) *
+                                 wave.wavesPerNight;
+                    if (score > 0)
+                    {
+                        progression.scoreToFinishNight += score;
+                    }
                 }
             }
 
