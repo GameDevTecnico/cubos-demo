@@ -8,6 +8,18 @@
           "z": -4.0
         },
         "asset": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
+      },
+      "demo::ZombieController": {
+        "rePathTime": 3.0,
+        "hitTime": 1.0,
+        "item": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3",
+        "itemRoot": "coin",
+        "itemRate": 0.5,
+        "hpPenalization": 5.0
+      },
+      "demo::Health": {
+        "hp": 1,
+        "team": 1
       }
     }
   },

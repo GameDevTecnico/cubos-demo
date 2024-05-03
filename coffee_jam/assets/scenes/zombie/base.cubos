@@ -12,28 +12,7 @@
         "y": 7.0,
         "z": 2.0
       },
-      "cubos::engine::Collider": {},
-      "demo::Walker": {
-        "position": {
-          "x": 30,
-          "y": 48
-        },
-        "moveSpeed": 4.0,
-        "halfRotationTime": 0.03,
-        "jumpHeight": 2.5
-      },
-      "demo::ZombieController": {
-        "rePathTime": 3.0,
-        "hitTime": 1.0,
-        "item": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3",
-        "itemRoot": "coin",
-        "itemRate": 0.5,
-        "hpPenalization": 5.0
-      },
-      "demo::Health": {
-        "hp": 1,
-        "team": 1
-      }
+      "cubos::engine::Collider": {}
     }
   },
   "imports": {}

@@ -7,6 +7,8 @@
 
 #include <cubos/engine/transform/plugin.hpp>
 
+#include <random>
+
 using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(demo::Walker)
@@ -46,14 +48,15 @@ void demo::walkerPlugin(Cubos& cubos)
                     while (!map.entities[walker.position.y][walker.position.x].isNull())
                     {
                         walker.position += glm::ivec2{1, 0};
+                        int r = rand() % 2;
+                        walker.position += (rand() % 2 == 0 ? -1 : 1) * glm::ivec2{r, 1 - r};
                         if (walker.position.x >= map.floorTiles.size())
                         {
-                            walker.position.x = 0;
-                            walker.position.y += 1;
+                            walker.position.x -= map.floorTiles.size();
                         }
                         if (walker.position.y >= map.floorTiles.size())
                         {
-                            walker.position.y = 0;
+                            walker.position.y -= map.floorTiles.size();
                         }
                     }
                     map.entities[walker.position.y][walker.position.x] = ent;
