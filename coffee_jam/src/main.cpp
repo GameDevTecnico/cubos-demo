@@ -1,7 +1,5 @@
 #include <imgui.h>
 
-#include <cubos/engine/input/input.hpp>
-#include <cubos/engine/input/bindings.hpp>
 #include <cubos/engine/assets/asset.hpp>
 #include <cubos/engine/assets/assets.hpp>
 #include <cubos/engine/settings/plugin.hpp>
@@ -41,16 +39,11 @@ using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("5c813e4f-8bbb-4a69-8d2a-036169deb974");
 static const Asset<Scene> MainSceneAsset = AnyAsset("1d2c5bae-f6ec-4986-bc9a-d2863b317c47");
-static const Asset<InputBindings> EditorBindingsAsset = AnyAsset("2f295ec8-aada-41dd-814b-281c5b5859ae");
-static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
-static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("ca74927e-8f5e-4e45-b9e5-184533e2a646");
 
 int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.plugin(defaultsPlugin);
-    cubos.plugin(freeCameraPlugin);
-    cubos.plugin(tesseratos::plugin);
 
     // Add game plugins
     cubos.plugin(demo::followPlugin);
@@ -79,14 +72,6 @@ int main(int argc, char** argv)
         settings.setBool("assets.io.readOnly", false);
         settings.setBool("cubos.renderer.screenPicking.enabled", false);
     });
-
-    cubos.startupSystem("load and set the Input Bindings")
-        .tagged(assetsTag)
-        .call([](const Assets& assets, Input& input) {
-            input.bind(*assets.read<InputBindings>(EditorBindingsAsset), 0);
-            input.bind(*assets.read<InputBindings>(Player1BindingsAsset), 1);
-            input.bind(*assets.read<InputBindings>(Player2BindingsAsset), 2);
-        });
 
     cubos.startupSystem("load and set the Voxel Palette")
         .tagged(assetsTag)
