@@ -10,6 +10,7 @@
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/voxels/grid.hpp>
+#include <cubos/engine/input/bindings.hpp>
 
 namespace demo
 {
@@ -18,9 +19,15 @@ namespace demo
     {
         CUBOS_REFLECT;
 
-        struct Models
+        struct Player
         {
             CUBOS_REFLECT;
+
+            /// @brief Input bindings for the player.
+            cubos::engine::Asset<cubos::engine::InputBindings> bindings;
+
+            /// @brief Does the player need a gamepad?
+            bool needsGamepad = true;
 
             /// @brief Normal voxel model of the character.
             cubos::engine::Asset<cubos::engine::VoxelGrid> normal;
@@ -38,8 +45,8 @@ namespace demo
         /// @brief Scene camera entity name.
         std::string camera;
 
-        /// @brief Models for each player.
-        std::vector<Models> models;
+        /// @brief Data for each player.
+        std::vector<Player> players;
 
         /// @brief Base player walker component.
         Walker walker;

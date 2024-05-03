@@ -3,6 +3,9 @@
         "interact": {
             "keys": [
                 "Space"
+            ],
+            "gamepadButtons": [
+                "A"
             ]
         }
     },
@@ -15,18 +18,18 @@
                 "W"
             ],
             "gamepadAxes": [
-                "LX"
+                "LY"
             ]
         },
         "move-y": {
             "positive": [
-                "A"
-            ],
-            "negative": [
                 "D"
             ],
+            "negative": [
+                "A"
+            ],
             "gamepadAxes": [
-                "LY"
+                "LX"
             ]
         }
     }

@@ -156,12 +156,21 @@ void demo::playerControllerPlugin(Cubos& cubos)
                 else
                 {
                     // Move the character as requested.
-                    walker.direction.x =
-                        static_cast<int>(glm::round(input.axis(controller.moveX.c_str(), controller.player)));
+                    auto moveX = input.axis(controller.moveX.c_str(), controller.player);
+                    auto moveY = -input.axis(controller.moveY.c_str(), controller.player);
+                    if (glm::abs(moveX) < 0.75F)
+                    {
+                        moveX = 0.0F; // Deadzone.
+                    }
+                    if (glm::abs(moveY) < 0.75F)
+                    {
+                        moveY = 0.0F; // Deadzone.
+                    }
+
+                    walker.direction.x = static_cast<int>(glm::round(moveX));
                     if (walker.direction.x == 0)
                     {
-                        walker.direction.y =
-                            static_cast<int>(glm::round(input.axis(controller.moveY.c_str(), controller.player)));
+                        walker.direction.y = static_cast<int>(glm::round(moveY));
                     }
                 }
             }

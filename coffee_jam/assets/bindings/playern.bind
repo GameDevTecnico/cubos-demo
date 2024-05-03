@@ -1,9 +1,6 @@
 {
     "actions": {
         "interact": {
-            "keys": [
-                "M"
-            ],
             "gamepadButtons": [
                 "A"
             ]
@@ -11,23 +8,11 @@
     },
     "axes": {
         "move-x": {
-            "positive": [
-                "Down"
-            ],
-            "negative": [
-                "Up"
-            ],
             "gamepadAxes": [
                 "LY"
             ]
         },
         "move-y": {
-            "positive": [
-                "Right"
-            ],
-            "negative": [
-                "Left"
-            ],
             "gamepadAxes": [
                 "LX"
             ]

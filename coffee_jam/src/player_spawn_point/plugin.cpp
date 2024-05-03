@@ -12,14 +12,17 @@
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/input/plugin.hpp>
 
 using namespace cubos::engine;
 
-CUBOS_REFLECT_IMPL(demo::PlayerSpawnPoint::Models)
+CUBOS_REFLECT_IMPL(demo::PlayerSpawnPoint::Player)
 {
-    return cubos::core::ecs::TypeBuilder<PlayerSpawnPoint::Models>("demo::PlayerSpawnPoint::Models")
-        .withField("normal", &PlayerSpawnPoint::Models::normal)
-        .withField("holding", &PlayerSpawnPoint::Models::holding)
+    return cubos::core::ecs::TypeBuilder<PlayerSpawnPoint::Player>("demo::PlayerSpawnPoint::Player")
+        .withField("bindings", &PlayerSpawnPoint::Player::bindings)
+        .withField("needsGamepad", &PlayerSpawnPoint::Player::needsGamepad)
+        .withField("normal", &PlayerSpawnPoint::Player::normal)
+        .withField("holding", &PlayerSpawnPoint::Player::holding)
         .build();
 }
 
@@ -29,7 +32,7 @@ CUBOS_REFLECT_IMPL(demo::PlayerSpawnPoint)
         .withField("scene", &PlayerSpawnPoint::scene)
         .withField("root", &PlayerSpawnPoint::root)
         .withField("camera", &PlayerSpawnPoint::camera)
-        .withField("models", &PlayerSpawnPoint::models)
+        .withField("players", &PlayerSpawnPoint::players)
         .withField("walker", &PlayerSpawnPoint::walker)
         .build();
 }
@@ -43,11 +46,12 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
     cubos.depends(walkerPlugin);
     cubos.depends(progressionPlugin);
     cubos.depends(playerControllerPlugin);
+    cubos.depends(inputPlugin);
 
     cubos.component<PlayerSpawnPoint>();
 
     cubos.system("spawn missing players during the day")
-        .call([](Commands cmds, Assets& assets, Settings& settings, const Progression& progression,
+        .call([](Commands cmds, Assets& assets, Settings& settings, Input& input, const Progression& progression,
                  ActiveCameras& activeCameras, Query<PlayerSpawnPoint&, const ChildOf&, Entity> spawnPoints,
                  Query<Entity, const PlayerController&> playerControllers) {
             auto match = spawnPoints.first();
@@ -65,12 +69,29 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
                 playerCount = 1;
                 settings.setInteger("player.count", playerCount);
             }
-            else if (playerCount > spawnPoint.models.size())
+            else if (playerCount > spawnPoint.players.size())
             {
-                CUBOS_WARN("Not enough models for {} players, limiting to {}", playerCount, spawnPoint.models.size());
-                playerCount = spawnPoint.models.size();
+                CUBOS_WARN("Not enough assets for {} players, limiting to {}", playerCount, spawnPoint.players.size());
+                playerCount = spawnPoint.players.size();
                 settings.setInteger("player.count", playerCount);
             }
+
+            // Check if there are enough gamepads for all players.
+            int gamepadCount = input.gamepadCount();
+            for (int player = 1; player <= playerCount; player++)
+            {
+                if (spawnPoint.players[player - 1].needsGamepad)
+                {
+                    gamepadCount -= 1;
+                }
+            }
+            if (gamepadCount < 0)
+            {
+                CUBOS_WARN("Not enough gamepads for {} players, keeping only {} players", playerCount,
+                           playerCount + gamepadCount);
+                playerCount += gamepadCount;
+            }
+            gamepadCount = input.gamepadCount();
 
             std::vector<bool> playerSpawned(playerCount, false);
             for (auto [playerEnt, controller] : playerControllers)
@@ -116,14 +137,58 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
                     cmds.relate(playerEnt, mapEnt, ChildOf{})
                         .add(playerEnt, spawnPoint.walker)
                         .add(playerEnt, PlayerController{.player = player,
-                                                         .normal = spawnPoint.models[player - 1].normal,
-                                                         .holding = spawnPoint.models[player - 1].holding});
+                                                         .normal = spawnPoint.players[player - 1].normal,
+                                                         .holding = spawnPoint.players[player - 1].holding});
                     activeCameras.entities[player - 1] = builder.entity(spawnPoint.camera);
 
                     for (auto& [_, name] : sceneRead->blueprint.entities())
                     {
                         spawnPoint.subEntities[player - 1].push_back(builder.entity(name));
                     }
+
+                    // Bind input for the player.
+                    input.bind(*assets.read(spawnPoint.players[player - 1].bindings), player);
+                }
+
+                // Assign a gamepad to the player.
+                int gamepad = -1;
+                if (gamepadCount < playerCount)
+                {
+                    if (spawnPoint.players[player - 1].needsGamepad)
+                    {
+                        gamepad = 0;
+                        for (int i = 1; i < player; ++i)
+                        {
+                            if (spawnPoint.players[i - 1].needsGamepad)
+                            {
+                                gamepad += 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        gamepad = 0;
+                        for (int i = 1; i <= playerCount; ++i)
+                        {
+                            if (spawnPoint.players[i - 1].needsGamepad || i < player)
+                            {
+                                gamepad += 1;
+                            }
+                        }
+                        if (gamepad >= gamepadCount)
+                        {
+                            gamepad = -1;
+                        }
+                    }
+                }
+                else
+                {
+                    gamepad = player - 1;
+                }
+
+                if (input.gamepad(player) != gamepad)
+                {
+                    input.gamepad(player, gamepad);
                 }
             }
         });

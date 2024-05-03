@@ -61,14 +61,30 @@
         "scene": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c",
         "root": "player",
         "camera": "camera",
-        "models": [
+        "players": [
           {
+            "bindings": "602177be-b7e6-42b4-917e-3947c19e6c19",
+            "needsGamepad": false,
             "normal": "e1051eed-b40e-4dfa-8ca9-b553b5eb1994",
             "holding": "4bc0865c-980b-4758-ac8b-a4e4fadcb9c5"
           },
           {
+            "bindings": "ca74927e-8f5e-4e45-b9e5-184533e2a646",
+            "needsGamepad": false,
             "normal": "8127cf38-825a-464a-8912-c29c2c3570bf",
             "holding": "5450d3e7-b176-4552-a217-086ac8ab767f"
+          },
+          {
+            "bindings": "a7d60c6c-a7c4-4231-bc65-d1995211a822",
+            "needsGamepad": true,
+            "normal": "2c2024bb-0a76-48df-b529-9540e25853e0",
+            "holding": "1400958e-6403-4770-bb8b-d2bfb0ee7ee6"
+          },
+          {
+            "bindings": "a7d60c6c-a7c4-4231-bc65-d1995211a822",
+            "needsGamepad": true,
+            "normal": "df7ea4b8-63cb-4ec6-af00-870697ca769c",
+            "holding": "a85badf2-c42f-405d-a43c-6d4ebd8bf61d"
           }
         ],
         "walker": {
