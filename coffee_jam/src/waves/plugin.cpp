@@ -20,6 +20,8 @@ CUBOS_REFLECT_IMPL(demo::Waves)
         .withField("zombie", &Waves::zombie)
         .withField("zombieRoot", &Waves::zombieRoot)
         .withField("walker", &Waves::walker)
+        .withField("waveDelay", &Waves::waveDelay)
+        .withField("waveDelayAcc", &Waves::waveDelayAcc)
         .build();
 }
 
@@ -34,10 +36,15 @@ void demo::wavesPlugin(Cubos& cubos)
     cubos.component<Waves>();
 
     cubos.system("spawn waves of zombies")
-        .call([](Commands cmds, Assets& assets, Progression& progression,
-                 Query<const Waves&, const ChildOf&, Entity> waves, Query<const ZombieController&> zombies) {
+        .call([](Commands cmds, Assets& assets, const DeltaTime& dt, Progression& progression,
+                 Query<Waves&, const ChildOf&, Entity> waves, Query<const ZombieController&> zombies) {
             if (progression.timeOfDay < progression.dayDuration)
             {
+                for (auto [wave, _1, _2] : waves)
+                {
+                    wave.waveDelayAcc = 0.0F;
+                }
+
                 return;
             }
 
@@ -58,6 +65,12 @@ void demo::wavesPlugin(Cubos& cubos)
                 // No more zombies and the night is not over yet, spawn a new wave.
                 for (auto [wave, _1, mapEnt] : waves)
                 {
+                    if (wave.waveDelayAcc < wave.waveDelay)
+                    {
+                        wave.waveDelayAcc += dt.value();
+                        continue;
+                    }
+
                     for (int i = 0; i < wave.waveZombiesBase + wave.waveZombiesIncrease * progression.daysSurvived; ++i)
                     {
                         auto zombieEnt = cmds.spawn(assets.read(wave.zombie)->blueprint).entity(wave.zombieRoot);
