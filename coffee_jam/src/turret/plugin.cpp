@@ -5,7 +5,7 @@
 #include "../health/plugin.hpp"
 #include "../walker/plugin.hpp"
 #include "../tile_map/plugin.hpp"
-#include "cubos/engine/prelude.hpp"
+#include "../path_finding/plugin.hpp"
 
 #include <random>
 
@@ -67,6 +67,7 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.depends(tileMapPlugin);
     cubos.depends(healthPlugin);
     cubos.depends(walkerPlugin);
+    cubos.depends(pathFindingPlugin);
 
     cubos.component<Turret>();
     cubos.component<Ammo>();
@@ -103,15 +104,17 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.system("aim and shoot Turret")
         .with<ZombieController>()
         .call([](Commands cmds, Assets& assets, DeltaTime& dt, Query<const Position&, const Walker&> zombies,
-                 Query<Rotation&, const ChildOf&, const Position&, const Health&, Turret&, Entity> turrets) {
-            for (auto [gunRotation, _, turretPosition, health, turret, turretEnt] : turrets)
+                 Query<Rotation&, const ChildOf&, const Position&, const Health&, Turret&, Entity, Target&> turrets) {
+            for (auto [gunRotation, _, turretPosition, health, turret, turretEnt, target] : turrets)
             {
                 turret.timeSinceLastShot += dt.value();
 
                 if (turret.ammo == 0)
                 {
+                    target.cost = 10.0F; // Make zombies prefer turrets with ammo.
                     continue;
                 }
+                target.cost = 2.0F;
 
                 // Select the closest zombie.
                 float closestZombieDistance2 = INFINITY;
@@ -146,18 +149,7 @@ void demo::turretPlugin(Cubos& cubos)
                         ((glm::vec2)targetwalker.direction * (float)(targetwalker.moveSpeed * (time_bullet - tPrev)));
                     tPrev = time_bullet;
                 }
-                /*
-                for (int steps = 0; steps < 5; steps++)
-                {
-                    leadPosition += targetwalker.direction;
-                    if ((glm::distance2(leadPosition, turretPosition2D) / turret.bulletSpeed) <
-                        (steps / targetwalker.moveSpeed))
-                    {
-                        CUBOS_INFO("tiro");
-                        break;
-                    }
-                }
-                */
+
                 glm::vec2 targetDirection = glm::normalize(leadPosition - turretPosition2D);
                 float targetAngle = std::atan2(-targetDirection.y, targetDirection.x);
                 auto targetGunRotation = glm::angleAxis(targetAngle, glm::vec3{0.0F, 1.0F, 0.0F});

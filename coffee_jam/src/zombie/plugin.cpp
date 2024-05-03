@@ -31,7 +31,7 @@ CUBOS_REFLECT_IMPL(demo::ZombieController)
         .withField("item", &ZombieController::item)
         .withField("itemRoot", &ZombieController::itemRoot)
         .withField("itemRate", &ZombieController::itemRate)
-        .withField("lastPosition", &ZombieController::lastPosition)
+        .withField("hpPenalization", &ZombieController::hpPenalization)
         .build();
 }
 
@@ -53,7 +53,7 @@ void demo::zombiePlugin(Cubos& cubos)
                  Query<Entity, ZombieController&, Walker&, const Health&, Opt<const PathTask&>, Opt<Path&>, ChildOf&,
                        TileMap&, Entity>
                      zombies,
-                 Query<Entity, PlayerController&, Walker&> players, Query<Health&> healths) {
+                 Query<Entity, PlayerController&, Walker&> players, Query<Health&, Opt<const Target&>> healths) {
             for (auto [zombieEnt, controller, walker, zombieHealth, pathTask, path, _1, map, mapEnt] : zombies)
             {
                 if (controller.hitTimeAcc < controller.hitTime)
@@ -67,130 +67,120 @@ void demo::zombiePlugin(Cubos& cubos)
                     continue;
                 }
 
-                // If we're calculating a path, then wait for the answer before moving.
-                if (pathTask)
+                // Check if there's a target entity adjacent to the zombie. In that case, attack it.
+                bool attacked = false;
+                for (auto direction : {glm::ivec2{0, 1}, glm::ivec2{1, 0}, glm::ivec2{0, -1}, glm::ivec2{-1, 0}})
                 {
-                    continue;
-                }
-
-                // Find the player which is closest to the zombie.
-                Entity targetPlayer{};
-                glm::ivec2 targetPosition{};
-                for (auto [playerEnt, _2, playerWalker] : players)
-                {
-                    if (targetPlayer.isNull() ||
-                        glm::distance((glm::vec2)walker.position, (glm::vec2)targetPosition) >
-                            glm::distance((glm::vec2)walker.position, (glm::vec2)playerWalker.position))
+                    auto aheadPosition = walker.position + direction;
+                    if (aheadPosition.x < 0 || aheadPosition.y < 0 || aheadPosition.x >= map.entities.size() ||
+                        aheadPosition.y >= map.entities.size())
                     {
-                        targetPlayer = playerEnt;
-                        targetPosition = playerWalker.position;
-                    }
-                }
-
-                // If there isn't a target player, just do nothing.
-                if (targetPlayer.isNull())
-                {
-                    continue;
-                }
-
-                if (glm::abs(walker.position.x - targetPosition.x) + glm::abs(walker.position.y - targetPosition.y) <=
-                    1)
-                {
-                    // If there's a player adjacent to the zombie, just attack them.
-                    if (controller.hitTimeAcc >= controller.hitTime)
-                    {
-                        controller.hitTimeAcc = 0.0F;
-                        auto [health] = *healths.at(targetPlayer);
-                        health.hp -= 1;
+                        continue;
                     }
 
-                    continue;
-                }
-
-                if (path)
-                {
-                    if (path->path.empty())
+                    auto entityAhead = map.entities[aheadPosition.y][aheadPosition.x];
+                    if (auto match = healths.at(entityAhead))
                     {
-                        // We asked for a path, but there isn't one. We'll just move in the direction of the closest
-                        // player. Eventually, we'll ask for a new path.
-                        controller.rePathTimeAcc += dt.value();
-                        if (controller.rePathTimeAcc > controller.rePathTime)
+                        // If the entity ahead is damageable, is a target, and isn't in our team, attack it.
+                        auto [health, target] = *match;
+                        if (health.team != zombieHealth.team && target && controller.hitTimeAcc >= controller.hitTime)
                         {
-                            controller.rePathTimeAcc = 0.0F;
-                            cmds.remove<Path>(zombieEnt);
+                            walker.direction = direction;
+                            controller.hitTimeAcc = 0.0F;
+                            health.hp -= 1;
+                            attacked = true;
+                            break;
                         }
                     }
-                    else
-                    {
-                        // We have a non-empty path, so we'll just follow it.
-                        if (path->path.back() == walker.position)
-                        {
-                            path->path.pop_back();
-                            if (path->path.empty())
-                            {
-                                cmds.remove<Path>(zombieEnt);
-                                continue;
-                            }
+                }
 
-                            walker.direction = path->path.back() - walker.position;
+                // We are attacking a target, no need to move.
+                if (attacked)
+                {
+                    continue;
+                }
+
+                if (pathTask)
+                {
+                    // If there's anything adjacent, just attack it.
+                    for (auto direction : {glm::ivec2{0, 1}, glm::ivec2{1, 0}, glm::ivec2{0, -1}, glm::ivec2{-1, 0}})
+                    {
+                        auto aheadPosition = walker.position + direction;
+                        if (aheadPosition.x < 0 || aheadPosition.y < 0 || aheadPosition.x >= map.entities.size() ||
+                            aheadPosition.y >= map.entities.size())
+                        {
                             continue;
                         }
 
-                        // We're stuck, discard the path, and just move in the direction of the closest player.
-                        cmds.remove<Path>(zombieEnt);
+                        auto entityAhead = map.entities[aheadPosition.y][aheadPosition.x];
+                        if (auto match = healths.at(entityAhead))
+                        {
+                            // If the entity ahead is damageable, is a target, and isn't in our team, attack it.
+                            auto [health, target] = *match;
+                            if (health.team != zombieHealth.team && controller.hitTimeAcc >= controller.hitTime)
+                            {
+                                walker.facing = direction;
+                                controller.hitTimeAcc = 0.0F;
+                                health.hp -= 1;
+                                attacked = true;
+                                break;
+                            }
+                        }
                     }
+
+                    continue;
                 }
 
-                if (controller.lastPosition == walker.position && !path)
+                if (!path || path->path.empty() || controller.rePathTimeAcc >= controller.rePathTime)
                 {
-                    // The previous movement failed, and we do not have a pth.
-                    // Generate a new path to the closest player.
-                    controller.lastPosition = {-1, -1};
-                    cmds.add(zombieEnt, PathTask{walker.position, targetPosition});
+                    controller.rePathTimeAcc = 0.0F;
+
+                    // We don't have a path, plan a new one.
+                    cmds.add(zombieEnt, PathTask{
+                                            .from = walker.position,
+                                            .team = zombieHealth.team,
+                                            .hpPenalization = controller.hpPenalization,
+                                        });
+
+                    continue;
                 }
-                else
+
+                controller.rePathTimeAcc += dt.value();
+
+                // We have a non-empty path, so we'll just follow it.
+                if (path->path.back() == walker.position)
                 {
-                    controller.lastPosition = walker.position;
+                    path->path.pop_back();
+                }
 
-                    // Just move in the direction of the closest player.
-                    bool directionPreference = std::rand() % 2 == 0;
+                if (path->path.empty())
+                {
+                    continue;
+                }
 
-                    if (targetPosition.x == walker.position.x ||
-                        (directionPreference && targetPosition.y != walker.position.y))
-                    {
-                        if (targetPosition.y < walker.position.y)
-                        {
-                            walker.direction = {0, -1};
-                        }
-                        else
-                        {
-                            walker.direction = {0, 1};
-                        }
-                    }
-                    else
-                    {
-                        if (targetPosition.x < walker.position.x)
-                        {
-                            walker.direction = {-1, 0};
-                        }
-                        else
-                        {
-                            walker.direction = {1, 0};
-                        }
-                    }
+                auto next = path->path.back();
+                walker.direction = next - walker.position;
 
-                    auto entityAhead =
-                        map.entities[walker.position.y + walker.direction.y][walker.position.x + walker.direction.x];
-                    if (auto match = healths.at(entityAhead))
+                if (auto match = healths.at(map.entities[next.y][next.x]))
+                {
+                    auto [health, _2] = *match;
+
+                    if (health.team != zombieHealth.team)
                     {
-                        // If the entity ahead is damageable, and isn't in our team, attack it.
-                        auto [health] = *match;
-                        if (health.team != zombieHealth.team && controller.hitTimeAcc >= controller.hitTime)
+                        if (controller.hitTimeAcc >= controller.hitTime)
                         {
                             controller.hitTimeAcc = 0.0F;
                             health.hp -= 1;
                         }
+
+                        continue;
                     }
+                }
+
+                if (!map.entities[next.y][next.x].isNull())
+                {
+                    // The path is invalid, try planning a new one.
+                    path->path.clear();
                 }
             }
         });

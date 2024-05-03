@@ -37,8 +37,8 @@ namespace demo
         /// @brief Item drop rate (from 0 to 1).
         float itemRate = 0.5F;
 
-        /// @brief Last position of the walker, used to check if the walker is stuck.
-        glm::ivec2 lastPosition = {-1, -1};
+        /// @brief How much a path is a penalized by each damage point needed to traverse it.
+        float hpPenalization = 1.0F;
     };
 
     void zombiePlugin(cubos::engine::Cubos& cubos);
