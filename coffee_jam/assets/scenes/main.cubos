@@ -178,6 +178,20 @@
         "force": true
       }
     },
+    "skip-machine.skip-machine": {
+      "cubos::engine::ChildOf@map": {},
+      "demo::Object": {
+        "position": {
+          "x": 25,
+          "y": 56
+        },
+        "size": {
+          "x": 1,
+          "y": 1
+        },
+        "force": true
+      }
+    },
     "waves": {
       "cubos::engine::ChildOf@map": {},
       "demo::Waves": {
@@ -205,6 +219,7 @@
     "counter1": "51b6b40f-50a2-4446-a69d-f4105e856905",
     "counter2": "51b6b40f-50a2-4446-a69d-f4105e856905",
     "plate-shop": "8a1826b1-9243-4312-af2c-10c810d48911",
-    "planks-shop": "7ede14e0-b747-4f92-9789-8c776d7ebb21"
+    "planks-shop": "7ede14e0-b747-4f92-9789-8c776d7ebb21",
+    "skip-machine": "453bfd4f-743e-4e6c-9abd-8e20599ecd39"
   }
 }
