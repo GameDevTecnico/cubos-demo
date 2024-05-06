@@ -16,4 +16,4 @@ endfunction()
 
 add_subdirectory(cars)
 add_subdirectory(tanks)
-add_subdirectory(coffee_jam)
+add_subdirectory(scraps)
