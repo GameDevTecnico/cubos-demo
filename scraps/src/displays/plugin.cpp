@@ -5,7 +5,9 @@
 #include <cubos/core/reflection/external/primitives.hpp>
 
 #include <cubos/engine/assets/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/render/voxels/grid.hpp>
+#include <cubos/engine/render/voxels/load.hpp>
+#include <cubos/engine/render/voxels/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 
 using namespace cubos::engine;
@@ -43,9 +45,9 @@ CUBOS_REFLECT_IMPL(demo::DayCounterDivisor)
 void demo::displaysPlugin(Cubos& cubos)
 {
     cubos.depends(assetsPlugin);
-    cubos.depends(rendererPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(progressionPlugin);
+    cubos.depends(renderVoxelsPlugin);
 
     cubos.component<Clock>();
     cubos.component<DayCounter>();
@@ -77,11 +79,12 @@ void demo::displaysPlugin(Cubos& cubos)
         });
 
     cubos.system("update DayCounters")
-        .call([](const Progression& progression,
-                 Query<const DayCounter&, const DayCounterDivisor&, RenderableGrid&> query) {
-            for (auto [dayCounter, divisor, grid] : query)
+        .call([](Commands cmds, const Progression& progression,
+                 Query<Entity, const DayCounter&, const DayCounterDivisor&, RenderVoxelGrid&> query) {
+            for (auto [ent, dayCounter, divisor, grid] : query)
             {
                 auto day = (progression.daysSurvived / divisor.divisor) % 10;
+                auto prevAsset = grid.asset;
                 switch (day)
                 {
                 case 0:
@@ -114,6 +117,10 @@ void demo::displaysPlugin(Cubos& cubos)
                 case 9:
                     grid.asset = dayCounter.digit9;
                     break;
+                }
+                if (prevAsset != grid.asset)
+                {
+                    cmds.add(ent, LoadRenderVoxels{});
                 }
             }
         });

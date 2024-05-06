@@ -8,7 +8,6 @@
 #include "../explosion/plugin.hpp"
 
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/collisions/colliding_with.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 

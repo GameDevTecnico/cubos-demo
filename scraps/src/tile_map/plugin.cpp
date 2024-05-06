@@ -8,7 +8,8 @@
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/voxels/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/render/voxels/grid.hpp>
+#include <cubos/engine/render/voxels/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -39,7 +40,7 @@ void demo::tileMapPlugin(Cubos& cubos)
     cubos.depends(assetsPlugin);
     cubos.depends(voxelsPlugin);
     cubos.depends(transformPlugin);
-    cubos.depends(rendererPlugin);
+    cubos.depends(renderVoxelsPlugin);
 
     cubos.component<TileMap>();
 
@@ -177,7 +178,7 @@ void demo::tileMapPlugin(Cubos& cubos)
                     {
                         auto asset = assets.create(std::move(chunks[y][x]));
                         auto chunk = cmds.create()
-                                         .add(RenderableGrid{.asset = asset, .offset = glm::vec3{0, -1.0F, 0}})
+                                         .add(RenderVoxelGrid{.asset = asset, .offset = glm::vec3{0, -1.0F, 0}})
                                          .add(Position{glm::vec3{map.tileSide * map.chunkSide * x, 0,
                                                                  map.tileSide * map.chunkSide * y}})
                                          .entity();

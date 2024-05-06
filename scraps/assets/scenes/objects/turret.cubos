@@ -1,7 +1,7 @@
 {
   "entities": {
     "turret": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "f8dfdd5c-49fc-47e7-be75-864b5d36e7ae",
         "offset": {
           "x": -4.0,
@@ -44,7 +44,7 @@
       "demo::Target": 0.0
     },
     "gun": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "offset": {
           "x": -4.0,
           "y": 0.0,

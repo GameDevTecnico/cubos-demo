@@ -1,10 +1,10 @@
 #include "plugin.hpp"
 #include "../progression/plugin.hpp"
 
-#include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/render/lights/directional.hpp>
 #include <cubos/engine/render/lights/spot.hpp>
+#include <cubos/engine/render/lights/plugin.hpp>
 
 #include <glm/glm.hpp>
 
@@ -24,7 +24,7 @@ namespace
 
 void demo::dayNightPlugin(Cubos& cubos)
 {
-    cubos.depends(rendererPlugin);
+    cubos.depends(lightsPlugin);
     cubos.depends(progressionPlugin);
 
     cubos.resource<State>();
@@ -54,7 +54,7 @@ void demo::dayNightPlugin(Cubos& cubos)
             // Update the sun's intensity.
             for (auto [light] : sun)
             {
-                light.intensity = glm::mix(1.0F, 0.0F, state.state);
+                light.intensity = glm::mix(0.75F, 0.0F, state.state);
             }
 
             // Update spot lights intensity.
@@ -64,7 +64,7 @@ void demo::dayNightPlugin(Cubos& cubos)
             }
 
             // Update the render environment.
-            renderEnvironment.ambient = glm::mix(glm::vec3(0.4F), glm::vec3(0.1F), state.state);
+            renderEnvironment.ambient = glm::mix(glm::vec3(0.2F), glm::vec3(0.05F), state.state);
             renderEnvironment.skyGradient[0] = glm::vec3(0.1F);
             renderEnvironment.skyGradient[1] = glm::vec3(0.3F);
         });

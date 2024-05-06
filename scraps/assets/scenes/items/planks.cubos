@@ -1,7 +1,7 @@
 {
   "entities": {
     "planks": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "61d52ff2-2e24-41f4-a9fd-ca12bbafab3e",
         "offset": {
           "x": -4.0,

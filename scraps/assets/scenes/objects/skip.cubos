@@ -1,7 +1,7 @@
 {
   "entities": {
     "skip-machine": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "2a9bfa53-f9b0-4880-910d-9fce5373999c",
         "offset": {
           "x": -4.0,

@@ -1,7 +1,7 @@
 {
   "entities": {
     "ammo": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "03fffe50-2398-4f60-88a9-18876b4e2db2",
         "offset": {
           "x": -4.0,

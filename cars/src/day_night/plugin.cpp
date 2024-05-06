@@ -3,7 +3,7 @@
 #include <cubos/engine/render/lights/directional.hpp>
 #include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/render/lights/spot.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/input/plugin.hpp>
 
 using namespace cubos::engine;
@@ -19,7 +19,7 @@ namespace
 
 void demo::dayNightPlugin(Cubos& cubos)
 {
-    cubos.depends(rendererPlugin);
+    cubos.depends(lightsPlugin);
     cubos.depends(inputPlugin);
 
     cubos.resource<State>();
@@ -39,18 +39,17 @@ void demo::dayNightPlugin(Cubos& cubos)
         }
     });
 
-    cubos.system("set Renderer Environment")
-        .tagged(rendererFrameTag)
+    cubos.system("set Render Environment")
         .call([](State& state, RenderEnvironment& environment, Query<DirectionalLight&> sun,
                  Query<SpotLight&> spotLights) {
             for (auto [light] : sun)
             {
-                light.intensity = state.isNight ? 0.0f : 1.0f;
+                light.intensity = state.isNight ? 0.0f : 0.2f;
             }
 
             for (auto [light] : spotLights)
             {
-                light.intensity = state.isNight ? 2.0f : 0.0f;
+                light.intensity = state.isNight ? 0.6f : 0.0f;
             }
 
             if (state.isNight)

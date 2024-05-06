@@ -3,7 +3,6 @@
 #include "particle.hpp"
 
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/scene/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
 

@@ -17,7 +17,9 @@
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/collisions/colliding_with.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/render/voxels/plugin.hpp>
+#include <cubos/engine/render/voxels/grid.hpp>
+#include <cubos/engine/render/voxels/load.hpp>
 
 using namespace cubos::engine;
 
@@ -62,7 +64,7 @@ void demo::turretPlugin(Cubos& cubos)
     cubos.depends(assetsPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(collisionsPlugin);
-    cubos.depends(rendererPlugin);
+    cubos.depends(renderVoxelsPlugin);
     cubos.depends(interactionPlugin);
     cubos.depends(zombiePlugin);
     cubos.depends(tileMapPlugin);
@@ -192,17 +194,22 @@ void demo::turretPlugin(Cubos& cubos)
             }
         });
 
-    cubos.system("animate Turret Gun ammo count").call([](Query<RenderableGrid&, const ChildOf&, const Turret&> query) {
-        for (auto [grid, _, turret] : query)
-        {
-            float ammoRatio = (float)turret.ammo / (float)turret.maxAmmoForReload;
-            ammoRatio = glm::clamp(ammoRatio, 0.0F, 1.0F);
+    cubos.system("animate Turret Gun ammo count")
+        .call([](Commands cmds, Query<Entity, RenderVoxelGrid&, const ChildOf&, const Turret&> query) {
+            for (auto [ent, grid, _, turret] : query)
+            {
+                float ammoRatio = (float)turret.ammo / (float)turret.maxAmmoForReload;
+                ammoRatio = glm::clamp(ammoRatio, 0.0F, 1.0F);
 
-            // Decide which of the models to use based on the ammo ratio.
-            int modelIndex = glm::ceil(ammoRatio * (float)(turret.gunModels.size() - 1));
-            grid.asset = turret.gunModels[modelIndex];
-        }
-    });
+                // Decide which of the models to use based on the ammo ratio.
+                int modelIndex = glm::ceil(ammoRatio * (float)(turret.gunModels.size() - 1));
+                if (grid.asset != turret.gunModels[modelIndex])
+                {
+                    grid.asset = turret.gunModels[modelIndex];
+                    cmds.add(ent, LoadRenderVoxels{});
+                }
+            }
+        });
 
     cubos.system("update Bullets")
         .call([](Commands cmds, const DeltaTime& dt, Query<Entity, Position&, const Rotation&, Bullet&> bullets,

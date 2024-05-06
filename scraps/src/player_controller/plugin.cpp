@@ -11,7 +11,9 @@
 
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/render/voxels/grid.hpp>
+#include <cubos/engine/render/voxels/load.hpp>
+#include <cubos/engine/render/voxels/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -45,7 +47,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
 {
     cubos.depends(inputPlugin);
     cubos.depends(transformPlugin);
-    cubos.depends(rendererPlugin);
+    cubos.depends(renderVoxelsPlugin);
     cubos.depends(walkerPlugin);
     cubos.depends(tileMapPlugin);
     cubos.depends(objectPlugin);
@@ -57,7 +59,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
     cubos.system("do PlayerController")
         .after(inputUpdateTag)
         .call([](Commands cmds, Input& input,
-                 Query<Entity, RenderableGrid&, PlayerController&, Walker&, const ChildOf&, TileMap&, Entity> players,
+                 Query<Entity, RenderVoxelGrid&, PlayerController&, Walker&, const ChildOf&, TileMap&, Entity> players,
                  Query<const Object&, const Holdable&> holdableObjects,
                  Query<Entity, const Holdable&, const ChildOf&> heldObjects) {
             for (auto [playerEnt, grid, controller, walker, childOf, map, mapEnt] : players)
@@ -70,11 +72,16 @@ void demo::playerControllerPlugin(Cubos& cubos)
 
                 if (heldObjects.pin(1, playerEnt).empty())
                 {
-                    grid.asset = controller.normal;
+                    if (grid.asset != controller.normal)
+                    {
+                        grid.asset = controller.normal;
+                        cmds.add(playerEnt, LoadRenderVoxels{});
+                    }
                 }
-                else
+                else if (grid.asset != controller.holding)
                 {
                     grid.asset = controller.holding;
+                    cmds.add(playerEnt, LoadRenderVoxels{});
                 }
 
                 if (input.justPressed(controller.interact.c_str(), controller.player))

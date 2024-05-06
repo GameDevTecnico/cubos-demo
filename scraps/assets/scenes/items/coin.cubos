@@ -1,7 +1,7 @@
 {
   "entities": {
     "coin": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "658ffcae-49db-49aa-9fb2-fc5f1ed90a7c",
         "offset": {
           "x": -4.0,

@@ -11,7 +11,10 @@
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/render/camera/plugin.hpp>
+#include <cubos/engine/render/camera/draws_to.hpp>
+#include <cubos/engine/render/target/plugin.hpp>
+#include <cubos/engine/render/target/target.hpp>
 #include <cubos/engine/input/plugin.hpp>
 
 using namespace cubos::engine;
@@ -41,7 +44,8 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
 {
     cubos.depends(settingsPlugin);
     cubos.depends(assetsPlugin);
-    cubos.depends(rendererPlugin);
+    cubos.depends(cameraPlugin);
+    cubos.depends(renderTargetPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(walkerPlugin);
     cubos.depends(progressionPlugin);
@@ -52,8 +56,8 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
 
     cubos.system("spawn missing players during the day")
         .call([](Commands cmds, Assets& assets, Settings& settings, Input& input, const Progression& progression,
-                 ActiveCameras& activeCameras, Query<PlayerSpawnPoint&, const ChildOf&, Entity> spawnPoints,
-                 Query<Entity, const PlayerController&> playerControllers) {
+                 Query<PlayerSpawnPoint&, const ChildOf&, Entity> spawnPoints,
+                 Query<Entity, const PlayerController&> playerControllers, Query<Entity, const RenderTarget&> targets) {
             auto match = spawnPoints.first();
             if (!match)
             {
@@ -133,13 +137,16 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
                     auto sceneRead = assets.read(spawnPoint.scene);
                     auto builder = cmds.spawn(sceneRead->blueprint);
 
+                    auto [targetEnt, _] = *targets.first();
+
                     auto playerEnt = builder.entity(spawnPoint.root);
+                    auto cameraEnt = builder.entity(spawnPoint.camera);
                     cmds.relate(playerEnt, mapEnt, ChildOf{})
+                        .relate(cameraEnt, targetEnt, DrawsTo{})
                         .add(playerEnt, spawnPoint.walker)
                         .add(playerEnt, PlayerController{.player = player,
                                                          .normal = spawnPoint.players[player - 1].normal,
                                                          .holding = spawnPoint.players[player - 1].holding});
-                    activeCameras.entities[player - 1] = builder.entity(spawnPoint.camera);
 
                     for (auto& [_, name] : sceneRead->blueprint.entities())
                     {

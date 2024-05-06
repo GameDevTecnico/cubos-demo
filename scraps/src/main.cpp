@@ -1,11 +1,10 @@
 #include <imgui.h>
 
-#include <cubos/engine/assets/asset.hpp>
-#include <cubos/engine/assets/assets.hpp>
+#include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/defaults/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
+#include <cubos/engine/render/voxels/palette.hpp>
 #include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/splitscreen/plugin.hpp>
@@ -45,6 +44,8 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.plugin(defaultsPlugin);
+    cubos.plugin(freeCameraPlugin);
+    cubos.plugin(tesseratos::plugin);
 
     // Add game plugins
     cubos.plugin(demo::followPlugin);
@@ -75,12 +76,7 @@ int main(int argc, char** argv)
         settings.setBool("cubos.renderer.screenPicking.enabled", false);
     });
 
-    cubos.startupSystem("load and set the Voxel Palette")
-        .tagged(assetsTag)
-        .after(rendererInitTag)
-        .call([](const Assets& assets, Renderer& renderer) {
-            renderer->setPalette(*assets.read<VoxelPalette>(PaletteAsset));
-        });
+    cubos.startupSystem("set the Voxel Palette").call([](RenderPalette& palette) { palette.asset = PaletteAsset; });
 
     cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
         environment.ambient = {0.4F, 0.4F, 0.4F};

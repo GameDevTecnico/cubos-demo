@@ -10,13 +10,12 @@
 
 #include <cubos/engine/input/input.hpp>
 #include <cubos/engine/input/bindings.hpp>
-#include <cubos/engine/assets/asset.hpp>
-#include <cubos/engine/assets/assets.hpp>
+#include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/defaults/plugin.hpp>
-#include <cubos/engine/renderer/plugin.hpp>
 #include <cubos/engine/render/lights/environment.hpp>
+#include <cubos/engine/render/voxels/palette.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/splitscreen/plugin.hpp>
 #include <cubos/engine/imgui/plugin.hpp>
@@ -59,12 +58,7 @@ int main(int argc, char** argv)
             input.bind(*assets.read<InputBindings>(Player2BindingsAsset), 2);
         });
 
-    cubos.startupSystem("load and set the Voxel Palette")
-        .tagged(assetsTag)
-        .after(rendererInitTag)
-        .call([](const Assets& assets, Renderer& renderer) {
-            renderer->setPalette(*assets.read<VoxelPalette>(PaletteAsset));
-        });
+    cubos.startupSystem("set the Voxel Palette").call([](RenderPalette& palette) { palette.asset = PaletteAsset; });
 
     cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
         environment.ambient = {0.4F, 0.4F, 0.4F};
@@ -74,12 +68,10 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets, Settings& settings, ActiveCameras& cameras) {
+        .call([](Commands cmds, const Assets& assets, Settings& settings) {
             if (settings.getBool("production", true))
             {
-                auto builder = cmds.spawn(assets.read(MainSceneAsset)->blueprint);
-                cameras.entities[0] = builder.entity("player1.camera");
-                cameras.entities[1] = builder.entity("player2.camera");
+                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
             }
         });
 

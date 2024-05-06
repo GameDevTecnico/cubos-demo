@@ -1,7 +1,7 @@
 {
   "entities": {
     "crate": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "b7d99fd8-1715-4acf-83f1-2b3e1bc234c2",
         "offset": {
           "x": -4.0,

@@ -6,7 +6,7 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "0effc59d-ac3a-43c2-9783-bf4b05311911",
         "offset": {
           "x": 0.0,

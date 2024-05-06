@@ -1,7 +1,7 @@
 {
   "entities": {
     "bullet": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "e57bb515-6ca8-47dd-8568-431958e06c58",
         "offset": {
           "x": -1.5,
@@ -15,8 +15,8 @@
           "y": 1.0,
           "z": 0.2
         },
-        "intensity": 3.0,
-        "range": 30.0
+        "intensity": 20.0,
+        "range": 15.0
       },
       "cubos::engine::BoxCollisionShape": {
         "x": 1.5,

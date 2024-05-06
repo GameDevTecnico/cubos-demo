@@ -1,7 +1,7 @@
 {
   "entities": {
     "hammer": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "aceb9382-100a-48ca-91d4-07a90fc4777c",
         "offset": {
           "x": -4.0,

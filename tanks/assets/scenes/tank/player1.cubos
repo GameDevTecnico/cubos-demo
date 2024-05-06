@@ -1,7 +1,7 @@
 {
   "entities": {
     "tank.body": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "1f6a3874-3dbd-415e-b3dd-00290a782d1e",
         "offset": {
           "x": -10.0,
@@ -16,7 +16,7 @@
       }
     },
     "tank.turret": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "7698647a-44a4-4bed-9308-4ee271fc4da7",
         "offset": {
           "x": -10.0,

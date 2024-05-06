@@ -1513,7 +1513,7 @@
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "c2c392e0-0dcf-42e8-a75a-a8590ec639c1",
         "offset": {
           "x": -46.0,

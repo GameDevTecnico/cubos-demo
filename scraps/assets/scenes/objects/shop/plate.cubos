@@ -1,7 +1,7 @@
 {
   "entities": {
     "vending-machine": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "2e4523a2-251b-46ff-8faf-266d948fe23e",
         "offset": {
           "x": -4.0,

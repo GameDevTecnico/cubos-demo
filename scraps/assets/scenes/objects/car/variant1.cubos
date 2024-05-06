@@ -1,7 +1,7 @@
 {
   "entities": {
     "car": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "63414965-81df-48a5-b18c-36ea3c39941d",
         "offset": {
           "x": -4.0,

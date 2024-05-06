@@ -1,7 +1,7 @@
 {
   "entities": {
     "barricade": {
-      "cubos::engine::RenderableGrid": {
+      "cubos::engine::RenderVoxelGrid": {
         "asset": "4007ed4b-5a45-48ec-84fe-1fe99b8c0c80",
         "offset": {
           "x": -4.0,

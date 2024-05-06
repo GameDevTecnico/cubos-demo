@@ -1,5 +1,21 @@
 {
   "entities": {
+    "render-target": {
+      "cubos::engine::RenderTarget": {},
+      "cubos::engine::HDR": {},
+      "cubos::engine::ToneMapping": {},
+      "cubos::engine::RenderDepth": {},
+      "cubos::engine::RenderPicker": {},
+      "cubos::engine::GBuffer": {},
+      "cubos::engine::GBufferRasterizer": {},
+      "cubos::engine::SSAO": {
+        "radius": 4
+      },
+      "cubos::engine::DeferredShading": {},
+      "cubos::engine::Bloom": {},
+      "cubos::engine::SplitScreen": {},
+      "cubos::engine::GizmosTarget": {}
+    },
     "sun": {
       "cubos::engine::DirectionalLight": {
         "color": {
@@ -25,7 +41,7 @@
     "map": {
       "demo::TileMapGenerator": {
         "mapSide": 96,
-        "chunkSide": 32,
+        "chunkSide": 16,
         "tileSide": 8,
         "border": 24,
         "grass": "e0d9109d-97b3-400d-8f5d-d828f2bc7d85",
