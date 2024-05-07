@@ -14,7 +14,6 @@
 #include <cubos/engine/render/voxels/palette.hpp>
 #include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/scene/scene.hpp>
-#include <cubos/engine/splitscreen/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 #include <cubos/engine/defaults/plugin.hpp>
