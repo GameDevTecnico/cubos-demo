@@ -10,6 +10,8 @@
 #include <cubos/engine/imgui/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 
+#include <glm/gtx/color_space.hpp>
+
 #include <tesseratos/plugin.hpp>
 
 #include "follow/plugin.hpp"
@@ -75,7 +77,16 @@ int main(int argc, char** argv)
         settings.setBool("cubos.renderer.screenPicking.enabled", false);
     });
 
-    cubos.startupSystem("set the Voxel Palette").call([](RenderPalette& palette) { palette.asset = PaletteAsset; });
+    cubos.startupSystem("set the Voxel Palette").tagged(assetsTag).call([](Assets& assets, RenderPalette& palette) {
+        VoxelPalette modifiedPalette = *assets.read(PaletteAsset);
+        for (auto& material : modifiedPalette)
+        {
+            auto hsv = glm::hsvColor(glm::vec3(material.color));
+            hsv.y = glm::min(hsv.y * 2.0F, glm::mix(hsv.y, 1.0F, 0.75F));
+            material.color = glm::vec4(glm::rgbColor(hsv), material.color.a);
+        }
+        palette.asset = assets.create(modifiedPalette);
+    });
 
     cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
         environment.ambient = {0.4F, 0.4F, 0.4F};
