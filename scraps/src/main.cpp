@@ -45,8 +45,8 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.plugin(defaultsPlugin);
-    cubos.plugin(freeCameraPlugin);
-    cubos.plugin(tesseratos::plugin);
+    // cubos.plugin(freeCameraPlugin);
+    // cubos.plugin(tesseratos::plugin);
 
     // Add game plugins
     cubos.plugin(demo::followPlugin);
