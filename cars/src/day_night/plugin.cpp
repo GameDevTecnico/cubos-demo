@@ -12,6 +12,8 @@ namespace
 {
     struct State
     {
+        CUBOS_ANONYMOUS_REFLECT(State);
+
         bool justPressed = false;
         bool isNight = false;
     };

@@ -1,15 +1,21 @@
 {
     "actions": {
-        "shoot": {
-            "keys": [
-                "N"
-            ]
-        }
+        "shoot": [
+            {
+                "keys": [
+                    "N"
+                ]
+            }
+        ]
     },
     "axes": {
         "reverse": {
             "positive": [
-                "Down"
+                {
+                    "keys": [
+                        "Down"
+                    ]
+                }
             ],
             "gamepadAxes": [
                 "LTrigger"
@@ -17,7 +23,11 @@
         },
         "throttle": {
             "positive": [
-                "Up"
+                {
+                    "keys": [
+                        "Up"
+                    ]
+                }
             ],
             "gamepadAxes": [
                 "RTrigger"
@@ -25,10 +35,18 @@
         },
         "steer": {
             "positive": [
-                "Right"
+                {
+                    "keys": [
+                        "Right"
+                    ]
+                }
             ],
             "negative": [
-                "Left"
+                {
+                    "keys": [
+                        "Left"
+                    ]
+                }
             ],
             "gamepadAxes": [
                 "LX"
@@ -36,10 +54,18 @@
         },
         "tower-rotation": {
             "positive": [
-                "M"
+                {
+                    "keys": [
+                        "M"
+                    ]
+                }
             ],
             "negative": [
-                "B"
+                {
+                    "keys": [
+                        "B"
+                    ]
+                }
             ],
             "gamepadAxes": [
                 "RX"

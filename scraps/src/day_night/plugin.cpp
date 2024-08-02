@@ -14,6 +14,8 @@ namespace
 {
     struct State
     {
+        CUBOS_ANONYMOUS_REFLECT(State);
+
         /// @brief Current state of the day-night cycle, where 0.0 is full day and 1.0 is full night.
         float state = 0.0F;
 

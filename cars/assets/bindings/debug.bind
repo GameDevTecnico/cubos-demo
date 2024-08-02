@@ -1,0 +1,18 @@
+{
+    "actions": {
+        "debug-camera-toggle": [
+            {
+                "keys": [
+                    "R"
+                ]
+            }
+        ],
+        "day-night-toggle": [
+            {
+                "keys": [
+                    "N"
+                ]
+            }
+        ]
+    }
+}

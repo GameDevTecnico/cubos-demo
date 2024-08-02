@@ -8,11 +8,8 @@
 #include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/imgui/plugin.hpp>
-#include <cubos/engine/utils/free_camera/plugin.hpp>
 
 #include <glm/gtx/color_space.hpp>
-
-#include <tesseratos/plugin.hpp>
 
 #include "follow/plugin.hpp"
 #include "tile_map/plugin.hpp"
@@ -45,8 +42,6 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.plugin(defaultsPlugin);
-    // cubos.plugin(freeCameraPlugin);
-    // cubos.plugin(tesseratos::plugin);
 
     // Add game plugins
     cubos.plugin(demo::followPlugin);

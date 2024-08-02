@@ -1,10 +1,12 @@
 {
     "actions": {
-        "interact": {
-            "gamepadButtons": [
-                "A"
-            ]
-        }
+        "interact": [
+            {
+                "gamepadButtons": [
+                    "A"
+                ]
+            }
+        ]
     },
     "axes": {
         "move-x": {

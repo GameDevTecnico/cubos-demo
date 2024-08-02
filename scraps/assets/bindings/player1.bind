@@ -1,21 +1,33 @@
 {
     "actions": {
-        "interact": {
-            "keys": [
-                "Space"
-            ],
-            "gamepadButtons": [
-                "A"
-            ]
-        }
+        "interact": [
+            {
+                "keys": [
+                    "Space"
+                ]
+            },
+            {
+                "gamepadButtons": [
+                    "A"
+                ]
+            }
+        ]
     },
     "axes": {
         "move-x": {
             "positive": [
-                "S"
+                {
+                    "keys": [
+                        "S"
+                    ]
+                }
             ],
             "negative": [
-                "W"
+                {
+                    "keys": [
+                        "W"
+                    ]
+                }
             ],
             "gamepadAxes": [
                 "LY"
@@ -23,10 +35,18 @@
         },
         "move-y": {
             "positive": [
-                "D"
+                {
+                    "keys": [
+                        "D"
+                    ]
+                }
             ],
             "negative": [
-                "A"
+                {
+                    "keys": [
+                        "A"
+                    ]
+                }
             ],
             "gamepadAxes": [
                 "LX"

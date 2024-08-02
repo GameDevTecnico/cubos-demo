@@ -40,6 +40,8 @@ namespace
 {
     struct State
     {
+        CUBOS_ANONYMOUS_REFLECT(State);
+
         ThreadPool pool;
 
         State(std::size_t threads) : pool(threads)

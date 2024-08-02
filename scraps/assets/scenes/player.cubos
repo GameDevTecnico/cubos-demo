@@ -43,7 +43,8 @@
         "range": 200.0,
         "spotAngle": 120.0,
         "innerSpotAngle": 80.0
-      }
+      },
+      "cubos::engine::SpotShadowCaster": {}
     },
     "camera": {
       "cubos::engine::PerspectiveCamera": {},

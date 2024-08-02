@@ -26,7 +26,7 @@ add_executable(scraps
     src/skip/plugin.cpp
 )
 
-target_link_libraries(scraps tesseratos)
+target_link_libraries(scraps cubos-engine)
 target_compile_definitions(scraps PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/assets")
 target_compile_features(scraps PRIVATE cxx_std_20)
 common_demo_options(scraps)

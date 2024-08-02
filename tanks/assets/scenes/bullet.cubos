@@ -1,10 +1,8 @@
 {
   "entities": {
     "bullet": {
-      "cubos::engine::AccumulatedCorrection": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
+      "cubos::engine::PhysicsBundle": {
+        "mass": 1.0
       },
       "cubos::engine::BoxCollisionShape": {
         "x": 0.5,
@@ -37,26 +35,7 @@
           "z": 0.0
         }
       },
-      "cubos::engine::Force": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Impulse": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Mass": {
-        "inverseMass": 0.10000000149011612,
-        "mass": 1.0
-      },
       "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::PreviousPosition": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
@@ -76,11 +55,6 @@
         "z": 0.0
       },
       "cubos::engine::Scale": 0.10000000149011612,
-      "cubos::engine::Velocity": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
       "Bullet": {
         "damage": 20,
         "time": 0.0
