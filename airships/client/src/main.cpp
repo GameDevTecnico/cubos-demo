@@ -6,6 +6,8 @@
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/defaults/plugin.hpp>
+#include <cubos/engine/tools/plugin.hpp>
+#include <cubos/engine/utils/free_camera/plugin.hpp>
 
 #include <common/empty.hpp> // TODO: here just to serve as an example
 
@@ -19,6 +21,8 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.plugin(defaultsPlugin);
+    cubos.plugin(freeCameraPlugin);
+    cubos.plugin(toolsPlugin);
 
     // Add game plugins
     // TODO
