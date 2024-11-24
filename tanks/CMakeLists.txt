@@ -20,7 +20,18 @@ add_executable(tanks
     src/particles/plugin.cpp
 )
 
-target_link_libraries(tanks cubos-engine)
-target_compile_definitions(tanks PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/assets")
+target_link_libraries(tanks cubos::engine)
 target_compile_features(tanks PRIVATE cxx_std_20)
 common_demo_options(tanks)
+
+if(DISTRIBUTE)
+    target_compile_definitions(tanks PRIVATE
+        APP_ASSETS_PATH="assets"
+        BUILTIN_ASSETS_PATH="builtin"
+    )
+else()
+    target_compile_definitions(tanks PRIVATE
+        APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets"
+        BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
+    )
+endif()

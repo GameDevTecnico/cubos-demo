@@ -47,7 +47,7 @@
       "cubos::engine::SpotShadowCaster": {}
     },
     "camera": {
-      "cubos::engine::PerspectiveCamera": {},
+      "cubos::engine::PerspectiveCamera": 70.0,
       "cubos::engine::Position": {
         "x": 0.0,
         "y": 0.0,

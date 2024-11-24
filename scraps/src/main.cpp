@@ -66,9 +66,9 @@ int main(int argc, char** argv)
     cubos.plugin(demo::playerSpawnPointPlugin);
     cubos.plugin(demo::skipPlugin);
 
-    cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
-        settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
-        settings.setBool("assets.io.readOnly", false);
+    cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
+        settings.setString("assets.app.osPath", APP_ASSETS_PATH);
+        settings.setString("assets.builtin.osPath", BUILTIN_ASSETS_PATH);
         settings.setBool("cubos.renderer.screenPicking.enabled", false);
     });
 

@@ -118,7 +118,7 @@
         "z": 0.0,
         "w": 0.0
       },
-      "cubos::engine::PerspectiveCamera": {},
+      "cubos::engine::PerspectiveCamera": 70.0,
       "cubos::engine::ChildOf@car": {}
     }
   },

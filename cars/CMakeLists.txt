@@ -1,6 +1,8 @@
 # cars/CMakeLists.txt
 # Cars demo build configuration
 
+option(CARS_DISTRIBUTE "Build the game for distribution" OFF)
+
 add_executable(cars
     src/car/car.cpp
     src/car/plugin.cpp
@@ -22,7 +24,19 @@ add_executable(cars
     src/main.cpp
 )
 
-target_link_libraries(cars cubos-engine)
-target_compile_definitions(cars PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/assets")
+target_link_libraries(cars cubos::engine)
 target_compile_features(cars PRIVATE cxx_std_20)
 common_demo_options(cars)
+
+if(DISTRIBUTE)
+    target_compile_definitions(cars PRIVATE
+        APP_ASSETS_PATH="assets"
+        BUILTIN_ASSETS_PATH="builtin"
+    )
+else()
+    target_compile_definitions(cars PRIVATE
+        APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets"
+        BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
+    )
+endif()
+

@@ -25,6 +25,7 @@
         },
         "intensity": 1.0
       },
+      "cubos::engine::DirectionalShadowCaster": {},
       "cubos::engine::Position": {
         "x": 0.0,
         "y": 0.0,

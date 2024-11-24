@@ -1,7 +1,7 @@
 # Flake used for development with nix
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.11";
+    nixpkgs.url = "nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -9,39 +9,52 @@
     inputs.flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import inputs.nixpkgs { inherit system; };
+
+        sysLibs = with pkgs; [
+          libGL
+          xorg.libX11
+          xorg.libXrandr
+          xorg.libXinerama
+          xorg.libXcursor
+          xorg.libXi
+          xorg.libXdmcp
+        ];
       in
       {
         devShell = pkgs.mkShell {
-          packages = with pkgs; [
-            # = build tools =
-            cmake
-            ccache
-            pkg-config
+          hardeningDisable = [ "all" ];
 
-            # = formatting =
-            clang-tools
+          packages = with pkgs;
+            [
+              # = build tools =
+              cmake
+              ccache
+              pkg-config
 
-            # = docs =
-            doxygen
-            (python3.withPackages (ps: [
-              ps.jinja2
-              ps.pygments
-            ]))
+              # = formatting =
+              clang-tools
 
-            # = libs =
-            glfw
-            glm
-            doctest
+              # = docs =
+              doxygen
 
-            # = system libs =
-            libGL
-            xorg.libX11
-            xorg.libXrandr
-            xorg.libXinerama
-            xorg.libXcursor
-            xorg.libXi
-            xorg.libXdmcp
-          ];
+              (python3.withPackages (ps: [
+                ps.jinja2
+                ps.pygments
+              ]))
+
+              # = libs =
+              glfw
+              glm
+              doctest
+
+              # = debug =
+              gdb
+            ]
+            ++ sysLibs;
+
+          LD_LIBRARY_PATH = "$LD_LIBRARY_PATH:${pkgs.lib.makeLibraryPath sysLibs}";
         };
+
+        formatter = pkgs.alejandra;
       });
 }

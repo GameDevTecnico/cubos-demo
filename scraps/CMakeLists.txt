@@ -1,5 +1,5 @@
 # scraps/CMakeLists.txt
-# Coffee Jam demo build configuration
+# Scraps vs Zombies build configuration
 
 add_executable(scraps
     src/main.cpp
@@ -26,7 +26,26 @@ add_executable(scraps
     src/skip/plugin.cpp
 )
 
-target_link_libraries(scraps cubos-engine)
-target_compile_definitions(scraps PUBLIC PROJECT_ASSETS_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/assets")
+target_link_libraries(scraps cubos::engine)
 target_compile_features(scraps PRIVATE cxx_std_20)
 common_demo_options(scraps)
+
+if(DISTRIBUTE)
+    target_compile_definitions(scraps PRIVATE
+        APP_ASSETS_PATH="assets"
+        BUILTIN_ASSETS_PATH="builtin"
+    )
+else()
+    target_compile_definitions(scraps PRIVATE
+        APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets"
+        BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
+    )
+endif()
+
+# ------------------------ Configure game installation ------------------------
+
+if(SCRAPS_DISTRIBUTE)
+    install(TARGETS scraps EXPORT scraps RUNTIME DESTINATION scraps)
+    install(DIRECTORY assets/ DESTINATION scraps/assets)
+    install(DIRECTORY ${CUBOS_ENGINE_ASSETS_PATH}/ DESTINATION scraps/builtin)
+endif()

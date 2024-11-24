@@ -1,10 +1,12 @@
 # CMakeLists.txt
-# Cubos Demo project root build configuration
+# Cubos demo projects root build configuration
 
-cmake_minimum_required(VERSION 3.20.0)
+cmake_minimum_required(VERSION 3.25.0)
 project(cubos-demo VERSION 0.1.0)
 
-add_subdirectory(lib/cubos)
+find_package(cubos REQUIRED)
+
+option(DISTRIBUTE "Build the games for distribution" OFF)
 
 function(common_demo_options target)
     # Enable all warnings and treat them as errors

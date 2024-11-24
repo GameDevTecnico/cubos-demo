@@ -15,7 +15,7 @@
       "cubos::engine::Scale": 0.20000000298023224
     },
     "camera": {
-      "cubos::engine::PerspectiveCamera": {},
+      "cubos::engine::PerspectiveCamera": 70.0,
       "cubos::engine::Position": {
         "x": -35.0,
         "y": 20.0,

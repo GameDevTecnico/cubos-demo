@@ -40,7 +40,8 @@ int main(int argc, char** argv)
     cubos.plugin(demo::racePlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
-        settings.setString("assets.io.path", PROJECT_ASSETS_FOLDER);
+        settings.setString("assets.app.osPath", APP_ASSETS_PATH);
+        settings.setString("assets.builtin.osPath", BUILTIN_ASSETS_PATH);
         settings.setBool("assets.io.readOnly", false);
     });
 

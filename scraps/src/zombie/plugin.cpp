@@ -10,7 +10,7 @@
 #include <cubos/core/reflection/external/primitives.hpp>
 #include <cubos/core/reflection/external/string.hpp>
 #include <cubos/core/reflection/external/glm.hpp>
-#include <cubos/core/log.hpp>
+#include <cubos/core/tel/logging.hpp>
 
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
