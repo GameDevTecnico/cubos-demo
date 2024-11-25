@@ -2,7 +2,9 @@
 # Airships server build configuration
 
 add_executable(airships-server
-    src/main.cpp
+    "src/main.cpp"
+
+    "src/game_server/plugin.cpp"
 )
 
 target_link_libraries(airships-server airships-common)
