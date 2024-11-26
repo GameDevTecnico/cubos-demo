@@ -2,7 +2,8 @@
 # Airships client build configuration
 
 add_executable(airships-client
-    src/main.cpp
+    src/main.cpp 
+    src/islands/plugin.cpp
 )
 
 target_link_libraries(airships-client airships-common)
