@@ -8,6 +8,7 @@
 #include <cubos/engine/defaults/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
+#include "islands/plugin.hpp"
 
 #include <common/empty.hpp> // TODO: here just to serve as an example
 
@@ -23,6 +24,7 @@ int main(int argc, char** argv)
     cubos.plugin(defaultsPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
+    cubos.plugin(airships::client::islandsPlugin);
 
     // Add game plugins
     // TODO
