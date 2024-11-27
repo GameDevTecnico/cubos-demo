@@ -44,7 +44,7 @@ endif()
 
 # ------------------------ Configure game installation ------------------------
 
-if(SCRAPS_DISTRIBUTE)
+if(DISTRIBUTE)
     install(TARGETS scraps EXPORT scraps RUNTIME DESTINATION scraps)
     install(DIRECTORY assets/ DESTINATION scraps/assets)
     install(DIRECTORY ${CUBOS_ENGINE_ASSETS_PATH}/ DESTINATION scraps/builtin)
