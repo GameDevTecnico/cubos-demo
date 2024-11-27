@@ -9,7 +9,7 @@
 #include <cubos/engine/tools/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 
-#include <common/empty.hpp> // TODO: here just to serve as an example
+// #include <common/empty.hpp> // TODO: here just to serve as an example
 
 using namespace cubos::engine;
 

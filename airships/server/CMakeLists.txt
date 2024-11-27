@@ -2,7 +2,18 @@
 # Airships server build configuration
 
 add_executable(airships-server
-    src/main.cpp
+    "src/main.cpp"
+
+    "src/player/plugin.cpp"
+    "src/player/player.cpp"
+
+    "src/network/plugin.cpp"
+    "src/network/packet_handlers/plugin.cpp"
+    "src/network/packet_handlers/incoming/join/plugin.cpp"
+    "src/network/packet_handlers/outgoing/disconnect/plugin.cpp"
+
+    "src/game_server/plugin.cpp"
+    "src/game_server/game_server.cpp"
 )
 
 target_link_libraries(airships-server airships-common)
