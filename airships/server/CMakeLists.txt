@@ -4,7 +4,14 @@
 add_executable(airships-server
     "src/main.cpp"
 
+    "src/welcome/plugin.cpp"
+
+    "src/network/plugin.cpp"
+    "src/network/packet_handlers/plugin.cpp"
+    "src/network/packet_handlers/join/plugin.cpp"
+
     "src/game_server/plugin.cpp"
+    "src/game_server/game_server.cpp"
 )
 
 target_link_libraries(airships-server airships-common)

@@ -8,7 +8,7 @@ using namespace airships::common;
 CUBOS_REFLECT_IMPL(PacketData)
 {
     return cubos::core::ecs::TypeBuilder<PacketData>("airships::common::PacketData")
+        .withField("id", &PacketData::id)
         .withField("buffer", &PacketData::buffer)
-        .withField("address", &PacketData::address)
         .build();
 }

@@ -2,8 +2,10 @@
 #include <cubos/engine/scene/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
-
+#include <common/packets/plugin.hpp>
 #include "game_server/plugin.hpp"
+#include "network/plugin.hpp"
+#include "welcome/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -18,7 +20,12 @@ int main(int argc, char** argv)
     cubos.plugin(assetsPlugin);
     cubos.plugin(scenePlugin);
     cubos.plugin(fixedStepPlugin);
+
+    cubos.plugin(airships::common::packetsPlugin);
     cubos.plugin(airships::server::gameServerPlugin);
+    cubos.plugin(airships::server::networkPlugin);
+
+    cubos.plugin(airships::server::welcomePlugin);
 
     // Add game plugins
     // TODO
