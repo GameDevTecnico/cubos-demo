@@ -72,7 +72,7 @@ void airships::server::networkPlugin(cubos::engine::Cubos& cubos)
                         buf.resize(packetSize);
                         if (client->readExact(buf.data(), packetSize))
                         {
-                            state.writer->push({.buffer = buf, .stream = std::move(client)}, packetId);
+                            state.writer->push({.id = packetId, .buffer = buf, .stream = std::move(client)}, packetId);
                         }
                     }
                 }

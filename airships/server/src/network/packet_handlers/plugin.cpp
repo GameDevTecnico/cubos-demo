@@ -6,7 +6,8 @@
 #include <common/packets/packet.hpp>
 #include <common/packets/receive.hpp>
 #include <common/packets/send.hpp>
-#include "join/plugin.hpp"
+#include "incoming/join/plugin.hpp"
+#include "outgoing/disconnect/plugin.hpp"
 
 CUBOS_DEFINE_TAG(airships::server::incomingPacketHandlerTag);
 CUBOS_DEFINE_TAG(airships::server::outgoingPacketHandlerTag);
@@ -24,4 +25,5 @@ void airships::server::packetHandlersPlugin(cubos::engine::Cubos& cubos)
     cubos.tag(outgoingPacketHandlerTag).tagged(cubos::engine::fixedStepTag).after(serverTickTag).before(networkSendTag);
 
     cubos.plugin(joinPacketHandlerPlugin);
+    cubos.plugin(serverDisconnectPacketHandlerPlugin);
 }

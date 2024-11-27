@@ -4,5 +4,5 @@
 
 namespace airships::server
 {
-    void welcomePlugin(cubos::engine::Cubos& cubos);
+    void serverDisconnectPacketHandlerPlugin(cubos::engine::Cubos& cubos);
 }

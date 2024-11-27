@@ -7,6 +7,10 @@ add_library(airships-common
     "src/packets/ctos/join/plugin.cpp"
     "src/packets/ctos/join/packet.cpp"
 
+    # Server->Client packets
+    "src/packets/stoc/disconnect/plugin.cpp"
+    "src/packets/stoc/disconnect/packet.cpp"
+
     "src/packets/plugin.cpp"
     "src/packets/packet.cpp"
 )

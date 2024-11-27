@@ -6,7 +6,7 @@
 #include <common/packets/ctos/join/plugin.hpp>
 #include <common/packets/ctos/join/packet.hpp>
 #include <common/packets/ctos/join/pipe.hpp>
-#include "../plugin.hpp"
+#include "../../plugin.hpp"
 
 void airships::server::joinPacketHandlerPlugin(cubos::engine::Cubos& cubos)
 {
@@ -31,8 +31,8 @@ void airships::server::joinPacketHandlerPlugin(cubos::engine::Cubos& cubos)
             packet = reader->read();
             if (packet != nullptr)
             {
-                // deser packet here? how to do that with cubos??
-                writer->push({.name = "Kuritsu", .stream = packet->stream});
+                std::string name{packet->buffer.begin(), packet->buffer.end()};
+                writer->push({.name = name, .stream = packet->stream});
             }
         } while (packet != nullptr);
     });

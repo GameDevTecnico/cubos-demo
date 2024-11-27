@@ -5,7 +5,7 @@
 #include <common/packets/plugin.hpp>
 #include "game_server/plugin.hpp"
 #include "network/plugin.hpp"
-#include "welcome/plugin.hpp"
+#include "player/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::server::gameServerPlugin);
     cubos.plugin(airships::server::networkPlugin);
 
-    cubos.plugin(airships::server::welcomePlugin);
+    cubos.plugin(airships::server::playerPlugin);
 
     // Add game plugins
     // TODO
