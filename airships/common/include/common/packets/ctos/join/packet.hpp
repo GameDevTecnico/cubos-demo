@@ -10,7 +10,7 @@ namespace airships::common
 {
     struct JoinPacket
     {
-        CUBOS_REFLECT;
+        CUBOS_ANONYMOUS_REFLECT(JoinPacket);
 
         static constexpr uint16_t PacketId = 1;
 

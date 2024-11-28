@@ -10,7 +10,7 @@ namespace airships::common
 {
     struct ServerDisconnectPacket
     {
-        CUBOS_REFLECT;
+        CUBOS_ANONYMOUS_REFLECT(ServerDisconnectPacket);
 
         static constexpr uint16_t PacketId = 2;
 

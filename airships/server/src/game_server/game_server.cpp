@@ -8,12 +8,12 @@ namespace airships::server
         mListener.setBlocking(false);
     }
 
-    const cubos::core::net::TcpListener& GameServer::listener()
+    const cubos::core::net::TcpListener& GameServer::listener() const
     {
         return mListener;
     }
 
-    std::vector<std::shared_ptr<cubos::core::net::TcpStream>>& GameServer::clients()
+    const std::vector<std::shared_ptr<cubos::core::net::TcpStream>>& GameServer::clients() const
     {
         return mConnectedClients;
     }

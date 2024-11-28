@@ -14,9 +14,9 @@ namespace airships::server
 
         GameServer(uint16_t port);
 
-        const cubos::core::net::TcpListener& listener();
+        const cubos::core::net::TcpListener& listener() const;
 
-        std::vector<std::shared_ptr<cubos::core::net::TcpStream>>& clients();
+        const std::vector<std::shared_ptr<cubos::core::net::TcpStream>>& clients() const;
 
         void connect(std::shared_ptr<cubos::core::net::TcpStream> client);
 

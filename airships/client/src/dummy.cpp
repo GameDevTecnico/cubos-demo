@@ -1,8 +1,10 @@
 #include <cubos/core/net/tcp_stream.hpp>
 #include <cubos/core/net/address.hpp>
-#include <vector>
 #include <common/packets/ctos/join/packet.hpp>
+#include <common/packets/plugin.hpp>
 #include <iostream>
+#include <common/packets/packet.hpp>
+#include <cubos/engine/prelude.hpp>
 
 int main(int arhc, char** argv)
 {

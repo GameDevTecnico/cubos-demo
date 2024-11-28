@@ -9,12 +9,21 @@
 
 namespace airships::common
 {
-    struct PacketData
+    struct PacketReceiveEvent
     {
-        CUBOS_REFLECT;
+        CUBOS_ANONYMOUS_REFLECT(PacketReceiveEvent);
 
         uint16_t id;
         std::vector<uint8_t> buffer;
-        std::shared_ptr<cubos::core::net::TcpStream> stream;
+        std::shared_ptr<cubos::core::net::TcpStream> source;
+    };
+
+    struct PacketSendEvent
+    {
+        CUBOS_ANONYMOUS_REFLECT(PacketSendEvent);
+
+        uint16_t id;
+        std::vector<uint8_t> buffer;
+        std::shared_ptr<cubos::core::net::TcpStream> dest;
     };
 } // namespace airships::common

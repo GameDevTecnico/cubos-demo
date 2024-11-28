@@ -4,8 +4,9 @@
 #include <cubos/engine/fixed_step/plugin.hpp>
 #include <common/packets/plugin.hpp>
 #include "game_server/plugin.hpp"
-#include "network/plugin.hpp"
+#include "packets/plugin.hpp"
 #include "player/plugin.hpp"
+#include "join/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -23,9 +24,10 @@ int main(int argc, char** argv)
 
     cubos.plugin(airships::common::packetsPlugin);
     cubos.plugin(airships::server::gameServerPlugin);
-    cubos.plugin(airships::server::networkPlugin);
+    cubos.plugin(airships::server::packetsPlugin);
 
     cubos.plugin(airships::server::playerPlugin);
+    cubos.plugin(airships::server::joinPlugin);
 
     // Add game plugins
     // TODO
