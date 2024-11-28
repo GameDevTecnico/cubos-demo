@@ -2,7 +2,7 @@
   "entities": {
     "player": {
       "cubos::engine::RenderVoxelGrid":{
-        "asset": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
+        "asset": "8ac7ecf2-ae47-4a92-9197-01eaa03d1175"
       }
     }
   },
