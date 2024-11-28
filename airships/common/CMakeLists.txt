@@ -2,7 +2,14 @@
 # Airships common library build configuration
 
 add_library(airships-common
-    src/empty.cpp
+
+    # Client->Server packets
+    "src/packets/ctos/join/plugin.cpp"
+
+    # Server->Client packets
+    "src/packets/stoc/disconnect/plugin.cpp"
+
+    "src/packets/plugin.cpp"
 )
 
 target_link_libraries(airships-common PUBLIC cubos::engine)
