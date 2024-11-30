@@ -1,0 +1,18 @@
+{
+  "entities": {
+    "player": {
+      "cubos::engine::RenderVoxelGrid":{
+        "asset": "e1051eed-b40e-4dfa-8ca9-b553b5eb1994"
+      },
+      "demo::Player":{
+        "moveSpeed": 20.0,
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      }
+    }
+  },
+  "imports": {}
+}
