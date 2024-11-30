@@ -1,4 +1,63 @@
 {
-    "actions": {},
-    "axes": {}
+    "actions": {
+        "left": [
+            {"keys": ["A"]},
+            {"keys": ["Left"]}
+        ],
+        "right": [
+            {"keys": ["D"]},
+            {"keys": ["Right"]}
+        ],
+        "up": [
+            {"keys": ["W"]},
+            {"keys": ["Up"]}
+        ],
+        "down": [
+            {"keys": ["S"]},
+            {"keys": ["Down"]}
+        ],
+        "restart": [
+            {"keys": ["R"]}
+        ],
+        "debug-camera-toggle": [
+            {"keys": ["LControl"]}
+        ],
+        "debug-camera-hold": [
+            {"mouseButtons": ["Middle"]}
+        ]
+    },
+    "axes": {
+        "debug-move-lateral": {
+            "positive": [
+                {"keys": ["D"]}
+            ],
+            "negative": [
+                {"keys": ["A"]}
+            ]
+        },
+        "debug-move-vertical": {
+            "positive": [
+                {"keys": ["E"]}
+            ],
+            "negative": [
+                {"keys": ["Q"]}
+            ]
+        },
+        "debug-move-longitudinal": {
+            "positive": [
+                {"keys": ["W"]}
+            ],
+            "negative": [
+                {"keys": ["S"]}
+            ]
+        },
+        "debug-change-speed": {
+            "positive": [
+                {"keys": ["Tab"]}
+            ],
+            "negative": [
+                {"keys": ["LShift"]}
+            ]
+        }
+    }
 }

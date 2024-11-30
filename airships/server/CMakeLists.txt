@@ -4,8 +4,8 @@
 add_executable(airships-server
     src/main.cpp
 )
-
-target_link_libraries(airships-server airships-common)
+target_link_libraries(airships-server PUBLIC cubos::engine)
+target_link_libraries(airships-server PRIVATE airships-common)
 common_demo_options(airships-server)
 
 if(DISTRIBUTE)
