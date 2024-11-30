@@ -13,9 +13,11 @@ add_executable(airships-client
     src/follow/plugin.cpp
     src/follow_controller/plugin.cpp
     src/cannon/plugin.cpp
+    src/player/plugin.cpp
+    src/interactable/plugin.cpp
 )
-
-target_link_libraries(airships-client airships-common)
+target_link_libraries(airships-client PUBLIC cubos::engine)
+target_link_libraries(airships-client PRIVATE airships-common)
 common_demo_options(airships-client)
 
 if(DISTRIBUTE)

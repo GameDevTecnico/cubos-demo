@@ -21,6 +21,8 @@
 #include "cannon/plugin.hpp"
 #include "rudder/plugin.hpp"
 #include "storm/plugin.hpp"
+#include "player/plugin.hpp"
+#include "interactable/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -46,6 +48,8 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
     // cubos.plugin(airships::client::cannonPlugin);
+    cubos.plugin(airships::client::interactablePlugin);
+    cubos.plugin(airships::client::playerPlugin);
 
     // Add game plugins
     // TODO
@@ -74,15 +78,6 @@ int main(int argc, char** argv)
         .tagged(assetsTag)
         .call([](Commands cmds, const Assets& assets, Settings& settings) {
             cmds.spawn(assets.read(MainSceneAsset)->blueprint);
-        });
-
-    cubos.startupSystem("set draw distance of every camera to something bigger")
-        .tagged(assetsTag)
-        .call([](Query<Camera&> query) {
-            for (auto [camera] : query)
-            {
-                camera.zFar = 3000.0F;
-            }
         });
 
     cubos.run();

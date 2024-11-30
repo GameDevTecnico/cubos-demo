@@ -8,14 +8,14 @@
             {"keys": ["D"]},
             {"keys": ["Right"]}
         ],
-        "fire": [
-            {"keys": ["Space"]}
-        ],
         "up": [
             {"keys": ["W"]}
         ],
         "down": [
             {"keys": ["S"]}
+        ],
+        "fire": [
+            {"keys": ["Space"]}
         ],
         "reload": [
             {"keys": ["R"]}
