@@ -42,8 +42,7 @@ void airships::client::playerPlugin(Cubos& cubos)
 
     // Plugin para mover o jogador
     cubos.system("move player")
-        .call([](Commands cmds, Query<Player&, Position&, Rotation&> players, const DeltaTime& dt,
-                 const Input& input) {
+        .call([](Commands cmds, Query<Player&, Position&, Rotation&> players, const DeltaTime& dt, const Input& input) {
             for (auto [player, pos, rot] : players)
             {
                 glm::vec3 move = {0.0f, 0.0f, 0.0f};
@@ -68,28 +67,38 @@ void airships::client::playerPlugin(Cubos& cubos)
                     move = glm::normalize(move) * player.moveSpeed * dt.value();
                     pos.vec += move;
                     player.direction = glm::normalize(move);
-
-                    float angle = glm::atan(player.direction.x, player.direction.z);
-                    rot.quat = glm::angleAxis(angle, glm::vec3{0.0f, 1.0f, 0.0f});
+                    // float angle = glm::atan(player.direction.x, player.direction.z);
+                    // rot.quat = glm::angleAxis(angle, glm::vec3{0.0f, 1.0f, 0.0f});
                 }
             }
         });
 
-    cubos.system("detect interables with raycast")
-        .call([](Query<Player&, Position&> players, Query<Interactable&, Position&> interactables,
-                 const Assets& assets, Raycast raycast) {
+    cubos.system("interaction with raycast")
+        .call([](Query<Player&, Position&> players, Query<Interactable&, Position&> interactables, const Assets& assets,
+                 Raycast raycast, const Input& input) {
             for (auto [player, playerPos] : players)
             {
-                for (auto [interactable, interactablePos] : interactables)
+                if (auto hit = raycast.fire({playerPos.vec, player.direction}))
                 {
-                    // TODO Raycast aqui
+                    if (interactables.at(hit->entity))
+                    {
+                        if (input.pressed("interact"))
+                        {
+                            // DO SOMETHING
+                        }
+
+                        CUBOS_INFO("Interacted with Interactable entity");
+                    }
                 }
             }
         });
+
     cubos.startupSystem("spawn player")
         .tagged(assetsTag)
         .call([](Commands cmds, const Assets& assets, Input& input, Query<Entity> all) {
             auto bp = cmds.spawn(assets.read(PlayerScene)->blueprint);
             bp.add("player", Position{glm::vec3{-5.0f, -7.0f, -20.0f}});
+            // auto bp2 = cmds.spawn(assets.read(CarScene)->blueprint);
+            // bp2.add("car", demo::Interactable{});
         });
 }
