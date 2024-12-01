@@ -1,0 +1,10 @@
+{
+  "entities": {
+    "player": {
+      "cubos::engine::RenderVoxelGrid":{
+        "asset": "0c22255a-0579-4656-a42a-1d6d06d57d34"
+      }
+    }
+  },
+  "imports": {}
+}
