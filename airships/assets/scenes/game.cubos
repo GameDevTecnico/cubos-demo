@@ -28,6 +28,11 @@
                 "y": -0.1,
                 "z": 0.5
             }
+        },
+        "player": {
+            "cubos::engine::RenderVoxelGrid": {
+                "asset": "e1051eed-b40e-4dfa-8ca9-b553b5eb1994"
+            }
         }
     },
     "imports": {}
