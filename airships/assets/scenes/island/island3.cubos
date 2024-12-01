@@ -1,0 +1,16 @@
+{
+  "entities": {
+    "player": {
+      "cubos::engine::RenderVoxelGrid":{
+        "asset": "61e1a0d2-a84b-4437-b89e-176b7f108230"
+      },
+      "cubos::engine::BoxCollisionShape": {
+        "x": 30.0,
+        "y": 70.0,
+        "z": 90.0
+      },
+      "cubos::engine::Collider": {}
+    }
+  },
+  "imports": {}
+}
