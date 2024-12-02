@@ -22,6 +22,18 @@
         ],
         "camera-toggle-mouse": [
             {"keys": ["L"]}
+        ],
+        "interact": [
+            {
+                "keys": [
+                    "Space"
+                ]
+            },
+            {
+                "gamepadButtons": [
+                    "A"
+                ]
+            }
         ]
     },
     "axes": {

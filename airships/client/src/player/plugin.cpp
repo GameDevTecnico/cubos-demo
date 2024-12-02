@@ -18,9 +18,6 @@
 
 using namespace cubos::engine;
 
-static const Asset<Scene> PlayerScene = AnyAsset("a88d914b-f1d7-463b-9a20-cf76bb5508d6");
-static const Asset<InputBindings> PlayerBindingsAsset = AnyAsset("7b7463d1-e659-4167-91c3-27267952f071");
-
 CUBOS_REFLECT_IMPL(airships::client::Player)
 {
     return cubos::core::ecs::TypeBuilder<Player>("demo::Player")
@@ -67,8 +64,8 @@ void airships::client::playerPlugin(Cubos& cubos)
                     move = glm::normalize(move) * player.moveSpeed * dt.value();
                     pos.vec += move;
                     player.direction = glm::normalize(move);
-                    // float angle = glm::atan(player.direction.x, player.direction.z);
-                    // rot.quat = glm::angleAxis(angle, glm::vec3{0.0f, 1.0f, 0.0f});
+                    float angle = glm::atan(player.direction.x, player.direction.z);
+                    rot.quat = glm::angleAxis(angle, glm::vec3{0.0f, 1.0f, 0.0f});
                 }
             }
         });
@@ -85,20 +82,10 @@ void airships::client::playerPlugin(Cubos& cubos)
                         if (input.pressed("interact"))
                         {
                             // DO SOMETHING
+                            CUBOS_INFO("Interacted with Interactable entity");
                         }
-
-                        CUBOS_INFO("Interacted with Interactable entity");
                     }
                 }
             }
-        });
-
-    cubos.startupSystem("spawn player")
-        .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets, Input& input, Query<Entity> all) {
-            auto bp = cmds.spawn(assets.read(PlayerScene)->blueprint);
-            bp.add("player", Position{glm::vec3{-5.0f, -7.0f, -20.0f}});
-            // auto bp2 = cmds.spawn(assets.read(CarScene)->blueprint);
-            // bp2.add("car", demo::Interactable{});
         });
 }
