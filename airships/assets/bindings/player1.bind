@@ -24,6 +24,18 @@
         ],
         "debug-camera-hold": [
             {"mouseButtons": ["Middle"]}
+        ],
+        "interact": [
+            {
+                "keys": [
+                    "Space"
+                ]
+            },
+            {
+                "gamepadButtons": [
+                    "A"
+                ]
+            }
         ]
     },
     "axes": {

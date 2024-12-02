@@ -2,7 +2,12 @@
   "entities": {
     "player": {
       "cubos::engine::RenderVoxelGrid":{
-        "asset": "e1051eed-b40e-4dfa-8ca9-b553b5eb1994"
+        "asset": "2506f988-2024-44d9-a973-7cc8113bbd09",
+        "offset": {
+          "x": -3.90,
+          "y": 0.0,
+          "z": -3.90
+        }
       },
       "demo::Player":{
         "moveSpeed": 20.0,
