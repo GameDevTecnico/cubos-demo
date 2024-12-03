@@ -1,4 +1,5 @@
 #include "plugin.hpp"
+#include "../randomposition/plugin.hpp"
 
 #include <cubos/core/reflection/external/glm.hpp>
 #include <cubos/core/ecs/reflection.hpp>
@@ -32,11 +33,15 @@ namespace airships::client
 {
     void balloonsPlugin(Cubos& cubos)
     {
+        cubos.depends(randompositionPlugin);
         cubos.depends(assetsPlugin);
         cubos.component<BalloonInfo>();
 
         cubos.startupSystem("spawn balloons").tagged(assetsTag).call([](Commands cmds) {
-            cmds.create().add(RenderVoxelGrid{RedBalloonAsset}).add(LocalToWorld{});
+            for (int i = 0; i < 10; i++)
+            {
+                cmds.create().add(RenderVoxelGrid{RedBalloonAsset}).add(LocalToWorld{}).add(RandomPosition{});
+            }
         });
     }
 } // namespace airships::client

@@ -36,7 +36,7 @@ namespace airships::client
 
         cubos.observer("associate random position")
             .onAdd<RandomPosition>()
-            .call([](Commands cmds, Query<Entity, const RandomPosition&> query, const ChunkInfo& chunkInfo) {
+            .call([](Commands cmds, Query<Entity, const RandomPosition&> query, ChunkInfo& chunkInfo) {
                 for (auto [ent, _] : query)
                 {
                     int cid;
@@ -50,12 +50,13 @@ namespace airships::client
                     z = distCoord(engine);
                     cid = (100 * z) + (10 * y) + x;
                     } while (chunkInfo.chunksTaken.find(cid) != chunkInfo.chunksTaken.end());
-
+                    
                     x *= chunkInfo.chunkSize;
                     y *= chunkInfo.chunkSize;
                     z *= chunkInfo.chunkSize;
 
                     glm::vec3 pos = {x, y, z};
+                    chunkInfo.chunksTaken[cid] = pos;
                     cmds.add(ent, Position{.vec = pos});
                 }
             });
