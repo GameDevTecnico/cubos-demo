@@ -1,0 +1,44 @@
+{
+    "actions": {
+        "debug-camera-toggle": [
+            {"keys": ["LControl"]}
+        ],
+        "debug-camera-hold": [
+            {"keys": ["B"]}
+        ]
+    },
+    "axes": {
+        "debug-move-lateral": {
+            "positive": [
+                {"keys": ["D"]}
+            ],
+            "negative": [
+                {"keys": ["A"]}
+            ]
+        },
+        "debug-move-vertical": {
+            "positive": [
+                {"keys": ["E"]}
+            ],
+            "negative": [
+                {"keys": ["Q"]}
+            ]
+        },
+        "debug-move-longitudinal": {
+            "positive": [
+                {"keys": ["W"]}
+            ],
+            "negative": [
+                {"keys": ["S"]}
+            ]
+        },
+        "debug-change-speed": {
+            "positive": [
+                {"keys": ["Tab"]}
+            ],
+            "negative": [
+                {"keys": ["LShift"]}
+            ]
+        }
+    }
+}

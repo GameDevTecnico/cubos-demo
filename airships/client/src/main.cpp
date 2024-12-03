@@ -9,14 +9,15 @@
 #include <cubos/engine/tools/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 #include "islands/plugin.hpp"
-
 #include "balloons/plugin.hpp"
+#include "randomposition/plugin.hpp"
 
 using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("0aa38b4e-df60-4b40-9c33-fd5a77e18bc2");
 static const Asset<Scene> MainSceneAsset = AnyAsset("6dc40742-05fa-4148-a88d-89849af2e376");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("7b7463d1-e659-4167-91c3-27267952f071");
+static const Asset<InputBindings> DebugCameraBindingsAsset = AnyAsset("351edbb6-aeee-485c-8ede-c01c355dee7c");
 
 int main(int argc, char** argv)
 {
@@ -24,6 +25,7 @@ int main(int argc, char** argv)
     cubos.plugin(defaultsPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
+    cubos.plugin(airships::client::randompositionPlugin);
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
 
@@ -39,6 +41,7 @@ int main(int argc, char** argv)
         .tagged(assetsTag)
         .call([](const Assets& assets, Input& input) {
             input.bind(*assets.read<InputBindings>(Player1BindingsAsset), 1);
+            input.bind(*assets.read<InputBindings>(DebugCameraBindingsAsset), 0);
         });
 
     cubos.startupSystem("set the Voxel Palette").call([](RenderPalette& palette) { palette.asset = PaletteAsset; });
