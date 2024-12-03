@@ -5,9 +5,13 @@
 #include <cubos/core/reflection/traits/enum.hpp>
 #include <cubos/core/reflection/type.hpp>
 #include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/render/voxels/grid.hpp>
+#include <cubos/engine/transform/plugin.hpp>
 
 using namespace cubos::engine;
 using namespace airships::client;
+
+static const Asset<VoxelGrid> RedBalloonAsset = AnyAsset("b72f0154-d675-434d-989d-d789d49c9d43");
 
 CUBOS_REFLECT_EXTERNAL_IMPL(BalloonInfo::State)
 {
@@ -28,8 +32,11 @@ namespace airships::client
 {
     void balloonsPlugin(Cubos& cubos)
     {
+        cubos.depends(assetsPlugin);
         cubos.component<BalloonInfo>();
 
-        cubos.startupSystem("spawn balloons").tagged(assetsTag).call([](Commands cmds, Assets& assets) {});
+        cubos.startupSystem("spawn balloons").tagged(assetsTag).call([](Commands cmds) {
+            cmds.create().add(RenderVoxelGrid{RedBalloonAsset}).add(LocalToWorld{});
+        });
     }
 } // namespace airships::client
