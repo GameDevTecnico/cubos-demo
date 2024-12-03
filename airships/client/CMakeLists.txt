@@ -4,6 +4,7 @@
 add_executable(airships-client
     src/main.cpp 
     src/islands/plugin.cpp
+    src/balloons/plugin.cpp
 )
 
 target_link_libraries(airships-client airships-common)
