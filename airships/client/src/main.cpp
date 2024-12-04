@@ -8,6 +8,7 @@
 #include <cubos/engine/defaults/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
+#include <cubos/engine/physics/plugins/gravity.hpp>
 
 #include "islands/plugin.hpp"
 #include "balloons/plugin.hpp"
@@ -16,6 +17,7 @@
 #include "steering_wheel/plugin.hpp"
 #include "follow/plugin.hpp"
 #include "follow_controller/plugin.hpp"
+#include "cannon/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -30,6 +32,7 @@ int main(int argc, char** argv)
     cubos.plugin(defaultsPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
+    cubos.plugin(gravityPlugin);
     cubos.plugin(airships::client::followPlugin);
     cubos.plugin(airships::client::followControllerPlugin);
     cubos.plugin(airships::client::drivablePlugin);
@@ -37,7 +40,8 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::randomPositionPlugin);
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
-
+    //cubos.plugin(airships::client::cannonPlugin);
+    
     // Add game plugins
     // TODO
 

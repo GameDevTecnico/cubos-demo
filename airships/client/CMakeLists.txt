@@ -10,6 +10,7 @@ add_executable(airships-client
     src/steering_wheel/plugin.cpp
     src/follow/plugin.cpp
     src/follow_controller/plugin.cpp
+    src/cannon/plugin.cpp
 )
 
 target_link_libraries(airships-client airships-common)
