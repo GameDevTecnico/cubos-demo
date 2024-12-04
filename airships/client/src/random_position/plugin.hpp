@@ -24,7 +24,7 @@ namespace airships::client
         CUBOS_REFLECT;
     };
 
-    /// @brief plugin that gives entities a random position but not overlapping with others
+    /// @brief Plugin that gives entities a random position but not overlapping with others
     /// @param cubos
-    void randompositionPlugin(cubos::engine::Cubos& cubos);
+    void randomPositionPlugin(cubos::engine::Cubos& cubos);
 } // namespace airships::client

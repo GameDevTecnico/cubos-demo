@@ -29,7 +29,7 @@ CUBOS_REFLECT_IMPL(RandomPosition)
 
 namespace airships::client
 {
-    void randompositionPlugin(Cubos& cubos)
+    void randomPositionPlugin(Cubos& cubos)
     {
         cubos.resource<ChunkInfo>();
         cubos.component<RandomPosition>();

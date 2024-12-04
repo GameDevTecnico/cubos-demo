@@ -1,5 +1,5 @@
 #include "plugin.hpp"
-#include "../randomposition/plugin.hpp"
+#include "../random_position/plugin.hpp"
 
 #include <cubos/core/reflection/external/glm.hpp>
 #include <cubos/engine/assets/plugin.hpp>
@@ -30,7 +30,7 @@ namespace airships::client
 {
     void islandsPlugin(Cubos& cubos)
     {
-        cubos.depends(randompositionPlugin);
+        cubos.depends(randomPositionPlugin);
         cubos.depends(assetsPlugin);
 
         cubos.startupSystem("islands").tagged(assetsTag).call([](Commands cmds, Assets& assets) {
