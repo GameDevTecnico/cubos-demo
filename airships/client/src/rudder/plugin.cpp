@@ -11,8 +11,10 @@ using namespace cubos::engine;
 CUBOS_REFLECT_IMPL(airships::client::Rudder)
 {
     return cubos::core::ecs::TypeBuilder<Rudder>("airships::client::Rudder")
-        .withField("maxAngle", &Rudder::maxAngle)
-        .withField("offsetAngle", &Rudder::offsetAngle)
+        .withField("maxYaw", &Rudder::maxYaw)
+        .withField("maxPitch", &Rudder::maxPitch)
+        .withField("offsetYaw", &Rudder::offsetYaw)
+        .withField("offsetPitch", &Rudder::offsetPitch)
         .build();
 }
 
@@ -26,8 +28,10 @@ void airships::client::rudderPlugin(Cubos& cubos)
     cubos.system("animate Rudder entities").call([](Query<const Rudder&, Rotation&, const ChildOf&, Drivable&> query) {
         for (auto [rudder, rotation, childOf, drivable] : query)
         {
-            float angle = (drivable.targetAngularVelocity / drivable.topAngularVelocity) * rudder.maxAngle;
-            rotation.quat = glm::angleAxis(glm::radians(angle + rudder.offsetAngle), glm::vec3{0.0F, 1.0F, 0.0F});
+            float yaw = (drivable.targetAngularVelocity / drivable.topAngularVelocity) * rudder.maxYaw;
+            float pitch = (drivable.targetAngularVelocity / drivable.topAngularVelocity) * rudder.maxPitch;
+            rotation.quat = glm::angleAxis(glm::radians(yaw + rudder.offsetYaw), glm::vec3{0.0F, 1.0F, 0.0F});
+            rotation.quat *= glm::angleAxis(glm::radians(pitch + rudder.offsetPitch), glm::vec3{1.0F, 0.0F, 0.0F});
         }
     }); 
 }
