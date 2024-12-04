@@ -15,6 +15,7 @@
 #include "drivable/plugin.hpp"
 #include "steering_wheel/plugin.hpp"
 #include "follow/plugin.hpp"
+#include "follow_controller/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -30,6 +31,7 @@ int main(int argc, char** argv)
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
     cubos.plugin(airships::client::followPlugin);
+    cubos.plugin(airships::client::followControllerPlugin);
     cubos.plugin(airships::client::drivablePlugin);
     cubos.plugin(airships::client::steeringWheelPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);

@@ -24,6 +24,19 @@
                 "theta": -90.0,
                 "halfTime": 0.0,
                 "considerRotation": true
+            },
+            "airships::client::FollowController": {
+                "player": 1,
+                "zoomAxis": "camera-zoom",
+                "phiAxis": "camera-vertical",
+                "thetaAxis": "camera-horizontal",
+                "minZoom": 20.0,
+                "maxZoom": 150.0,
+                "zoomSpeed": 1.0,
+                "rotationSpeed": 90.0,
+                "useMouse": true,
+                "mouseSensitivity": 5.0,
+                "scrollSensitivity": 200.0
             }
         },
         "sun": {
