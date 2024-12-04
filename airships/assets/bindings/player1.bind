@@ -1,5 +1,26 @@
 {
-    "actions": {},
+    "actions": {
+        "left": [
+            {"keys": ["A"]},
+            {"keys": ["Left"]}
+        ],
+        "right": [
+            {"keys": ["D"]},
+            {"keys": ["Right"]}
+        ],
+        "fire": [
+            {"keys": ["Space"]}
+        ],
+        "up": [
+            {"keys": ["W"]}
+        ],
+        "down": [
+            {"keys": ["S"]}
+        ],
+        "reload": [
+            {"keys": ["R"]}
+        ]
+    },
     "axes": {
         "horizontal": {
             "positive": [
