@@ -87,8 +87,31 @@
         }
       },
       "airships::client::Rudder": {
-        "maxAngle": 30.0,
-        "offsetAngle": 90.0
+        "maxYaw": 30.0,
+        "offsetYaw": 90.0
+      }
+    },
+    "anchor": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 3.0,
+        "y": -1.0,
+        "z": 18.0
+      },
+      "cubos::engine::Scale": 0.5,
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "37647b07-0e4d-44e9-ad83-982893c6a97a",
+        "offset": {
+          "x": -5.5,
+          "y": -17.0,
+          "z": -3.0
+        }
+      },
+      "airships::client::Rudder": {
+        "maxYaw": 60.0,
+        "offsetYaw": 60.0,
+        "maxPitch": 10.0,
+        "offsetPitch": 0.0
       }
     }
   }
