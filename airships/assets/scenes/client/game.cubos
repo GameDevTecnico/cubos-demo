@@ -7,10 +7,11 @@
         "camera": {
             "cubos::engine::PerspectiveCamera": 70.0,
             "cubos::engine::DrawsTo@render-target": {},
+            "cubos::engine::ChildOf@boat1.hull": {},
             "cubos::engine::Position": {
                 "x": 0,
-                "y": 0,
-                "z": 0
+                "y": 25,
+                "z": 50
             }
         },
         "sun": {
@@ -30,5 +31,7 @@
             }
         }
     },
-    "imports": {}
+    "imports": {
+        "boat1": "c1e41c8f-286f-4313-8155-0c60743ce4d3"
+    }
 }

@@ -1,0 +1,34 @@
+{
+  "entities": {
+    "hull": {
+    },
+    "steering-wheel": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {},
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "6e012cc0-bccf-4af6-8229-6e304510b880",
+        "offset": {
+          "x": -12.0,
+          "y": 0.0,
+          "z": -6.0
+        }
+      }
+    },
+    "steering-wheel-head": {
+      "cubos::engine::ChildOf@steering-wheel": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 16.0,
+        "z": -5.0
+      },
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "65b57394-48f8-4447-a709-84a3763e1973",
+        "offset": {
+          "x": -9.0,
+          "y": -9.0,
+          "z": 0.0
+        }
+      }
+    }
+  }
+}
