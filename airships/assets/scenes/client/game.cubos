@@ -7,11 +7,10 @@
         "camera": {
             "cubos::engine::PerspectiveCamera": 70.0,
             "cubos::engine::DrawsTo@render-target": {},
-            "cubos::engine::ChildOf@boat1.hull": {},
             "cubos::engine::Position": {
                 "x": 0,
-                "y": 50,
-                "z": -100
+                "y": 20,
+                "z": -40
             },
             "cubos::engine::Rotation": {
                 "w": 0.0,

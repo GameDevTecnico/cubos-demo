@@ -33,6 +33,18 @@ namespace airships::client
 
         /// @brief Turn acceleration, in degrees per second per second.
         float angularAcceleration = 1.0F;
+
+        /// @brief Roll of the entity when turning at the maximum angular velocity, in degrees.
+        float maxRoll = 0.0F;
+
+        /// @brief Current roll of the entity, in degrees.
+        float roll = 0.0F;
+
+        /// @brief Interpolation factor for the roll.
+        float rollLerpFactor = 0.1F;
+
+        /// @brief Current yaw of the entity, in degrees.
+        float yaw = 0.0F;
     };
 
     void drivablePlugin(cubos::engine::Cubos& cubos);

@@ -1,17 +1,42 @@
 {
   "entities": {
-    "hull": {
+    "root": {
       "cubos::engine::Position": {},
       "airships::client::Drivable": {
         "topLinearVelocity": 50.0,
         "linearAcceleration": 5.0,
         "topAngularVelocity": 60.0,
-        "angularAcceleration": 45.0
+        "angularAcceleration": 45.0,
+        "maxRoll": 20.0,
+        "rollLerpFactor": 0.99
+      }
+    },
+    "hull": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Scale": 0.25,
+      "cubos::engine::Rotation": {
+        "w": 0.7071068,
+        "x": 0.0,
+        "y": 0.7071068,
+        "z": 0.0
+      },
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e",
+        "offset": {
+          "x": -45,
+          "y": 0,
+          "z": -36
+        }
       }
     },
     "steering-wheel": {
-      "cubos::engine::ChildOf@hull": {},
-      "cubos::engine::Position": {},
+      "cubos::engine::Scale": 0.25,
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -10.0
+      },
       "cubos::engine::RenderVoxelGrid": {
         "asset": "6e012cc0-bccf-4af6-8229-6e304510b880",
         "offset": {
