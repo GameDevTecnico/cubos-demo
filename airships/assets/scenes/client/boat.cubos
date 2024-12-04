@@ -23,9 +23,9 @@
       "cubos::engine::RenderVoxelGrid": {
         "asset": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e",
         "offset": {
-          "x": -41,
-          "y": 0,
-          "z": -26.5
+          "x": -41.0,
+          "y": -18.0,
+          "z": -27.0
         }
       }
     },
@@ -69,6 +69,27 @@
         }
       },
       "airships::client::SteeringWheelHead": {}
+    },
+    "rudder": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -19.0
+      },
+      "cubos::engine::Scale": 0.5,
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "96a22061-8668-4bd2-8419-c92d21e1404e",
+        "offset": {
+          "x": -1.0,
+          "y": -18.0,
+          "z": -1.0
+        }
+      },
+      "airships::client::Rudder": {
+        "maxAngle": 30.0,
+        "offsetAngle": 90.0
+      }
     }
   }
 }
