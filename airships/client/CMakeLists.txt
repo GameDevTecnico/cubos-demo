@@ -6,6 +6,8 @@ add_executable(airships-client
     src/islands/plugin.cpp
     src/balloons/plugin.cpp
     src/random_position/plugin.cpp
+    src/drivable/plugin.cpp
+    src/steering_wheel/plugin.cpp
 )
 
 target_link_libraries(airships-client airships-common)
