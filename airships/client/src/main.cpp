@@ -8,9 +8,12 @@
 #include <cubos/engine/defaults/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
+
 #include "islands/plugin.hpp"
 #include "balloons/plugin.hpp"
 #include "random_position/plugin.hpp"
+#include "drivable/plugin.hpp"
+#include "steering_wheel/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -25,6 +28,8 @@ int main(int argc, char** argv)
     cubos.plugin(defaultsPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
+    cubos.plugin(airships::client::drivablePlugin);
+    cubos.plugin(airships::client::steeringWheelPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
@@ -47,7 +52,7 @@ int main(int argc, char** argv)
     cubos.startupSystem("set the Voxel Palette").call([](RenderPalette& palette) { palette.asset = PaletteAsset; });
 
     cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
-        environment.ambient = {0.4F, 0.4F, 0.4F};
+        environment.ambient = {0.1F, 0.1F, 0.1F};
         environment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
         environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
     });
