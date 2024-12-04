@@ -19,6 +19,10 @@ CUBOS_REFLECT_IMPL(airships::client::Drivable)
         .withField("angularVelocity", &Drivable::angularVelocity)
         .withField("targetAngularVelocity", &Drivable::targetAngularVelocity)
         .withField("angularAcceleration", &Drivable::angularAcceleration)
+        .withField("maxRoll", &Drivable::maxRoll)
+        .withField("roll", &Drivable::roll)
+        .withField("rollLerpFactor", &Drivable::rollLerpFactor)
+        .withField("yaw", &Drivable::yaw)
         .build();
 }
 
@@ -44,9 +48,15 @@ void airships::client::drivablePlugin(Cubos& cubos)
                 drivable.angularVelocity =
                     glm::clamp(drivable.angularVelocity, -topAngularVelocity, topAngularVelocity);
 
-                // Update rotation
-                rotation.quat *=
-                    glm::angleAxis(-glm::radians(drivable.angularVelocity) * dt.value(), glm::vec3{0.0F, 1.0F, 0.0F});
+                // Apply angular velocity and compute rotation
+                drivable.yaw -= drivable.angularVelocity * dt.value();
+                drivable.yaw = glm::mod(drivable.yaw, 360.0F);
+                rotation.quat = glm::angleAxis(glm::radians(drivable.yaw), glm::vec3{0.0F, 1.0F, 0.0F});
+
+                auto rollFactor = drivable.angularVelocity / drivable.topAngularVelocity;
+                auto targetRoll = rollFactor * drivable.maxRoll;
+                drivable.roll = glm::mix(drivable.roll, targetRoll, 1 - glm::pow(1.0 - drivable.rollLerpFactor, dt.value()));
+                rotation.quat *= glm::angleAxis(glm::radians(drivable.roll), glm::vec3{0.0F, 0.0F, 1.0F});
 
                 // Update linear velocity
                 drivable.linearVelocity += drivable.linearAcceleration * dt.value();
