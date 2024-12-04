@@ -53,8 +53,8 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
         environment.ambient = {0.1F, 0.1F, 0.1F};
-        environment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
-        environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
+        environment.skyGradient[0] = {0.3F, 0.2F, 0.8F};
+        environment.skyGradient[1] = {0.9F, 0.6F, 0.1F};
     });
 
     cubos.startupSystem("load and spawn the Main Scene")
