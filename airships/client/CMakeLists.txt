@@ -8,6 +8,7 @@ add_executable(airships-client
     src/random_position/plugin.cpp
     src/drivable/plugin.cpp
     src/steering_wheel/plugin.cpp
+    src/rudder/plugin.cpp
     src/follow/plugin.cpp
     src/follow_controller/plugin.cpp
     src/cannon/plugin.cpp

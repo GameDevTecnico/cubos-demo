@@ -18,6 +18,7 @@
 #include "follow/plugin.hpp"
 #include "follow_controller/plugin.hpp"
 #include "cannon/plugin.hpp"
+#include "rudder/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -37,11 +38,12 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::followControllerPlugin);
     cubos.plugin(airships::client::drivablePlugin);
     cubos.plugin(airships::client::steeringWheelPlugin);
+    cubos.plugin(airships::client::rudderPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
     //cubos.plugin(airships::client::cannonPlugin);
-    
+
     // Add game plugins
     // TODO
 
