@@ -10,7 +10,7 @@
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 #include "islands/plugin.hpp"
 #include "balloons/plugin.hpp"
-#include "randomposition/plugin.hpp"
+#include "random_position/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     cubos.plugin(defaultsPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
-    cubos.plugin(airships::client::randompositionPlugin);
+    cubos.plugin(airships::client::randomPositionPlugin);
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
 

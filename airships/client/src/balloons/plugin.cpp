@@ -1,5 +1,5 @@
 #include "plugin.hpp"
-#include "../randomposition/plugin.hpp"
+#include "../random_position/plugin.hpp"
 
 #include <cubos/core/reflection/external/glm.hpp>
 #include <cubos/core/ecs/reflection.hpp>
@@ -33,7 +33,7 @@ namespace airships::client
 {
     void balloonsPlugin(Cubos& cubos)
     {
-        cubos.depends(randompositionPlugin);
+        cubos.depends(randomPositionPlugin);
         cubos.depends(assetsPlugin);
         cubos.component<BalloonInfo>();
 
