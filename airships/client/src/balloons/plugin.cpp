@@ -38,7 +38,7 @@ namespace airships::client
         cubos.component<BalloonInfo>();
 
         cubos.startupSystem("spawn balloons").tagged(assetsTag).call([](Commands cmds) {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 30; i++)
             {
                 cmds.create().add(RenderVoxelGrid{RedBalloonAsset}).add(LocalToWorld{}).add(RandomPosition{});
             }
