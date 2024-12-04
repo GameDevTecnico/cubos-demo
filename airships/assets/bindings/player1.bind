@@ -19,6 +19,60 @@
             "gamepadAxes": [
                 "LX"
             ]
+        },
+        "camera-zoom": {
+            "positive": [
+                {
+                    "keys": [
+                        "Q"
+                    ]
+                }
+            ],
+            "negative": [
+                {
+                    "keys": [
+                        "E"
+                    ]
+                }
+            ]
+        },
+        "camera-horizontal": {
+            "positive": [
+                {
+                    "keys": [
+                        "Right"
+                    ]
+                }
+            ],
+            "negative": [
+                {
+                    "keys": [
+                        "Left"
+                    ]
+                }
+            ],
+            "gamepadAxes": [
+                "RX"
+            ]
+        },
+        "camera-vertical": {
+            "positive": [
+                {
+                    "keys": [
+                        "Up"
+                    ]
+                }
+            ],
+            "negative": [
+                {
+                    "keys": [
+                        "Down"
+                    ]
+                }
+            ],
+            "gamepadAxes": [
+                "RY"
+            ]
         }
     }
 }
