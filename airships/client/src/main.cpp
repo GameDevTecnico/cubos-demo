@@ -9,6 +9,7 @@
 #include <cubos/engine/tools/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 #include <cubos/engine/physics/plugins/gravity.hpp>
+#include <cubos/engine/render/camera/camera.hpp>
 
 #include "islands/plugin.hpp"
 #include "balloons/plugin.hpp"
@@ -19,6 +20,7 @@
 #include "follow_controller/plugin.hpp"
 #include "cannon/plugin.hpp"
 #include "rudder/plugin.hpp"
+#include "storm/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -39,10 +41,11 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::drivablePlugin);
     cubos.plugin(airships::client::steeringWheelPlugin);
     cubos.plugin(airships::client::rudderPlugin);
+    cubos.plugin(airships::client::stormPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
-    //cubos.plugin(airships::client::cannonPlugin);
+    // cubos.plugin(airships::client::cannonPlugin);
 
     // Add game plugins
     // TODO
@@ -71,6 +74,15 @@ int main(int argc, char** argv)
         .tagged(assetsTag)
         .call([](Commands cmds, const Assets& assets, Settings& settings) {
             cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+        });
+
+    cubos.startupSystem("set draw distance of every camera to something bigger")
+        .tagged(assetsTag)
+        .call([](Query<Camera&> query) {
+            for (auto [camera] : query)
+            {
+                camera.zFar = 3000.0F;
+            }
         });
 
     cubos.run();

@@ -1,4 +1,5 @@
 #include "plugin.hpp"
+#include "../storm/plugin.hpp"
 
 #include <cubos/core/reflection/external/glm.hpp>
 #include <cubos/core/ecs/reflection.hpp>
@@ -7,9 +8,12 @@
 #include <cubos/engine/render/voxels/grid.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <random>
+#include <cmath>
 
 using namespace cubos::engine;
 using namespace airships::client;
+
+static const float M_PI = 3.14159265358979323846F;
 
 CUBOS_REFLECT_IMPL(ChunkInfo)
 {
@@ -31,12 +35,13 @@ namespace airships::client
 {
     void randomPositionPlugin(Cubos& cubos)
     {
+        cubos.depends(stormPlugin);
         cubos.resource<ChunkInfo>();
         cubos.component<RandomPosition>();
 
         cubos.observer("associate random position")
             .onAdd<RandomPosition>()
-            .call([](Commands cmds, Query<Entity, const RandomPosition&> query, ChunkInfo& chunkInfo) {
+            .call([](Commands cmds, Query<Entity, const RandomPosition&> query, ChunkInfo& chunkInfo, const StormInfo& si) {
                 for (auto [ent, _] : query)
                 {
                     int cid;
@@ -44,16 +49,13 @@ namespace airships::client
                     do 
                     {
                     std::mt19937 engine{std::random_device()()};
-                    std::uniform_int_distribution distCoord(chunkInfo.minRnd, chunkInfo.maxRnd);
-                    x = distCoord(engine);
-                    y = distCoord(engine);
-                    z = distCoord(engine);
-                    cid = (100 * z) + (10 * y) + x;
+                    std::uniform_real_distribution randomAngle(0.0F, 2 * M_PI);
+                    std::uniform_int_distribution distCoordY(-200, 200);
+                    x = std::round(cos(randomAngle(engine)) * si.stormRadius);
+                    y = distCoordY(engine);
+                    z = std::round(sin(randomAngle(engine)) * si.stormRadius);
+                    cid = (100 * (z % 100)) + (10 * (y % 100)) + (x % 100);
                     } while (chunkInfo.chunksTaken.find(cid) != chunkInfo.chunksTaken.end());
-                    
-                    x *= chunkInfo.chunkSize;
-                    y *= chunkInfo.chunkSize;
-                    z *= chunkInfo.chunkSize;
 
                     glm::vec3 pos = {x, y, z};
                     chunkInfo.chunksTaken[cid] = pos;

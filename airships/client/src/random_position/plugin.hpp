@@ -13,9 +13,9 @@ namespace airships::client
     {
         CUBOS_REFLECT;
 
-        int chunkSize = 50;
-        int minRnd = -5.0;
-        int maxRnd = 5.0;
+        int chunkSize = 75;
+        int minRnd = -25.0;
+        int maxRnd = 20.0;
         std::map<int, glm::vec3> chunksTaken;
     };
 
