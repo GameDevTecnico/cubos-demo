@@ -121,9 +121,18 @@
         "y": 0.0,
         "z": -17.5
       }
+    },
+    "furnace.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
     }
   },
   "imports": {
-    "player": "a88d914b-f1d7-463b-9a20-cf76bb5508d6"
+    "player": "a88d914b-f1d7-463b-9a20-cf76bb5508d6",
+    "furnace": "f9eb47a8-5deb-41b5-8f6b-f9c8ae2afe7b"
   }
 }
