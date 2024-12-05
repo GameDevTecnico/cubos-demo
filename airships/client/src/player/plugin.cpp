@@ -15,6 +15,7 @@
 
 #include "plugin.hpp"
 #include "../interactable/plugin.hpp"
+#include "../follow/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -39,29 +40,42 @@ void airships::client::playerPlugin(Cubos& cubos)
     cubos.depends(inputPlugin);
     cubos.depends(collisionsPlugin);
     cubos.depends(interactablePlugin);
+    cubos.depends(followPlugin);
 
     cubos.component<Player>();
 
     cubos.system("do Player movement")
-        .call([](Commands cmds, Query<Player&, Position&, Rotation&> players, const DeltaTime& dt, const Input& input) {
-            for (auto [player, pos, rot] : players)
+        .call([](Commands cmds, Query<LocalToWorld&, const Follow&, Player&, Position&, Rotation&, const ChildOf&, const LocalToWorld&> players,
+                 const DeltaTime& dt, const Input& input) {
+            for (auto [cameraLTW, follow, player, pos, rot, childOf, boatLTW] : players)
             {
                 if (player.player == -1 || !player.canMove)
                 {
                     continue;
                 }
 
-                glm::vec3 move = {0.0f, 0.0f, 0.0f};
-                move.x = -input.axis(player.horizontalAxis.c_str(), player.player);
-                move.z = input.axis(player.verticalAxis.c_str(), player.player);
-                if (glm::length(move) > 0.0f)
+                // Get the directional vectors from the camera's rotation.
+                // We need to translate them to the player's parent space.
+                auto forward4 = boatLTW.inverse() * cameraLTW.mat * glm::vec4{0.0F, 0.0F, -1.0F, 0.0F};
+                glm::vec3 forward = {forward4.x, forward4.y, forward4.z};
+                forward.y = 0.0F;
+                forward = glm::normalize(forward);
+                auto right = glm::cross(forward, {0.0F, 1.0F, 0.0F});
+
+                // Get the movement vector from the directions above and the input
+                glm::vec3 moveDirection = {0.0f, 0.0f, 0.0f};
+                moveDirection.x = input.axis(player.horizontalAxis.c_str(), player.player);
+                moveDirection.z = input.axis(player.verticalAxis.c_str(), player.player);
+                moveDirection = moveDirection.x * right + moveDirection.z * forward;
+                if (glm::length2(moveDirection) == 0.0F)
                 {
-                    move = glm::normalize(move) * player.moveSpeed * dt.value();
-                    pos.vec += move;
-                    player.direction = glm::normalize(move);
-                    float angle = glm::atan(player.direction.x, player.direction.z);
-                    rot.quat = glm::angleAxis(angle, glm::vec3{0.0f, 1.0f, 0.0f});
+                    continue;
                 }
+                moveDirection = glm::normalize(moveDirection);
+
+                // Update the player position and rotation
+                pos.vec += moveDirection * player.moveSpeed * dt.value();
+                rot.quat = glm::quatLookAt(-moveDirection, {0.0F, 1.0F, 0.0F});
             }
         });
 
