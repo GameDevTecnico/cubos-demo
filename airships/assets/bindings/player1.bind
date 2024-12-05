@@ -19,6 +19,9 @@
         ],
         "reload": [
             {"keys": ["R"]}
+        ],
+        "camera-toggle-mouse": [
+            {"keys": ["L"]}
         ]
     },
     "axes": {

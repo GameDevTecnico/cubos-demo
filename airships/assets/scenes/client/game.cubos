@@ -34,6 +34,7 @@
                 "zoomAxis": "camera-zoom",
                 "phiAxis": "camera-vertical",
                 "thetaAxis": "camera-horizontal",
+                "toggleMouseAction": "camera-toggle-mouse",
                 "minZoom": 20.0,
                 "maxZoom": 150.0,
                 "zoomSpeed": 1.0,
