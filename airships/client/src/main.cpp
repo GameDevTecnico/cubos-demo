@@ -24,6 +24,7 @@
 #include "player/plugin.hpp"
 #include "interactable/plugin.hpp"
 #include "animation/plugin.hpp"
+#include "rope/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -51,6 +52,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::randomPositionPlugin);
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
+    cubos.plugin(airships::client::ropePlugin);
     // cubos.plugin(airships::client::cannonPlugin);
 
     // Add game plugins
