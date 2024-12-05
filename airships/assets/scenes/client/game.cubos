@@ -39,7 +39,7 @@
                 "maxZoom": 150.0,
                 "zoomSpeed": 1.0,
                 "rotationSpeed": 90.0,
-                "useMouse": true,
+                "useMouse": false,
                 "mouseSensitivity": 5.0,
                 "scrollSensitivity": 200.0
             }
