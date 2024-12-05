@@ -9,7 +9,7 @@
           "z": -3.90
         }
       },
-      "cubos::engine::Scale": 0.5,
+      "cubos::engine::Scale": 0.375,
       "airships::client::Player": {
         "player": 1,
         "horizontalAxis": "horizontal",
