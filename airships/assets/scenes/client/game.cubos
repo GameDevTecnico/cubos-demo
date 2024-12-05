@@ -22,12 +22,12 @@
                 "y": 1.0,
                 "z": 0.0
             },
-            "airships::client::Follow@boat1.root": {
+            "airships::client::Follow@boat1.player.root": {
                 "distance": 80.0,
                 "phi": 20.0,
                 "theta": -90.0,
                 "halfTime": 0.1,
-                "considerRotation": true
+                "basedOn": "boat1.root"
             },
             "airships::client::FollowController": {
                 "player": 1,

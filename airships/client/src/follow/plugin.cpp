@@ -15,7 +15,7 @@ CUBOS_REFLECT_IMPL(airships::client::Follow)
         .withField("phi", &Follow::phi)
         .withField("theta", &Follow::theta)
         .withField("halfTime", &Follow::halfTime)
-        .withField("considerRotation", &Follow::considerRotation)
+        .withField("basedOn", &Follow::basedOn)
         .withField("center", &Follow::center)
         .tree() // Many-to-one relation.
         .build();
@@ -29,10 +29,26 @@ void airships::client::followPlugin(Cubos& cubos)
 
     cubos.system("update Follow relation transforms")
         .before(transformUpdateTag)
-        .call([](const DeltaTime& dt, Query<Position&, Rotation&, Follow&, const LocalToWorld&> query) {
+        .call([](const DeltaTime& dt, Query<Position&, Rotation&, Follow&, const LocalToWorld&> query,
+                 Query<const LocalToWorld&> ltwQuery) {
             for (auto [position, rotation, follow, targetLTW] : query)
             {
-                auto targetPosition = targetLTW.worldPosition();
+                glm::vec3 basePosition{0.0F, 0.0F, 0.0F};
+                float baseYaw = 0.0F;
+                if (!follow.basedOn.isNull())
+                {
+                    if (auto match = ltwQuery.at(follow.basedOn))
+                    {
+                        auto [baseLTW] = *match;
+                        basePosition = baseLTW.worldPosition();
+
+                        // Extract yaw from the entity's rotation.
+                        auto baseRotationMat = glm::mat3_cast(baseLTW.worldRotation());
+                        baseYaw = -glm::atan(baseRotationMat[2][0], baseRotationMat[2][2]);
+                    }
+                }
+
+                auto targetPosition = targetLTW.worldPosition() - basePosition;
                 auto targetRotation = targetLTW.worldRotation();
 
                 // Interpolate the center to the current target position.
@@ -49,19 +65,11 @@ void airships::client::followPlugin(Cubos& cubos)
 
                 // Calculate the position we want to be in.
                 auto phiRad = glm::radians(follow.phi);
-                auto thetaRad = glm::radians(follow.theta);
-                if (follow.considerRotation)
-                {
-                    auto targetRotationMat = glm::mat3_cast(targetRotation);
-
-                    // Extract yaw from the target's rotation.
-                    auto targetYaw = glm::atan(targetRotationMat[2][0], targetRotationMat[2][2]);
-                    thetaRad -= targetYaw;
-                }
+                auto thetaRad = baseYaw + glm::radians(follow.theta);
                 glm::vec3 offset = glm::vec3(follow.distance * glm::cos(phiRad) * glm::cos(thetaRad),
                                              follow.distance * glm::sin(phiRad),
                                              follow.distance * glm::cos(phiRad) * glm::sin(thetaRad));
-                position.vec = follow.center + offset;
+                position.vec = basePosition + follow.center + offset;
 
                 // Set the rotation to look at where the target would be if we had reached the desired position.
                 rotation.quat = glm::quatLookAt(glm::normalize(-offset), glm::vec3(0.0F, 1.0F, 0.0F));
