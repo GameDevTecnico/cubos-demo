@@ -33,6 +33,7 @@ CUBOS_REFLECT_IMPL(airships::client::Player)
         .withField("canMove", &Player::canMove)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
+        .withField("halfRotationTime", &Player::halfRotationTime)
         .build();
 }
 
@@ -84,9 +85,13 @@ void airships::client::playerPlugin(Cubos& cubos)
                 animation.play(player.walkAnimation);
                 moveDirection = glm::normalize(moveDirection);
 
-                // Update the player position and rotation
+                // Update the player position
                 pos.vec += moveDirection * player.moveSpeed * dt.value();
-                rot.quat = glm::quatLookAt(-moveDirection, {0.0F, 1.0F, 0.0F});
+
+                // Slowly rotate the player to the movement direction
+                auto targetRotation = glm::quatLookAt(-moveDirection, glm::vec3{0.0F, 1.0F, 0.0F});
+                float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value() / player.halfRotationTime);
+                rot.quat = glm::slerp(rot.quat, targetRotation, rotationAlpha);
             }
         });
 
