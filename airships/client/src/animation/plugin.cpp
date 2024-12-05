@@ -6,6 +6,7 @@
 #include <cubos/core/ecs/reflection.hpp>
 
 #include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/assets/bridges/json.hpp>
 #include <cubos/engine/render/voxels/plugin.hpp>
 #include <cubos/engine/render/voxels/grid.hpp>
 #include <cubos/engine/render/voxels/load.hpp>
@@ -16,10 +17,18 @@ CUBOS_REFLECT_IMPL(airships::client::Animation)
 {
     return cubos::core::ecs::TypeBuilder<Animation>("airships::client::Animation")
         .withField("models", &Animation::models)
-        .withField("offset", &Animation::offset)
         .withField("timeBetweenFrames", &Animation::timeBetweenFrames)
-        .withField("currentModel", &Animation::currentModel)
-        .withField("timeSinceLastFrame", &Animation::timeSinceLastFrame)
+        .build();
+}
+
+CUBOS_REFLECT_IMPL(airships::client::RenderAnimation)
+{
+    return cubos::core::ecs::TypeBuilder<RenderAnimation>("airships::client::RenderAnimation")
+        .withField("animation", &RenderAnimation::animation)
+        .withField("offset", &RenderAnimation::offset)
+        .withField("speedMultiplier", &RenderAnimation::speedMultiplier)
+        .withField("currentModel", &RenderAnimation::currentModel)
+        .withField("timeSinceLastFrame", &RenderAnimation::timeSinceLastFrame)
         .build();
 }
 
@@ -28,10 +37,10 @@ void airships::client::animationPlugin(Cubos& cubos)
     cubos.depends(assetsPlugin);
     cubos.depends(renderVoxelsPlugin);
 
-    cubos.component<Animation>();
+    cubos.component<RenderAnimation>();
 
     cubos.observer("add RenderVoxelGrid to Animation entities")
-        .onAdd<Animation>()
+        .onAdd<RenderAnimation>()
         .without<RenderVoxelGrid>()
         .call([](Commands cmds, Query<Entity> query) {
             for (auto [entity] : query)
@@ -40,21 +49,34 @@ void airships::client::animationPlugin(Cubos& cubos)
             }
         });
 
+    cubos.startupSystem("register Animation bridge").tagged(assetsBridgeTag).call([](Assets& assets) {
+        assets.registerBridge(".anim", std::make_shared<JSONBridge<Animation>>());
+    });
+
     cubos.system("update Animations")
         .call([](Commands cmds, const DeltaTime& dt, Assets& assets,
-                 Query<Entity, Animation&, RenderVoxelGrid&> query) {
-            for (auto [entity, animation, grid] : query)
+                 Query<Entity, RenderAnimation&, RenderVoxelGrid&> query) {
+            for (auto [entity, render, grid] : query)
             {
-                animation.timeSinceLastFrame += dt.value();
-                if (animation.timeSinceLastFrame >= animation.timeBetweenFrames)
+                if (render.animation.isNull())
                 {
-                    animation.timeSinceLastFrame = 0.0F;
-                    animation.currentModel = (animation.currentModel + 1) % animation.models.size();
+                    continue;
+                }
+
+                render.animation = assets.load(render.animation);
+                auto animation = assets.read(render.animation);
+
+                render.timeSinceLastFrame += render.speedMultiplier * dt.value();
+                if (render.timeSinceLastFrame >= animation->timeBetweenFrames)
+                {
+                    render.timeSinceLastFrame = 0.0F;
+                    render.currentModel = (render.currentModel + 1) % animation->models.size();
 
                     // Make the asset stay loaded by storing a strong reference to it here
-                    animation.models[animation.currentModel] = assets.load(animation.models[animation.currentModel]);
-                    grid.asset = animation.models[animation.currentModel];
-                    grid.offset = animation.offset;
+                    render.currentModels.resize(animation->models.size());
+                    render.currentModels[render.currentModel] = assets.load(animation->models[render.currentModel]);
+                    grid.asset = render.currentModels[render.currentModel];
+                    grid.offset = render.offset;
 
                     // Add a LoadRenderVoxels to switch the mesh
                     cmds.add(entity, LoadRenderVoxels{});
