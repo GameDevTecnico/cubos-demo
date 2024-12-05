@@ -20,7 +20,7 @@ using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(airships::client::Player)
 {
-    return cubos::core::ecs::TypeBuilder<Player>("demo::Player")
+    return cubos::core::ecs::TypeBuilder<Player>("airships::client::Player")
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
         .build();

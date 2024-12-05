@@ -1,6 +1,6 @@
 {
   "entities": {
-    "player": {
+    "root": {
       "cubos::engine::RenderVoxelGrid":{
         "asset": "2506f988-2024-44d9-a973-7cc8113bbd09",
         "offset": {
@@ -9,7 +9,8 @@
           "z": -3.90
         }
       },
-      "demo::Player":{
+      "cubos::engine::Scale": 0.5,
+      "airships::client::Player":{
         "moveSpeed": 20.0,
         "direction": {
           "x": 0,
