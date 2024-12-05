@@ -29,6 +29,90 @@
         }
       }
     },
+    "front-collider": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -25.0,
+        "y": 2.0,
+        "z": 0.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 4.0,
+        "y": 10.0,
+        "z": 20.0
+      }
+    },
+    "back-collider": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": 43.0,
+        "y": 2.0,
+        "z": 0.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 4.0,
+        "y": 10.0,
+        "z": 24.0
+      }
+    },
+    "front-right-collider": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -14.0,
+        "y": 2.0,
+        "z": -18.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 15.0,
+        "y": 10.0,
+        "z": 4.0
+      }
+    },
+    "back-right-collider": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": 20.0,
+        "y": 2.0,
+        "z": -23.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 26.0,
+        "y": 10.0,
+        "z": 4.0
+      }
+    },
+    "front-left-collider": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -14.0,
+        "y": 2.0,
+        "z": 18.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 15.0,
+        "y": 10.0,
+        "z": 4.0
+      }
+    },
+    "back-left-collider": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": 20.0,
+        "y": 2.0,
+        "z": 23.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 26.0,
+        "y": 10.0,
+        "z": 4.0
+      }
+    },
     "rudder": {
       "cubos::engine::ChildOf@root": {},
       "cubos::engine::Position": {
