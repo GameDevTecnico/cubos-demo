@@ -52,7 +52,7 @@ namespace airships::client
                     x = std::round(cos(randomAngle(engine)) * si.stormRadius);
                     y = distCoordY(engine);
                     z = std::round(sin(randomAngle(engine)) * si.stormRadius);
-                    cid = (100 * (z % 100)) + (10 * (y % 100)) + (x % 100);
+                    cid = (100 * (z / 100)) + (10 * (y / 100)) + (x / 100);
                     } while (chunkInfo.chunksTaken.find(cid) != chunkInfo.chunksTaken.end());
 
                     glm::vec3 pos = {x, y, z};
