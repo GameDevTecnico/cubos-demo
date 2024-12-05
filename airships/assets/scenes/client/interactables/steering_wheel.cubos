@@ -1,0 +1,39 @@
+{
+    "entities": {
+        "root": {
+            "cubos::engine::Scale": 0.25,
+            "cubos::engine::RenderVoxelGrid": {
+                "asset": "6e012cc0-bccf-4af6-8229-6e304510b880",
+                "offset": {
+                    "x": -12.0,
+                    "y": 0.0,
+                    "z": -6.0
+                }
+            },
+            "airships::client::SteeringWheel": {
+                "player": 1,
+                "turnAxis": "horizontal",
+                "maxTurnAngle": 720.0,
+                "turnSpeed": 180.0,
+                "targetLerpFactor": 0.99
+            }
+        },
+        "head": {
+            "cubos::engine::ChildOf@root": {},
+            "cubos::engine::Position": {
+                "x": 0.0,
+                "y": 16.0,
+                "z": -5.0
+            },
+            "cubos::engine::RenderVoxelGrid": {
+                "asset": "65b57394-48f8-4447-a709-84a3763e1973",
+                "offset": {
+                    "x": -9.0,
+                    "y": -9.0,
+                    "z": 0.0
+                }
+            },
+            "airships::client::SteeringWheelHead": {}
+        }
+    }
+}
