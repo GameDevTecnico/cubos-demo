@@ -16,6 +16,7 @@ CUBOS_REFLECT_IMPL(airships::client::Follow)
         .withField("theta", &Follow::theta)
         .withField("halfTime", &Follow::halfTime)
         .withField("basedOn", &Follow::basedOn)
+        .withField("height", &Follow::height)
         .withField("center", &Follow::center)
         .tree() // Many-to-one relation.
         .build();
@@ -69,7 +70,7 @@ void airships::client::followPlugin(Cubos& cubos)
                 glm::vec3 offset = glm::vec3(follow.distance * glm::cos(phiRad) * glm::cos(thetaRad),
                                              follow.distance * glm::sin(phiRad),
                                              follow.distance * glm::cos(phiRad) * glm::sin(thetaRad));
-                position.vec = basePosition + follow.center + offset;
+                position.vec = basePosition + follow.center + offset + glm::vec3(0.0F, follow.height, 0.0F);
 
                 // Set the rotation to look at where the target would be if we had reached the desired position.
                 rotation.quat = glm::quatLookAt(glm::normalize(-offset), glm::vec3(0.0F, 1.0F, 0.0F));
