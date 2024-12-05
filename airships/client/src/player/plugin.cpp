@@ -17,6 +17,7 @@
 #include "plugin.hpp"
 #include "../interactable/plugin.hpp"
 #include "../follow/plugin.hpp"
+#include "../animation/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -27,6 +28,8 @@ CUBOS_REFLECT_IMPL(airships::client::Player)
         .withField("horizontalAxis", &Player::horizontalAxis)
         .withField("verticalAxis", &Player::verticalAxis)
         .withField("interactAction", &Player::interactAction)
+        .withField("idleAnimation", &Player::idleAnimation)
+        .withField("walkAnimation", &Player::walkAnimation)
         .withField("canMove", &Player::canMove)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
@@ -43,15 +46,17 @@ void airships::client::playerPlugin(Cubos& cubos)
     cubos.depends(interactablePlugin);
     cubos.depends(followPlugin);
     cubos.depends(collisionsPlugin);
+    cubos.depends(animationPlugin);
 
     cubos.component<Player>();
 
     cubos.system("do Player movement")
         .call([](Commands cmds,
-                 Query<LocalToWorld&, const Follow&, Player&, Position&, Rotation&, const ChildOf&, const LocalToWorld&>
+                 Query<LocalToWorld&, const Follow&, RenderAnimation&, Player&, Position&, Rotation&, const ChildOf&,
+                       const LocalToWorld&>
                      players,
                  const DeltaTime& dt, const Input& input) {
-            for (auto [cameraLTW, follow, player, pos, rot, childOf, boatLTW] : players)
+            for (auto [cameraLTW, follow, animation, player, pos, rot, childOf, boatLTW] : players)
             {
                 if (player.player == -1 || !player.canMove)
                 {
@@ -73,8 +78,10 @@ void airships::client::playerPlugin(Cubos& cubos)
                 moveDirection = moveDirection.x * right + moveDirection.z * forward;
                 if (glm::length2(moveDirection) == 0.0F)
                 {
+                    animation.play(player.idleAnimation);
                     continue;
                 }
+                animation.play(player.walkAnimation);
                 moveDirection = glm::normalize(moveDirection);
 
                 // Update the player position and rotation

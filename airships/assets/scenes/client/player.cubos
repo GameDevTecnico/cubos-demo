@@ -1,14 +1,6 @@
 {
   "entities": {
     "root": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "2506f988-2024-44d9-a973-7cc8113bbd09",
-        "offset": {
-          "x": -3.90,
-          "y": 0.0,
-          "z": -3.90
-        }
-      },
       "cubos::engine::Scale": 0.375,
       "cubos::engine::Collider": {},
       "cubos::engine::BoxCollisionShape": {
@@ -16,11 +8,20 @@
         "y": 10.0,
         "z": 2.0
       },
+      "airships::client::RenderAnimation": {
+        "offset": {
+          "x": -3.9,
+          "y": 0.0,
+          "z": -3.9
+        }
+      },
       "airships::client::Player": {
         "player": 1,
         "horizontalAxis": "horizontal",
         "verticalAxis": "vertical",
         "interactAction": "interact",
+        "idleAnimation": "d0e7e6fc-3579-442a-8c2d-efe72717d1d4",
+        "walkAnimation": "1241a7cf-2199-45db-995f-a37bc741ff13",
         "moveSpeed": 20.0,
         "direction": {
           "x": 0,
