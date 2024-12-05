@@ -14,6 +14,7 @@ namespace airships::client
         int player{-1};
         std::string horizontalAxis{"horizontal"};
         std::string verticalAxis{"vertical"};
+        std::string interactAction{"interact"};
 
         glm::vec3 direction{0.0f, 0.0f, 1.0f};
         float moveSpeed{5.0f};
