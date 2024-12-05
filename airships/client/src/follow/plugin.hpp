@@ -20,8 +20,8 @@ namespace airships::client
         /// @brief Time in seconds until the camera reaches half of the distance to the target.
         float halfTime{1.0F};
 
-        /// @brief Whether the target entity's rotation is also considered.
-        bool considerRotation{false};
+        /// @brief Optional entity to base the yaw and position on.
+        cubos::engine::Entity basedOn{};
 
         /// @brief Point the entity is actually following, which follows the target entity.
         glm::vec3 center{0.0F};
