@@ -2,6 +2,7 @@
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
+#include <cubos/core/reflection/external/glm.hpp>
 
 #include <cubos/engine/transform/plugin.hpp>
 
@@ -15,6 +16,7 @@ CUBOS_REFLECT_IMPL(airships::client::Follow)
         .withField("theta", &Follow::theta)
         .withField("halfTime", &Follow::halfTime)
         .withField("considerRotation", &Follow::considerRotation)
+        .withField("center", &Follow::center)
         .tree() // Many-to-one relation.
         .build();
 }
@@ -27,36 +29,41 @@ void airships::client::followPlugin(Cubos& cubos)
 
     cubos.system("update Follow relation transforms")
         .before(transformUpdateTag)
-        .call([](const DeltaTime& dt, Query<Position&, Rotation&, Follow&, const Position&, const Rotation&> query) {
-            for (auto [position, rotation, follow, targetPosition, targetRotation] : query)
+        .call([](const DeltaTime& dt, Query<Position&, Rotation&, Follow&, const LocalToWorld&> query) {
+            for (auto [position, rotation, follow, targetLTW] : query)
             {
-                // Calculate the position we want to be in.
-                auto phiRad = glm::radians(follow.phi);
-                auto thetaRad = glm::radians(follow.theta);
-                glm::vec3 offset = glm::vec3(follow.distance * glm::cos(phiRad) * glm::cos(thetaRad),
-                                             follow.distance * glm::sin(phiRad),
-                                             follow.distance * glm::cos(phiRad) * glm::sin(thetaRad));
-                if (follow.considerRotation)
-                {
-                    offset = glm::rotate(targetRotation.quat, offset);
-                }
-                glm::vec3 desired = targetPosition.vec + offset;
+                auto targetPosition = targetLTW.worldPosition();
+                auto targetRotation = targetLTW.worldRotation();
 
-                // Move towards the desired position.
+                // Interpolate the center to the current target position.
                 if (follow.initialized)
                 {
-                    // Interpolate the right amount to reach half of the distance in halfTime.
                     auto alpha = 1.0F - glm::pow(0.5F, dt.value() / follow.halfTime);
-                    position.vec = glm::mix(position.vec, desired, alpha);
+                    follow.center = glm::mix(follow.center, targetPosition, alpha);
                 }
                 else
                 {
-                    position.vec = desired;
+                    follow.center = targetPosition;
                     follow.initialized = true;
                 }
 
+                // Calculate the position we want to be in.
+                auto phiRad = glm::radians(follow.phi);
+                auto thetaRad = glm::radians(follow.theta);
+                if (follow.considerRotation)
+                {
+                    auto targetRotationMat = glm::mat3_cast(targetRotation);
+
+                    // Extract yaw from the target's rotation.
+                    auto targetYaw = glm::atan(targetRotationMat[2][0], targetRotationMat[2][2]);
+                    thetaRad -= targetYaw;
+                }
+                glm::vec3 offset = glm::vec3(follow.distance * glm::cos(phiRad) * glm::cos(thetaRad),
+                                             follow.distance * glm::sin(phiRad),
+                                             follow.distance * glm::cos(phiRad) * glm::sin(thetaRad));
+                position.vec = follow.center + offset;
+
                 // Set the rotation to look at where the target would be if we had reached the desired position.
-                // rotation.quat = follow.considerRotation ? targetRotation.quat : glm::quat(1.0F, 0.0F, 0.0F, 0.0F);
                 rotation.quat = glm::quatLookAt(glm::normalize(-offset), glm::vec3(0.0F, 1.0F, 0.0F));
             }
         });

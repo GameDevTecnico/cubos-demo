@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/vec3.hpp>
+
 #include <cubos/core/reflection/reflect.hpp>
 
 #include <cubos/engine/prelude.hpp>
@@ -21,6 +23,8 @@ namespace airships::client
         /// @brief Whether the target entity's rotation is also considered.
         bool considerRotation{false};
 
+        /// @brief Point the entity is actually following, which follows the target entity.
+        glm::vec3 center{0.0F};
         bool initialized{false};
     };
 
