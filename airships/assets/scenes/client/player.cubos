@@ -10,6 +10,12 @@
         }
       },
       "cubos::engine::Scale": 0.375,
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 4.0,
+        "y": 10.0,
+        "z": 2.0
+      },
       "airships::client::Player": {
         "player": 1,
         "horizontalAxis": "horizontal",
