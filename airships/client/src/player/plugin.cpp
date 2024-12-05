@@ -103,17 +103,28 @@ void airships::client::playerPlugin(Cubos& cubos)
             }
         });
 
-
     cubos.system("handle Player collisions")
-        .call([](Query<Entity, Player&, Position&, const CollidingWith&> query) {
+        .call([](Query<Entity, Player&, Position&, const CollidingWith&> query,
+                 Query<const ChildOf&, const LocalToWorld&> parentQuery) {
             for (auto [ent, car, pos, collidingWith] : query)
             {
+                glm::mat4 parentLTW = glm::mat4(1.0F);
+                auto parent = parentQuery.pin(0, ent).first();
+                if (parent)
+                {
+                    auto [childOf, ltw] = *parent;
+                    parentLTW = ltw.mat;
+                }
+
                 // Get the normal of the collision.
                 auto normal = collidingWith.normal;
                 if (collidingWith.entity != ent)
                 {
                     normal = -normal;
                 }
+
+                // Transform the normal into the parent space.
+                normal = glm::normalize(glm::vec3(glm::inverse(parentLTW) * glm::vec4(normal, 0.0F)));
 
                 // Calculate the necessary offset to separate the player from the collider.
                 pos.vec -= normal * collidingWith.penetration;
