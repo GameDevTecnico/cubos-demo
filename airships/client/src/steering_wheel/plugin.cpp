@@ -1,5 +1,7 @@
 #include "plugin.hpp"
+#include "../player/plugin.hpp"
 #include "../drivable/plugin.hpp"
+#include "../interactable/plugin.hpp"
 
 #include <cubos/core/reflection/external/string.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -32,9 +34,41 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
     cubos.depends(inputPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(drivablePlugin);
+    cubos.depends(playerPlugin);
+    cubos.depends(interactablePlugin);
 
     cubos.component<SteeringWheel>();
     cubos.component<SteeringWheelHead>();
+
+    cubos.observer("add Interactable to SteeringWheel")
+        .onAdd<SteeringWheel>()
+        .call([](Commands cmds, Query<Entity> query) {
+            for (auto [entity] : query)
+            {
+                cmds.add(entity, Interactable{});
+            }
+        });
+
+    cubos.observer("handle SteeringWheel interaction")
+        .onAdd<Interaction>()
+        .call([](Commands cmds, Query<Entity, SteeringWheel&, Interaction&> query, Query<Player&> players) {
+            for (auto [entity, wheel, interaction] : query)
+            {
+                cmds.remove<Interaction>(entity);
+                auto [player] = *players.at(interaction.player);
+
+                if (wheel.player == -1)
+                {
+                    wheel.player = player.player;
+                    player.canMove = false;
+                }
+                else if (player.player == wheel.player)
+                {
+                    wheel.player = -1;
+                    player.canMove = true;
+                }
+            }
+        });
 
     cubos.system("update SteeringWheel entities")
         .call([](const DeltaTime& dt, Input& input,
@@ -49,11 +83,11 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
                 wheel.targetTurnAngle = glm::clamp(wheel.targetTurnAngle, -wheel.maxTurnAngle, wheel.maxTurnAngle);
 
                 // Smoothly turn the actual wheel towards the target turn angle
-                wheel.turnAngle = glm::mix(wheel.turnAngle, wheel.targetTurnAngle, 1 - glm::pow(1.0 - wheel.targetLerpFactor, dt.value()));
+                wheel.turnAngle = glm::mix(wheel.turnAngle, wheel.targetTurnAngle,
+                                           1 - glm::pow(1.0 - wheel.targetLerpFactor, dt.value()));
 
                 // Update the drivable entity
                 drivable.targetAngularVelocity = (wheel.turnAngle / wheel.maxTurnAngle) * drivable.topAngularVelocity;
-                 
 
                 // Animate the wheel
                 rotation.quat = glm::angleAxis(glm::radians(wheel.turnAngle), glm::vec3{0.0F, 0.0F, 1.0F});

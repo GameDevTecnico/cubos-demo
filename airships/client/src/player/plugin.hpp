@@ -16,6 +16,8 @@ namespace airships::client
         std::string verticalAxis{"vertical"};
         std::string interactAction{"interact"};
 
+        bool canMove{true};
+
         glm::vec3 direction{0.0f, 0.0f, 1.0f};
         float moveSpeed{5.0f};
         glm::ivec2 facing = {0, 1};
