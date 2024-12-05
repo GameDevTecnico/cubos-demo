@@ -217,12 +217,6 @@
         "y": 10.0,
         "z": -4.5
       },
-      "cubos::engine::Rotation": {
-        "w": 0.7071068,
-        "x": 0.0,
-        "y": 0.7071068,
-        "z": 0.0
-      },
       "cubos::engine::Scale": 0.5,
       "cubos::engine::RenderVoxelGrid": {
         "asset": "bac9c97f-b617-4bee-9eda-d1f641388098",
@@ -231,6 +225,12 @@
           "y": 0.0,
           "z": -29.0
         }
+      },
+      "airships::client::Rudder": {
+        "maxYaw": 0.0,
+        "offsetYaw": 90.0,
+        "maxPitch": 20.0,
+        "offsetPitch": 0.0
       }
     },
     "balloon-back-rope-point": {
