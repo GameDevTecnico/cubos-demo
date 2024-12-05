@@ -19,6 +19,7 @@ CUBOS_REFLECT_IMPL(airships::client::FollowController)
         .withField("zoomAxis", &FollowController::zoomAxis)
         .withField("phiAxis", &FollowController::phiAxis)
         .withField("thetaAxis", &FollowController::thetaAxis)
+        .withField("toggleMouseAction", &FollowController::toggleMouseAction)
         .withField("minZoom", &FollowController::minZoom)
         .withField("maxZoom", &FollowController::maxZoom)
         .withField("zoomSpeed", &FollowController::zoomSpeed)
@@ -40,7 +41,7 @@ void airships::client::followControllerPlugin(Cubos& cubos)
 
     cubos.system("update FollowController entities")
         .call([](const DeltaTime& dt, Input& input, Window& window, EventReader<WindowEvent> events,
-                 Query<const FollowController&, Follow&> query) {
+                 Query<FollowController&, Follow&> query) {
             int mouseScroll = 0;
             for (auto event : events)
             {
@@ -60,6 +61,10 @@ void airships::client::followControllerPlugin(Cubos& cubos)
                 float zoomInput = input.axis(controller.zoomAxis.c_str(), controller.player);
                 float phiInput = input.axis(controller.phiAxis.c_str(), controller.player);
                 float thetaInput = input.axis(controller.thetaAxis.c_str(), controller.player);
+                if (input.justPressed(controller.toggleMouseAction.c_str(), controller.player))
+                {
+                    controller.useMouse = !controller.useMouse;
+                }
 
                 // Lock the mouse if it isn't already
                 if (controller.useMouse && window->mouseState() != MouseState::Locked)

@@ -25,6 +25,9 @@ namespace airships::client
         /// @brief Name of the axis used to control the camera's theta rotation.
         std::string thetaAxis = "camera-horizontal";
 
+        /// @brief Action to toggle whether the mouse should be used to control the camera.
+        std::string toggleMouseAction = "camera-toggle-mouse";
+
         /// @brief Minimum distance from the target.
         float minZoom = 1.0F;
 
