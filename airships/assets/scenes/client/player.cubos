@@ -10,7 +10,10 @@
         }
       },
       "cubos::engine::Scale": 0.5,
-      "airships::client::Player":{
+      "airships::client::Player": {
+        "player": 1,
+        "horizontalAxis": "horizontal",
+        "verticalAxis": "vertical",
         "moveSpeed": 20.0,
         "direction": {
           "x": 0,
