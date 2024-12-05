@@ -14,6 +14,7 @@
         "player": 1,
         "horizontalAxis": "horizontal",
         "verticalAxis": "vertical",
+        "interactAction": "interact",
         "moveSpeed": 20.0,
         "direction": {
           "x": 0,

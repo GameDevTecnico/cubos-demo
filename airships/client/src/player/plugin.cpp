@@ -24,6 +24,7 @@ CUBOS_REFLECT_IMPL(airships::client::Player)
         .withField("player", &Player::player)
         .withField("horizontalAxis", &Player::horizontalAxis)
         .withField("verticalAxis", &Player::verticalAxis)
+        .withField("interactAction", &Player::interactAction)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
         .build();
@@ -40,8 +41,7 @@ void airships::client::playerPlugin(Cubos& cubos)
 
     cubos.component<Player>();
 
-    // Plugin para mover o jogador
-    cubos.system("move player")
+    cubos.system("do Player movement")
         .call([](Commands cmds, Query<Player&, Position&, Rotation&> players, const DeltaTime& dt, const Input& input) {
             for (auto [player, pos, rot] : players)
             {
@@ -59,19 +59,18 @@ void airships::client::playerPlugin(Cubos& cubos)
             }
         });
 
-    cubos.system("interaction with raycast")
-        .call([](Query<Player&, Position&> players, Query<Interactable&, Position&> interactables, const Assets& assets,
-                 Raycast raycast, const Input& input) {
-            for (auto [player, playerPos] : players)
+    cubos.system("do Player interaction")
+        .call([](Commands cmds, Query<Entity, Player&, const LocalToWorld&> players,
+                 Query<const Interactable&> interactables, const Assets& assets, Raycast raycast, const Input& input) {
+            for (auto [playerEnt, player, playerLTW] : players)
             {
-                if (auto hit = raycast.fire({playerPos.vec, player.direction}))
+                if (input.justPressed(player.interactAction.c_str(), player.player))
                 {
-                    if (interactables.at(hit->entity))
+                    if (auto hit = raycast.fire({playerLTW.worldPosition(), playerLTW.forward()}))
                     {
-                        if (input.pressed("interact"))
+                        if (interactables.at(hit->entity))
                         {
-                            // DO SOMETHING
-                            CUBOS_INFO("Interacted with Interactable entity");
+                            cmds.add(hit->entity, Interaction{.player = playerEnt});
                         }
                     }
                 }
