@@ -24,7 +24,7 @@
         "asset": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e",
         "offset": {
           "x": -41.0,
-          "y": -18.0,
+          "y": -17.0,
           "z": -27.0
         }
       }
@@ -82,7 +82,7 @@
         "asset": "96a22061-8668-4bd2-8419-c92d21e1404e",
         "offset": {
           "x": -1.0,
-          "y": -18.0,
+          "y": -17.0,
           "z": -1.0
         }
       },
@@ -95,7 +95,7 @@
       "cubos::engine::ChildOf@root": {},
       "cubos::engine::Position": {
         "x": 3.0,
-        "y": -1.0,
+        "y": 0.0,
         "z": 18.0
       },
       "cubos::engine::Scale": 0.5,
@@ -113,6 +113,17 @@
         "maxPitch": 10.0,
         "offsetPitch": 0.0
       }
+    },
+    "player.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -17.5
+      }
     }
+  },
+  "imports": {
+    "player": "a88d914b-f1d7-463b-9a20-cf76bb5508d6"
   }
 }
