@@ -25,6 +25,7 @@ namespace airships::client
 
         glm::vec3 direction{0.0f, 0.0f, 1.0f};
         float moveSpeed{5.0f};
+        float halfRotationTime{0.1F};
         glm::ivec2 facing = {0, 1};
         glm::quat rot = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
     };
