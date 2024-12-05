@@ -13,8 +13,6 @@
 using namespace cubos::engine;
 using namespace airships::client;
 
-static const float M_PI = 3.14159265358979323846F;
-
 CUBOS_REFLECT_IMPL(ChunkInfo)
 {
     return cubos::core::ecs::TypeBuilder<ChunkInfo>("airships::client::ChunkInfo")
@@ -49,7 +47,7 @@ namespace airships::client
                     do 
                     {
                     std::mt19937 engine{std::random_device()()};
-                    std::uniform_real_distribution randomAngle(0.0F, 2 * M_PI);
+                    std::uniform_real_distribution randomAngle(0.0F, 2.0F * glm::pi<float>());
                     std::uniform_int_distribution distCoordY(-200, 200);
                     x = std::round(cos(randomAngle(engine)) * si.stormRadius);
                     y = distCoordY(engine);
