@@ -10,6 +10,12 @@
                     "z": -6.0
                 }
             },
+            "cubos::engine::Collider": {},
+            "cubos::engine::BoxCollisionShape": {
+                "x": 12.0,
+                "y": 20.0,
+                "z": 6.0
+            },
             "airships::client::SteeringWheel": {
                 "player": 1,
                 "turnAxis": "horizontal",
