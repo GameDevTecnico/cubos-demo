@@ -31,20 +31,20 @@ void airships::client::followPlugin(Cubos& cubos)
     cubos.system("update Follow relation transforms")
         .before(transformUpdateTag)
         .call([](const DeltaTime& dt, Query<Position&, Rotation&, Follow&, const LocalToWorld&> query,
-                 Query<const LocalToWorld&> ltwQuery) {
+                 Query<const Position&, const Rotation&> transformQuery) {
             for (auto [position, rotation, follow, targetLTW] : query)
             {
                 glm::vec3 basePosition{0.0F, 0.0F, 0.0F};
                 float baseYaw = 0.0F;
                 if (!follow.basedOn.isNull())
                 {
-                    if (auto match = ltwQuery.at(follow.basedOn))
+                    if (auto match = transformQuery.at(follow.basedOn))
                     {
-                        auto [baseLTW] = *match;
-                        basePosition = baseLTW.worldPosition();
+                        auto [basePositionC, baseRotationC] = *match;
+                        basePosition = basePositionC.vec;
 
                         // Extract yaw from the entity's rotation.
-                        auto baseRotationMat = glm::mat3_cast(baseLTW.worldRotation());
+                        auto baseRotationMat = glm::mat3_cast(baseRotationC.quat);
                         baseYaw = -glm::atan(baseRotationMat[2][0], baseRotationMat[2][2]);
                     }
                 }
