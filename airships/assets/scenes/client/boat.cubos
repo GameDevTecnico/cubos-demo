@@ -210,6 +210,109 @@
         "z": 4.0
       }
     },
+    "balloon": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": -4.5
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.7071068,
+        "x": 0.0,
+        "y": 0.7071068,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 0.5,
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "bac9c97f-b617-4bee-9eda-d1f641388098",
+        "offset": {
+          "x": -52.0,
+          "y": 0.0,
+          "z": -29.0
+        }
+      }
+    },
+    "balloon-back-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": 22.0,
+        "y": 4.0,
+        "z": 0.0
+      },
+      "airships::client::Rope@hull-back-left-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      },
+      "airships::client::Rope@hull-back-right-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      }
+    },
+    "hull-back-left-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": 40.0,
+        "y": 1.0,
+        "z": 20.0
+      }
+    },
+    "hull-back-right-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": 40.0,
+        "y": 1.0,
+        "z": -20.0
+      }
+    },
+    "balloon-front-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": -22.0,
+        "y": 4.0,
+        "z": 0.0
+      },
+      "airships::client::Rope@hull-front-left-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      },
+      "airships::client::Rope@hull-front-right-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      }
+    },
+    "hull-front-left-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -21.0,
+        "y": 2.0,
+        "z": 14.0
+      }
+    },
+    "hull-front-right-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -21.0,
+        "y": 2.0,
+        "z": -14.0
+      }
+    },
     "rudder": {
       "cubos::engine::ChildOf@root": {},
       "cubos::engine::Position": {
