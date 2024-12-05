@@ -42,6 +42,8 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::animationPlugin);
     cubos.plugin(airships::client::followPlugin);
     cubos.plugin(airships::client::followControllerPlugin);
+    cubos.plugin(airships::client::interactablePlugin);
+    cubos.plugin(airships::client::playerPlugin);
     cubos.plugin(airships::client::drivablePlugin);
     cubos.plugin(airships::client::steeringWheelPlugin);
     cubos.plugin(airships::client::rudderPlugin);
@@ -50,8 +52,6 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
     // cubos.plugin(airships::client::cannonPlugin);
-    cubos.plugin(airships::client::interactablePlugin);
-    cubos.plugin(airships::client::playerPlugin);
 
     // Add game plugins
     // TODO

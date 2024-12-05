@@ -17,7 +17,6 @@
                 "z": 6.0
             },
             "airships::client::SteeringWheel": {
-                "player": 1,
                 "turnAxis": "horizontal",
                 "maxTurnAngle": 720.0,
                 "turnSpeed": 180.0,

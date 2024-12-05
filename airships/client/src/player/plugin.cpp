@@ -25,6 +25,7 @@ CUBOS_REFLECT_IMPL(airships::client::Player)
         .withField("horizontalAxis", &Player::horizontalAxis)
         .withField("verticalAxis", &Player::verticalAxis)
         .withField("interactAction", &Player::interactAction)
+        .withField("canMove", &Player::canMove)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
         .build();
@@ -45,6 +46,11 @@ void airships::client::playerPlugin(Cubos& cubos)
         .call([](Commands cmds, Query<Player&, Position&, Rotation&> players, const DeltaTime& dt, const Input& input) {
             for (auto [player, pos, rot] : players)
             {
+                if (player.player == -1 || !player.canMove)
+                {
+                    continue;
+                }
+
                 glm::vec3 move = {0.0f, 0.0f, 0.0f};
                 move.x = -input.axis(player.horizontalAxis.c_str(), player.player);
                 move.z = input.axis(player.verticalAxis.c_str(), player.player);
