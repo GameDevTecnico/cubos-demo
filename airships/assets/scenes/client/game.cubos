@@ -27,7 +27,8 @@
                 "phi": 20.0,
                 "theta": -90.0,
                 "halfTime": 0.1,
-                "basedOn": "boat1.root"
+                "basedOn": "boat1.root",
+                "height": 3.0
             },
             "airships::client::FollowController": {
                 "player": 1,
