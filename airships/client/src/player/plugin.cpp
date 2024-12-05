@@ -8,6 +8,7 @@
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
+#include <cubos/engine/collisions/colliding_with.hpp>
 #include <glm/vec3.hpp>
 #include <cubos/engine/collisions/raycast.hpp>
 #include <cubos/engine/scene/scene.hpp>
@@ -41,11 +42,14 @@ void airships::client::playerPlugin(Cubos& cubos)
     cubos.depends(collisionsPlugin);
     cubos.depends(interactablePlugin);
     cubos.depends(followPlugin);
+    cubos.depends(collisionsPlugin);
 
     cubos.component<Player>();
 
     cubos.system("do Player movement")
-        .call([](Commands cmds, Query<LocalToWorld&, const Follow&, Player&, Position&, Rotation&, const ChildOf&, const LocalToWorld&> players,
+        .call([](Commands cmds,
+                 Query<LocalToWorld&, const Follow&, Player&, Position&, Rotation&, const ChildOf&, const LocalToWorld&>
+                     players,
                  const DeltaTime& dt, const Input& input) {
             for (auto [cameraLTW, follow, player, pos, rot, childOf, boatLTW] : players)
             {
@@ -96,6 +100,23 @@ void airships::client::playerPlugin(Cubos& cubos)
                         }
                     }
                 }
+            }
+        });
+
+
+    cubos.system("handle Player collisions")
+        .call([](Query<Entity, Player&, Position&, const CollidingWith&> query) {
+            for (auto [ent, car, pos, collidingWith] : query)
+            {
+                // Get the normal of the collision.
+                auto normal = collidingWith.normal;
+                if (collidingWith.entity != ent)
+                {
+                    normal = -normal;
+                }
+
+                // Calculate the necessary offset to separate the player from the collider.
+                pos.vec -= normal * collidingWith.penetration;
             }
         });
 }
