@@ -21,6 +21,9 @@ using namespace cubos::engine;
 CUBOS_REFLECT_IMPL(airships::client::Player)
 {
     return cubos::core::ecs::TypeBuilder<Player>("airships::client::Player")
+        .withField("player", &Player::player)
+        .withField("horizontalAxis", &Player::horizontalAxis)
+        .withField("verticalAxis", &Player::verticalAxis)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
         .build();
@@ -43,22 +46,8 @@ void airships::client::playerPlugin(Cubos& cubos)
             for (auto [player, pos, rot] : players)
             {
                 glm::vec3 move = {0.0f, 0.0f, 0.0f};
-                if (input.pressed("up"))
-                {
-                    move.z -= 1.0f;
-                }
-                if (input.pressed("down"))
-                {
-                    move.z += 1.0f;
-                }
-                if (input.pressed("left"))
-                {
-                    move.x -= 1.0f;
-                }
-                if (input.pressed("right"))
-                {
-                    move.x += 1.0f;
-                }
+                move.x = -input.axis(player.horizontalAxis.c_str(), player.player);
+                move.z = input.axis(player.verticalAxis.c_str(), player.player);
                 if (glm::length(move) > 0.0f)
                 {
                     move = glm::normalize(move) * player.moveSpeed * dt.value();
