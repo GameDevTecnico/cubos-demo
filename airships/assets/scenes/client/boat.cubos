@@ -4,7 +4,7 @@
       "cubos::engine::Position": {},
       "airships::client::Drivable": {
         "topLinearVelocity": 50.0,
-        "linearAcceleration": 5.0,
+        "linearAcceleration": 25.0,
         "topAngularVelocity": 60.0,
         "angularAcceleration": 45.0,
         "maxRoll": 20.0,
@@ -48,7 +48,7 @@
       "airships::client::SteeringWheel": {
         "player": 1,
         "turnAxis": "horizontal",
-        "maxTurnAngle": 180.0,
+        "maxTurnAngle": 720.0,
         "turnSpeed": 180.0,
         "targetLerpFactor": 0.99
       }
