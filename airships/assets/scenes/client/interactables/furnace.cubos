@@ -1,0 +1,22 @@
+{
+  "entities": {
+    "root": {
+      "cubos::engine::Scale": 0.25,
+      "airships::client::Animation": {
+        "models": [
+          "1d99876d-c6a8-4710-b96d-ac30e7f486ad",
+          "b5bfc4a6-480d-4ef4-8550-9a8bedd33986",
+          "402aed14-9e12-4020-86d3-470a449fa18e",
+          "b5bfc4a6-480d-4ef4-8550-9a8bedd33986"
+        ],
+        "offset": {
+          "x": -8.0,
+          "y": 0.0,
+          "z": -8.0
+        },
+        "timeBetweenFrames": 0.2
+      }
+    }
+  },
+  "imports": {}
+}

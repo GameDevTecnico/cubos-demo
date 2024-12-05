@@ -15,6 +15,7 @@ add_executable(airships-client
     src/cannon/plugin.cpp
     src/player/plugin.cpp
     src/interactable/plugin.cpp
+    src/animation/plugin.cpp
 )
 target_link_libraries(airships-client PUBLIC cubos::engine)
 target_link_libraries(airships-client PRIVATE airships-common)
