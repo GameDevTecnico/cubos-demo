@@ -2,7 +2,8 @@
     "entities": {
         "render-target": {
             "cubos::engine::RenderTargetDefaults": {},
-            "cubos::engine::GizmosTarget": {}
+            "cubos::engine::GizmosTarget": {},
+            "airships::client::RopeRasterizer": {}
         },
         "camera": {
             "cubos::engine::Camera": {
