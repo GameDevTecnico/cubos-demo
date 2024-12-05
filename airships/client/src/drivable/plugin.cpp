@@ -34,6 +34,7 @@ void airships::client::drivablePlugin(Cubos& cubos)
     cubos.component<Drivable>();
 
     cubos.system("move Drivable entities")
+        .before(transformUpdateTag)
         .call([](Input& input, Query<Drivable&, Position&, Rotation&> drivables, const DeltaTime& dt) {
             for (auto [drivable, position, rotation] : drivables)
             {
