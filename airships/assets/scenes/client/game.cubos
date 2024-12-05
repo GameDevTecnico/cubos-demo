@@ -5,6 +5,10 @@
             "cubos::engine::GizmosTarget": {}
         },
         "camera": {
+            "cubos::engine::Camera": {
+                "zNear": 1.0,
+                "zFar": 10000.0
+            },
             "cubos::engine::PerspectiveCamera": 70.0,
             "cubos::engine::DrawsTo@render-target": {},
             "cubos::engine::Position": {
