@@ -3,6 +3,103 @@
     "player": {
       "cubos::engine::RenderVoxelGrid":{
         "asset": "1a32d470-0db9-4b9a-9520-f45da3407867"
+      },
+      "cubos::engine::Collider": {
+        "a": {
+          "w": 0.0,
+          "x": 1.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "b": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "c": {
+          "w": 0.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 1.0
+        },
+        "d": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "cubos::engine::AccumulatedCorrection": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::BoxCollisionShape": {
+        "x": 15.0,
+        "y": 15.0,
+        "z": 15.0
+      },
+      "cubos::engine::Force": {
+      },
+      "cubos::engine::Torque": {
+      },
+      "cubos::engine::Impulse": {
+      },
+      "cubos::engine::AngularImpulse": {
+      },
+      "cubos::engine::Mass": {
+        "inverseMass": 0.0,
+        "mass": 1000.0,
+        "changed": false
+      },
+      "cubos::engine::Inertia": {
+        "inverseInertia": {
+          "a": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "b": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "c": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        },
+        "autoUpdate": false
+      },
+      "cubos::engine::CenterOfMass": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::PhysicsMaterial": {
+        "friction": 0.5,
+        "bounciness": 1.0,
+        "frictionMix": "Average",
+        "bouncinessMix": "Average"
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Scale": 1.0,
+      "cubos::engine::Velocity": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::AngularVelocity": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
       }
     }
   },

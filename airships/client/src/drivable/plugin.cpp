@@ -6,8 +6,14 @@
 
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
+#include <cubos/engine/physics/plugin.hpp>
+#include <cubos/engine/collisions/plugin.hpp>
+#include <cubos/engine/collisions/colliding_with.hpp>
+#include <cubos/engine/fixed_step/plugin.hpp>
 
 using namespace cubos::engine;
+
+static CUBOS_DEFINE_TAG(drivableControlTag);
 
 CUBOS_REFLECT_IMPL(airships::client::Drivable)
 {
@@ -26,19 +32,63 @@ CUBOS_REFLECT_IMPL(airships::client::Drivable)
         .build();
 }
 
+struct CollisionMovementModifiers
+{
+    CUBOS_ANONYMOUS_REFLECT(CollisionMovementModifiers);
+
+    float time = 0.0F;
+    float torque = 0.0F;
+};
+
 void airships::client::drivablePlugin(Cubos& cubos)
 {
     cubos.depends(inputPlugin);
     cubos.depends(transformPlugin);
+    cubos.depends(collisionsPlugin);
+    cubos.depends(physicsPlugin);
+    cubos.depends(fixedStepPlugin);
 
     cubos.component<Drivable>();
+    cubos.resource<CollisionMovementModifiers>();
 
-    cubos.system("move Drivable entities")
+    cubos.tag(drivableControlTag);
+
+    cubos.system("set modifiers on collision")
+        .tagged(physicsApplyForcesTag)
+        .call([](Query<Entity, Drivable&, Position&, Rotation&, Velocity&, Impulse&, AngularVelocity&, CollidingWith&,
+                       Entity, Position&>
+                     query,
+                 CollisionMovementModifiers& collisionModifiers) {
+            for (auto [ent1, drivable, pos1, rotation, velocity, impulse, angVelocity, collidingWith, ent2, pos2] :
+                 query)
+            {
+                auto forward = glm::normalize(rotation.quat * glm::vec3{0.0F, 0.0F, 1.0F});
+                auto collisionDirection = glm::normalize(pos2.vec - pos1.vec);
+                auto dot = glm::dot(forward, collisionDirection);
+
+                if (dot > -0.45F && dot < 0.45F)
+                {
+                    glm::vec3 right = {1.0F, 0.0F, 0.0F};
+                    auto turnDirection = glm::dot(collisionDirection, right) > 0.0F ? -1.0F : 1.0F;
+                    collisionModifiers.torque = glm::abs(dot) * turnDirection * drivable.topAngularVelocity * 2.0F;
+                }
+                else
+                {
+                    collisionModifiers.torque = 0.0F;
+                }
+
+                collisionModifiers.time = 1.0F;
+            }
+        });
+
+    cubos.system("control Drivable entities")
+        .tagged(drivableControlTag)
         .before(transformUpdateTag)
-        .call([](Input& input, Query<Drivable&, Position&, Rotation&> drivables, const DeltaTime& dt) {
+        .call([](Input& input, Query<Drivable&, Position&, Rotation&> drivables, const DeltaTime& dt,
+                 CollisionMovementModifiers& collisionModifiers) {
             for (auto [drivable, position, rotation] : drivables)
             {
-                // Update angular velocity
+                //  Update angular velocity
                 auto missingAngularVelocity = drivable.targetAngularVelocity - drivable.angularVelocity;
                 auto availableAngularVelocity = drivable.angularAcceleration * dt.value();
                 drivable.angularVelocity +=
@@ -46,8 +96,13 @@ void airships::client::drivablePlugin(Cubos& cubos)
 
                 auto topAngularVelocity =
                     (glm::abs(drivable.linearVelocity) / drivable.topLinearVelocity) * drivable.topAngularVelocity;
+
                 drivable.angularVelocity =
                     glm::clamp(drivable.angularVelocity, -topAngularVelocity, topAngularVelocity);
+                if (collisionModifiers.time >= 0.0F)
+                {
+                    drivable.angularVelocity += collisionModifiers.torque * dt.value();
+                }
 
                 // Apply angular velocity and compute rotation
                 drivable.yaw -= drivable.angularVelocity * dt.value();
@@ -56,17 +111,38 @@ void airships::client::drivablePlugin(Cubos& cubos)
 
                 auto rollFactor = drivable.angularVelocity / drivable.topAngularVelocity;
                 auto targetRoll = rollFactor * drivable.maxRoll;
-                drivable.roll = glm::mix(drivable.roll, targetRoll, 1 - glm::pow(1.0 - drivable.rollLerpFactor, dt.value()));
+                drivable.roll =
+                    glm::mix(drivable.roll, targetRoll, 1 - glm::pow(1.0 - drivable.rollLerpFactor, dt.value()));
                 rotation.quat *= glm::angleAxis(glm::radians(drivable.roll), glm::vec3{0.0F, 0.0F, 1.0F});
+            }
+        });
+
+    cubos.system("auto move Drivable entities")
+        .tagged(physicsApplyForcesTag)
+        .after(drivableControlTag)
+        .call([](Input& input, Query<Drivable&, Position&, Rotation&, Velocity&> drivables, const FixedDeltaTime& dt,
+                 CollisionMovementModifiers& collisionModifiers) {
+            for (auto [drivable, position, rotation, velocity] : drivables)
+            {
+                // Update velocity position
+                auto forward = rotation.quat * glm::vec3{0.0F, 0.0F, 1.0F};
+
+                // Don't push the airship imediatly forward and slow it down
+                if (collisionModifiers.time >= 0.0F)
+                {
+                    collisionModifiers.time -= dt.value;
+                    velocity.vec *= 0.97F;
+                    continue;
+                }
+
+                float sign = glm::dot(velocity.vec, forward) < 0.0F ? -1 : 1;
+                velocity.vec =
+                    forward * ((glm::length(velocity.vec) * sign) + (drivable.linearAcceleration * dt.value));
+
+                velocity.vec = glm::clamp(velocity.vec, -drivable.topLinearVelocity, drivable.topLinearVelocity);
 
                 // Update linear velocity
-                drivable.linearVelocity += drivable.linearAcceleration * dt.value();
-                drivable.linearVelocity =
-                    glm::clamp(drivable.linearVelocity, -drivable.topLinearVelocity, drivable.topLinearVelocity);
-
-                // Update position
-                auto forward = rotation.quat * glm::vec3{0.0F, 0.0F, 1.0F};
-                position.vec += forward * drivable.linearVelocity * dt.value();
+                drivable.linearVelocity = glm::length(velocity.vec);
             }
         });
 }
