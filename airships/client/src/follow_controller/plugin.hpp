@@ -43,6 +43,9 @@ namespace airships::client
         /// @brief Whether to use the mouse to control the camera.
         bool useMouse = true;
 
+        /// @brief Whether the mouse has already moved since the it was last locked.
+        bool mouseMoved = false;
+
         /// @brief Mouse sensitivity.
         float mouseSensitivity = 0.1F;
 

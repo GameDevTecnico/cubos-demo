@@ -25,6 +25,7 @@ CUBOS_REFLECT_IMPL(airships::client::FollowController)
         .withField("zoomSpeed", &FollowController::zoomSpeed)
         .withField("rotationSpeed", &FollowController::rotationSpeed)
         .withField("useMouse", &FollowController::useMouse)
+        .withField("mouseMoved", &FollowController::mouseMoved)
         .withField("mouseSensitivity", &FollowController::mouseSensitivity)
         .withField("scrollSensitivity", &FollowController::scrollSensitivity)
         .build();
@@ -70,6 +71,7 @@ void airships::client::followControllerPlugin(Cubos& cubos)
                 if (controller.useMouse && window->mouseState() != MouseState::Locked)
                 {
                     window->mouseState(MouseState::Locked);
+                    controller.mouseMoved = false;
                 }
                 else if (!controller.useMouse && window->mouseState() == MouseState::Locked)
                 {
@@ -79,8 +81,16 @@ void airships::client::followControllerPlugin(Cubos& cubos)
                 if (controller.useMouse)
                 {
                     zoomInput -= static_cast<float>(mouseScroll) * controller.scrollSensitivity * dt.value();
-                    phiInput += input.mouseDelta().y * controller.mouseSensitivity * dt.value();
-                    thetaInput -= input.mouseDelta().x * controller.mouseSensitivity * dt.value();
+
+                    if (controller.mouseMoved)
+                    {
+                        phiInput += input.mouseDelta().y * controller.mouseSensitivity * dt.value();
+                        thetaInput -= input.mouseDelta().x * controller.mouseSensitivity * dt.value();
+                    }
+                    else if (input.mouseDelta() != glm::ivec2(0))
+                    {
+                        controller.mouseMoved = true;
+                    }
                 }
 
                 // Update the distance from the target
