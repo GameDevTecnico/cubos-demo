@@ -61,6 +61,7 @@ void airships::client::playerPlugin(Cubos& cubos)
             {
                 if (player.player == -1 || !player.canMove)
                 {
+                    animation.play(player.idleAnimation);
                     continue;
                 }
 
