@@ -13,10 +13,16 @@ namespace airships::client
         enum class State
         {
             Empty,
-            Holding
+            Holding,
+            Popped
         };
 
         State state = State::Holding;
+    };
+
+    struct PopBalloon
+    {
+        CUBOS_REFLECT;
     };
 
     /// @brief plugin to handle balloon spawning

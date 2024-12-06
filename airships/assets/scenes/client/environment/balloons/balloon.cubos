@@ -1,14 +1,6 @@
 {
   "entities": {
     "root": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "b72f0154-d675-434d-989d-d789d49c9d43",
-        "offset": {
-          "x": -4.5,
-          "y": -14.0,
-          "z": -4.5
-        }
-      },
       "cubos::engine::Collider": {},
       "cubos::engine::AccumulatedCorrection": {
         "x": 0.0,
@@ -26,7 +18,7 @@
       "cubos::engine::AngularImpulse": {},
       "cubos::engine::Mass": {
         "inverseMass": 0.0,
-        "mass": 1000.0,
+        "mass": 1.0,
         "changed": false
       },
       "cubos::engine::Inertia": {
@@ -77,6 +69,14 @@
         "y": 0.0,
         "z": 0.0
       }
+    },
+    "resource": {
+        "cubos::engine::ChildOf@root": {},
+        "cubos::engine::Position": {
+          "x": 0.0,
+          "y": -10.0,
+          "z": 0.0
+        }
     }
   }
 }
