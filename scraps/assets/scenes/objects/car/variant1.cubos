@@ -17,10 +17,12 @@
         "z": 6.0
       },
       "cubos::engine::Collider": {
-        "d": {
-          "x": 8.0,
-          "y": 0.0,
-          "z": 4.0
+        "transform": {
+          "d": {
+            "x": 8.0,
+            "y": 0.0,
+            "z": 4.0
+          }
         }
       },
       "demo::Breakable": {
