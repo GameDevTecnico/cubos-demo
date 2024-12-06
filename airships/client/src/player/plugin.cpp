@@ -104,7 +104,7 @@ void airships::client::playerPlugin(Cubos& cubos)
                 if (input.justPressed(player.interactAction.c_str(), player.player))
                 {
                     Raycast::Ray ray{.origin = playerLTW.worldPosition(), .direction = playerLTW.forward()};
-                    ray.origin += ray.direction * 2.0F; // Make sure we don't hit the player itself
+                    ray.mask = 1 << 1; // Only hit interactables
                     if (auto hit = raycast.fire(ray))
                     {
                         if (interactables.at(hit->entity))

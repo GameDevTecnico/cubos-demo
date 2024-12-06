@@ -12,18 +12,42 @@
             },
             "cubos::engine::Collider": {
                 "layer": 1,
-                "mask": 2
+                "mask": 4,
+                "transform": {
+                    "d": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": -5.0
+                    }
+                }
             },
             "cubos::engine::BoxCollisionShape": {
                 "x": 12.0,
                 "y": 20.0,
-                "z": 6.0
+                "z": 1.0
             },
             "airships::client::SteeringWheel": {
                 "turnAxis": "horizontal",
                 "maxTurnAngle": 720.0,
                 "turnSpeed": 180.0,
                 "targetLerpFactor": 0.99
+            }
+        },
+        "blocker": {
+            "cubos::engine::ChildOf@root": {},
+            "cubos::engine::Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0
+            },
+            "cubos::engine::Collider": {
+                "layer": 1,
+                "mask": 4
+            },
+            "cubos::engine::BoxCollisionShape": {
+                "x": 12.0,
+                "y": 20.0,
+                "z": 5.0
             }
         },
         "head": {
