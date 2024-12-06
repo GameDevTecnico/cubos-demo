@@ -1,0 +1,8 @@
+{
+    "entities": {
+        "render-target": {
+            "cubos::engine::RenderTargetDefaults": {},
+            "cubos::engine::GizmosTarget": {},
+        },
+    }
+}

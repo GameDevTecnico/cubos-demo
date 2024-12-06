@@ -2,7 +2,7 @@
 
 #include <cubos/engine/prelude.hpp>
 
-namespace airships::common
+namespace airships::server
 {
     void joinPacketPlugin(cubos::engine::Cubos& cubos);
 }

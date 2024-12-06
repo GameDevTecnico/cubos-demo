@@ -3,13 +3,8 @@
 
 add_executable(airships-client
     src/main.cpp
+    src/menu/plugin.cpp
 )
-
-add_executable(dummy-client
-    src/dummy.cpp
-)
-target_link_libraries(dummy-client airships-common)
-common_demo_options(dummy-client)
 
 target_link_libraries(airships-client airships-common)
 common_demo_options(airships-client)

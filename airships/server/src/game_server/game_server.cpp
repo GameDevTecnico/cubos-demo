@@ -13,16 +13,6 @@ namespace airships::server
         return mListener;
     }
 
-    const std::vector<std::shared_ptr<cubos::core::net::TcpStream>>& GameServer::clients() const
-    {
-        return mConnectedClients;
-    }
-
-    void GameServer::connect(std::shared_ptr<cubos::core::net::TcpStream> client)
-    {
-        mConnectedClients.push_back(std::move(client));
-    }
-
     std::chrono::milliseconds GameServer::tickStart() const
     {
         return mTickStart;

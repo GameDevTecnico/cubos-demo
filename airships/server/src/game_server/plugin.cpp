@@ -40,16 +40,6 @@ namespace airships::server
         cubos.system("start server tick").tagged(serverTickStartTag).call([](GameServer& server) {
             server.startTick();
             CUBOS_INFO("STARTED SERVER TICK");
-
-            // Accept incoming connections
-            cubos::core::net::TcpStream stream;
-            while (server.listener().accept(stream))
-            {
-                stream.setBlocking(false);
-                auto client = std::make_shared<cubos::core::net::TcpStream>(std::move(stream));
-                server.connect(client);
-                CUBOS_WARN("Connection accepted!");
-            }
         });
 
         cubos.system("end server tick")

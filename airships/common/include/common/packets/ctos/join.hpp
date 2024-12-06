@@ -3,12 +3,12 @@
 #include <cubos/core/reflection/reflect.hpp>
 #include <string>
 
-namespace airships::server
+namespace airships::common
 {
-    struct Player
+    struct JoinPacket
     {
         CUBOS_REFLECT;
 
         std::string name;
     };
-} // namespace airships::server
+} // namespace airships::common

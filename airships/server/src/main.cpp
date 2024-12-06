@@ -2,11 +2,9 @@
 #include <cubos/engine/scene/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
-#include <common/packets/plugin.hpp>
 #include "game_server/plugin.hpp"
-#include "packets/plugin.hpp"
+#include "network/plugin.hpp"
 #include "player/plugin.hpp"
-#include "join/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -14,23 +12,18 @@ static const Asset<Scene> MainSceneAsset = AnyAsset("5c580ddf-5633-43cd-b6f6-524
 
 int main(int argc, char** argv)
 {
-    // Since the server is a barebones application, we don't need to load the window plugins, the render plugins, etc.
-    // Therefore, we do not use the defaultsPlugin, and instead load only the plugins we need directly.
     Cubos cubos{argc, argv};
     cubos.plugin(settingsPlugin);
     cubos.plugin(assetsPlugin);
     cubos.plugin(scenePlugin);
     cubos.plugin(fixedStepPlugin);
-
-    cubos.plugin(airships::common::packetsPlugin);
-    cubos.plugin(airships::server::gameServerPlugin);
-    cubos.plugin(airships::server::packetsPlugin);
-
     cubos.plugin(airships::server::playerPlugin);
-    cubos.plugin(airships::server::joinPlugin);
 
-    // Add game plugins
-    // TODO
+    cubos.plugin(airships::server::gameServerPlugin);
+    cubos.plugin(airships::server::networkPlugin);
+
+    // cubos.plugin(airships::server::playerPlugin);
+    // cubos.plugin(airships::server::joinPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

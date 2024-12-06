@@ -2,8 +2,8 @@
 #include "../player/plugin.hpp"
 #include "../player/player.hpp"
 #include "../game_server/plugin.hpp"
-#include <common/packets/ctos/join/packet.hpp>
-#include <common/packets/stoc/disconnect/packet.hpp>
+#include <common/packets/ctos/join.hpp>
+#include <common/packets/stoc/disconnect.hpp>
 #include <common/packets/plugin.hpp>
 
 void airships::server::joinPlugin(cubos::engine::Cubos& cubos)
@@ -30,12 +30,12 @@ void airships::server::joinPlugin(cubos::engine::Cubos& cubos)
                 }
                 if (!validName)
                 {
-                    writer.push({.reason = "Player with the same name already connected!", .stream = packet.stream});
+                    // writer.push({.reason = "Player with the same name already connected!", .stream = packet.stream});
                 }
                 else
                 {
                     CUBOS_WARN("Player joined: {}", packet.name);
-                    cmds.create().add(Player{.name = packet.name, .stream = packet.stream});
+                    // cmds.create().add(Player{.name = packet.name, .stream = packet.stream});
                 }
             }
         });

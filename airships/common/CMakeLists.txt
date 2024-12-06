@@ -4,12 +4,10 @@
 add_library(airships-common
 
     # Client->Server packets
-    "src/packets/ctos/join/plugin.cpp"
+    "src/packets/ctos/join.cpp"
 
     # Server->Client packets
-    "src/packets/stoc/disconnect/plugin.cpp"
-
-    "src/packets/plugin.cpp"
+    "src/packets/stoc/disconnect.cpp"
 )
 
 target_link_libraries(airships-common PUBLIC cubos::engine)

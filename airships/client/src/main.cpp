@@ -8,6 +8,8 @@
 #include <cubos/engine/defaults/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
+#include <cubos/engine/ui/image/plugin.hpp>
+#include "menu/plugin.hpp"
 
 // #include <common/empty.hpp> // TODO: here just to serve as an example
 
@@ -23,6 +25,8 @@ int main(int argc, char** argv)
     cubos.plugin(defaultsPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
+    cubos.plugin(uiImagePlugin);
+    cubos.plugin(airships::client::menuPlugin);
 
     // Add game plugins
     // TODO
@@ -46,11 +50,11 @@ int main(int argc, char** argv)
         environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
     });
 
-    cubos.startupSystem("load and spawn the Main Scene")
-        .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets, Settings& settings) {
-            cmds.spawn(assets.read(MainSceneAsset)->blueprint);
-        });
+    // cubos.startupSystem("load and spawn the Main Scene")
+    //     .tagged(assetsTag)
+    //     .call([](Commands cmds, const Assets& assets, Settings& settings) {
+    //         cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+    //     });
 
     cubos.run();
 }

@@ -1,14 +1,13 @@
 #pragma once
 
-#include <cubos/core/reflection/reflect.hpp>
 #include <string>
+#include <cubos/core/ecs/entity/entity.hpp>
 
 namespace airships::server
 {
-    struct Player
+    struct LoginEvent
     {
-        CUBOS_REFLECT;
-
+        cubos::core::ecs::Entity entity;
         std::string name;
     };
 } // namespace airships::server
