@@ -33,14 +33,14 @@ namespace airships::client
         cubos.depends(randomPositionPlugin);
         cubos.depends(assetsPlugin);
 
-        cubos.startupSystem("islands").tagged(assetsTag).call([](Commands cmds, Assets& assets) {
+        cubos.startupSystem("spawn Islands").tagged(assetsTag).call([](Commands cmds, Assets& assets) {
             std::mt19937 engine{std::random_device()()};
             std::uniform_int_distribution distAssetType(0, static_cast<int>(islands.size() - 1));
 
             for (int i = 0; i < ENTITY_AMOUNT; i++)
             {
                 auto blueprint = cmds.spawn(assets.read(islands[distAssetType(engine)])->blueprint);
-                blueprint.add("player", RandomPosition{});
+                blueprint.add("root", RandomPosition{});
             }
         });
     }

@@ -48,7 +48,7 @@ namespace airships::client
                     {
                     std::mt19937 engine{std::random_device()()};
                     std::uniform_real_distribution randomAngle(0.0F, 2.0F * glm::pi<float>());
-                    std::uniform_int_distribution distCoordY(-200, 200);
+                    std::uniform_int_distribution distCoordY(0, 0);
                     x = std::round(cos(randomAngle(engine)) * si.stormRadius);
                     y = distCoordY(engine);
                     z = std::round(sin(randomAngle(engine)) * si.stormRadius);
