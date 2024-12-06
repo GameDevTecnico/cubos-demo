@@ -25,6 +25,7 @@
         "interactAction": "interact",
         "idleAnimation": "d0e7e6fc-3579-442a-8c2d-efe72717d1d4",
         "walkAnimation": "1241a7cf-2199-45db-995f-a37bc741ff13",
+        "interactDistance": 7.5,
         "moveSpeed": 20.0,
         "halfRotationTime": 0.025,
         "direction": {
