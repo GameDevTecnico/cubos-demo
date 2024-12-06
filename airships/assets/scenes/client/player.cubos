@@ -2,7 +2,10 @@
   "entities": {
     "root": {
       "cubos::engine::Scale": 0.375,
-      "cubos::engine::Collider": {},
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 2
+      },
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
         "y": 10.0,

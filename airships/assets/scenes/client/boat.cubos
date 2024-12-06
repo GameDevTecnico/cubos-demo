@@ -11,29 +11,31 @@
         "rollLerpFactor": 0.99
       },
       "cubos::engine::Collider": {
-        "a": {
-          "w": 0.0,
-          "x": 1.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "b": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 1.0,
-          "z": 0.0
-        },
-        "c": {
-          "w": 0.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 1.0
-        },
-        "d": {
-          "w": 1.0,
-          "x": 0.0,
-          "y": 15.0,
-          "z": 0.0
+        "transform": {
+          "a": {
+            "x": 1.0,
+            "y": 0.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "b": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0,
+            "w": 0.0
+          },
+          "c": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0,
+            "w": 0.0
+          },
+          "d": {
+            "x": 0.0,
+            "y": 16.0,
+            "z": -4.5,
+            "w": 1.0
+          }
         }
       },
       "cubos::engine::AccumulatedCorrection": {
@@ -42,18 +44,14 @@
         "z": 0.0
       },
       "cubos::engine::BoxCollisionShape": {
-        "x": 2.5,
-        "y": 2.5,
-        "z": 24
+        "x": 13.0,
+        "y": 24.5,
+        "z": 26.0
       },
-      "cubos::engine::Force": {
-      },
-      "cubos::engine::Torque": {
-      },
-      "cubos::engine::Impulse": {
-      },
-      "cubos::engine::AngularImpulse": {
-      },
+      "cubos::engine::Force": {},
+      "cubos::engine::Torque": {},
+      "cubos::engine::Impulse": {},
+      "cubos::engine::AngularImpulse": {},
       "cubos::engine::Mass": {
         "inverseMass": 0.002,
         "mass": 500.0,
@@ -90,13 +88,6 @@
         "frictionMix": "Average",
         "bouncinessMix": "Average"
       },
-      "cubos::engine::Rotation": {
-        "w": 0.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
       "cubos::engine::Velocity": {
         "x": 0.0,
         "y": 0.0,
@@ -133,7 +124,10 @@
         "y": 2.0,
         "z": 0.0
       },
-      "cubos::engine::Collider": {},
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 2
+      },
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
         "y": 10.0,
@@ -147,7 +141,10 @@
         "y": 2.0,
         "z": 0.0
       },
-      "cubos::engine::Collider": {},
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 2
+      },
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
         "y": 10.0,
@@ -161,7 +158,10 @@
         "y": 2.0,
         "z": -18.0
       },
-      "cubos::engine::Collider": {},
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 2
+      },
       "cubos::engine::BoxCollisionShape": {
         "x": 15.0,
         "y": 10.0,
@@ -175,7 +175,10 @@
         "y": 2.0,
         "z": -23.0
       },
-      "cubos::engine::Collider": {},
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 2
+      },
       "cubos::engine::BoxCollisionShape": {
         "x": 26.0,
         "y": 10.0,
@@ -189,7 +192,10 @@
         "y": 2.0,
         "z": 18.0
       },
-      "cubos::engine::Collider": {},
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 2
+      },
       "cubos::engine::BoxCollisionShape": {
         "x": 15.0,
         "y": 10.0,
@@ -203,7 +209,10 @@
         "y": 2.0,
         "z": 23.0
       },
-      "cubos::engine::Collider": {},
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 2
+      },
       "cubos::engine::BoxCollisionShape": {
         "x": 26.0,
         "y": 10.0,
