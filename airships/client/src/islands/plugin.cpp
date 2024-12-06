@@ -22,7 +22,7 @@ static const Asset<Scene> Island3SceneAsset = AnyAsset("f136a3a7-6ac1-4fa7-a425-
 
 static const std::array<Asset<Scene>, 3> islands = {Island1SceneAsset, Island2SceneAsset, Island3SceneAsset};
 
-static const int ENTITY_AMOUNT = 30;
+static const int ENTITY_AMOUNT = 10;
 
 // tTODO: meter colider, camara
 
