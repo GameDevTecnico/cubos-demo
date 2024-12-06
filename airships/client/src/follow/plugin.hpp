@@ -20,9 +20,6 @@ namespace airships::client
         /// @brief Time in seconds until the camera reaches half of the distance to the target.
         float halfTime{1.0F};
 
-        /// @brief Optional entity to base the yaw and position on.
-        cubos::engine::Entity basedOn{};
-
         /// @brief Height offset from the target entity.
         float height{0.0F};
 
