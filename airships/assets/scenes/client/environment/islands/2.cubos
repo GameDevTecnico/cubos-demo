@@ -2,7 +2,12 @@
   "entities": {
     "root": {
       "cubos::engine::RenderVoxelGrid": {
-        "asset": "61e1a0d2-a84b-4437-b89e-176b7f108230"
+        "asset": "61e1a0d2-a84b-4437-b89e-176b7f108230",
+        "offset": {
+          "x": -5.5,
+          "y": -7.0,
+          "z": -5.0
+        }
       },
       "cubos::engine::Collider": {},
       "cubos::engine::AccumulatedCorrection": {
@@ -11,9 +16,9 @@
         "z": 0.0
       },
       "cubos::engine::BoxCollisionShape": {
-        "x": 15.0,
-        "y": 15.0,
-        "z": 15.0
+        "x": 5.5,
+        "y": 7.0,
+        "z": 5.0
       },
       "cubos::engine::Force": {},
       "cubos::engine::Torque": {},
