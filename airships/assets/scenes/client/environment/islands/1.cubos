@@ -1,8 +1,8 @@
 {
   "entities": {
-    "player": {
+    "root": {
       "cubos::engine::RenderVoxelGrid": {
-        "asset": "61e1a0d2-a84b-4437-b89e-176b7f108230"
+        "asset": "8ac7ecf2-ae47-4a92-9197-01eaa03d1175"
       },
       "cubos::engine::Collider": {},
       "cubos::engine::AccumulatedCorrection": {
