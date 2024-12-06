@@ -30,6 +30,7 @@ CUBOS_REFLECT_IMPL(airships::client::Player)
         .withField("interactAction", &Player::interactAction)
         .withField("idleAnimation", &Player::idleAnimation)
         .withField("walkAnimation", &Player::walkAnimation)
+        .withField("interactDistance", &Player::interactDistance)
         .withField("canMove", &Player::canMove)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
@@ -105,7 +106,8 @@ void airships::client::playerPlugin(Cubos& cubos)
                 {
                     Raycast::Ray ray{.origin = playerLTW.worldPosition(), .direction = playerLTW.forward()};
                     ray.mask = 1 << 1; // Only hit interactables
-                    if (auto hit = raycast.fire(ray))
+                    if (auto hit = raycast.fire(ray);
+                        hit && glm::distance(hit->point, ray.origin) < player.interactDistance)
                     {
                         if (interactables.at(hit->entity))
                         {

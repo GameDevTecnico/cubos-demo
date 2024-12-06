@@ -23,6 +23,8 @@ namespace airships::client
 
         bool canMove{true};
 
+        float interactDistance{1.0F};
+
         glm::vec3 direction{0.0f, 0.0f, 1.0f};
         float moveSpeed{5.0f};
         float halfRotationTime{0.1F};
