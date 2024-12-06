@@ -242,12 +242,12 @@
         "offsetPitch": 0.0
       }
     },
-    "balloon-back-rope-point": {
+    "balloon-back-left-rope-point": {
       "cubos::engine::ChildOf@balloon": {},
       "cubos::engine::Position": {
-        "x": 22.0,
-        "y": 4.0,
-        "z": 0.0
+        "x": 19.75,
+        "y": 6.5,
+        "z": 10.0
       },
       "airships::client::Rope@hull-back-left-rope-point": {
         "thickness": 0.25,
@@ -256,6 +256,14 @@
           "y": 0.1,
           "z": 0.0
         }
+      }
+    },
+    "balloon-back-right-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": 19.75,
+        "y": 6.5,
+        "z": -10.0
       },
       "airships::client::Rope@hull-back-right-rope-point": {
         "thickness": 0.25,
@@ -282,12 +290,12 @@
         "z": -20.0
       }
     },
-    "balloon-front-rope-point": {
+    "balloon-front-left-rope-point": {
       "cubos::engine::ChildOf@balloon": {},
       "cubos::engine::Position": {
-        "x": -22.0,
-        "y": 4.0,
-        "z": 0.0
+        "x": -19.25,
+        "y": 6.5,
+        "z": 10.0
       },
       "airships::client::Rope@hull-front-left-rope-point": {
         "thickness": 0.25,
@@ -296,6 +304,14 @@
           "y": 0.1,
           "z": 0.0
         }
+      }
+    },
+    "balloon-front-right-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": -19.25,
+        "y": 6.5,
+        "z": -10.0
       },
       "airships::client::Rope@hull-front-right-rope-point": {
         "thickness": 0.25,
