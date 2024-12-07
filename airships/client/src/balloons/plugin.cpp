@@ -23,8 +23,6 @@ static const Asset<VoxelGrid> PurpleBalloonAsset = AnyAsset("aa6b6b2e-cce6-428d-
 static const Asset<VoxelGrid> YellowBalloonAsset = AnyAsset("401335af-480d-4cca-a50a-003041525333");
 
 static const std::array<Asset<VoxelGrid>, 3> balloons = {RedBalloonAsset, PurpleBalloonAsset, YellowBalloonAsset};
-static const std::array<glm::vec3, 3> balloonOffsets = {
-    glm::vec3{-8.5F, -17.0F, -26.5F}, glm::vec3{15.5F, -17.0F, -2.5F}, glm::vec3{-7.5F, -15.0F, -26.5F}};
 
 static const Asset<VoxelGrid> CannonBallAsset = AnyAsset("cd9e1c30-0a1b-4f88-b7f9-c4f7b95f2b63");
 
@@ -71,17 +69,19 @@ namespace airships::client
                     .add("root", BalloonInfo{})
                     .add("root", RandomPosition{})
                     .add("root", RenderVoxelGrid{balloons[balloontype], {-4.5F, -14.0F, -4.5F}})
-                    .add("resource", RenderVoxelGrid{CannonBallAsset, balloonOffsets[balloontype]});
+                    .add("resource", RenderVoxelGrid{CannonBallAsset, {-3.5F, -3.5F, -3.5F}});
             }
         });
 
-        cubos.system("pop balloons").tagged(physicsApplyForcesTag).call([](Commands cmds, Query<Entity, const PopBalloon&, BalloonInfo&, Impulse&, const Velocity&> query) {
-            for (auto [ent, _, balloonInfo, imp, vel] : query)
-            {
-                balloonInfo.state = BalloonInfo::State::Popped;
-                imp.add(glm::vec3(0.0F, 5000.0F, 0.0F));
-                cmds.remove<PopBalloon>(ent);
-            }
-        });
+        cubos.system("pop balloons")
+            .tagged(physicsApplyForcesTag)
+            .call([](Commands cmds, Query<Entity, const PopBalloon&, BalloonInfo&, Impulse&, const Velocity&> query) {
+                for (auto [ent, _, balloonInfo, imp, vel] : query)
+                {
+                    balloonInfo.state = BalloonInfo::State::Popped;
+                    imp.add(glm::vec3(0.0F, 5000.0F, 0.0F));
+                    cmds.remove<PopBalloon>(ent);
+                }
+            });
     }
 } // namespace airships::client
