@@ -1,4 +1,5 @@
 #include "plugin.hpp"
+#include "../hide/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -169,6 +170,7 @@ void airships::client::ropePlugin(Cubos& cubos)
     cubos.depends(gBufferPlugin);
     cubos.depends(cameraPlugin);
     cubos.depends(renderDepthPlugin);
+    cubos.depends(hidePlugin);
 
     cubos.uninitResource<State>();
 
@@ -189,6 +191,11 @@ void airships::client::ropePlugin(Cubos& cubos)
     cubos.system("rasterize Rope relations")
         .tagged(drawToGBufferTag)
         .tagged(drawToRenderDepthTag)
+        .with<LocalToWorld>()
+        .without<Hide>()
+        .related<Rope>()
+        .with<LocalToWorld>()
+        .without<Hide>()
         .call([](State& state, const Window& window, Query<const LocalToWorld&, const Rope&, const LocalToWorld&> ropes,
                  Query<const LocalToWorld&, Camera&, const DrawsTo&> cameras,
                  Query<Entity, RopeRasterizer&, GBuffer&, RenderDepth&> targets) {
