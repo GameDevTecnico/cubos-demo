@@ -235,6 +235,23 @@
           "z": -29.0
         }
       },
+      "cubos::engine::Collider": {
+        "mask": 0,
+        "layer": 3,
+        "transform": {
+          "d": {
+            "x": 0.0,
+            "y": 30.0,
+            "z": 0.0
+          }
+        }
+      },
+      "cubos::engine::BoxCollisionShape": {
+        "x": 45.0,
+        "y": 15.0,
+        "z": 24.0
+      },
+      "airships::client::SeeThrough": 50.0,
       "airships::client::Rudder": {
         "maxYaw": 0.0,
         "offsetYaw": 90.0,

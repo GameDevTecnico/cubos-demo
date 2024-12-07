@@ -26,6 +26,7 @@
 #include "animation/plugin.hpp"
 #include "rope/plugin.hpp"
 #include "hide/plugin.hpp"
+#include "see_through/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -55,6 +56,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::balloonsPlugin);
     cubos.plugin(airships::client::hidePlugin);
     cubos.plugin(airships::client::ropePlugin);
+    cubos.plugin(airships::client::seeThroughPlugin);
     // cubos.plugin(airships::client::cannonPlugin);
 
     // Add game plugins

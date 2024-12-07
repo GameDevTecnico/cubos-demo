@@ -24,6 +24,7 @@
                 "z": 0.0
             },
             "cubos::engine::ChildOf@boat1.root": {},
+            "airships::client::SeeThroughCamera": 8,
             "airships::client::Follow@boat1.player.root": {
                 "distance": 80.0,
                 "phi": 20.0,
