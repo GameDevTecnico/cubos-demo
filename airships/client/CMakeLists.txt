@@ -16,6 +16,7 @@ add_executable(airships-client
     src/player/plugin.cpp
     src/interactable/plugin.cpp
     src/animation/plugin.cpp
+    src/hide/plugin.cpp
     src/rope/plugin.cpp
 )
 target_link_libraries(airships-client PUBLIC cubos::engine)
