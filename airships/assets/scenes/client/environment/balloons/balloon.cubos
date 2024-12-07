@@ -71,12 +71,18 @@
       }
     },
     "resource": {
-        "cubos::engine::ChildOf@root": {},
-        "cubos::engine::Position": {
-          "x": 0.0,
-          "y": -17.0,
-          "z": -1.0
-        }
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": -17.0,
+        "z": -1.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::BoxCollisionShape": {
+        "x": 3.5,
+        "y": 3.5,
+        "z": 3.5
+      }
     }
   }
 }
