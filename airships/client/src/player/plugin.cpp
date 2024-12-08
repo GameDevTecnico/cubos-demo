@@ -52,7 +52,26 @@ void airships::client::playerPlugin(Cubos& cubos)
 
     cubos.component<Player>();
 
+    cubos.system("assign gamepads to Players").call([](Input& input, Query<Player&> players) {
+        int usedGamepads = 0;
+
+        for (auto [player] : players)
+        {
+            if (player.player == -1)
+            {
+                continue;
+            }
+
+            if (usedGamepads < input.gamepadCount())
+            {
+                input.gamepad(player.player, usedGamepads);
+                usedGamepads++;
+            }
+        }
+    });
+
     cubos.system("do Player movement")
+        .before(collisionsTag)
         .call([](Commands cmds,
                  Query<LocalToWorld&, const Follow&, RenderAnimation&, Player&, Position&, Rotation&, const ChildOf&,
                        const LocalToWorld&>
@@ -77,7 +96,7 @@ void airships::client::playerPlugin(Cubos& cubos)
                 // Get the movement vector from the directions above and the input
                 glm::vec3 moveDirection = {0.0f, 0.0f, 0.0f};
                 moveDirection.x = input.axis(player.horizontalAxis.c_str(), player.player);
-                moveDirection.z = input.axis(player.verticalAxis.c_str(), player.player);
+                moveDirection.z = -input.axis(player.verticalAxis.c_str(), player.player);
                 moveDirection = moveDirection.x * right + moveDirection.z * forward;
                 if (glm::length2(moveDirection) == 0.0F)
                 {

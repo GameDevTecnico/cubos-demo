@@ -61,7 +61,7 @@ void airships::client::followControllerPlugin(Cubos& cubos)
 
                 float zoomInput = input.axis(controller.zoomAxis.c_str(), controller.player);
                 float phiInput = input.axis(controller.phiAxis.c_str(), controller.player);
-                float thetaInput = input.axis(controller.thetaAxis.c_str(), controller.player);
+                float thetaInput = -input.axis(controller.thetaAxis.c_str(), controller.player);
                 if (input.justPressed(controller.toggleMouseAction.c_str(), controller.player))
                 {
                     controller.useMouse = !controller.useMouse;
