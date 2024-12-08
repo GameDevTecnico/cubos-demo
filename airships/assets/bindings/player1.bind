@@ -54,26 +54,28 @@
             ],
             "gamepadAxes": [
                 "LX"
-            ]
+            ],
+            "deadzone": 0.25
         },
         "vertical": {
             "positive": [
-                {
-                    "keys": [
-                        "W"
-                    ]
-                }
-            ],
-            "negative": [
                 {
                     "keys": [
                         "S"
                     ]
                 }
             ],
+            "negative": [
+                {
+                    "keys": [
+                        "W"
+                    ]
+                }
+            ],
             "gamepadAxes": [
                 "LY"
-            ]
+            ],
+            "deadzone": 0.25
         },
         "camera-zoom": {
             "positive": [
@@ -81,12 +83,32 @@
                     "keys": [
                         "Q"
                     ]
+                },
+                {
+                    "gamepadButtons": [
+                        "Down"
+                    ]
+                },
+                {
+                    "gamepadButtons": [
+                        "LBumper"
+                    ]
                 }
             ],
             "negative": [
                 {
                     "keys": [
                         "E"
+                    ]
+                },
+                {
+                    "gamepadButtons": [
+                        "Up"
+                    ]
+                },
+                {
+                    "gamepadButtons": [
+                        "RBumper"
                     ]
                 }
             ]
@@ -108,26 +130,28 @@
             ],
             "gamepadAxes": [
                 "RX"
-            ]
+            ],
+            "deadzone": 0.25
         },
         "camera-vertical": {
             "positive": [
-                {
-                    "keys": [
-                        "Up"
-                    ]
-                }
-            ],
-            "negative": [
                 {
                     "keys": [
                         "Down"
                     ]
                 }
             ],
+            "negative": [
+                {
+                    "keys": [
+                        "Up"
+                    ]
+                }
+            ],
             "gamepadAxes": [
                 "RY"
-            ]
+            ],
+            "deadzone": 0.25
         }
     }
 }
