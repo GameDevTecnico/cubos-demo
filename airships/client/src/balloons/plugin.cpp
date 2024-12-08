@@ -11,6 +11,7 @@
 #include <cubos/engine/render/voxels/grid.hpp>
 #include <cubos/engine/physics/components/velocity.hpp>
 #include <cubos/engine/physics/plugin.hpp>
+#include <cubos/engine/transform/plugin.hpp>
 #include <random>
 
 using namespace cubos::engine;
@@ -54,6 +55,7 @@ namespace airships::client
         cubos.depends(physicsPlugin);
         cubos.depends(randomPositionPlugin);
         cubos.depends(assetsPlugin);
+        cubos.depends(transformPlugin);
 
         cubos.component<BalloonInfo>();
         cubos.component<PopBalloon>();
@@ -73,13 +75,36 @@ namespace airships::client
             }
         });
 
+        cubos.system("idling")
+            .tagged(physicsApplyForcesTag)
+            .call([](Commands cmds, Query<Entity, BalloonInfo&, const Position&, const RandomPosition&, Impulse&, const Velocity&> query) {
+                for (auto [ent, _, pos, rp, imp, vel] : query)
+                {
+                    if (pos.vec.y <= rp.startingPos.y)
+                    {
+                        imp.add(glm::vec3(0.0F, 500.0F, 0.0F));
+                    }
+                }
+            });
+
+        cubos.system("despawn balloons")
+            .call([](Commands cmds, Query<Entity, BalloonInfo&, const Position&> query) {
+                for (auto [ent, _, pos] : query)
+                {
+                    if (pos.vec.y >= 1000.0F)
+                    {
+                        cmds.destroy(ent);
+                    }
+                }
+            });
+
         cubos.system("pop balloons")
             .tagged(physicsApplyForcesTag)
             .call([](Commands cmds, Query<Entity, const PopBalloon&, BalloonInfo&, Impulse&, const Velocity&> query) {
                 for (auto [ent, _, balloonInfo, imp, vel] : query)
                 {
                     balloonInfo.state = BalloonInfo::State::Popped;
-                    imp.add(glm::vec3(0.0F, 5000.0F, 0.0F));
+                    imp.add(glm::vec3(0.0F, 10000.0F, 0.0F));
                     cmds.remove<PopBalloon>(ent);
                 }
             });

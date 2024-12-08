@@ -17,8 +17,8 @@
       "cubos::engine::Impulse": {},
       "cubos::engine::AngularImpulse": {},
       "cubos::engine::Mass": {
-        "inverseMass": 0.0,
-        "mass": 1.0,
+        "inverseMass": 0.02, 
+        "mass": 50.0,
         "changed": false
       },
       "cubos::engine::Inertia": {

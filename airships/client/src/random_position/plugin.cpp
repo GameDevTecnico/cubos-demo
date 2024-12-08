@@ -26,6 +26,7 @@ CUBOS_REFLECT_IMPL(ChunkInfo)
 CUBOS_REFLECT_IMPL(RandomPosition)
 {
     return cubos::core::ecs::TypeBuilder<RandomPosition>("airships::client::RandomPosition")
+        .withField("startingPos", &RandomPosition::startingPos)
         .build();
 }
 
@@ -39,8 +40,8 @@ namespace airships::client
 
         cubos.observer("associate random position")
             .onAdd<RandomPosition>()
-            .call([](Commands cmds, Query<Entity, const RandomPosition&> query, ChunkInfo& chunkInfo, const StormInfo& si) {
-                for (auto [ent, _] : query)
+            .call([](Commands cmds, Query<Entity, RandomPosition&> query, ChunkInfo& chunkInfo, const StormInfo& si) {
+                for (auto [ent, randpos] : query)
                 {
                     int cid;
                     int x, y, z;
@@ -57,6 +58,7 @@ namespace airships::client
 
                     glm::vec3 pos = {x, y, z};
                     chunkInfo.chunksTaken[cid] = pos;
+                    randpos.startingPos = pos;
                     cmds.add(ent, Position{.vec = pos});
                 }
             });

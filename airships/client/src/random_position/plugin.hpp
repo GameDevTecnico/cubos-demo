@@ -6,6 +6,7 @@
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/api.hpp>
 #include <map>
+#include <glm/vec3.hpp>
 
 namespace airships::client
 {
@@ -22,6 +23,7 @@ namespace airships::client
     struct RandomPosition 
     {
         CUBOS_REFLECT;
+        glm::vec3 startingPos = {0.0F, 0.0F, 0.0F};
     };
 
     /// @brief Plugin that gives entities a random position but not overlapping with others
