@@ -2,14 +2,6 @@
     "entities": {
         "root": {
             "cubos::engine::Scale": 0.25,
-            "cubos::engine::RenderVoxelGrid": {
-                "asset": "f57b0042-b742-4fc3-a303-98bb5bc51102",
-                "offset": {
-                    "x": -5.0,
-                    "y": 0.0,
-                    "z": -5.0
-                }
-            },
             "cubos::engine::Collider": {
                 "layer": 1,
                 "mask": 4,
@@ -21,6 +13,7 @@
                     }
                 }
             },
+            "airships::client::Interpolated": "85c4cce8-bcc8-4f1b-8542-166a0fc98f0b",
             "cubos::engine::BoxCollisionShape": {
                 "x": 5.0,
                 "y": 10.0,
@@ -44,14 +37,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "cubos::engine::RenderVoxelGrid": {
-                "asset": "97f34b4c-1302-48d5-b9a2-9430c2657647",
-                "offset": {
-                    "x": -7.0,
-                    "y": 4.0,
-                    "z": -5.0
-                }
-            },
+            "airships::client::Interpolated": "52865ae8-8070-4ee2-99fd-9f98a90302fa",
             "airships::client::CannonTube": {}
         }
     }

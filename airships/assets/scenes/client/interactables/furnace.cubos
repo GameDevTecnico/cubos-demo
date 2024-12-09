@@ -2,14 +2,6 @@
   "entities": {
     "root": {
       "cubos::engine::Scale": 0.25,
-      "airships::client::RenderAnimation": {
-        "animation": "7838f31b-d6e4-46ac-ad74-f8a9bbaf55d7",
-        "offset": {
-          "x": -8.0,
-          "y": 0.0,
-          "z": -8.0
-        }
-      },
       "cubos::engine::Collider": {
           "layer": 1,
           "mask": 4,
@@ -26,8 +18,8 @@
           "y": 20.0,
           "z": 6.0
       },
+      "airships::client::Interpolated": "da59bc92-227b-498f-960a-f6a47bd1fc77",
       "airships::client::Furnace": {}
     }
-  },
-  "imports": {}
+  }
 }

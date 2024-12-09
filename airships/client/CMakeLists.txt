@@ -20,6 +20,8 @@ add_executable(airships-client
     src/rope/plugin.cpp
     src/see_through/plugin.cpp
     src/furnace/plugin.cpp
+    src/interpolation/plugin.cpp
+    src/auto_draws_to/plugin.cpp
 )
 target_link_libraries(airships-client PUBLIC cubos::engine)
 target_link_libraries(airships-client PRIVATE airships-common)

@@ -2,14 +2,6 @@
     "entities": {
         "root": {
             "cubos::engine::Scale": 0.25,
-            "cubos::engine::RenderVoxelGrid": {
-                "asset": "6e012cc0-bccf-4af6-8229-6e304510b880",
-                "offset": {
-                    "x": -12.0,
-                    "y": 0.0,
-                    "z": -6.0
-                }
-            },
             "cubos::engine::Collider": {
                 "layer": 1,
                 "mask": 4,
@@ -26,6 +18,7 @@
                 "y": 20.0,
                 "z": 1.0
             },
+            "airships::client::Interpolated": "ee6cc5f4-2909-40dd-961e-a637fc47a6b9",
             "airships::client::SteeringWheel": {
                 "turnAxis": "horizontal",
                 "maxTurnAngle": 720.0,
@@ -49,23 +42,6 @@
                 "y": 20.0,
                 "z": 5.0
             }
-        },
-        "head": {
-            "cubos::engine::ChildOf@root": {},
-            "cubos::engine::Position": {
-                "x": 0.0,
-                "y": 16.0,
-                "z": -5.0
-            },
-            "cubos::engine::RenderVoxelGrid": {
-                "asset": "65b57394-48f8-4447-a709-84a3763e1973",
-                "offset": {
-                    "x": -9.0,
-                    "y": -9.0,
-                    "z": 0.0
-                }
-            },
-            "airships::client::SteeringWheelHead": {}
         }
     }
 }

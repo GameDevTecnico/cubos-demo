@@ -1,0 +1,15 @@
+{
+    "entities": {
+        "root": {
+            "cubos::engine::Position": {},
+            "cubos::engine::RenderVoxelGrid": {
+                "asset": "f57b0042-b742-4fc3-a303-98bb5bc51102",
+                "offset": {
+                    "x": -5.0,
+                    "y": 0.0,
+                    "z": -5.0
+                }
+            }
+        }
+    }
+}

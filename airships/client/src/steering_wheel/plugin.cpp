@@ -2,6 +2,7 @@
 #include "../player/plugin.hpp"
 #include "../drivable/plugin.hpp"
 #include "../interactable/plugin.hpp"
+#include "../interpolation/plugin.hpp"
 
 #include <cubos/core/reflection/external/string.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -36,6 +37,7 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
     cubos.depends(drivablePlugin);
     cubos.depends(playerPlugin);
     cubos.depends(interactablePlugin);
+    cubos.depends(interpolationPlugin);
 
     cubos.component<SteeringWheel>();
     cubos.component<SteeringWheelHead>();
@@ -72,9 +74,10 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
 
     cubos.system("update SteeringWheel entities")
         .call([](const DeltaTime& dt, Input& input,
-                 Query<const SteeringWheelHead&, Rotation&, const ChildOf&, SteeringWheel&, const ChildOf&, Drivable&>
+                 Query<const SteeringWheelHead&, Rotation&, const ChildOf&, const InterpolationOf&, SteeringWheel&,
+                       const ChildOf&, Drivable&>
                      query) {
-            for (auto [head, rotation, childOf1, wheel, childOf2, drivable] : query)
+            for (auto [head, rotation, childOf1, interpolationOf, wheel, childOf2, drivable] : query)
             {
                 float turnInput = wheel.player == -1 ? 0.0F : input.axis(wheel.turnAxis.c_str(), wheel.player);
 
