@@ -30,6 +30,8 @@
               cmake
               ccache
               pkg-config
+              emscripten
+              ninja
 
               # = formatting =
               clang-tools
@@ -51,6 +53,14 @@
               gdb
             ]
             ++ sysLibs;
+
+          shellHook = ''
+            export EMSCRIPTEN=${pkgs.emscripten}/share/emscripten
+            export EM_CACHE=$(git rev-parse --show-toplevel)/.em_cache
+            mkdir -p $EM_CACHE
+            cp -r $EMSCRIPTEN/cache/* $EM_CACHE
+            chmod u+rwx -R $EM_CACHE
+          '';
 
           LD_LIBRARY_PATH = "$LD_LIBRARY_PATH:${pkgs.lib.makeLibraryPath sysLibs}";
         };
