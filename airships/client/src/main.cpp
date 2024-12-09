@@ -28,6 +28,8 @@
 #include "hide/plugin.hpp"
 #include "see_through/plugin.hpp"
 #include "furnace/plugin.hpp"
+#include "interpolation/plugin.hpp"
+#include "auto_draws_to/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -43,6 +45,7 @@ int main(int argc, char** argv)
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
     cubos.plugin(gravityPlugin);
+    cubos.plugin(airships::client::interpolationPlugin);
     cubos.plugin(airships::client::animationPlugin);
     cubos.plugin(airships::client::followPlugin);
     cubos.plugin(airships::client::followControllerPlugin);
@@ -60,6 +63,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::ropePlugin);
     cubos.plugin(airships::client::seeThroughPlugin);
     cubos.plugin(airships::client::cannonPlugin);
+    cubos.plugin(airships::client::autoDrawsToPlugin);
 
     // Add game plugins
     // TODO

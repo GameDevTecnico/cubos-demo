@@ -9,7 +9,8 @@ namespace airships::client
     /// @brief Component which makes an entity rotate according to the target angular velocity of its parent drivable
     /// entity.
     ///
-    /// Assumes that the entity has a parent entity with a @ref Drivable component.
+    /// Assumes that the entity has a parent entity has a relation @ref InterpolationOf with an entity with a @ref
+    /// Drivable component.
     struct Rudder
     {
         CUBOS_REFLECT;

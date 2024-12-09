@@ -8,8 +8,8 @@ namespace airships::client
 {
     /// @brief Component which makes an entity the steering wheel of its parent drivable entity.
     ///
-    /// Assumes that the entity has a parent entity with a @ref Drivable component.
-    /// Assumes that the entity has a child entity with the @ref SteeringWheelHead component.
+    /// Assumes that the entity has a parent entity related through @ref InterpolationOf with an entity with a @ref
+    /// Drivable component.
     struct SteeringWheel
     {
         CUBOS_REFLECT;

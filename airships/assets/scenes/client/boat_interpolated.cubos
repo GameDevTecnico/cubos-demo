@@ -1,0 +1,258 @@
+{
+  "entities": {
+    "root": {
+      "cubos::engine::Position": {}
+    },
+    "hull": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Scale": 0.5,
+      "cubos::engine::Rotation": {
+        "w": 0.7071068,
+        "x": 0.0,
+        "y": 0.7071068,
+        "z": 0.0
+      },
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e",
+        "offset": {
+          "x": -41.0,
+          "y": -17.0,
+          "z": -27.0
+        }
+      }
+    },
+    "balloon": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": -4.5
+      },
+      "cubos::engine::Scale": 0.5,
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "bac9c97f-b617-4bee-9eda-d1f641388098",
+        "offset": {
+          "x": -52.0,
+          "y": 0.0,
+          "z": -29.0
+        }
+      },
+      "cubos::engine::Collider": {
+        "mask": 0,
+        "layer": 3,
+        "transform": {
+          "d": {
+            "x": 0.0,
+            "y": 30.0,
+            "z": 0.0
+          }
+        }
+      },
+      "cubos::engine::BoxCollisionShape": {
+        "x": 45.0,
+        "y": 15.0,
+        "z": 24.0
+      },
+      "airships::client::SeeThrough": 50.0,
+      "airships::client::Rudder": {
+        "maxYaw": 0.0,
+        "offsetYaw": 90.0,
+        "maxPitch": 20.0,
+        "offsetPitch": 0.0
+      }
+    },
+    "balloon-back-left-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": 19.75,
+        "y": 6.5,
+        "z": 10.0
+      },
+      "airships::client::Rope@hull-back-left-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      }
+    },
+    "balloon-back-right-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": 19.75,
+        "y": 6.5,
+        "z": -10.0
+      },
+      "airships::client::Rope@hull-back-right-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      }
+    },
+    "hull-back-left-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": 40.0,
+        "y": 1.0,
+        "z": 20.0
+      }
+    },
+    "hull-back-right-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": 40.0,
+        "y": 1.0,
+        "z": -20.0
+      }
+    },
+    "balloon-front-left-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": -19.25,
+        "y": 6.5,
+        "z": 10.0
+      },
+      "airships::client::Rope@hull-front-left-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      }
+    },
+    "balloon-front-right-rope-point": {
+      "cubos::engine::ChildOf@balloon": {},
+      "cubos::engine::Position": {
+        "x": -19.25,
+        "y": 6.5,
+        "z": -10.0
+      },
+      "airships::client::Rope@hull-front-right-rope-point": {
+        "thickness": 0.25,
+        "color": {
+          "x": 0.4,
+          "y": 0.1,
+          "z": 0.0
+        }
+      }
+    },
+    "hull-front-left-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -21.0,
+        "y": 2.0,
+        "z": 14.0
+      }
+    },
+    "hull-front-right-rope-point": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -21.0,
+        "y": 2.0,
+        "z": -14.0
+      }
+    },
+    "rudder": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -19.0
+      },
+      "cubos::engine::Scale": 0.5,
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "96a22061-8668-4bd2-8419-c92d21e1404e",
+        "offset": {
+          "x": -1.0,
+          "y": -17.0,
+          "z": -1.0
+        }
+      },
+      "airships::client::Rudder": {
+        "maxYaw": 30.0,
+        "offsetYaw": 90.0
+      }
+    },
+    "anchor": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 3.0,
+        "y": 0.0,
+        "z": 18.0
+      },
+      "cubos::engine::Scale": 0.5,
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "37647b07-0e4d-44e9-ad83-982893c6a97a",
+        "offset": {
+          "x": -5.5,
+          "y": -17.0,
+          "z": -3.0
+        }
+      },
+      "airships::client::Rudder": {
+        "maxYaw": 60.0,
+        "offsetYaw": 60.0,
+        "maxPitch": 10.0,
+        "offsetPitch": 0.0
+      }
+    },
+    "player.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -17.5
+      }
+    },
+    "camera": {
+      "cubos::engine::Camera": {
+        "zNear": 1.0,
+        "zFar": 10000.0
+      },
+      "cubos::engine::PerspectiveCamera": 70.0,
+      "cubos::engine::Position": {
+        "x": 0,
+        "y": 20,
+        "z": -40
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.0,
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::SeeThroughCamera": 8,
+      "airships::client::Follow@player.root": {
+        "distance": 80.0,
+        "phi": 20.0,
+        "theta": -90.0,
+        "halfTime": 0.1,
+        "height": 3.0
+      },
+      "airships::client::FollowController": {
+        "player": 1,
+        "zoomAxis": "camera-zoom",
+        "phiAxis": "camera-vertical",
+        "thetaAxis": "camera-horizontal",
+        "toggleMouseAction": "camera-toggle-mouse",
+        "minZoom": 20.0,
+        "maxZoom": 150.0,
+        "zoomSpeed": 1.0,
+        "rotationSpeed": 90.0,
+        "useMouse": false,
+        "mouseSensitivity": 5.0,
+        "scrollSensitivity": 200.0
+      },
+      "airships::client::AutoDrawsTo": {}
+    }
+  },
+  "imports": {
+    "player": "a88d914b-f1d7-463b-9a20-cf76bb5508d6"
+  }
+}

@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../drivable/plugin.hpp"
+#include "../interpolation/plugin.hpp"
 
 #include <cubos/core/reflection/external/primitives.hpp>
 #include <cubos/core/ecs/reflection.hpp>
@@ -20,18 +21,20 @@ CUBOS_REFLECT_IMPL(airships::client::Rudder)
 
 void airships::client::rudderPlugin(Cubos& cubos)
 {
+    cubos.depends(interpolationPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(drivablePlugin);
 
     cubos.component<Rudder>();
 
-    cubos.system("animate Rudder entities").call([](Query<const Rudder&, Rotation&, const ChildOf&, Drivable&> query) {
-        for (auto [rudder, rotation, childOf, drivable] : query)
-        {
-            float yaw = (drivable.targetAngularVelocity / drivable.topAngularVelocity) * rudder.maxYaw;
-            float pitch = (drivable.targetAngularVelocity / drivable.topAngularVelocity) * rudder.maxPitch;
-            rotation.quat = glm::angleAxis(glm::radians(yaw + rudder.offsetYaw), glm::vec3{0.0F, 1.0F, 0.0F});
-            rotation.quat *= glm::angleAxis(glm::radians(pitch + rudder.offsetPitch), glm::vec3{1.0F, 0.0F, 0.0F});
-        }
-    }); 
+    cubos.system("animate Rudder entities")
+        .call([](Query<const Rudder&, Rotation&, const ChildOf&, const InterpolationOf&, Drivable&> query) {
+            for (auto [rudder, rotation, childOf, interpolationOf, drivable] : query)
+            {
+                float yaw = (drivable.targetAngularVelocity / drivable.topAngularVelocity) * rudder.maxYaw;
+                float pitch = (drivable.targetAngularVelocity / drivable.topAngularVelocity) * rudder.maxPitch;
+                rotation.quat = glm::angleAxis(glm::radians(yaw + rudder.offsetYaw), glm::vec3{0.0F, 1.0F, 0.0F});
+                rotation.quat *= glm::angleAxis(glm::radians(pitch + rudder.offsetPitch), glm::vec3{1.0F, 0.0F, 0.0F});
+            }
+        });
 }

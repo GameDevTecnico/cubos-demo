@@ -1,0 +1,15 @@
+{
+  "entities": {
+    "root": {
+      "cubos::engine::Position": {},
+      "airships::client::RenderAnimation": {
+        "animation": "7838f31b-d6e4-46ac-ad74-f8a9bbaf55d7",
+        "offset": {
+          "x": -8.0,
+          "y": 0.0,
+          "z": -8.0
+        }
+      }
+    }
+  }
+}
