@@ -16,5 +16,10 @@ namespace airships::client
         bool cannonLoaded = false;
     };
 
+    struct CannonTube
+    {
+        CUBOS_REFLECT;
+    };
+
     void cannonPlugin(cubos::engine::Cubos& cubos);
 } // namespace airships::client

@@ -1,4 +1,6 @@
 #include "plugin.hpp"
+#include "../player/plugin.hpp"
+#include "../interactable/plugin.hpp"
 
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
@@ -12,103 +14,133 @@
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/physics/plugins/gravity.hpp>
 
+
 #include <iostream>
 
 using namespace cubos::engine;
 
-static const Asset<Scene> CannonAsset = AnyAsset("a7bccdfb-0d74-4607-93e3-3fd4eb742d51");
-static const Asset<Scene> CannonBall = AnyAsset("a7bccdfb-0d74-4607-93e3-3fd4eb742d51");
+static const Asset<Scene> CannonBall = AnyAsset("b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc");
 
-namespace airships::client
+
+CUBOS_REFLECT_IMPL(airships::client::Cannon)
 {
+    return cubos::core::ecs::TypeBuilder<Cannon>("airships::client::Cannon")
+        .withField("player", &Cannon::player)
+        .withField("cannonLoaded", &Cannon::cannonLoaded)
+        .build();
+}
 
-    CUBOS_REFLECT_IMPL(Cannon)
-    {
-        return cubos::core::ecs::TypeBuilder<Cannon>("Cannon")
-            .withField("cannonLoaded", &Cannon::cannonLoaded)
-            .build();
-    }
+CUBOS_REFLECT_IMPL(airships::client::CannonTube)
+{
+    return cubos::core::ecs::TypeBuilder<CannonTube>("airships::client::CannonTube").build();
+}
 
-    void cannonPlugin(Cubos& cubos)
-    {
-        cubos.depends(assetsPlugin);
-        cubos.depends(inputPlugin);
-        cubos.depends(transformPlugin);
-        cubos.depends(gravityPlugin);
+void airships::client::cannonPlugin(Cubos& cubos)
+{
+    cubos.depends(assetsPlugin);
+    cubos.depends(inputPlugin);
+    cubos.depends(transformPlugin);
+    cubos.depends(physicsPlugin);
+    cubos.depends(gravityPlugin);
+    cubos.depends(playerPlugin);
+    cubos.depends(interactablePlugin);
 
-        cubos.component<Cannon>();
+    cubos.component<Cannon>();
+    cubos.component<CannonTube>();
 
-        cubos.startupSystem("cannon").tagged(assetsTag).call([](Commands cmds, Assets& assets) {
-            
-            auto cannon1 = cmds.spawn(assets.read(CannonAsset)->blueprint);
-            cannon1.add("cannon", Position{.vec = {-50.0F, 0.0F, 0.0F}});
-            cannon1.add("cannon", Rotation{.quat = {1.0F, 0.0F, 0.0F, 0.0F}});
-            cannon1.add("cannon", Cannon{.player = 1});
-
-            auto cannon2 = cmds.spawn(assets.read(CannonAsset)->blueprint);
-            cannon2.add("cannon", Position{.vec = {-50.0F, 0.0F, 0.0F}});
-            cannon2.add("cannon", Rotation{.quat = {1.0F, 0.0F, 0.0F, 0.0F}});
-            cannon2.add("cannon", Cannon{.player = 1});
+    cubos.observer("add Interactable to Cannon")
+        .onAdd<Cannon>()
+        .call([](Commands cmds, Query<Entity> query) {
+            for (auto [entity] : query)
+            {
+                cmds.add(entity, Interactable{});
+            }
         });
 
-        cubos.system("cannon controls")
-            .call([](Commands cmds, Assets& assets, Input& inputs, const DeltaTime& dt, Query<Cannon&, Rotation&> cannonRot) {
-
-            for (auto [cannon, rotation] : cannonRot)
+    cubos.observer("handle Cannon interaction")
+        .onAdd<Interaction>()
+        .call([](Commands cmds, Query<Entity, Cannon&, Interaction&> query, Query<Player&> players) {
+            for (auto [entity, cannon, interaction] : query)
             {
+                cmds.remove<Interaction>(entity);
+                auto [player] = *players.at(interaction.player);
 
-                glm::quat yawQuat = glm::quat(1.0F, 0.0F, 0.0F, 0.0F); // Rotation around Y-axis
-                glm::quat pitchQuat = glm::quat(1.0F, 0.0F, 0.0F, 0.0F); // Rotation around X-axis
-
-                if (inputs.pressed("left", cannon.player))
+                if (cannon.player == -1)
                 {
-                    yawQuat = glm::angleAxis(0.5F * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
+                    cannon.player = player.player;
+                    player.canMove = false;
                 }
-                if (inputs.pressed("right", cannon.player))
+                else if (player.player == cannon.player)
                 {
-                    yawQuat = glm::angleAxis(-0.5F * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
-                }
-                if (inputs.pressed("down", cannon.player))
-                {
-                    pitchQuat = glm::angleAxis(0.5F * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
-                }
-                if (inputs.pressed("up", cannon.player))
-                {
-                    pitchQuat = glm::angleAxis(-0.5F * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
-                }
-
-                // Combine the yaw and pitch rotations
-                rotation.quat = yawQuat * pitchQuat * rotation.quat;
-
-                // Remove roll (Z-axis rotation) to keep the cannon parallel to the X-Z plane
-                glm::vec3 euler = glm::eulerAngles(rotation.quat);
-                rotation.quat = glm::quat(glm::vec3(euler.x, euler.y, 0.0F));
-
-                if (inputs.justPressed("reload")) {
-                    cannon.cannonLoaded = true;
+                    cannon.player = -1;
+                    player.canMove = true;
                 }
             }
         });
 
-        cubos.system("fire cannon")
-            .call([](Commands cmds, Assets& assets, Input& inputs, Query<Cannon&, const Rotation&, const Position&> cannonRotPos) {
-                
-                for(auto [cannon, rotation, position] : cannonRotPos)
-                {
-                    if (inputs.justPressed("fire", cannon.player)) {
-                        if (!cannon.cannonLoaded) {
-                            return;
-                        }
+    cubos.system("cannon controls")
+        .call([](Input& inputs, const DeltaTime& dt, 
+                Query<CannonTube&, Rotation&, ChildOf&, Cannon&, Rotation&> query) {
 
-                        glm::vec3 forward = rotation.quat * glm::vec3(0.0F, 0.0F, -1.0F);
+        for (auto [tube, tubeRotation, childOf1, cannon, cannonRotation] : query)
+        {
+            if (cannon.player == -1) continue;
 
-                        auto ball = cmds.spawn(assets.read(CannonBall)->blueprint);
-                        ball.add("cannon", Position{.vec = position.vec});
-                        ball.add("cannon", PhysicsBundle{.mass = 10.0F, .impulse = forward * 1000.0F});
+            glm::quat yawQuat = glm::quat(1.0F, 0.0F, 0.0F, 0.0F); // Rotation around Y-axis
+            glm::quat pitchQuat = glm::quat(1.0F, 0.0F, 0.0F, 0.0F); // Rotation around X-axis
 
-                        cannon.cannonLoaded = false;
-                    }
+            if (inputs.pressed("left", cannon.player))
+            {
+                yawQuat = glm::angleAxis(0.5F * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
+            }
+            if (inputs.pressed("right", cannon.player))
+            {
+                yawQuat = glm::angleAxis(-0.5F * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
+            }
+            if (inputs.pressed("up", cannon.player))
+            {
+                pitchQuat = glm::angleAxis(0.5F * dt.value(), glm::vec3(0.0F, 0.0F, 1.0F));
+            }
+            if (inputs.pressed("down", cannon.player))
+            {
+                pitchQuat = glm::angleAxis(-0.5F * dt.value(), glm::vec3(0.0F, 0.0F, 1.0F));
+            }
+
+            glm::vec3 cannonEuler = glm::eulerAngles(yawQuat * cannonRotation.quat);
+            cannonEuler.y = glm::clamp(cannonEuler.y, glm::radians(-45.0F), glm::radians(45.0F));
+            cannonRotation.quat = glm::quat(cannonEuler);
+
+            glm::vec3 tubeEuler = glm::eulerAngles(pitchQuat * tubeRotation.quat);
+            tubeEuler.z = glm::clamp(tubeEuler.z, glm::radians(-22.5F), 0.0F);
+            tubeRotation.quat = glm::quat(tubeEuler);
+
+
+            if (inputs.justPressed("reload", cannon.player)) {
+                cannon.cannonLoaded = true;
+            }
+        }
+    });
+
+    cubos.system("fire cannon")
+        .call([](Commands cmds, Assets& assets, Input& inputs, 
+                Query<CannonTube&, Rotation&, ChildOf&, Cannon&, LocalToWorld&, ChildOf&, Velocity&> query) {
+            
+            for(auto [tube, tubeRotation, childOf1, cannon, cannonLocalToWorld, childOf2, boatVelocity] : query)
+            {
+                if (inputs.justPressed("fire", cannon.player)) {
+                    if (!cannon.cannonLoaded) continue;
+
+                    glm::vec3 cannonPosition = cannonLocalToWorld.worldPosition();
+                    glm::quat cannonRotation = cannonLocalToWorld.worldRotation();
+                    
+                    glm::vec3 forward = cannonRotation * tubeRotation.quat * glm::vec3(-1.0F, 0.0F, 0.0F);
+
+                    auto ball = cmds.spawn(assets.read(CannonBall)->blueprint);
+                    ball.add("root", Position{.vec = cannonPosition});
+                    ball.add("root", PhysicsBundle{.mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * 300.0F});
+
+                    cannon.cannonLoaded = false;
                 }
-            });
-    }
-} // namespace airships::client
+            }
+        });
+}
