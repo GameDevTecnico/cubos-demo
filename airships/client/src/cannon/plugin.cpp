@@ -127,6 +127,11 @@ void airships::client::cannonPlugin(Cubos& cubos)
             
             for(auto [tube, tubeRotation, childOf1, cannon, cannonLocalToWorld, childOf2, boatVelocity] : query)
             {
+                if (cannon.player == -1)
+                {
+                    continue;
+                }
+
                 if (inputs.justPressed("fire", cannon.player)) {
                     if (!cannon.cannonLoaded) continue;
 
