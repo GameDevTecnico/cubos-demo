@@ -28,15 +28,25 @@ target_link_libraries(cars cubos::engine)
 target_compile_features(cars PRIVATE cxx_std_20)
 common_demo_options(cars)
 
-if(DISTRIBUTE)
+if(EMSCRIPTEN)
+    target_link_options(cars PRIVATE
+        "SHELL:--embed-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
+        "SHELL:--embed-file ${CUBOS_ENGINE_ASSETS_PATH}@/builtin"
+    )
     target_compile_definitions(cars PRIVATE
-        APP_ASSETS_PATH="assets"
-        BUILTIN_ASSETS_PATH="builtin"
+        APP_ASSETS_PATH="/assets"
+        BUILTIN_ASSETS_PATH="/builtin"
     )
 else()
-    target_compile_definitions(cars PRIVATE
-        APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets"
-        BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
-    )
+    if(DISTRIBUTE)
+        target_compile_definitions(cars PRIVATE
+            APP_ASSETS_PATH="assets"
+            BUILTIN_ASSETS_PATH="builtin"
+        )
+    else()
+        target_compile_definitions(cars PRIVATE
+            APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets"
+            BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
+        )
+    endif()
 endif()
-

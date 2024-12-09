@@ -14,6 +14,10 @@ function(common_demo_options target)
         $<$<CXX_COMPILER_ID:MSVC>:
             /Zc:preprocessor> # Enable preprocessor conformance mode - required for __VA_ARGS__ to work correctly
     )
+
+    if(EMSCRIPTEN)
+        set_target_properties(${target} PROPERTIES SUFFIX ".html")
+    endif()
 endfunction()
 
 add_subdirectory(cars)

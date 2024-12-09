@@ -28,16 +28,27 @@ target_link_libraries(airships-client PUBLIC cubos::engine)
 target_link_libraries(airships-client PRIVATE airships-common)
 common_demo_options(airships-client)
 
-if(DISTRIBUTE)
+if(EMSCRIPTEN)
+    target_link_options(airships-client PRIVATE
+        "SHELL:--embed-file ${CMAKE_CURRENT_SOURCE_DIR}/../assets@/assets"
+        "SHELL:--embed-file ${CUBOS_ENGINE_ASSETS_PATH}@/builtin"
+    )
     target_compile_definitions(airships-client PRIVATE
-        APP_ASSETS_PATH="assets"
-        BUILTIN_ASSETS_PATH="builtin"
+        APP_ASSETS_PATH="/assets"
+        BUILTIN_ASSETS_PATH="/builtin"
     )
 else()
-    target_compile_definitions(airships-client PRIVATE
-        APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/../assets"
-        BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
-    )
+    if(DISTRIBUTE)
+        target_compile_definitions(airships-client PRIVATE
+            APP_ASSETS_PATH="assets"
+            BUILTIN_ASSETS_PATH="builtin"
+        )
+    else()
+        target_compile_definitions(airships-client PRIVATE
+            APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/../assets"
+            BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
+        )
+    endif()
 endif()
 
 if(DISTRIBUTE)

@@ -406,3 +406,4 @@ build
 
 imgui.ini
 settings.json
+.em_cache
