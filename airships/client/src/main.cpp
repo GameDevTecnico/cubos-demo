@@ -30,6 +30,7 @@
 #include "furnace/plugin.hpp"
 #include "interpolation/plugin.hpp"
 #include "auto_draws_to/plugin.hpp"
+#include "auto_child_of/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -64,6 +65,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::seeThroughPlugin);
     cubos.plugin(airships::client::cannonPlugin);
     cubos.plugin(airships::client::autoDrawsToPlugin);
+    cubos.plugin(airships::client::autoChildOfPlugin);
 
     // Add game plugins
     // TODO
