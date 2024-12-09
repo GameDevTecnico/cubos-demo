@@ -171,7 +171,7 @@
     "back-right-collider": {
       "cubos::engine::ChildOf@hull": {},
       "cubos::engine::Position": {
-        "x": 20.0,
+        "x": 24.0,
         "y": 2.0,
         "z": -23.0
       },
@@ -180,7 +180,7 @@
         "mask": 4
       },
       "cubos::engine::BoxCollisionShape": {
-        "x": 26.0,
+        "x": 15.0,
         "y": 10.0,
         "z": 4.0
       }
@@ -205,7 +205,7 @@
     "back-left-collider": {
       "cubos::engine::ChildOf@hull": {},
       "cubos::engine::Position": {
-        "x": 20.0,
+        "x": 24.0,
         "y": 2.0,
         "z": 23.0
       },
@@ -214,7 +214,7 @@
         "mask": 4
       },
       "cubos::engine::BoxCollisionShape": {
-        "x": 26.0,
+        "x": 15.0,
         "y": 10.0,
         "z": 4.0
       }
@@ -422,11 +422,41 @@
         "y": 0.0,
         "z": -14.0
       }
+    },
+    "cannon1.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": -11.75,
+        "y": 0.0,
+        "z": -2.25
+      },
+      "cubos::engine::Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "cannon2.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 11.75,
+        "y": 0.0,
+        "z": -2.25
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.0,
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      }
     }
   },
   "imports": {
     "player": "a88d914b-f1d7-463b-9a20-cf76bb5508d6",
     "furnace": "f9eb47a8-5deb-41b5-8f6b-f9c8ae2afe7b",
-    "steering-wheel": "d0815d31-57a0-46f5-b348-9e32803f9a67"
+    "steering-wheel": "d0815d31-57a0-46f5-b348-9e32803f9a67",
+    "cannon1": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
+    "cannon2": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d"
   }
 }
