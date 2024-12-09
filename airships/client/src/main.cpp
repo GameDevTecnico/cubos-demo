@@ -27,6 +27,7 @@
 #include "rope/plugin.hpp"
 #include "hide/plugin.hpp"
 #include "see_through/plugin.hpp"
+#include "furnace/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -49,6 +50,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::playerPlugin);
     cubos.plugin(airships::client::drivablePlugin);
     cubos.plugin(airships::client::steeringWheelPlugin);
+    cubos.plugin(airships::client::furnacePlugin);
     cubos.plugin(airships::client::rudderPlugin);
     cubos.plugin(airships::client::stormPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);

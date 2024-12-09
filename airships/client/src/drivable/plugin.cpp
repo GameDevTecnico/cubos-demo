@@ -135,14 +135,18 @@ void airships::client::drivablePlugin(Cubos& cubos)
                     continue;
                 }
 
-                float sign = glm::dot(velocity.vec, forward) < 0.0F ? -1 : 1;
-                velocity.vec =
-                    forward * ((glm::length(velocity.vec) * sign) + (drivable.linearAcceleration * dt.value));
+                glm::vec3 vel = velocity.vec;
+                vel.y = 0.0F;
+                float sign = glm::dot(vel, forward) < 0.0F ? -1 : 1;
+                vel = forward * ((glm::length(vel) * sign) + (drivable.linearAcceleration * dt.value));
 
-                velocity.vec = glm::clamp(velocity.vec, -drivable.topLinearVelocity, drivable.topLinearVelocity);
+                vel = glm::clamp(vel, -drivable.topLinearVelocity, drivable.topLinearVelocity);
 
                 // Update linear velocity
-                drivable.linearVelocity = glm::length(velocity.vec);
+                drivable.linearVelocity = glm::length(vel);
+
+                velocity.vec.x = vel.x;
+                velocity.vec.z = vel.z;
             }
         });
 }
