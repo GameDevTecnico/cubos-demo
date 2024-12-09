@@ -81,7 +81,7 @@ void airships::client::playerPlugin(Cubos& cubos)
                  Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, Position&, Rotation&, const ChildOf&,
                        const LocalToWorld&>
                      players,
-                 const DeltaTime& dt, const Input& input) {
+                 const FixedDeltaTime& dt, const Input& input) {
             for (auto [cameraLTW, follow, animation, interpolationOf, player, pos, rot, childOf, boatLTW] : players)
             {
                 if (player.player == -1 || !player.canMove)
@@ -112,11 +112,11 @@ void airships::client::playerPlugin(Cubos& cubos)
                 moveDirection = glm::normalize(moveDirection);
 
                 // Update the player position
-                pos.vec += moveDirection * player.moveSpeed * dt.value();
+                pos.vec += moveDirection * player.moveSpeed * dt.value;
 
                 // Slowly rotate the player to the movement direction
                 auto targetRotation = glm::quatLookAt(-moveDirection, glm::vec3{0.0F, 1.0F, 0.0F});
-                float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value() / player.halfRotationTime);
+                float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value / player.halfRotationTime);
                 rot.quat = glm::slerp(rot.quat, targetRotation, rotationAlpha);
             }
         });
