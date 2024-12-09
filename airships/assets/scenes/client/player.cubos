@@ -11,13 +11,7 @@
         "y": 10.0,
         "z": 2.0
       },
-      "airships::client::RenderAnimation": {
-        "offset": {
-          "x": -3.9,
-          "y": 0.0,
-          "z": -3.9
-        }
-      },
+      "airships::client::Interpolated": "0f559f54-b436-4a99-adb9-8a66e1a2a70e",
       "airships::client::Player": {
         "player": 1,
         "horizontalAxis": "horizontal",
@@ -26,13 +20,8 @@
         "idleAnimation": "d0e7e6fc-3579-442a-8c2d-efe72717d1d4",
         "walkAnimation": "1241a7cf-2199-45db-995f-a37bc741ff13",
         "interactDistance": 7.5,
-        "moveSpeed": 20.0,
-        "halfRotationTime": 0.025,
-        "direction": {
-          "x": 0,
-          "y": 0,
-          "z": 1
-        }
+        "moveSpeed": 30.0,
+        "halfRotationTime": 0.025
       }
     }
   },

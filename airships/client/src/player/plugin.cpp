@@ -12,12 +12,14 @@
 #include <glm/vec3.hpp>
 #include <cubos/engine/collisions/raycast.hpp>
 #include <cubos/engine/scene/scene.hpp>
+#include <cubos/engine/fixed_step/plugin.hpp>
 #include <map>
 
 #include "plugin.hpp"
 #include "../interactable/plugin.hpp"
 #include "../follow/plugin.hpp"
 #include "../animation/plugin.hpp"
+#include "../interpolation/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -45,10 +47,12 @@ void airships::client::playerPlugin(Cubos& cubos)
     cubos.depends(renderVoxelsPlugin);
     cubos.depends(inputPlugin);
     cubos.depends(collisionsPlugin);
+    cubos.depends(fixedStepPlugin);
     cubos.depends(interactablePlugin);
     cubos.depends(followPlugin);
     cubos.depends(collisionsPlugin);
     cubos.depends(animationPlugin);
+    cubos.depends(interpolationPlugin);
 
     cubos.component<Player>();
 
@@ -71,13 +75,14 @@ void airships::client::playerPlugin(Cubos& cubos)
     });
 
     cubos.system("do Player movement")
+        .tagged(fixedStepTag)
         .before(collisionsTag)
         .call([](Commands cmds,
-                 Query<LocalToWorld&, const Follow&, RenderAnimation&, Player&, Position&, Rotation&, const ChildOf&,
+                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, Position&, Rotation&, const ChildOf&,
                        const LocalToWorld&>
                      players,
                  const DeltaTime& dt, const Input& input) {
-            for (auto [cameraLTW, follow, animation, player, pos, rot, childOf, boatLTW] : players)
+            for (auto [cameraLTW, follow, animation, interpolationOf, player, pos, rot, childOf, boatLTW] : players)
             {
                 if (player.player == -1 || !player.canMove)
                 {
@@ -138,6 +143,8 @@ void airships::client::playerPlugin(Cubos& cubos)
         });
 
     cubos.system("handle Player collisions")
+        .tagged(fixedStepTag)
+        .after(collisionsTag)
         .call([](Query<Entity, Player&, Position&, const CollidingWith&> query,
                  Query<const ChildOf&, const LocalToWorld&> parentQuery) {
             for (auto [ent, car, pos, collidingWith] : query)
