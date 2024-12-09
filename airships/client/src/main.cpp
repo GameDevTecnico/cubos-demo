@@ -59,7 +59,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::hidePlugin);
     cubos.plugin(airships::client::ropePlugin);
     cubos.plugin(airships::client::seeThroughPlugin);
-    // cubos.plugin(airships::client::cannonPlugin);
+    cubos.plugin(airships::client::cannonPlugin);
 
     // Add game plugins
     // TODO

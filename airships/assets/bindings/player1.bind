@@ -1,12 +1,10 @@
 {
     "actions": {
         "left": [
-            {"keys": ["A"]},
-            {"keys": ["Left"]}
+            {"keys": ["A"]}
         ],
         "right": [
-            {"keys": ["D"]},
-            {"keys": ["Right"]}
+            {"keys": ["D"]}
         ],
         "up": [
             {"keys": ["W"]}
@@ -15,7 +13,7 @@
             {"keys": ["S"]}
         ],
         "fire": [
-            {"keys": ["Space"]}
+            {"keys": ["X"]}
         ],
         "reload": [
             {"keys": ["R"]}
