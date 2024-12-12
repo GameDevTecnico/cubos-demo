@@ -14,6 +14,7 @@
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
 #include <map>
+#include <unordered_set>
 
 #include "plugin.hpp"
 #include "../interactable/plugin.hpp"
@@ -58,12 +59,23 @@ void airships::client::playerPlugin(Cubos& cubos)
 
     cubos.system("assign gamepads to Players").call([](Input& input, Query<Player&> players) {
         int usedGamepads = 0;
+        std::unordered_set<int> usedPlayers{};
+
+        for (auto [player] : players)
+        {
+            usedPlayers.insert(player.player);
+        }
 
         for (auto [player] : players)
         {
             if (player.player == -1)
             {
-                continue;
+                // Increment the player number until we find an unused one
+                for (player.player = 1; usedPlayers.contains(player.player); player.player++)
+                {
+                }
+
+                usedPlayers.insert(player.player);
             }
 
             if (usedGamepads < input.gamepadCount())
@@ -78,8 +90,8 @@ void airships::client::playerPlugin(Cubos& cubos)
         .tagged(fixedStepTag)
         .before(collisionsTag)
         .call([](Commands cmds,
-                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, Position&, Rotation&, const ChildOf&,
-                       const LocalToWorld&>
+                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, Position&,
+                       Rotation&, const ChildOf&, const LocalToWorld&>
                      players,
                  const FixedDeltaTime& dt, const Input& input) {
             for (auto [cameraLTW, follow, animation, interpolationOf, player, pos, rot, childOf, boatLTW] : players)

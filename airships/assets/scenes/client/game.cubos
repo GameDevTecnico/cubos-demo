@@ -20,9 +20,24 @@
                 "y": -0.1,
                 "z": 0.5
             }
+        },
+        "boat1.root": {
+            "cubos::engine::Position": {
+                "x": -100.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        },
+        "boat2.root": {
+            "cubos::engine::Position": {
+                "x": 100.0,
+                "y": 0.0,
+                "z": 0.0
+            }
         }
     },
     "imports": {
-        "boat1": "c1e41c8f-286f-4313-8155-0c60743ce4d3"
+        "boat1": "c1e41c8f-286f-4313-8155-0c60743ce4d3",
+        "boat2": "c1e41c8f-286f-4313-8155-0c60743ce4d3"
     }
 }

@@ -13,7 +13,6 @@
       },
       "airships::client::Interpolated": "0f559f54-b436-4a99-adb9-8a66e1a2a70e",
       "airships::client::Player": {
-        "player": 1,
         "horizontalAxis": "horizontal",
         "verticalAxis": "vertical",
         "interactAction": "interact",
