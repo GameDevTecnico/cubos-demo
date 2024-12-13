@@ -45,7 +45,6 @@ void airships::client::playerIdPlugin(Cubos& cubos)
 
             if (usedGamepads < input.gamepadCount())
             {
-                CUBOS_INFO("Assigning gamepad {} to player {}", usedGamepads, player.id);
                 input.gamepad(player.id, usedGamepads);
                 usedGamepads++;
             }
