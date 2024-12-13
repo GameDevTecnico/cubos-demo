@@ -1,0 +1,63 @@
+{
+    "actions": {
+        "interact": [
+            {
+                "gamepadButtons": [
+                    "A"
+                ]
+            }
+        ]
+    },
+    "axes": {
+        "horizontal": {
+            "gamepadAxes": [
+                "LX"
+            ],
+            "deadzone": 0.25
+        },
+        "vertical": {
+            "gamepadAxes": [
+                "LY"
+            ],
+            "deadzone": 0.25
+        },
+        "camera-zoom": {
+            "positive": [
+                {
+                    "gamepadButtons": [
+                        "Down"
+                    ]
+                },
+                {
+                    "gamepadButtons": [
+                        "LBumper"
+                    ]
+                }
+            ],
+            "negative": [
+                {
+                    "gamepadButtons": [
+                        "Up"
+                    ]
+                },
+                {
+                    "gamepadButtons": [
+                        "RBumper"
+                    ]
+                }
+            ]
+        },
+        "camera-horizontal": {
+            "gamepadAxes": [
+                "RX"
+            ],
+            "deadzone": 0.25
+        },
+        "camera-vertical": {
+            "gamepadAxes": [
+                "RY"
+            ],
+            "deadzone": 0.25
+        }
+    }
+}

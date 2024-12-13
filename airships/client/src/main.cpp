@@ -40,7 +40,6 @@ using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("0aa38b4e-df60-4b40-9c33-fd5a77e18bc2");
 static const Asset<Scene> MainSceneAsset = AnyAsset("6dc40742-05fa-4148-a88d-89849af2e376");
-static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("7b7463d1-e659-4167-91c3-27267952f071");
 static const Asset<InputBindings> DebugCameraBindingsAsset = AnyAsset("351edbb6-aeee-485c-8ede-c01c355dee7c");
 
 int main(int argc, char** argv)
@@ -84,7 +83,6 @@ int main(int argc, char** argv)
     cubos.startupSystem("load and set the Input Bindings")
         .tagged(assetsTag)
         .call([](const Assets& assets, Input& input) {
-            input.bind(*assets.read<InputBindings>(Player1BindingsAsset), 1);
             input.bind(*assets.read<InputBindings>(DebugCameraBindingsAsset), 0);
         });
 
