@@ -58,6 +58,19 @@ void airships::client::playerPlugin(Cubos& cubos)
 
     cubos.component<Player>();
 
+    cubos.system("initialize Player position properly")
+        .before(transformUpdateTag)
+        .call([](Query<Player&, Position&> query) {
+            for (auto [player, pos] : query)
+            {
+                if (!player.initialized)
+                {
+                    pos.vec = {0.0F, 0.0F, 0.0F};
+                    player.initialized = true;
+                }
+            }
+        });
+
     cubos.system("do Player movement")
         .tagged(fixedStepTag)
         .before(collisionsTag)
@@ -69,12 +82,6 @@ void airships::client::playerPlugin(Cubos& cubos)
             for (auto [cameraLTW, follow, animation, interpolationOf, player, playerId, pos, rot, childOf, boatLTW] :
                  players)
             {
-                if (!player.initialized)
-                {
-                    pos.vec = {0.0F, 0.0F, 0.0F};
-                    player.initialized = true;
-                }
-
                 if (playerId.id == -1 || !player.canMove)
                 {
                     animation.play(player.idleAnimation);
