@@ -1,5 +1,7 @@
 #include "plugin.hpp"
 #include "../follow/plugin.hpp"
+#include "../player_id/plugin.hpp"
+#include "../interpolation/plugin.hpp"
 
 #include <cubos/core/reflection/external/string.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -15,7 +17,6 @@ using namespace cubos::engine;
 CUBOS_REFLECT_IMPL(airships::client::FollowController)
 {
     return cubos::core::ecs::TypeBuilder<FollowController>("airships::client::FollowController")
-        .withField("player", &FollowController::player)
         .withField("zoomAxis", &FollowController::zoomAxis)
         .withField("phiAxis", &FollowController::phiAxis)
         .withField("thetaAxis", &FollowController::thetaAxis)
@@ -37,12 +38,14 @@ void airships::client::followControllerPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(windowPlugin);
     cubos.depends(followPlugin);
+    cubos.depends(playerIdPlugin);
+    cubos.depends(interpolationPlugin);
 
     cubos.component<FollowController>();
 
     cubos.system("update FollowController entities")
         .call([](const DeltaTime& dt, Input& input, Window& window, EventReader<WindowEvent> events,
-                 Query<FollowController&, Follow&> query) {
+                 Query<FollowController&, Follow&, const InterpolationOf&, const PlayerId&> query) {
             int mouseScroll = 0;
             for (auto event : events)
             {
@@ -52,44 +55,48 @@ void airships::client::followControllerPlugin(Cubos& cubos)
                 }
             }
 
-            for (auto [controller, follow] : query)
+            for (auto [controller, follow, interpolationOf, player] : query)
             {
-                if (controller.player == -1)
+                if (player.id == -1)
                 {
                     continue;
                 }
 
-                float zoomInput = input.axis(controller.zoomAxis.c_str(), controller.player);
-                float phiInput = input.axis(controller.phiAxis.c_str(), controller.player);
-                float thetaInput = -input.axis(controller.thetaAxis.c_str(), controller.player);
-                if (input.justPressed(controller.toggleMouseAction.c_str(), controller.player))
-                {
-                    controller.useMouse = !controller.useMouse;
-                }
+                float zoomInput = input.axis(controller.zoomAxis.c_str(), player.id);
+                float phiInput = input.axis(controller.phiAxis.c_str(), player.id);
+                float thetaInput = -input.axis(controller.thetaAxis.c_str(), player.id);
 
-                // Lock the mouse if it isn't already
-                if (controller.useMouse && window->mouseState() != MouseState::Locked)
+                if (player.id == 1)
                 {
-                    window->mouseState(MouseState::Locked);
-                    controller.mouseMoved = false;
-                }
-                else if (!controller.useMouse && window->mouseState() == MouseState::Locked)
-                {
-                    window->mouseState(MouseState::Default);
-                }
-
-                if (controller.useMouse)
-                {
-                    zoomInput -= static_cast<float>(mouseScroll) * controller.scrollSensitivity * dt.value();
-
-                    if (controller.mouseMoved)
+                    if (input.justPressed(controller.toggleMouseAction.c_str(), player.id))
                     {
-                        phiInput += input.mouseDelta().y * controller.mouseSensitivity * dt.value();
-                        thetaInput -= input.mouseDelta().x * controller.mouseSensitivity * dt.value();
+                        controller.useMouse = !controller.useMouse;
                     }
-                    else if (input.mouseDelta() != glm::ivec2(0))
+
+                    // Lock the mouse if it isn't already
+                    if (controller.useMouse && window->mouseState() != MouseState::Locked)
                     {
-                        controller.mouseMoved = true;
+                        window->mouseState(MouseState::Locked);
+                        controller.mouseMoved = false;
+                    }
+                    else if (!controller.useMouse && window->mouseState() == MouseState::Locked)
+                    {
+                        window->mouseState(MouseState::Default);
+                    }
+
+                    if (controller.useMouse)
+                    {
+                        zoomInput -= static_cast<float>(mouseScroll) * controller.scrollSensitivity * dt.value();
+
+                        if (controller.mouseMoved)
+                        {
+                            phiInput += input.mouseDelta().y * controller.mouseSensitivity * dt.value();
+                            thetaInput -= input.mouseDelta().x * controller.mouseSensitivity * dt.value();
+                        }
+                        else if (input.mouseDelta() != glm::ivec2(0))
+                        {
+                            controller.mouseMoved = true;
+                        }
                     }
                 }
 

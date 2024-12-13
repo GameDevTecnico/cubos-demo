@@ -1,0 +1,53 @@
+{
+    "entities": {
+        "render-target": {
+            "cubos::engine::RenderTargetDefaults": {},
+            "cubos::engine::GizmosTarget": {},
+            "airships::client::RopeRasterizer": {}
+        },
+        "sun": {
+            "cubos::engine::DirectionalLight": {
+                "color": {
+                    "x": 1.0,
+                    "y": 0.6,
+                    "z": 0.2
+                },
+                "intensity": 3.0
+            },
+            "cubos::engine::Rotation": {
+                "w": 1.0,
+                "x": 0.3,
+                "y": -0.1,
+                "z": 0.5
+            }
+        },
+        "level": {
+            "airships::client::MainMenu": {
+                "levelGenerator": [
+                    {
+                        "scene": "c8fd19c1-438d-45d6-8395-300dc1809f7f",
+                        "amount": 4
+                    },
+                    {
+                        "scene": "a796a308-0cad-4674-869d-c5e7177d711c",
+                        "amount": 4
+                    },
+                    {
+                        "scene": "f136a3a7-6ac1-4fa7-a425-857f38746814",
+                        "amount": 4
+                    },
+                    {
+                        "scene": "8816c9f2-cecd-40f5-bf0d-80b6d5078ed1",
+                        "amount": 15
+                    }
+                ],
+                "boats": [
+                    "c1e41c8f-286f-4313-8155-0c60743ce4d3"
+                ],
+                "characters": [
+                    "a88d914b-f1d7-463b-9a20-cf76bb5508d6"
+                ]
+            }
+        }
+    }
+}

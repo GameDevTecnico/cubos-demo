@@ -3,7 +3,6 @@
 
 add_executable(airships-client
     src/main.cpp 
-    src/islands/plugin.cpp
     src/balloons/plugin.cpp
     src/storm/plugin.cpp
     src/random_position/plugin.cpp
@@ -14,6 +13,7 @@ add_executable(airships-client
     src/follow_controller/plugin.cpp
     src/cannon/plugin.cpp
     src/player/plugin.cpp
+    src/player_id/plugin.cpp
     src/interactable/plugin.cpp
     src/animation/plugin.cpp
     src/hide/plugin.cpp
@@ -23,6 +23,9 @@ add_executable(airships-client
     src/interpolation/plugin.cpp
     src/auto_draws_to/plugin.cpp
     src/auto_child_of/plugin.cpp
+    src/main_menu/plugin.cpp
+    src/level_generator/plugin.cpp
+    src/team_spawner/plugin.cpp
 )
 target_link_libraries(airships-client PUBLIC cubos::engine)
 target_link_libraries(airships-client PRIVATE airships-common)

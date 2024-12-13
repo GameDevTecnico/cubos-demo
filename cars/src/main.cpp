@@ -96,5 +96,9 @@ int main(int argc, char** argv)
         }
     });
 
+    cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
+        ImGui::SetCurrentContext(holder.context);
+    });
+
     cubos.run();
 }

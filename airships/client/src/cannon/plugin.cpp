@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../player/plugin.hpp"
+#include "../player_id/plugin.hpp"
 #include "../interactable/plugin.hpp"
 #include "../interpolation/plugin.hpp"
 
@@ -42,6 +43,7 @@ void airships::client::cannonPlugin(Cubos& cubos)
     cubos.depends(physicsPlugin);
     cubos.depends(gravityPlugin);
     cubos.depends(playerPlugin);
+    cubos.depends(playerIdPlugin);
     cubos.depends(interactablePlugin);
     cubos.depends(interpolationPlugin);
 
@@ -57,18 +59,18 @@ void airships::client::cannonPlugin(Cubos& cubos)
 
     cubos.observer("handle Cannon interaction")
         .onAdd<Interaction>()
-        .call([](Commands cmds, Query<Entity, Cannon&, Interaction&> query, Query<Player&> players) {
+        .call([](Commands cmds, Query<Entity, Cannon&, Interaction&> query, Query<Player&, const PlayerId&> players) {
             for (auto [entity, cannon, interaction] : query)
             {
                 cmds.remove<Interaction>(entity);
-                auto [player] = *players.at(interaction.player);
+                auto [player, id] = *players.at(interaction.player);
 
                 if (cannon.player == -1)
                 {
-                    cannon.player = player.player;
+                    cannon.player = id.id;
                     player.canMove = false;
                 }
-                else if (player.player == cannon.player)
+                else if (id.id == cannon.player)
                 {
                     cannon.player = -1;
                     player.canMove = true;
