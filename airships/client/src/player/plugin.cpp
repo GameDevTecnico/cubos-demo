@@ -21,13 +21,13 @@
 #include "../follow/plugin.hpp"
 #include "../animation/plugin.hpp"
 #include "../interpolation/plugin.hpp"
+#include "../player_id/plugin.hpp"
 
 using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(airships::client::Player)
 {
     return cubos::core::ecs::TypeBuilder<Player>("airships::client::Player")
-        .withField("player", &Player::player)
         .withField("horizontalAxis", &Player::horizontalAxis)
         .withField("verticalAxis", &Player::verticalAxis)
         .withField("interactAction", &Player::interactAction)
@@ -54,49 +54,28 @@ void airships::client::playerPlugin(Cubos& cubos)
     cubos.depends(collisionsPlugin);
     cubos.depends(animationPlugin);
     cubos.depends(interpolationPlugin);
+    cubos.depends(playerIdPlugin);
 
     cubos.component<Player>();
-
-    cubos.system("assign gamepads to Players").call([](Input& input, Query<Player&> players) {
-        int usedGamepads = 0;
-        std::unordered_set<int> usedPlayers{};
-
-        for (auto [player] : players)
-        {
-            usedPlayers.insert(player.player);
-        }
-
-        for (auto [player] : players)
-        {
-            if (player.player == -1)
-            {
-                // Increment the player number until we find an unused one
-                for (player.player = 1; usedPlayers.contains(player.player); player.player++)
-                {
-                }
-
-                usedPlayers.insert(player.player);
-            }
-
-            if (usedGamepads < input.gamepadCount())
-            {
-                input.gamepad(player.player, usedGamepads);
-                usedGamepads++;
-            }
-        }
-    });
 
     cubos.system("do Player movement")
         .tagged(fixedStepTag)
         .before(collisionsTag)
         .call([](Commands cmds,
-                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, Position&,
-                       Rotation&, const ChildOf&, const LocalToWorld&>
+                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, const PlayerId&,
+                       Position&, Rotation&, const ChildOf&, const LocalToWorld&>
                      players,
                  const FixedDeltaTime& dt, const Input& input) {
-            for (auto [cameraLTW, follow, animation, interpolationOf, player, pos, rot, childOf, boatLTW] : players)
+            for (auto [cameraLTW, follow, animation, interpolationOf, player, playerId, pos, rot, childOf, boatLTW] :
+                 players)
             {
-                if (player.player == -1 || !player.canMove)
+                if (!player.initialized)
+                {
+                    pos.vec = {0.0F, 0.0F, 0.0F};
+                    player.initialized = true;
+                }
+
+                if (playerId.id == -1 || !player.canMove)
                 {
                     animation.play(player.idleAnimation);
                     continue;
@@ -112,8 +91,8 @@ void airships::client::playerPlugin(Cubos& cubos)
 
                 // Get the movement vector from the directions above and the input
                 glm::vec3 moveDirection = {0.0f, 0.0f, 0.0f};
-                moveDirection.x = input.axis(player.horizontalAxis.c_str(), player.player);
-                moveDirection.z = -input.axis(player.verticalAxis.c_str(), player.player);
+                moveDirection.x = input.axis(player.horizontalAxis.c_str(), playerId.id);
+                moveDirection.z = -input.axis(player.verticalAxis.c_str(), playerId.id);
                 moveDirection = moveDirection.x * right + moveDirection.z * forward;
                 if (glm::length2(moveDirection) == 0.0F)
                 {
@@ -134,11 +113,11 @@ void airships::client::playerPlugin(Cubos& cubos)
         });
 
     cubos.system("do Player interaction")
-        .call([](Commands cmds, Query<Entity, Player&, const LocalToWorld&> players,
+        .call([](Commands cmds, Query<Entity, Player&, const PlayerId&, const LocalToWorld&> players,
                  Query<const Interactable&> interactables, const Assets& assets, Raycast raycast, const Input& input) {
-            for (auto [playerEnt, player, playerLTW] : players)
+            for (auto [playerEnt, player, playerId, playerLTW] : players)
             {
-                if (input.justPressed(player.interactAction.c_str(), player.player))
+                if (input.justPressed(player.interactAction.c_str(), playerId.id))
                 {
                     Raycast::Ray ray{.origin = playerLTW.worldPosition(), .direction = playerLTW.forward()};
                     ray.mask = 1 << 1; // Only hit interactables

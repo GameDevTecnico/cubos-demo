@@ -68,7 +68,16 @@
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
-      }
+      },
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "b72f0154-d675-434d-989d-d789d49c9d43",
+        "offset": {
+          "x": -4.5,
+          "y": -14.0,
+          "z": -4.5
+        }
+      },
+      "airships::client::BalloonInfo": "Holding"
     },
     "resource": {
       "cubos::engine::ChildOf@root": {},
@@ -82,6 +91,14 @@
         "x": 3.5,
         "y": 3.5,
         "z": 3.5
+      },
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "cd9e1c30-0a1b-4f88-b7f9-c4f7b95f2b63",
+        "offset": {
+          "x": -3.5,
+          "y": -3.5,
+          "z": -3.5
+        }
       }
     }
   }

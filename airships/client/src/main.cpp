@@ -10,8 +10,8 @@
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 #include <cubos/engine/physics/plugins/gravity.hpp>
 #include <cubos/engine/render/camera/camera.hpp>
+#include <cubos/engine/imgui/plugin.hpp>
 
-#include "islands/plugin.hpp"
 #include "balloons/plugin.hpp"
 #include "random_position/plugin.hpp"
 #include "drivable/plugin.hpp"
@@ -22,6 +22,7 @@
 #include "rudder/plugin.hpp"
 #include "storm/plugin.hpp"
 #include "player/plugin.hpp"
+#include "player_id/plugin.hpp"
 #include "interactable/plugin.hpp"
 #include "animation/plugin.hpp"
 #include "rope/plugin.hpp"
@@ -31,6 +32,9 @@
 #include "interpolation/plugin.hpp"
 #include "auto_draws_to/plugin.hpp"
 #include "auto_child_of/plugin.hpp"
+#include "main_menu/plugin.hpp"
+#include "level_generator/plugin.hpp"
+#include "team_spawner/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -46,19 +50,21 @@ int main(int argc, char** argv)
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
     cubos.plugin(gravityPlugin);
+
+    // Add game plugins
     cubos.plugin(airships::client::interpolationPlugin);
     cubos.plugin(airships::client::animationPlugin);
-    cubos.plugin(airships::client::followPlugin);
-    cubos.plugin(airships::client::followControllerPlugin);
     cubos.plugin(airships::client::interactablePlugin);
+    cubos.plugin(airships::client::playerIdPlugin);
+    cubos.plugin(airships::client::followPlugin);
     cubos.plugin(airships::client::playerPlugin);
+    cubos.plugin(airships::client::followControllerPlugin);
     cubos.plugin(airships::client::drivablePlugin);
     cubos.plugin(airships::client::steeringWheelPlugin);
     cubos.plugin(airships::client::furnacePlugin);
     cubos.plugin(airships::client::rudderPlugin);
     cubos.plugin(airships::client::stormPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);
-    cubos.plugin(airships::client::islandsPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
     cubos.plugin(airships::client::hidePlugin);
     cubos.plugin(airships::client::ropePlugin);
@@ -66,9 +72,9 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::cannonPlugin);
     cubos.plugin(airships::client::autoDrawsToPlugin);
     cubos.plugin(airships::client::autoChildOfPlugin);
-
-    // Add game plugins
-    // TODO
+    cubos.plugin(airships::client::levelGeneratorPlugin);
+    cubos.plugin(airships::client::teamSpawnerPlugin);
+    cubos.plugin(airships::client::mainMenuPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);
@@ -95,6 +101,10 @@ int main(int argc, char** argv)
         .call([](Commands cmds, const Assets& assets, Settings& settings) {
             cmds.spawn(assets.read(MainSceneAsset)->blueprint);
         });
+
+    cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
+        ImGui::SetCurrentContext(holder.context);
+    });
 
     cubos.run();
 }

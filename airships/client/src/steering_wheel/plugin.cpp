@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../player/plugin.hpp"
+#include "../player_id/plugin.hpp"
 #include "../drivable/plugin.hpp"
 #include "../interactable/plugin.hpp"
 #include "../interpolation/plugin.hpp"
@@ -36,6 +37,7 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(drivablePlugin);
     cubos.depends(playerPlugin);
+    cubos.depends(playerIdPlugin);
     cubos.depends(interactablePlugin);
     cubos.depends(interpolationPlugin);
 
@@ -53,18 +55,18 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
 
     cubos.observer("handle SteeringWheel interaction")
         .onAdd<Interaction>()
-        .call([](Commands cmds, Query<Entity, SteeringWheel&, Interaction&> query, Query<Player&> players) {
+        .call([](Commands cmds, Query<Entity, SteeringWheel&, Interaction&> query, Query<Player&, const PlayerId&> players) {
             for (auto [entity, wheel, interaction] : query)
             {
                 cmds.remove<Interaction>(entity);
-                auto [player] = *players.at(interaction.player);
+                auto [player, id] = *players.at(interaction.player);
 
                 if (wheel.player == -1)
                 {
-                    wheel.player = player.player;
+                    wheel.player = id.id;
                     player.canMove = false;
                 }
-                else if (player.player == wheel.player)
+                else if (id.id == wheel.player)
                 {
                     wheel.player = -1;
                     player.canMove = true;

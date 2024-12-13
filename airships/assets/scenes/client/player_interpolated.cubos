@@ -37,7 +37,6 @@
         "height": 3.0
       },
       "airships::client::FollowController": {
-        "player": 1,
         "zoomAxis": "camera-zoom",
         "phiAxis": "camera-vertical",
         "thetaAxis": "camera-horizontal",

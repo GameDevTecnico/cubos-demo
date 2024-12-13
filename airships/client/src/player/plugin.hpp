@@ -13,7 +13,6 @@ namespace airships::client
     {
         CUBOS_REFLECT;
 
-        int player{-1};
         std::string horizontalAxis{"horizontal"};
         std::string verticalAxis{"vertical"};
         std::string interactAction{"interact"};
@@ -21,6 +20,7 @@ namespace airships::client
         cubos::engine::Asset<Animation> idleAnimation{};
         cubos::engine::Asset<Animation> walkAnimation{};
 
+        bool initialized{false};
         bool canMove{true};
 
         float interactDistance{1.0F};

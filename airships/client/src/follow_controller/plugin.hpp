@@ -13,9 +13,6 @@ namespace airships::client
     {
         CUBOS_REFLECT;
 
-        /// @brief Index of the player controlling this entity. Set to -1 if no player is controlling.
-        int player = -1;
-
         /// @brief Name of the axis used to control the camera's distance from the target.
         std::string zoomAxis = "camera-zoom";
 
