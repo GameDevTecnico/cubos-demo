@@ -53,6 +53,17 @@ void airships::client::drivablePlugin(Cubos& cubos)
 
     cubos.tag(drivableControlTag);
 
+    auto initBoatYaw = [](Query<Drivable&, const Position&> query) {
+        for (auto [drivable, position] : query)
+        {
+            // Initialize boat so that it points to the center of the map
+            drivable.yaw = glm::degrees(glm::atan(-position.vec.x, -position.vec.z));
+        }
+    };
+
+    cubos.observer("initialize boat yaw").onAdd<Drivable>().call(initBoatYaw);
+    cubos.observer("initialize boat yaw").onAdd<Position>().call(initBoatYaw);
+
     cubos.system("set modifiers on collision")
         .tagged(physicsApplyForcesTag)
         .call([](Query<Entity, Drivable&, Position&, Rotation&, Velocity&, Impulse&, AngularVelocity&, CollidingWith&,
