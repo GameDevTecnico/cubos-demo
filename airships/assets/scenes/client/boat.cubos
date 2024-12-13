@@ -1,7 +1,6 @@
 {
   "entities": {
     "root": {
-      "cubos::engine::Position": {},
       "airships::client::Interpolated": "2ba04847-081b-441c-ab19-fb392e3a305a",
       "airships::client::Drivable": {
         "topLinearVelocity": 50.0,

@@ -41,27 +41,29 @@ namespace airships::client
         cubos.observer("associate random position")
             .onAdd<RandomPosition>()
             .call([](Commands cmds, Query<Entity, RandomPosition&> query, ChunkInfo& chunkInfo, const StormInfo& si) {
-                for (auto [ent, randpos] : query)
+                for (auto [ent, randomPosition] : query)
                 {
-                    int cid;
-                    int x, y, z;
-                    do 
-                    {
                     std::mt19937 engine{std::random_device()()};
                     std::uniform_real_distribution randomAngle(0.0F, 2.0F * glm::pi<float>());
                     std::uniform_int_distribution distCoordY(-100, 100);
-                    x = std::round(cos(randomAngle(engine)) * si.stormRadius);
-                    y = distCoordY(engine);
-                    z = std::round(sin(randomAngle(engine)) * si.stormRadius);
-                    cid = (100 * (z / 100)) + (10 * (y / 100)) + (x / 100);
+
+                    int cid;
+                    int x, y, z;
+                    do
+                    {
+
+                        x = std::round(cos(randomAngle(engine)) * si.stormRadius);
+                        y = distCoordY(engine);
+                        z = std::round(sin(randomAngle(engine)) * si.stormRadius);
+                        cid = (100 * (z / 100)) + (10 * (y / 100)) + (x / 100);
                     } while (chunkInfo.chunksTaken.find(cid) != chunkInfo.chunksTaken.end());
 
                     glm::vec3 pos = {x, y, z};
                     chunkInfo.chunksTaken[cid] = pos;
-                    randpos.startingPos = pos;
+                    randomPosition.startingPos = pos;
                     cmds.add(ent, Position{.vec = pos});
+                    cmds.add(ent, Rotation{.quat = glm::angleAxis(randomAngle(engine), glm::vec3(0.0F, 1.0F, 0.0F))});
                 }
             });
     }
 } // namespace airships::client
-
