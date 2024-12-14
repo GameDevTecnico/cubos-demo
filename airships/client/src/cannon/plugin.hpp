@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cubos/engine/prelude.hpp>
-
-#include <glm/gtc/quaternion.hpp>
+#include <cubos/engine/assets/asset.hpp>
+#include <cubos/engine/scene/scene.hpp>
 
 namespace airships::client
 {
@@ -14,6 +14,9 @@ namespace airships::client
         int player = -1;
 
         bool cannonLoaded = false;
+
+        cubos::engine::Asset<cubos::engine::Scene> bulletScene;
+        float bulletSpeed = 100.0F;
     };
 
     struct CannonTube
