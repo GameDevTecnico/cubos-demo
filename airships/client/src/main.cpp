@@ -35,6 +35,7 @@
 #include "main_menu/plugin.hpp"
 #include "level_generator/plugin.hpp"
 #include "team_spawner/plugin.hpp"
+#include "resource/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -64,6 +65,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::rudderPlugin);
     cubos.plugin(airships::client::stormPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);
+    cubos.plugin(airships::client::resourcesPlugin);
     cubos.plugin(airships::client::balloonsPlugin);
     cubos.plugin(airships::client::hidePlugin);
     cubos.plugin(airships::client::ropePlugin);

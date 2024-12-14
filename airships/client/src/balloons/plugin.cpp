@@ -76,11 +76,13 @@ namespace airships::client
 
         cubos.system("pop balloons")
             .tagged(physicsApplyForcesTag)
-            .call([](Commands cmds, Query<Entity, const PopBalloon&, BalloonInfo&, Impulse&, const Velocity&> query) {
-                for (auto [ent, _, balloonInfo, imp, vel] : query)
+            .call([](Commands cmds, Query<Entity, const ResourceInfo&, Position&, const LocalToWorld&, ChildOf&, const PopBalloon&, BalloonInfo&, Impulse&, const Velocity&, Entity> query) {
+                for (auto [child, _, pos, localToWorld, childOf, pop, bi, imp, vel, parent] : query)
                 {
                     balloonInfo.state = BalloonInfo::State::Popped;
-                    imp.add(glm::vec3(0.0F, 10000.0F, 0.0F));
+                    pos.vec = localToWorld.worldPosition();
+                    cmds.unrelate<ChildOf>(child, parent);
+                    imp.add(glm::vec3(0.0F, 8000.0F, 0.0F));
                     cmds.remove<PopBalloon>(ent);
                 }
             });
