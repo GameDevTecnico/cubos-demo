@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../random_position/plugin.hpp"
+#include "../resource/plugin.hpp"
 
 #include <cubos/core/reflection/external/glm.hpp>
 #include <cubos/core/ecs/reflection.hpp>
@@ -46,6 +47,7 @@ namespace airships::client
         cubos.depends(randomPositionPlugin);
         cubos.depends(assetsPlugin);
         cubos.depends(transformPlugin);
+        cubos.depends(resourcesPlugin);
 
         cubos.component<BalloonInfo>();
         cubos.component<PopBalloon>();
@@ -76,14 +78,16 @@ namespace airships::client
 
         cubos.system("pop balloons")
             .tagged(physicsApplyForcesTag)
-            .call([](Commands cmds, Query<Entity, const ResourceInfo&, Position&, const LocalToWorld&, ChildOf&, const PopBalloon&, BalloonInfo&, Impulse&, const Velocity&, Entity> query) {
+            .call([](Commands cmds, Query<Entity, const ResourceInfo&, Position&, const LocalToWorld&, ChildOf&,
+                                          const PopBalloon&, BalloonInfo&, Impulse&, const Velocity&, Entity>
+                                        query) {
                 for (auto [child, _, pos, localToWorld, childOf, pop, bi, imp, vel, parent] : query)
                 {
-                    balloonInfo.state = BalloonInfo::State::Popped;
+                    bi.state = BalloonInfo::State::Popped;
                     pos.vec = localToWorld.worldPosition();
                     cmds.unrelate<ChildOf>(child, parent);
                     imp.add(glm::vec3(0.0F, 8000.0F, 0.0F));
-                    cmds.remove<PopBalloon>(ent);
+                    cmds.remove<PopBalloon>(parent);
                 }
             });
     }
