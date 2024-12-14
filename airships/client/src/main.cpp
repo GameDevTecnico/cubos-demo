@@ -36,6 +36,8 @@
 #include "level_generator/plugin.hpp"
 #include "team_spawner/plugin.hpp"
 #include "resource/plugin.hpp"
+#include "box/plugin.hpp"
+#include "holdable/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -76,6 +78,8 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::levelGeneratorPlugin);
     cubos.plugin(airships::client::teamSpawnerPlugin);
     cubos.plugin(airships::client::mainMenuPlugin);
+    cubos.plugin(airships::client::holdablePlugin);
+    cubos.plugin(airships::client::boxPlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

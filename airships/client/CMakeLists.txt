@@ -27,6 +27,8 @@ add_executable(airships-client
     src/level_generator/plugin.cpp
     src/team_spawner/plugin.cpp
     src/resource/plugin.cpp
+    src/holdable/plugin.cpp
+    src/box/plugin.cpp
 )
 target_link_libraries(airships-client PUBLIC cubos::engine)
 target_link_libraries(airships-client PRIVATE airships-common)
