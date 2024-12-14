@@ -19,16 +19,4 @@ void airships::client::holdablePlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
 
     cubos.component<Holdable>();
-
-    cubos.observer("remove stacked entities when bottom is removed")
-        .onRemove<Holdable>()
-        .call([](Commands cmds, Query<Entity> query, Query<Entity, const ChildOf&> children) {
-            for (auto [ent] : query)
-            {
-                for (auto [child, childOf] : children.pin(1, ent))
-                {
-                    cmds.destroy(child);
-                }
-            }
-        });
 }
