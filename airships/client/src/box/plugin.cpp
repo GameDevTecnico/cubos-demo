@@ -52,10 +52,9 @@ void airships::client::boxPlugin(Cubos& cubos)
         .call([](Commands cmds, Query<Entity, Box&, Interaction&> boxes,
                  Query<Entity, const Holdable&, const Position&, const ChildOf&> held,
                  Query<Entity, InterpolationOf&, Player&> players, Query<Entity, InterpolationOf&> boxInterpolation) {
-            auto p = Position{};
             for (auto [boxEnt, box, interaction] : boxes)
             {
-                CUBOS_INFO("BOX INTERACTION");
+                CUBOS_DEBUG("BOX INTERACTION");
                 cmds.remove<Interaction>(boxEnt);
 
                 auto [boxInterpolatedEnt, boxInterpolationOf] = *boxInterpolation.pin(1, boxEnt).first();
@@ -66,7 +65,7 @@ void airships::client::boxPlugin(Cubos& cubos)
                 // If player is holding an object, add it to the box
                 if (auto heldByPlayer = held.pin(1, playerEnt).first())
                 {
-                    CUBOS_INFO("Player is holding object.");
+                    CUBOS_DEBUG("Player is holding object.");
                     auto [heldEnt, holdable, pos, heldChildOf] = *heldByPlayer;
                     // If there are no freeSlots on the box, or box is of different type do nothing
                     if (box.freeSlots.empty() || box.type != holdable.type)
@@ -74,29 +73,24 @@ void airships::client::boxPlugin(Cubos& cubos)
                         continue;
                     }
 
-                    // Get the entity on the top of the box
-                    auto topEntity = boxInterpolatedEnt;
-                    getTopOfStack(topEntity, held, topEntity, p);
-
                     // Move held entity to free slot in box
                     Position slotPosition = box.freeSlots.back();
-                    CUBOS_INFO("Putting item in slot {}", slotPosition);
                     box.freeSlots.pop_back();
-                    cmds.relate(heldEnt, topEntity, ChildOf{}).add(heldEnt, slotPosition);
+                    cmds.relate(heldEnt, boxInterpolatedEnt, ChildOf{}).add(heldEnt, slotPosition);
+                    CUBOS_DEBUG("Putting item in slot {}", slotPosition);
                 }
                 else
                 {
-                    CUBOS_INFO("Player is NOT holding object.");
-                    auto topEntity = boxInterpolatedEnt;
+                    CUBOS_DEBUG("Player is NOT holding object.");
                     // If box is not empty (stack height not 1)
-                    auto i = getTopOfStack(topEntity, held, topEntity, p);
-                    if (i)
+                    if (auto heldByBox = held.pin(1, boxInterpolatedEnt).first())
                     {
-                        CUBOS_INFO("There is {} Item in box.", i);
-                        // Free the slot
-                        box.freeSlots.push_back(p);
+                        auto [heldEnt, holdable, pos, heldChildOf] = *heldByBox;
 
-                        cmds.relate(topEntity, playerEnt, ChildOf{}).add(topEntity, player.holdablePos);
+                        // Free the slot
+                        box.freeSlots.push_back(pos);
+
+                        cmds.relate(heldEnt, playerEnt, ChildOf{}).add(heldEnt, player.holdablePos);
                     }
                 }
             }
