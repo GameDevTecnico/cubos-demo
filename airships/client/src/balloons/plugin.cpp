@@ -61,7 +61,7 @@ namespace airships::client
                 {
                     if (pos.vec.y <= rp.startingPos.y)
                     {
-                        imp.add(glm::vec3(0.0F, 500.0F, 0.0F));
+                        imp.add(glm::vec3(0.0F, 0.001F, 0.0F));
                     }
                 }
             });
