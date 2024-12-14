@@ -2,10 +2,13 @@
 
 #include "../animation/plugin.hpp"
 
-#include <cubos/core/reflection/reflect.hpp>
-#include <cubos/engine/prelude.hpp>
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
+
+#include <cubos/core/reflection/reflect.hpp>
+
+#include <cubos/engine/prelude.hpp>
+#include <cubos/engine/transform/plugin.hpp>
 
 namespace airships::client
 {
@@ -19,6 +22,9 @@ namespace airships::client
 
         cubos::engine::Asset<Animation> idleAnimation{};
         cubos::engine::Asset<Animation> walkAnimation{};
+
+        /// @brief The position where a holdable item will be placed when a player picks it up
+        cubos::engine::Position holdablePos{};
 
         bool initialized{false};
         bool canMove{true};
