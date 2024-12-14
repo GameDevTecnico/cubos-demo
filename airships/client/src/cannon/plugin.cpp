@@ -20,13 +20,13 @@
 
 using namespace cubos::engine;
 
-static const Asset<Scene> CannonBall = AnyAsset("b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc");
-
 CUBOS_REFLECT_IMPL(airships::client::Cannon)
 {
     return cubos::core::ecs::TypeBuilder<Cannon>("airships::client::Cannon")
         .withField("player", &Cannon::player)
         .withField("cannonLoaded", &Cannon::cannonLoaded)
+        .withField("bulletScene", &Cannon::bulletScene)
+        .withField("bulletSpeed", &Cannon::bulletSpeed)
         .build();
 }
 
@@ -144,11 +144,12 @@ void airships::client::cannonPlugin(Cubos& cubos)
                     auto ball =
                         cmds.create()
                             .add(Position{.vec = cannonPosition})
-                            .add(Scale{0.1})
-                            .add(PhysicsBundle{.mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * 300.0F})
+                            .add(Rotation{.quat = cannonRotation})
+                            .add(PhysicsBundle{
+                                .mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * cannon.bulletSpeed})
                             .entity();
 
-                    auto interpolated = cmds.spawn(assets.read(CannonBall)->blueprint).entity("root");
+                    auto interpolated = cmds.spawn(assets.read(cannon.bulletScene)->blueprint).entity("root");
                     cmds.relate(interpolated, ball, InterpolationOf{});
 
                     cannon.cannonLoaded = false;

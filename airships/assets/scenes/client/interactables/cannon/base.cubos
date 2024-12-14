@@ -21,7 +21,9 @@
             },
             "airships::client::Cannon": {
                 "player": -1,
-                "cannonLoaded": false
+                "cannonLoaded": false,
+                "bulletScene": "41845b51-88de-403b-b0e6-cc89ceee3bde",
+                "bulletSpeed": 200.0
             }
         },
         "tube": {
