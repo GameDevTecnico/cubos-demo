@@ -62,7 +62,7 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
             {
                 auto boatEnt = cmds.spawn(assets.read(spawner.boatScene)->blueprint).entity("root");
                 cmds.add(boatEnt, spawner.boatSkin);
-                cmds.add(boatEnt, RandomPosition{.setYToZero = true});
+                cmds.add(boatEnt, RandomPosition{.minHeight = 0, .maxHeight = 0});
                 cmds.add(boatEnt, TeamSpawnerDestroyDetect{});
                 cmds.relate(boatEnt, ent, ChildOf{});
 

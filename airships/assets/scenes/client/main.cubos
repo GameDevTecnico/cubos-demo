@@ -30,15 +30,47 @@
                     },
                     {
                         "scene": "a796a308-0cad-4674-869d-c5e7177d711c",
-                        "amount": 4
+                        "amount": 10
                     },
                     {
                         "scene": "f136a3a7-6ac1-4fa7-a425-857f38746814",
-                        "amount": 4
+                        "amount": 10
                     },
                     {
                         "scene": "8816c9f2-cecd-40f5-bf0d-80b6d5078ed1",
-                        "amount": 15
+                        "amount": 40,
+                        "minHeight": -100,
+                        "maxHeight": 100
+                    },
+                    {
+                        "scene": "aad8ac6f-498f-4db4-ab98-e5b419e1ef6f",
+                        "amount": 10,
+                        "minHeight": -700,
+                        "maxHeight": -400
+                    },
+                    {
+                        "scene": "c5a17ac7-d9f7-40a4-a9b9-b563957a5cfe",
+                        "amount": 10,
+                        "minHeight": -700,
+                        "maxHeight": -400
+                    },
+                    {
+                        "scene": "a1c52dcc-fb88-415c-9c48-f0d27fb17570",
+                        "amount": 10,
+                        "minHeight": -700,
+                        "maxHeight": -400
+                    },
+                    {
+                        "scene": "4c528048-49e4-4312-a511-8a57daeb2210",
+                        "amount": 10,
+                        "minHeight": 200,
+                        "maxHeight": 500
+                    },
+                    {
+                        "scene": "72b6a9b3-91f3-4f38-b083-5106134a6975",
+                        "amount": 10,
+                        "minHeight": 200,
+                        "maxHeight": 500
                     }
                 ],
                 "boatScene": "c1e41c8f-286f-4313-8155-0c60743ce4d3",

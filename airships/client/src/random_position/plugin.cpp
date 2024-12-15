@@ -27,6 +27,8 @@ CUBOS_REFLECT_IMPL(RandomPosition)
 {
     return cubos::core::ecs::TypeBuilder<RandomPosition>("airships::client::RandomPosition")
         .withField("startingPos", &RandomPosition::startingPos)
+        .withField("minHeight", &RandomPosition::minHeight)
+        .withField("maxHeight", &RandomPosition::maxHeight)
         .build();
 }
 
@@ -45,7 +47,7 @@ namespace airships::client
                 {
                     std::mt19937 engine{std::random_device()()};
                     std::uniform_real_distribution randomAngle(0.0F, 2.0F * glm::pi<float>());
-                    std::uniform_int_distribution distCoordY(-100, 100);
+                    std::uniform_int_distribution distCoordY(randomPosition.minHeight, randomPosition.maxHeight);
 
                     int cid;
                     int x, y, z;
@@ -53,7 +55,7 @@ namespace airships::client
                     {
 
                         x = std::round(cos(randomAngle(engine)) * si.stormRadius);
-                        y = randomPosition.setYToZero ? 0 : distCoordY(engine);
+                        y = distCoordY(engine);
                         z = std::round(sin(randomAngle(engine)) * si.stormRadius);
                         cid = (100 * (z / 100)) + (10 * (y / 100)) + (x / 100);
                     } while (chunkInfo.chunksTaken.find(cid) != chunkInfo.chunksTaken.end());
