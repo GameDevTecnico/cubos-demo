@@ -23,7 +23,8 @@ CUBOS_REFLECT_IMPL(airships::client::MainMenu)
     return cubos::core::ecs::TypeBuilder<MainMenu>("airships::client::MainMenu")
         .withField("levelGenerator", &MainMenu::levelGenerator)
         .withField("boats", &MainMenu::boats)
-        .withField("characters", &MainMenu::characters)
+        .withField("playerScene", &MainMenu::playerScene)
+        .withField("playerSkins", &MainMenu::playerSkins)
         .build();
 }
 
@@ -252,15 +253,17 @@ void airships::client::mainMenuPlugin(Cubos& cubos)
                 cmds.add(ent, RestartMenu{.mainMenu = state.mainMenu});
                 cmds.add(ent, state.mainMenu.levelGenerator);
 
+                int nextPlayerSkin = 0;
                 for (int i = 0; i < state.teams.size(); ++i)
                 {
                     TeamSpawner spawner{};
-                    spawner.boat = state.mainMenu.boats[i % state.mainMenu.boats.size()];
+                    spawner.boatScene = state.mainMenu.boats[i % state.mainMenu.boats.size()];
+                    spawner.playerScene = state.mainMenu.playerScene;
                     for (int j = 0; j < state.teams[i].players.size(); ++j)
                     {
                         TeamSpawner::Player player{};
                         player.id = state.teams[i].players[j].id;
-                        player.scene = state.mainMenu.characters[j % state.mainMenu.characters.size()];
+                        player.skin = state.mainMenu.playerSkins[nextPlayerSkin++ % state.mainMenu.playerSkins.size()];
                         spawner.players.push_back(player);
                     }
                     cmds.create().named("team").add(spawner).relatedTo(ent, ChildOf{});

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../player/plugin.hpp"
+
 #include <cubos/engine/prelude.hpp>
 
 #include <cubos/engine/scene/scene.hpp>
@@ -17,11 +19,12 @@ namespace airships::client
         {
             CUBOS_REFLECT;
 
-            cubos::engine::Asset<cubos::engine::Scene> scene;
+            PlayerSkin skin;
             int id;
         };
 
-        cubos::engine::Asset<cubos::engine::Scene> boat;
+        cubos::engine::Asset<cubos::engine::Scene> boatScene;
+        cubos::engine::Asset<cubos::engine::Scene> playerScene;
         std::vector<Player> players;
     };
 

@@ -16,7 +16,7 @@ using namespace cubos::engine;
 CUBOS_REFLECT_IMPL(airships::client::TeamSpawner::Player)
 {
     return cubos::core::ecs::TypeBuilder<Player>("airships::client::TeamSpawner::Player")
-        .withField("scene", &Player::scene)
+        .withField("skin", &Player::skin)
         .withField("id", &Player::id)
         .build();
 }
@@ -24,7 +24,8 @@ CUBOS_REFLECT_IMPL(airships::client::TeamSpawner::Player)
 CUBOS_REFLECT_IMPL(airships::client::TeamSpawner)
 {
     return cubos::core::ecs::TypeBuilder<TeamSpawner>("airships::client::TeamSpawner")
-        .withField("boat", &TeamSpawner::boat)
+        .withField("boatScene", &TeamSpawner::boatScene)
+        .withField("playerScene", &TeamSpawner::playerScene)
         .withField("players", &TeamSpawner::players)
         .build();
 }
@@ -58,15 +59,16 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Query<Entity, TeamSpawner&> query) {
             for (auto [ent, spawner] : query)
             {
-                auto boatEnt = cmds.spawn(assets.read(spawner.boat)->blueprint).entity("root");
+                auto boatEnt = cmds.spawn(assets.read(spawner.boatScene)->blueprint).entity("root");
                 cmds.add(boatEnt, RandomPosition{.setYToZero = true});
                 cmds.add(boatEnt, TeamSpawnerDestroyDetect{});
                 cmds.relate(boatEnt, ent, ChildOf{});
 
                 for (auto& player : spawner.players)
                 {
-                    auto playerEnt = cmds.spawn(assets.read(player.scene)->blueprint).entity("root");
+                    auto playerEnt = cmds.spawn(assets.read(spawner.playerScene)->blueprint).entity("root");
                     cmds.relate(playerEnt, boatEnt, ChildOf{});
+                    cmds.add(playerEnt, player.skin);
                     cmds.add(playerEnt, PlayerId{.id = player.id});
                 }
             }

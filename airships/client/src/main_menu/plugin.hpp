@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../level_generator/plugin.hpp"
+#include "../player/plugin.hpp"
 
 #include <cubos/engine/prelude.hpp>
 
@@ -15,7 +16,8 @@ namespace airships::client
 
         LevelGenerator levelGenerator;
         std::vector<cubos::engine::Asset<cubos::engine::Scene>> boats;
-        std::vector<cubos::engine::Asset<cubos::engine::Scene>> characters;
+        cubos::engine::Asset<cubos::engine::Scene> playerScene;
+        std::vector<PlayerSkin> playerSkins;
     };
 
     struct OnlineMenu
