@@ -12,6 +12,7 @@
 #include <cubos/engine/render/camera/camera.hpp>
 #include <cubos/engine/imgui/plugin.hpp>
 
+#include "render_damage/plugin.hpp"
 #include "balloons/plugin.hpp"
 #include "random_position/plugin.hpp"
 #include "drivable/plugin.hpp"
@@ -38,6 +39,8 @@
 #include "resource/plugin.hpp"
 #include "box/plugin.hpp"
 #include "holdable/plugin.hpp"
+#include "bullet/plugin.hpp"
+#include "damageable/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -72,6 +75,8 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::hidePlugin);
     cubos.plugin(airships::client::ropePlugin);
     cubos.plugin(airships::client::seeThroughPlugin);
+    cubos.plugin(airships::client::damageablePlugin);
+    cubos.plugin(airships::client::bulletPlugin);
     cubos.plugin(airships::client::cannonPlugin);
     cubos.plugin(airships::client::autoDrawsToPlugin);
     cubos.plugin(airships::client::autoChildOfPlugin);
@@ -80,6 +85,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::mainMenuPlugin);
     cubos.plugin(airships::client::holdablePlugin);
     cubos.plugin(airships::client::boxPlugin);
+    cubos.plugin(airships::client::renderDamagePlugin);
 
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

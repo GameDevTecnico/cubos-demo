@@ -10,6 +10,7 @@
         "maxRoll": 20.0,
         "rollLerpFactor": 0.99
       },
+      "airships::client::Damageable": 3,
       "cubos::engine::Collider": {
         "transform": {
           "a": {

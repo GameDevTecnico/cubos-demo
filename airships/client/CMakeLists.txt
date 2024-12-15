@@ -29,6 +29,9 @@ add_executable(airships-client
     src/resource/plugin.cpp
     src/holdable/plugin.cpp
     src/box/plugin.cpp
+    src/damageable/plugin.cpp
+    src/render_damage/plugin.cpp
+    src/bullet/plugin.cpp
 )
 target_link_libraries(airships-client PUBLIC cubos::engine)
 target_link_libraries(airships-client PRIVATE airships-common)

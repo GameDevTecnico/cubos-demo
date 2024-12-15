@@ -12,8 +12,12 @@
         "y": 0.7071068,
         "z": 0.0
       },
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e",
+      "airships::client::RenderDamage": {
+        "grids": {
+          "1": "d96613dd-6711-4913-ab05-2223ee952f88",
+          "2": "6ad09b3e-4678-40c5-9d7a-9e89eedbf070",
+          "3": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e"
+        },
         "offset": {
           "x": -41.0,
           "y": -17.0,
