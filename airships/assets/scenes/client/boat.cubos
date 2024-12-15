@@ -212,14 +212,6 @@
         "z": 4.0
       }
     },
-    "furnace.root": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
     "steering-wheel.root": {
       "cubos::engine::ChildOf@root": {},
       "cubos::engine::Position": {
@@ -258,7 +250,6 @@
     }
   },
   "imports": {
-    "furnace": "f9eb47a8-5deb-41b5-8f6b-f9c8ae2afe7b",
     "steering-wheel": "d0815d31-57a0-46f5-b348-9e32803f9a67",
     "cannon1": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
     "cannon2": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d"
