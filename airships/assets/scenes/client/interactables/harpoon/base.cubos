@@ -30,7 +30,7 @@
             "cubos::engine::ChildOf@root": {},
             "cubos::engine::Position": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 9.5,
                 "z": 0.0
             },
             "cubos::engine::Rotation": {

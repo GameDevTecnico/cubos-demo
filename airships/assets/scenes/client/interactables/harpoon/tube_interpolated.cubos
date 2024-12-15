@@ -3,11 +3,11 @@
         "root": {
             "cubos::engine::Position": {},
             "cubos::engine::RenderVoxelGrid": {
-                "asset": "97f34b4c-1302-48d5-b9a2-9430c2657647",
+                "asset": "dd2ec048-0b1b-4185-b477-938f8dd2a658",
                 "offset": {
-                    "x": -7.0,
-                    "y": 4.0,
-                    "z": -5.0
+                    "x": -12.5,
+                    "y": -2.5,
+                    "z": -7.0
                 }
             }
         }
