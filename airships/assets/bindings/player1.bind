@@ -1,22 +1,8 @@
 {
     "actions": {
-        "left": [
-            {"keys": ["A"]}
-        ],
-        "right": [
-            {"keys": ["D"]}
-        ],
-        "up": [
-            {"keys": ["W"]}
-        ],
-        "down": [
-            {"keys": ["S"]}
-        ],
         "fire": [
-            {"keys": ["X"]}
-        ],
-        "reload": [
-            {"keys": ["R"]}
+            {"keys": ["X"]},
+            {"gamepadButtons": ["X"]}
         ],
         "camera-toggle-mouse": [
             {"keys": ["L"]}

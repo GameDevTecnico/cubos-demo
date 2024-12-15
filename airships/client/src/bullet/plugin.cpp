@@ -18,6 +18,7 @@ void airships::client::bulletPlugin(Cubos& cubos)
     cubos.depends(collisionsPlugin);
     cubos.depends(damageablePlugin);
     cubos.depends(destroyTreePlugin);
+    cubos.depends(transformPlugin);
 
     cubos.component<Bullet>();
 
@@ -27,6 +28,17 @@ void airships::client::bulletPlugin(Cubos& cubos)
             {
                 damageable.health -= 1;
                 cmds.add(entity, DestroyTree{});
+            }
+        });
+
+    cubos.system("destroy bullets which are too low")
+        .call([](Commands cmds, Query<Entity, const Bullet&, const Position&> query) {
+            for (auto [entity, bullet, position] : query)
+            {
+                if (position.vec.y < -1000.0F)
+                {
+                    cmds.add(entity, DestroyTree{});
+                }
             }
         });
 }

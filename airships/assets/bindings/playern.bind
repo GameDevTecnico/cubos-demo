@@ -1,5 +1,8 @@
 {
     "actions": {
+        "fire": [
+            {"gamepadButtons": ["X"]}
+        ],
         "interact": [
             {
                 "gamepadButtons": [
