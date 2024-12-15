@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../damageable/plugin.hpp"
+#include "../balloons/plugin.hpp"
 #include "../destroy_tree/plugin.hpp"
 
 #include <cubos/engine/collisions/plugin.hpp>
@@ -19,6 +20,7 @@ void airships::client::bulletPlugin(Cubos& cubos)
     cubos.depends(damageablePlugin);
     cubos.depends(destroyTreePlugin);
     cubos.depends(transformPlugin);
+    cubos.depends(balloonsPlugin);
 
     cubos.component<Bullet>();
 
@@ -27,6 +29,15 @@ void airships::client::bulletPlugin(Cubos& cubos)
             for (auto [entity, bullet, collidingWith, damageable] : query)
             {
                 damageable.health -= 1;
+                cmds.add(entity, DestroyTree{});
+            }
+        });
+
+    cubos.system("handle bullet collisions with balloons")
+        .call([](Commands cmds, Query<Entity, const Bullet&, const CollidingWith&, Entity, BalloonInfo&> query) {
+            for (auto [entity, bullet, collidingWith, entBalloon, balloon] : query)
+            {
+                cmds.add(entBalloon, DestroyTree{});
                 cmds.add(entity, DestroyTree{});
             }
         });
