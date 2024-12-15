@@ -30,6 +30,7 @@ CUBOS_REFLECT_IMPL(airships::client::Drivable)
         .withField("roll", &Drivable::roll)
         .withField("rollLerpFactor", &Drivable::rollLerpFactor)
         .withField("yaw", &Drivable::yaw)
+        .withField("buoyancy", &Drivable::buoyancy)
         .build();
 }
 
@@ -162,7 +163,13 @@ void airships::client::drivablePlugin(Cubos& cubos)
                 velocity.vec.x = vel.x;
                 velocity.vec.z = vel.z;
 
-                force.add(-mass.mass * gravity.value);
+                glm::vec3 buoyancy = -mass.mass * gravity.value * drivable.buoyancy;
+                if (position.vec.y < 0.0F && drivable.buoyancy > 0.0F && velocity.vec.y < 0.0F)
+                {
+                    // Negate vertical velocity
+                    buoyancy += glm::vec3{0.0F, -velocity.vec.y * mass.mass, 0.0F};
+                }
+                force.add(buoyancy);
             }
         });
 }

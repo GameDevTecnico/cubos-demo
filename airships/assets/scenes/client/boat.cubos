@@ -11,6 +11,7 @@
         "rollLerpFactor": 0.99
       },
       "airships::client::Damageable": 3,
+      "airships::client::DrivableDestruction": -1000.0,
       "cubos::engine::Collider": {
         "transform": {
           "a": {

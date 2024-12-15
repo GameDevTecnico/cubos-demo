@@ -45,6 +45,9 @@ namespace airships::client
 
         /// @brief Current yaw of the entity, in degrees.
         float yaw = 0.0F;
+
+        /// @brief Current buoyancy of the entity.
+        float buoyancy = 1.0F;
     };
 
     void drivablePlugin(cubos::engine::Cubos& cubos);
