@@ -48,6 +48,21 @@ namespace airships::client
 
         /// @brief Current buoyancy of the entity.
         float buoyancy = 1.0F;
+
+        /// @brief Height from which the buoyancy doubles.
+        float buoyancyDoubleHeight = -100.0F;
+
+         /// @brief Height from which the buoyancy starts to increase.
+        float buoyancyIncreaseHeight = 0.0F;
+
+        /// @brief Height at which the buoyancy starts to decrease.
+        float buoyancyDecreaseHeight = 100.0F;
+
+        /// @brief Height at which the buoyancy reaches 0.
+        float buoyancyZeroHeight = 200.0F;
+
+        /// @brief How much to dampen the vertical velocity.
+        float verticalDampening = 0.1F;
     };
 
     void drivablePlugin(cubos::engine::Cubos& cubos);
