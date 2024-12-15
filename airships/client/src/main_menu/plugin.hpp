@@ -53,5 +53,12 @@ namespace airships::client
         MainMenu mainMenu;
     };
 
+    struct RestartMenu
+    {
+        CUBOS_REFLECT;
+
+        MainMenu mainMenu;
+    };
+
     void mainMenuPlugin(cubos::engine::Cubos& cubos);
 } // namespace airships::client

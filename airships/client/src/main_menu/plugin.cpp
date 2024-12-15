@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../team_spawner/plugin.hpp"
+#include "../destroy_tree/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/string.hpp>
@@ -42,16 +43,25 @@ CUBOS_REFLECT_IMPL(airships::client::OfflineMenu)
         .build();
 }
 
+CUBOS_REFLECT_IMPL(airships::client::RestartMenu)
+{
+    return cubos::core::ecs::TypeBuilder<RestartMenu>("airships::client::RestartMenu")
+        .withField("mainMenu", &RestartMenu::mainMenu)
+        .build();
+}
+
 void airships::client::mainMenuPlugin(Cubos& cubos)
 {
     cubos.depends(imguiPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(levelGeneratorPlugin);
     cubos.depends(teamSpawnerPlugin);
+    cubos.depends(destroyTreePlugin);
 
     cubos.component<MainMenu>();
     cubos.component<OnlineMenu>();
     cubos.component<OfflineMenu>();
+    cubos.component<RestartMenu>();
 
     cubos.system("show main menu")
         .tagged(imguiTag)
@@ -235,9 +245,11 @@ void airships::client::mainMenuPlugin(Cubos& cubos)
                 }
             }
 
-            if (ImGui::Button("Start", ImVec2(ImGui::GetContentRegionAvail().x, 0)) && state.teams.size() > 1 && !emptyTeams)
+            if (ImGui::Button("Start", ImVec2(ImGui::GetContentRegionAvail().x, 0)) && state.teams.size() > 1 &&
+                !emptyTeams)
             {
                 cmds.remove<OfflineMenu>(ent);
+                cmds.add(ent, RestartMenu{.mainMenu = state.mainMenu});
                 cmds.add(ent, state.mainMenu.levelGenerator);
 
                 for (int i = 0; i < state.teams.size(); ++i)
@@ -263,4 +275,29 @@ void airships::client::mainMenuPlugin(Cubos& cubos)
             ImGui::End();
         }
     });
+
+    cubos.system("show restart menu")
+        .tagged(imguiTag)
+        .call([](Commands cmds, Query<Entity, RestartMenu&> query, Query<Entity, const TeamSpawner&> teams) {
+            for (auto [ent, state] : query)
+            {
+                int count = 0;
+                for (auto [teamEnt, team] : teams)
+                {
+                    count += 1;
+                }
+
+                if (count <= 1)
+                {
+                    for (auto [teamEnt, team] : teams)
+                    {
+                        cmds.add(teamEnt, DestroyTree{});
+                    }
+
+                    cmds.remove<LevelGenerator>(ent);
+                    cmds.remove<RestartMenu>(ent);
+                    cmds.add(ent, state.mainMenu);
+                }
+            }
+        });
 }

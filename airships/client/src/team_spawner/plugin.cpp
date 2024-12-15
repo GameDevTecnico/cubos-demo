@@ -29,6 +29,20 @@ CUBOS_REFLECT_IMPL(airships::client::TeamSpawner)
         .build();
 }
 
+namespace
+{
+    struct TeamSpawnerDestroyDetect
+    {
+        CUBOS_REFLECT;
+    };
+
+    CUBOS_REFLECT_IMPL(TeamSpawnerDestroyDetect)
+    {
+        return cubos::core::ecs::TypeBuilder<TeamSpawnerDestroyDetect>("airships::client::TeamSpawnerDestroyDetect")
+            .build();
+    }
+} // namespace
+
 void airships::client::teamSpawnerPlugin(Cubos& cubos)
 {
     cubos.depends(assetsPlugin);
@@ -37,6 +51,7 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
     cubos.depends(playerIdPlugin);
 
     cubos.component<TeamSpawner>();
+    cubos.component<TeamSpawnerDestroyDetect>();
 
     cubos.observer("spawn team")
         .onAdd<TeamSpawner>()
@@ -45,6 +60,7 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
             {
                 auto boatEnt = cmds.spawn(assets.read(spawner.boat)->blueprint).entity("root");
                 cmds.add(boatEnt, RandomPosition{.setYToZero = true});
+                cmds.add(boatEnt, TeamSpawnerDestroyDetect{});
                 cmds.relate(boatEnt, ent, ChildOf{});
 
                 for (auto& player : spawner.players)
@@ -53,6 +69,15 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
                     cmds.relate(playerEnt, boatEnt, ChildOf{});
                     cmds.add(playerEnt, PlayerId{.id = player.id});
                 }
+            }
+        });
+
+    cubos.observer("detect team destruction")
+        .onRemove<TeamSpawnerDestroyDetect>()
+        .call([](Commands cmds, Query<const ChildOf&, Entity> query) {
+            for (auto [childOf, team] : query)
+            {
+                cmds.destroy(team);
             }
         });
 }
