@@ -42,6 +42,7 @@
 #include "bullet/plugin.hpp"
 #include "damageable/plugin.hpp"
 #include "destroy_tree/plugin.hpp"
+#include "drivable_destruction/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -88,6 +89,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::holdablePlugin);
     cubos.plugin(airships::client::boxPlugin);
     cubos.plugin(airships::client::renderDamagePlugin);
+    cubos.plugin(airships::client::drivableDestructionPlugin);
 
     cubos.startupSystem("increase gravity").call([](Gravity& gravity) { gravity.value *= 5.0F; });
 
