@@ -1,7 +1,7 @@
 {
     "entities": {
         "root": {
-            "cubos::engine::Scale": 10.0,
+            "cubos::engine::Scale": 20.0,
             "cubos::engine::RenderVoxelGrid": {
                 "asset": "fb4bceaf-6fa3-499d-9348-e2152abb36f7",
                 "offset": {
