@@ -55,7 +55,8 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
 
     cubos.observer("handle SteeringWheel interaction")
         .onAdd<Interaction>()
-        .call([](Commands cmds, Query<Entity, SteeringWheel&, Interaction&> query, Query<Player&, const PlayerId&> players) {
+        .call([](Commands cmds, Query<Entity, SteeringWheel&, Interaction&> query,
+                 Query<Player&, const PlayerId&> players) {
             for (auto [entity, wheel, interaction] : query)
             {
                 cmds.remove<Interaction>(entity);
@@ -64,12 +65,12 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
                 if (wheel.player == -1)
                 {
                     wheel.player = id.id;
-                    player.canMove = false;
+                    player.interactingWith = entity;
                 }
                 else if (id.id == wheel.player)
                 {
                     wheel.player = -1;
-                    player.canMove = true;
+                    player.interactingWith = {};
                 }
             }
         });
