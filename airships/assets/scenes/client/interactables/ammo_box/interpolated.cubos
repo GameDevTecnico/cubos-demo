@@ -3,130 +3,143 @@
     "root": {
       "cubos::engine::Position": {}
     },
+    "model": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {},
+      "cubos::engine::Scale": 1.5,
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "8d64ef64-1e5a-4d19-878a-106d53402cea",
+        "offset": {
+          "x": -6,
+          "y": 0,
+          "z": -6
+        }
+      }
+    },
     "ball01.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": -5,
-          "y": 2.0,
-          "z": -5
+        "x": -5,
+        "y": 2,
+        "z": -5
       }
     },
     "ball02.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 0.0,
-          "y": 2.0,
-          "z": -5
+        "x": 0,
+        "y": 2,
+        "z": -5
       }
     },
     "ball03.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 5,
-          "y": 2.0,
-          "z": -5
+        "x": 5,
+        "y": 2,
+        "z": -5
       }
     },
     "ball04.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": -5.0,
-          "y": 2.0,
-          "z": 0.0
+        "x": -5,
+        "y": 2,
+        "z": 0
       }
     },
     "ball05.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 0.0,
-          "y": 2.0,
-          "z": 0.0
+        "x": 0,
+        "y": 2,
+        "z": 0
       }
     },
     "ball06.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 5.0,
-          "y": 2.0,
-          "z": 0.0
+        "x": 5,
+        "y": 2,
+        "z": 0
       }
     },
     "ball07.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": -5.0,
-          "y": 2.0,
-          "z": 5.0
+        "x": -5,
+        "y": 2,
+        "z": 5
       }
     },
     "ball08.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 0.0,
-          "y": 2.0,
-          "z": 5.0
+        "x": 0,
+        "y": 2,
+        "z": 5
       }
     },
     "ball09.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 5.0,
-          "y": 2.0,
-          "z": 5.0
+        "x": 5,
+        "y": 2,
+        "z": 5
       }
     },
     "ball10.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 2.5,
-          "y": 5.0,
-          "z": 2.5
+        "x": 2.5,
+        "y": 5,
+        "z": 2.5
       }
     },
     "ball11.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 2.5,
-          "y": 5.0,
-          "z": -2.5
+        "x": 2.5,
+        "y": 5,
+        "z": -2.5
       }
     },
     "ball12.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": -2.5,
-          "y": 5.0,
-          "z": 2.5
+        "x": -2.5,
+        "y": 5,
+        "z": 2.5
       }
     },
     "ball13.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": -2.5,
-          "y": 5.0,
-          "z": -2.5
+        "x": -2.5,
+        "y": 5,
+        "z": -2.5
       }
     },
     "ball14.root": {
       "cubos::engine::ChildOf@root": {},
       "airships::client::Holdable": "ball",
       "cubos::engine::Position": {
-          "x": 0.0,
-          "y": 7.5,
-          "z": 0.0
+        "x": 0,
+        "y": 7.5,
+        "z": 0
       }
     }
   },
