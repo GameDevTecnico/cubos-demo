@@ -16,7 +16,7 @@
             "airships::client::Interpolated": "85c4cce8-bcc8-4f1b-8542-166a0fc98f0b",
             "cubos::engine::BoxCollisionShape": {
                 "x": 5.0,
-                "y": 10.0,
+                "y": 20.0,
                 "z": 5.0
             },
             "airships::client::Cannon": {
