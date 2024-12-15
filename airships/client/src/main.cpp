@@ -43,6 +43,7 @@
 #include "damageable/plugin.hpp"
 #include "destroy_tree/plugin.hpp"
 #include "drivable_destruction/plugin.hpp"
+#include "boat_skin/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -60,6 +61,7 @@ int main(int argc, char** argv)
 
     // Add game plugins
     cubos.plugin(airships::client::interpolationPlugin);
+    cubos.plugin(airships::client::boatSkinPlugin);
     cubos.plugin(airships::client::destroyTreePlugin);
     cubos.plugin(airships::client::animationPlugin);
     cubos.plugin(airships::client::interactablePlugin);

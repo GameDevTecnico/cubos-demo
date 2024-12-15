@@ -12,18 +12,7 @@
         "y": 0.7071068,
         "z": 0.0
       },
-      "airships::client::RenderDamage": {
-        "grids": {
-          "1": "d96613dd-6711-4913-ab05-2223ee952f88",
-          "2": "6ad09b3e-4678-40c5-9d7a-9e89eedbf070",
-          "3": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e"
-        },
-        "offset": {
-          "x": -41.0,
-          "y": -17.0,
-          "z": -27.0
-        }
-      }
+      "airships::client::BoatSkinHull": {}
     },
     "balloon": {
       "cubos::engine::ChildOf@root": {},
@@ -33,14 +22,7 @@
         "z": -4.5
       },
       "cubos::engine::Scale": 0.5,
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "bac9c97f-b617-4bee-9eda-d1f641388098",
-        "offset": {
-          "x": -52.0,
-          "y": 0.0,
-          "z": -29.0
-        }
-      },
+      "airships::client::BoatSkinBalloon": {},
       "cubos::engine::Collider": {
         "mask": 0,
         "layer": 3,
@@ -169,14 +151,7 @@
         "z": -19.0
       },
       "cubos::engine::Scale": 0.5,
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "96a22061-8668-4bd2-8419-c92d21e1404e",
-        "offset": {
-          "x": -1.0,
-          "y": -17.0,
-          "z": -1.0
-        }
-      },
+      "airships::client::BoatSkinRudder": {},
       "airships::client::Rudder": {
         "maxYaw": 30.0,
         "offsetYaw": 90.0
@@ -190,14 +165,7 @@
         "z": 18.0
       },
       "cubos::engine::Scale": 0.5,
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "37647b07-0e4d-44e9-ad83-982893c6a97a",
-        "offset": {
-          "x": -5.5,
-          "y": -17.0,
-          "z": -3.0
-        }
-      },
+      "airships::client::BoatSkinAnchor": {},
       "airships::client::Rudder": {
         "maxYaw": 60.0,
         "offsetYaw": 60.0,

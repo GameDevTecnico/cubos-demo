@@ -2,6 +2,7 @@
 
 #include "../level_generator/plugin.hpp"
 #include "../player/plugin.hpp"
+#include "../boat_skin/plugin.hpp"
 
 #include <cubos/engine/prelude.hpp>
 
@@ -15,7 +16,8 @@ namespace airships::client
         CUBOS_REFLECT;
 
         LevelGenerator levelGenerator;
-        std::vector<cubos::engine::Asset<cubos::engine::Scene>> boats;
+        cubos::engine::Asset<cubos::engine::Scene> boatScene;
+        std::vector<BoatSkin> boatSkins;
         cubos::engine::Asset<cubos::engine::Scene> playerScene;
         std::vector<PlayerSkin> playerSkins;
     };
