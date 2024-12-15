@@ -3,6 +3,7 @@
 #include "../player_id/plugin.hpp"
 #include "../interactable/plugin.hpp"
 #include "../interpolation/plugin.hpp"
+#include "../bullet/plugin.hpp"
 
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
@@ -13,6 +14,9 @@
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
 
+#include <cubos/engine/collisions/plugin.hpp>
+#include <cubos/engine/collisions/collider.hpp>
+#include <cubos/engine/collisions/shapes/box.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/physics/plugins/gravity.hpp>
 
@@ -46,6 +50,8 @@ void airships::client::cannonPlugin(Cubos& cubos)
     cubos.depends(playerIdPlugin);
     cubos.depends(interactablePlugin);
     cubos.depends(interpolationPlugin);
+    cubos.depends(bulletPlugin);
+    cubos.depends(collisionsPlugin);
 
     cubos.component<Cannon>();
     cubos.component<CannonTube>();
@@ -143,14 +149,16 @@ void airships::client::cannonPlugin(Cubos& cubos)
 
                     auto ball =
                         cmds.create()
-                            .add(Position{.vec = cannonPosition})
+                            .add(Position{.vec = cannonPosition + forward * 10.0F})
                             .add(Rotation{.quat = cannonRotation})
+                            .add(Scale{0.5F})
                             .add(PhysicsBundle{
                                 .mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * cannon.bulletSpeed})
+                            .add(Collider{})
+                            .add(BoxCollisionShape{.box = {.halfSize = {3.5F, 3.5F, 3.5F}}})
+                            .add(Bullet{})
+                            .add(Interpolated{cannon.bulletScene})
                             .entity();
-
-                    auto interpolated = cmds.spawn(assets.read(cannon.bulletScene)->blueprint).entity("root");
-                    cmds.relate(interpolated, ball, InterpolationOf{});
 
                     cannon.cannonLoaded = false;
                 }
