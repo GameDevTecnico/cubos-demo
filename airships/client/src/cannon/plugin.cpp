@@ -92,25 +92,10 @@ void airships::client::cannonPlugin(Cubos& cubos)
                     if (cannon.player == -1)
                         continue;
 
-                    glm::quat yawQuat = glm::quat(1.0F, 0.0F, 0.0F, 0.0F);   // Rotation around Y-axis
-                    glm::quat pitchQuat = glm::quat(1.0F, 0.0F, 0.0F, 0.0F); // Rotation around X-axis
-
-                    if (inputs.pressed("left", cannon.player))
-                    {
-                        yawQuat = glm::angleAxis(0.5F * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
-                    }
-                    if (inputs.pressed("right", cannon.player))
-                    {
-                        yawQuat = glm::angleAxis(-0.5F * dt.value(), glm::vec3(0.0F, 1.0F, 0.0F));
-                    }
-                    if (inputs.pressed("up", cannon.player))
-                    {
-                        pitchQuat = glm::angleAxis(0.5F * dt.value(), glm::vec3(0.0F, 0.0F, 1.0F));
-                    }
-                    if (inputs.pressed("down", cannon.player))
-                    {
-                        pitchQuat = glm::angleAxis(-0.5F * dt.value(), glm::vec3(0.0F, 0.0F, 1.0F));
-                    }
+                    glm::quat yawQuat = glm::angleAxis(-inputs.axis("horizontal", cannon.player) * dt.value(),
+                                                       glm::vec3(0.0F, 1.0F, 0.0F)); // Rotation around Y-axis
+                    glm::quat pitchQuat = glm::angleAxis(inputs.axis("vertical", cannon.player) * dt.value(),
+                                                         glm::vec3(0.0F, 0.0F, 1.0F)); // Rotation around X-axis
 
                     glm::vec3 cannonEuler = glm::eulerAngles(yawQuat * cannonRotation.quat);
                     cannonEuler.y = glm::clamp(cannonEuler.y, glm::radians(-45.0F), glm::radians(45.0F));
@@ -120,10 +105,7 @@ void airships::client::cannonPlugin(Cubos& cubos)
                     tubeEuler.z = glm::clamp(tubeEuler.z, glm::radians(-22.5F), 0.0F);
                     tubeRotation.quat = glm::quat(tubeEuler);
 
-                    if (inputs.justPressed("reload", cannon.player))
-                    {
-                        cannon.cannonLoaded = true;
-                    }
+                    cannon.cannonLoaded = true;
                 }
             });
 
