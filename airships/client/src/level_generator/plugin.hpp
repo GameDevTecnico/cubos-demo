@@ -17,6 +17,8 @@ namespace airships::client
 
             cubos::engine::Asset<cubos::engine::Scene> scene;
             int amount;
+            float minHeight{-100.0F};
+            float maxHeight{100.0F};
         };
 
         std::vector<Object> objects;

@@ -20,11 +20,12 @@ namespace airships::client
         std::map<int, glm::vec3> chunksTaken;
     };
 
-    struct RandomPosition 
+    struct RandomPosition
     {
         CUBOS_REFLECT;
         glm::vec3 startingPos = {0.0F, 0.0F, 0.0F};
-        bool setYToZero = false;
+        int minHeight = -100;
+        int maxHeight = 100;
     };
 
     /// @brief Plugin that gives entities a random position but not overlapping with others
