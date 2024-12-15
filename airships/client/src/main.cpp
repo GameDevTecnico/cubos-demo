@@ -11,6 +11,7 @@
 #include <cubos/engine/physics/plugins/gravity.hpp>
 #include <cubos/engine/render/camera/camera.hpp>
 #include <cubos/engine/imgui/plugin.hpp>
+#include <cubos/engine/audio/plugin.hpp>
 
 #include "render_damage/plugin.hpp"
 #include "balloons/plugin.hpp"
@@ -59,6 +60,7 @@ int main(int argc, char** argv)
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
     cubos.plugin(gravityPlugin);
+    cubos.plugin(audioPlugin);
 
     // Add game plugins
     cubos.plugin(airships::client::interpolationPlugin);

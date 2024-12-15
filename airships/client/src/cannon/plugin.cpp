@@ -9,6 +9,7 @@
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
+#include <cubos/engine/audio/plugin.hpp>
 
 #include <cubos/core/reflection/external/glm.hpp>
 #include <cubos/core/ecs/reflection.hpp>
@@ -52,6 +53,7 @@ void airships::client::cannonPlugin(Cubos& cubos)
     cubos.depends(interpolationPlugin);
     cubos.depends(bulletPlugin);
     cubos.depends(collisionsPlugin);
+    cubos.depends(audioPlugin);
 
     cubos.component<Cannon>();
     cubos.component<CannonTube>();
@@ -111,8 +113,9 @@ void airships::client::cannonPlugin(Cubos& cubos)
 
     cubos.system("fire cannon")
         .call([](Commands cmds, Assets& assets, Input& inputs,
-                 Query<CannonTube&, Rotation&, ChildOf&, Cannon&, LocalToWorld&, ChildOf&, Velocity&> query) {
-            for (auto [tube, tubeRotation, childOf1, cannon, cannonLocalToWorld, childOf2, boatVelocity] : query)
+                 Query<CannonTube&, Rotation&, ChildOf&, Entity, Cannon&, LocalToWorld&, ChildOf&, Velocity&> query,
+                 Query<Entity, const InterpolationOf&> interpolationQuery) {
+            for (auto [tube, tubeRotation, childOf1, cannonEnt, cannon, cannonLocalToWorld, childOf2, boatVelocity] : query)
             {
                 if (cannon.player == -1)
                 {
@@ -123,6 +126,12 @@ void airships::client::cannonPlugin(Cubos& cubos)
                 {
                     if (!cannon.cannonLoaded)
                         continue;
+
+                    if (auto match = interpolationQuery.pin(1, cannonEnt).first())
+                    {
+                        auto [ent, interpolationOf] = *match;
+                        cmds.add(ent, AudioPlay{});
+                    }
 
                     glm::vec3 cannonPosition = cannonLocalToWorld.worldPosition();
                     glm::quat cannonRotation = cannonLocalToWorld.worldRotation();
