@@ -11,6 +11,7 @@
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/render/voxels/grid.hpp>
 #include <cubos/engine/physics/components/velocity.hpp>
+#include <cubos/engine/physics/plugins/gravity.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <random>
@@ -48,6 +49,7 @@ namespace airships::client
         cubos.depends(assetsPlugin);
         cubos.depends(transformPlugin);
         cubos.depends(resourcesPlugin);
+        cubos.depends(gravityPlugin);
 
         cubos.component<BalloonInfo>();
         cubos.component<PopBalloon>();
@@ -55,13 +57,16 @@ namespace airships::client
         cubos.system("idling")
             .tagged(physicsApplyForcesTag)
             .call([](Commands cmds,
-                     Query<Entity, BalloonInfo&, const Position&, const RandomPosition&, Impulse&, const Velocity&>
-                         query) {
-                for (auto [ent, _, pos, rp, imp, vel] : query)
+                     Query<Entity, BalloonInfo&, const Position&, const RandomPosition&, const Mass&, Force&, Impulse&, const Velocity&>
+                         query, const Gravity& gravity) {
+                for (auto [ent, _, pos, rp, mass, force, imp, vel] : query)
                 {
-                    if (pos.vec.y <= rp.startingPos.y)
+                    force.add(-mass.mass * gravity.value * 0.9F);
+                    if (pos.vec.y <= 0.0F)
                     {
-                        imp.add(glm::vec3(0.0F, 0.001F, 0.0F));
+                       force.add(mass.mass * gravity.value * pos.vec.y * 0.2F);
+                       float dampingFactor = 0.05F;
+                       force.add(glm::vec3(0.0F, -dampingFactor * vel.vec.y, 0.0F));
                     }
                 }
             });
