@@ -61,13 +61,7 @@ namespace airships::client
                          query, const Gravity& gravity) {
                 for (auto [ent, _, pos, rp, mass, force, imp, vel] : query)
                 {
-                    force.add(-mass.mass * gravity.value * 0.9F);
-                    if (pos.vec.y <= 0.0F)
-                    {
-                       force.add(mass.mass * gravity.value * pos.vec.y * 0.2F);
-                       float dampingFactor = 0.05F;
-                       force.add(glm::vec3(0.0F, -dampingFactor * vel.vec.y, 0.0F));
-                    }
+                    force.add(-mass.mass * gravity.value);
                 }
             });
 
@@ -91,7 +85,7 @@ namespace airships::client
                     bi.state = BalloonInfo::State::Popped;
                     pos.vec = localToWorld.worldPosition();
                     cmds.unrelate<ChildOf>(child, parent);
-                    imp.add(glm::vec3(0.0F, 8000.0F, 0.0F));
+                    imp.add(glm::vec3(0.0F, 10000.0F, 0.0F));
                     cmds.remove<PopBalloon>(parent);
                 }
             });
