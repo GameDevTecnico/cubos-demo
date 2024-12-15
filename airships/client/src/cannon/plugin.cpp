@@ -74,12 +74,12 @@ void airships::client::cannonPlugin(Cubos& cubos)
                 if (cannon.player == -1)
                 {
                     cannon.player = id.id;
-                    player.canMove = false;
+                    player.interactingWith = entity;
                 }
                 else if (id.id == cannon.player)
                 {
                     cannon.player = -1;
-                    player.canMove = true;
+                    player.interactingWith = {};
                 }
             }
         });

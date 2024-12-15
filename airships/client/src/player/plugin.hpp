@@ -27,7 +27,7 @@ namespace airships::client
         cubos::engine::Position holdablePos{};
 
         bool initialized{false};
-        bool canMove{true};
+        cubos::engine::Entity interactingWith{};
 
         float interactDistance{1.0F};
 

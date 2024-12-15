@@ -35,7 +35,7 @@ CUBOS_REFLECT_IMPL(airships::client::Player)
         .withField("walkAnimation", &Player::walkAnimation)
         .withField("holdablePos", &Player::holdablePos)
         .withField("interactDistance", &Player::interactDistance)
-        .withField("canMove", &Player::canMove)
+        .withField("interactingWith", &Player::interactingWith)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
         .withField("halfRotationTime", &Player::halfRotationTime)
@@ -83,7 +83,7 @@ void airships::client::playerPlugin(Cubos& cubos)
             for (auto [cameraLTW, follow, animation, interpolationOf, player, playerId, pos, rot, childOf, boatLTW] :
                  players)
             {
-                if (playerId.id == -1 || !player.canMove)
+                if (playerId.id == -1 || !player.interactingWith.isNull())
                 {
                     animation.play(player.idleAnimation);
                     continue;
@@ -127,15 +127,22 @@ void airships::client::playerPlugin(Cubos& cubos)
             {
                 if (input.justPressed(player.interactAction.c_str(), playerId.id))
                 {
-                    Raycast::Ray ray{.origin = playerLTW.worldPosition(), .direction = playerLTW.forward()};
-                    ray.mask = 1 << 1; // Only hit interactables
-                    if (auto hit = raycast.fire(ray);
-                        hit && glm::distance(hit->point, ray.origin) < player.interactDistance)
+                    if (player.interactingWith.isNull())
                     {
-                        if (interactables.at(hit->entity))
+                        Raycast::Ray ray{.origin = playerLTW.worldPosition(), .direction = playerLTW.forward()};
+                        ray.mask = 1 << 1; // Only hit interactables
+                        if (auto hit = raycast.fire(ray);
+                            hit && glm::distance(hit->point, ray.origin) < player.interactDistance)
                         {
-                            cmds.add(hit->entity, Interaction{.player = playerEnt});
+                            if (interactables.at(hit->entity))
+                            {
+                                cmds.add(hit->entity, Interaction{.player = playerEnt});
+                            }
                         }
+                    }
+                    else
+                    {
+                        cmds.add(player.interactingWith, Interaction{.player = playerEnt});
                     }
                 }
             }
