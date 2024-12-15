@@ -50,6 +50,7 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(randomPositionPlugin);
     cubos.depends(playerIdPlugin);
+    cubos.depends(boatSkinPlugin);
 
     cubos.component<TeamSpawner>();
     cubos.component<TeamSpawnerDestroyDetect>();
@@ -60,6 +61,7 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
             for (auto [ent, spawner] : query)
             {
                 auto boatEnt = cmds.spawn(assets.read(spawner.boatScene)->blueprint).entity("root");
+                cmds.add(boatEnt, spawner.boatSkin);
                 cmds.add(boatEnt, RandomPosition{.setYToZero = true});
                 cmds.add(boatEnt, TeamSpawnerDestroyDetect{});
                 cmds.relate(boatEnt, ent, ChildOf{});

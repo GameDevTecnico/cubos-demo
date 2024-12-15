@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../player/plugin.hpp"
+#include "../boat_skin/plugin.hpp"
 
 #include <cubos/engine/prelude.hpp>
 
@@ -24,6 +25,7 @@ namespace airships::client
         };
 
         cubos::engine::Asset<cubos::engine::Scene> boatScene;
+        BoatSkin boatSkin;
         cubos::engine::Asset<cubos::engine::Scene> playerScene;
         std::vector<Player> players;
     };

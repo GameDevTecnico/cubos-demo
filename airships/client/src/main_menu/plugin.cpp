@@ -22,7 +22,8 @@ CUBOS_REFLECT_IMPL(airships::client::MainMenu)
 {
     return cubos::core::ecs::TypeBuilder<MainMenu>("airships::client::MainMenu")
         .withField("levelGenerator", &MainMenu::levelGenerator)
-        .withField("boats", &MainMenu::boats)
+        .withField("boatScene", &MainMenu::boatScene)
+        .withField("boatSkins", &MainMenu::boatSkins)
         .withField("playerScene", &MainMenu::playerScene)
         .withField("playerSkins", &MainMenu::playerSkins)
         .build();
@@ -257,7 +258,8 @@ void airships::client::mainMenuPlugin(Cubos& cubos)
                 for (int i = 0; i < state.teams.size(); ++i)
                 {
                     TeamSpawner spawner{};
-                    spawner.boatScene = state.mainMenu.boats[i % state.mainMenu.boats.size()];
+                    spawner.boatScene = state.mainMenu.boatScene;
+                    spawner.boatSkin = state.mainMenu.boatSkins[i % state.mainMenu.boatSkins.size()];
                     spawner.playerScene = state.mainMenu.playerScene;
                     for (int j = 0; j < state.teams[i].players.size(); ++j)
                     {
