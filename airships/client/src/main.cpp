@@ -29,7 +29,7 @@
 #include "rope/plugin.hpp"
 #include "hide/plugin.hpp"
 #include "see_through/plugin.hpp"
-#include "furnace/plugin.hpp"
+#include "boiler/plugin.hpp"
 #include "interpolation/plugin.hpp"
 #include "auto_draws_to/plugin.hpp"
 #include "auto_child_of/plugin.hpp"
@@ -71,7 +71,6 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::followControllerPlugin);
     cubos.plugin(airships::client::drivablePlugin);
     cubos.plugin(airships::client::steeringWheelPlugin);
-    cubos.plugin(airships::client::furnacePlugin);
     cubos.plugin(airships::client::rudderPlugin);
     cubos.plugin(airships::client::stormPlugin);
     cubos.plugin(airships::client::randomPositionPlugin);
@@ -92,6 +91,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::boxPlugin);
     cubos.plugin(airships::client::renderDamagePlugin);
     cubos.plugin(airships::client::drivableDestructionPlugin);
+    cubos.plugin(airships::client::boilerPlugin);
 
     cubos.startupSystem("increase gravity").call([](Gravity& gravity) { gravity.value *= 5.0F; });
 
