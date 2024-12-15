@@ -31,14 +31,20 @@ CUBOS_REFLECT_IMPL(airships::client::Player)
         .withField("horizontalAxis", &Player::horizontalAxis)
         .withField("verticalAxis", &Player::verticalAxis)
         .withField("interactAction", &Player::interactAction)
-        .withField("idleAnimation", &Player::idleAnimation)
-        .withField("walkAnimation", &Player::walkAnimation)
         .withField("holdablePos", &Player::holdablePos)
         .withField("interactDistance", &Player::interactDistance)
         .withField("interactingWith", &Player::interactingWith)
         .withField("direction", &Player::direction)
         .withField("moveSpeed", &Player::moveSpeed)
         .withField("halfRotationTime", &Player::halfRotationTime)
+        .build();
+}
+
+CUBOS_REFLECT_IMPL(airships::client::PlayerSkin)
+{
+    return cubos::core::ecs::TypeBuilder<PlayerSkin>("airships::client::PlayerSkin")
+        .withField("idleAnimation", &PlayerSkin::idleAnimation)
+        .withField("walkAnimation", &PlayerSkin::walkAnimation)
         .build();
 }
 
@@ -58,6 +64,7 @@ void airships::client::playerPlugin(Cubos& cubos)
     cubos.depends(playerIdPlugin);
 
     cubos.component<Player>();
+    cubos.component<PlayerSkin>();
 
     cubos.system("initialize Player position properly")
         .before(transformUpdateTag)
@@ -76,16 +83,16 @@ void airships::client::playerPlugin(Cubos& cubos)
         .tagged(fixedStepTag)
         .before(collisionsTag)
         .call([](Commands cmds,
-                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, const PlayerId&,
+                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, const PlayerSkin&, const PlayerId&,
                        Position&, Rotation&, const ChildOf&, const LocalToWorld&>
                      players,
                  const FixedDeltaTime& dt, const Input& input) {
-            for (auto [cameraLTW, follow, animation, interpolationOf, player, playerId, pos, rot, childOf, boatLTW] :
+            for (auto [cameraLTW, follow, animation, interpolationOf, player, skin, playerId, pos, rot, childOf, boatLTW] :
                  players)
             {
                 if (playerId.id == -1 || !player.interactingWith.isNull())
                 {
-                    animation.play(player.idleAnimation);
+                    animation.play(skin.idleAnimation);
                     continue;
                 }
 
@@ -104,10 +111,10 @@ void airships::client::playerPlugin(Cubos& cubos)
                 moveDirection = moveDirection.x * right + moveDirection.z * forward;
                 if (glm::length2(moveDirection) == 0.0F)
                 {
-                    animation.play(player.idleAnimation);
+                    animation.play(skin.idleAnimation);
                     continue;
                 }
-                animation.play(player.walkAnimation);
+                animation.play(skin.walkAnimation);
                 moveDirection = glm::normalize(moveDirection);
 
                 // Update the player position

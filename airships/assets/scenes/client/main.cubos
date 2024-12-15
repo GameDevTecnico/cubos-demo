@@ -44,8 +44,24 @@
                 "boats": [
                     "c1e41c8f-286f-4313-8155-0c60743ce4d3"
                 ],
-                "characters": [
-                    "a88d914b-f1d7-463b-9a20-cf76bb5508d6"
+                "playerScene": "a88d914b-f1d7-463b-9a20-cf76bb5508d6",
+                "playerSkins": [
+                    {
+                        "idleAnimation": "d0e7e6fc-3579-442a-8c2d-efe72717d1d4",
+                        "walkAnimation": "1241a7cf-2199-45db-995f-a37bc741ff13"
+                    },
+                    {
+                        "idleAnimation": "0c8dc669-1e94-480a-a934-2413273cd57c",
+                        "walkAnimation": "cb61a528-8ec2-448c-a68a-9b0c2e9aadf1"
+                    },
+                    {
+                        "idleAnimation": "4924b425-1230-43d0-bfe4-9065061e7bcd",
+                        "walkAnimation": "7f1f59ae-4742-4aab-8b7f-8ed69c4263ac"
+                    },
+                    {
+                        "idleAnimation": "172e563a-311b-4c96-911c-758c8c792a34",
+                        "walkAnimation": "c5abc296-567a-44cb-a6b5-959ebfbad1fd"
+                    }
                 ]
             }
         }

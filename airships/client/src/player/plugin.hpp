@@ -20,9 +20,6 @@ namespace airships::client
         std::string verticalAxis{"vertical"};
         std::string interactAction{"interact"};
 
-        cubos::engine::Asset<Animation> idleAnimation{};
-        cubos::engine::Asset<Animation> walkAnimation{};
-
         /// @brief The position where a holdable item will be placed when a player picks it up
         cubos::engine::Position holdablePos{};
 
@@ -36,6 +33,14 @@ namespace airships::client
         float halfRotationTime{0.1F};
         glm::ivec2 facing = {0, 1};
         glm::quat rot = glm::quat(glm::vec3(0.0f, 0.0f, 0.0f));
+    };
+
+    struct PlayerSkin
+    {
+        CUBOS_REFLECT;
+
+        cubos::engine::Asset<Animation> idleAnimation{};
+        cubos::engine::Asset<Animation> walkAnimation{};
     };
 
     void playerPlugin(cubos::engine::Cubos& cubos);
