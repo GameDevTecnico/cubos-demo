@@ -1,0 +1,149 @@
+{
+  "entities": {
+    "root": {
+      "cubos::engine::Position": {}
+    },
+    "ball01.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": -5,
+          "y": 2.0,
+          "z": -5
+      }
+    },
+    "ball02.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 0.0,
+          "y": 2.0,
+          "z": -5
+      }
+    },
+    "ball03.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 5,
+          "y": 2.0,
+          "z": -5
+      }
+    },
+    "ball04.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": -5.0,
+          "y": 2.0,
+          "z": 0.0
+      }
+    },
+    "ball05.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 0.0,
+          "y": 2.0,
+          "z": 0.0
+      }
+    },
+    "ball06.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 5.0,
+          "y": 2.0,
+          "z": 0.0
+      }
+    },
+    "ball07.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": -5.0,
+          "y": 2.0,
+          "z": 5.0
+      }
+    },
+    "ball08.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 0.0,
+          "y": 2.0,
+          "z": 5.0
+      }
+    },
+    "ball09.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 5.0,
+          "y": 2.0,
+          "z": 5.0
+      }
+    },
+    "ball10.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 2.5,
+          "y": 5.0,
+          "z": 2.5
+      }
+    },
+    "ball11.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 2.5,
+          "y": 5.0,
+          "z": -2.5
+      }
+    },
+    "ball12.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": -2.5,
+          "y": 5.0,
+          "z": 2.5
+      }
+    },
+    "ball13.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": -2.5,
+          "y": 5.0,
+          "z": -2.5
+      }
+    },
+    "ball14.root": {
+      "cubos::engine::ChildOf@root": {},
+      "airships::client::Holdable": "ball",
+      "cubos::engine::Position": {
+          "x": 0.0,
+          "y": 7.5,
+          "z": 0.0
+      }
+    }
+  },
+  "imports": {
+    "ball01": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball02": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball03": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball04": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball05": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball06": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball07": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball08": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball09": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball10": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball11": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball12": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball13": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc",
+    "ball14": "b9fe4d0b-e8f7-45ac-b148-9ffc7bfa8efc"
+  }
+}

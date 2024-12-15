@@ -14,7 +14,6 @@ namespace airships::client
         CUBOS_REFLECT;
 
         /// @brief Currently free positions where items can be stored.
-        /// Last position is relative to InterpolationOf Box, and the rest are relative to each next slot.
         std::vector<cubos::engine::Position> freeSlots{};
 
         /// @brief Type of item to be stored in this box.
