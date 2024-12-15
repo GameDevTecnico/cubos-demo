@@ -25,11 +25,11 @@ CUBOS_REFLECT_IMPL(airships::client::Box)
 void airships::client::boxPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
+    cubos.depends(renderVoxelsPlugin);
     cubos.depends(airships::client::holdablePlugin);
     cubos.depends(airships::client::interactablePlugin);
     cubos.depends(airships::client::playerPlugin);
     cubos.depends(airships::client::interpolationPlugin);
-    cubos.depends(renderVoxelsPlugin);
 
     cubos.component<airships::client::Box>();
 
@@ -71,18 +71,29 @@ void airships::client::boxPlugin(Cubos& cubos)
                 }
                 else
                 {
-                    // If box is not empty, copy item
-                    if (auto heldByBox = held.pin(1, boxInterpolatedEnt).first())
+                    auto heldByBox = held.pin(1, boxInterpolatedEnt);
+                    if (heldByBox.empty())
+                        continue;
+
+                    // If box as only 1 left, copy item (boxs never run out as a temp fix)
+                    auto [heldEnt, holdable, voxel, pos, scale, heldChildOf] = *heldByBox.first();
+                    int i = 0;
+                    for (auto _ : heldByBox)
                     {
-                        auto [heldEnt, holdable, voxel, pos, scale, heldChildOf] = *heldByBox;
-
-                        heldEnt = cmds.create().add(holdable).add(voxel).add(pos).add(scale).entity();
-
-                        // Free the slot
-                        // box.freeSlots.push_back(pos);
-
-                        cmds.relate(heldEnt, playerEnt, ChildOf{}).add(heldEnt, player.holdablePos);
+                        i++;
+                        if (i == 2)
+                        {
+                            // Free the slot
+                            box.freeSlots.push_back(pos);
+                            break;
+                        }
                     }
+                    if (i == 1)
+                    {
+                        heldEnt = cmds.create().add(holdable).add(voxel).add(pos).add(scale).entity();
+                    }
+
+                    cmds.relate(heldEnt, playerEnt, ChildOf{}).add(heldEnt, player.holdablePos);
                 }
             }
         });

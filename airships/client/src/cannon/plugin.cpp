@@ -4,6 +4,7 @@
 #include "../interactable/plugin.hpp"
 #include "../interpolation/plugin.hpp"
 #include "../bullet/plugin.hpp"
+#include "../holdable/plugin.hpp"
 
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
@@ -54,6 +55,7 @@ void airships::client::cannonPlugin(Cubos& cubos)
     cubos.depends(bulletPlugin);
     cubos.depends(collisionsPlugin);
     cubos.depends(audioPlugin);
+    cubos.depends(holdablePlugin);
 
     cubos.component<Cannon>();
     cubos.component<CannonTube>();
@@ -67,14 +69,30 @@ void airships::client::cannonPlugin(Cubos& cubos)
 
     cubos.observer("handle Cannon interaction")
         .onAdd<Interaction>()
-        .call([](Commands cmds, Query<Entity, Cannon&, Interaction&> query, Query<Player&, const PlayerId&> players) {
+        .call([](Commands cmds, Query<Entity, Cannon&, Interaction&> query, Query<Player&, const PlayerId&> players,
+                 Query<Entity, Holdable&, ChildOf&, InterpolationOf&> held) {
             for (auto [entity, cannon, interaction] : query)
             {
                 cmds.remove<Interaction>(entity);
                 auto [player, id] = *players.at(interaction.player);
 
+                // If no player is controlling the cannon
                 if (cannon.player == -1)
                 {
+                    // If player is holding a ball
+                    auto match = held.pin(2, interaction.player).first();
+                    if (match && !cannon.cannonLoaded)
+                    {
+                        auto [heldEnt, holdable, heldChildOf, interpolationOf] = *match;
+
+                        // Item must be cannon ball to be loaded
+                        if (holdable.type == "ball")
+                        {
+                            cannon.cannonLoaded = true;
+                            cmds.destroy(heldEnt);
+                            continue;
+                        }
+                    }
                     cannon.player = id.id;
                     player.interactingWith = entity;
                 }
@@ -107,7 +125,7 @@ void airships::client::cannonPlugin(Cubos& cubos)
                     tubeEuler.z = glm::clamp(tubeEuler.z, glm::radians(-22.5F), 0.0F);
                     tubeRotation.quat = glm::quat(tubeEuler);
 
-                    cannon.cannonLoaded = true;
+                    // cannon.cannonLoaded = true;
                 }
             });
 
@@ -115,7 +133,8 @@ void airships::client::cannonPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Input& inputs,
                  Query<CannonTube&, Rotation&, ChildOf&, Entity, Cannon&, LocalToWorld&, ChildOf&, Velocity&> query,
                  Query<Entity, const InterpolationOf&> interpolationQuery) {
-            for (auto [tube, tubeRotation, childOf1, cannonEnt, cannon, cannonLocalToWorld, childOf2, boatVelocity] : query)
+            for (auto [tube, tubeRotation, childOf1, cannonEnt, cannon, cannonLocalToWorld, childOf2, boatVelocity] :
+                 query)
             {
                 if (cannon.player == -1)
                 {

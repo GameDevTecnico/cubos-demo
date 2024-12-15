@@ -16,7 +16,5 @@ CUBOS_REFLECT_IMPL(airships::client::Holdable)
 
 void airships::client::holdablePlugin(Cubos& cubos)
 {
-    cubos.depends(transformPlugin);
-
     cubos.component<Holdable>();
 }
