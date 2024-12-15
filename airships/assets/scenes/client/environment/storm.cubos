@@ -1,10 +1,118 @@
 {
   "entities": {
-    "player": {
+    "wall1": {
       "cubos::engine::RenderVoxelGrid":{
-        "asset": "0c22255a-0579-4656-a42a-1d6d06d57d34"
+        "asset": "0c22255a-0579-4656-a42a-1d6d06d57d34",
+        "offset": {
+          "x": -20,
+          "y": -10.5,
+          "z": -4
+        }
+      },
+      "cubos::engine::Scale": 100.0,
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::Mass": {
+        "inverseMass": 0.02, 
+        "mass": 50.0,
+        "changed": false
+      }
+    },
+    "wall2": {
+      "cubos::engine::RenderVoxelGrid":{
+        "asset": "0c22255a-0579-4656-a42a-1d6d06d57d34",
+        "offset": {
+          "x": -20,
+          "y": -10.5,
+          "z": -4
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 200,
+        "y": 0.0,
+        "z": 200
+      },
+      "cubos::engine::Scale": 100.0,
+      "cubos::engine::Rotation": {
+        "w": 0.7071068,
+        "x": 0.0,
+        "y": 0.7071068,
+        "z": 0.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::Mass": {
+        "inverseMass": 0.02, 
+        "mass": 50.0,
+        "changed": false
+      }
+    },
+    "wall3": {
+      "cubos::engine::RenderVoxelGrid":{
+        "asset": "0c22255a-0579-4656-a42a-1d6d06d57d34",
+        "offset": {
+          "x": -20,
+          "y": -10.5,
+          "z": -4
+        }
+      },
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 400.0
+      },
+      "cubos::engine::Scale": 100.0,
+      "cubos::engine::Rotation": {
+        "w": 0.0,
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::Mass": {
+        "inverseMass": 0.02, 
+        "mass": 50.0,
+        "changed": false
+      }
+    },
+    "wall4": {
+      "cubos::engine::RenderVoxelGrid":{
+        "asset": "0c22255a-0579-4656-a42a-1d6d06d57d34",
+        "offset": {
+          "x": -20,
+          "y": -10.5,
+          "z": -4
+        }
+      },
+      "cubos::engine::Position": {
+        "x": -200.0,
+        "y": 0.0,
+        "z": 200.0
+      },
+      "cubos::engine::Scale": 100.0,
+      "cubos::engine::Rotation": {
+        "w": -0.7071068,
+        "x": 0.0,
+        "y": 0.7071068,
+        "z": 0.0
+      },
+      "cubos::engine::Collider": {},
+      "cubos::engine::Mass": {
+        "inverseMass": 0.02, 
+        "mass": 50.0,
+        "changed": false
       }
     }
   },
+  
   "imports": {}
 }
