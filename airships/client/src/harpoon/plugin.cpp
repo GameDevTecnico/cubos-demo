@@ -39,6 +39,11 @@ CUBOS_REFLECT_IMPL(airships::client::HarpoonTube)
     return cubos::core::ecs::TypeBuilder<HarpoonTube>("airships::client::HarpoonTube").build();
 }
 
+CUBOS_REFLECT_IMPL(airships::client::Arrow)
+{
+    return cubos::core::ecs::TypeBuilder<Arrow>("airships::client::Arrow").build();
+}
+
 void airships::client::harpoonPlugin(Cubos& cubos)
 {
     cubos.depends(assetsPlugin);
@@ -55,6 +60,7 @@ void airships::client::harpoonPlugin(Cubos& cubos)
 
     cubos.component<Harpoon>();
     cubos.component<HarpoonTube>();
+    cubos.component<Arrow>();
 
     cubos.observer("add Interactable to Harpoon").onAdd<Harpoon>().call([](Commands cmds, Query<Entity> query) {
         for (auto [entity] : query)
@@ -111,8 +117,8 @@ void airships::client::harpoonPlugin(Cubos& cubos)
 
     cubos.system("fire harpoon")
         .call([](Commands cmds, Assets& assets, Input& inputs,
-                 Query<HarpoonTube&, Rotation&, ChildOf&, Harpoon&, LocalToWorld&, ChildOf&, Velocity&> query) {
-            for (auto [tube, tubeRotation, childOf1, harpoon, harpoonLocalToWorld, childOf2, boatVelocity] : query)
+                 Query<Entity, Arrow&, ChildOf&, HarpoonTube&, Rotation&, ChildOf&, Harpoon&, LocalToWorld&, ChildOf&, Velocity&> query) {
+            for (auto [ent, arrow, childOf0, tube, tubeRotation, childOf1, harpoon, harpoonLocalToWorld, childOf2, boatVelocity] : query)
             {
                 if (harpoon.player == -1)
                 {
@@ -129,18 +135,15 @@ void airships::client::harpoonPlugin(Cubos& cubos)
 
                     glm::vec3 forward = harpoonRotation * tubeRotation.quat * glm::vec3(-1.0F, 0.0F, 0.0F);
 
-                    auto ball =
-                        cmds.create()
-                            .add(Position{.vec = harpoonPosition + forward * 22.5F})
-                            .add(Rotation{.quat = harpoonRotation})
-                            .add(Scale{0.5F})
-                            .add(PhysicsBundle{
-                                .mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * harpoon.bulletSpeed})
-                            .add(Collider{})
-                            .add(BoxCollisionShape{.box = {.halfSize = {3.5F, 3.5F, 3.5F}}})
-                            .add(Bullet{})
-                            .add(Interpolated{harpoon.bulletScene})
-                            .entity();
+                    cmds.add(ent, Position{.vec = harpoonPosition + forward * 22.5F})
+                        .add(ent, Rotation{.quat = harpoonRotation})
+                        .add(ent, Scale{0.5F})
+                        .add(ent, PhysicsBundle{
+                            .mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * harpoon.bulletSpeed})
+                        .add(ent, Collider{})
+                        .add(ent, BoxCollisionShape{.box = {.halfSize = {3.5F, 3.5F, 3.5F}}})
+                        .add(ent, Bullet{})
+                        .add(ent, Interpolated{harpoon.bulletScene});
 
                     harpoon.harpoonLoaded = false;
                 }

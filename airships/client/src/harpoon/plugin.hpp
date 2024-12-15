@@ -24,5 +24,10 @@ namespace airships::client
         CUBOS_REFLECT;
     };
 
+    struct Arrow
+    {
+        CUBOS_REFLECT;
+    };
+
     void harpoonPlugin(cubos::engine::Cubos& cubos);
 } // namespace airships::client
