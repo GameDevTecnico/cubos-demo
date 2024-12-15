@@ -49,8 +49,8 @@ void airships::client::levelGeneratorPlugin(Cubos& cubos)
                         auto root = cmds.spawn(scene->blueprint)
                                         .add("root",
                                              RandomPosition{
-                                                 .minHeight = object.minHeight,
-                                                 .maxHeight = object.maxHeight,
+                                                 .minHeight = static_cast<int>(object.minHeight),
+                                                 .maxHeight = static_cast<int>(object.maxHeight),
                                              })
                                         .entity("root");
                         cmds.relate(root, ent, ChildOf{});

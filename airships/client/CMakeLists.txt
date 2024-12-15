@@ -12,6 +12,7 @@ add_executable(airships-client
     src/follow/plugin.cpp
     src/follow_controller/plugin.cpp
     src/cannon/plugin.cpp
+    src/harpoon/plugin.cpp
     src/player/plugin.cpp
     src/player_id/plugin.cpp
     src/interactable/plugin.cpp

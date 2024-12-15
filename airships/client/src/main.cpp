@@ -20,6 +20,7 @@
 #include "follow/plugin.hpp"
 #include "follow_controller/plugin.hpp"
 #include "cannon/plugin.hpp"
+#include "harpoon/plugin.hpp"
 #include "rudder/plugin.hpp"
 #include "storm/plugin.hpp"
 #include "player/plugin.hpp"
@@ -82,6 +83,7 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::damageablePlugin);
     cubos.plugin(airships::client::bulletPlugin);
     cubos.plugin(airships::client::cannonPlugin);
+    cubos.plugin(airships::client::harpoonPlugin);
     cubos.plugin(airships::client::autoDrawsToPlugin);
     cubos.plugin(airships::client::autoChildOfPlugin);
     cubos.plugin(airships::client::levelGeneratorPlugin);
