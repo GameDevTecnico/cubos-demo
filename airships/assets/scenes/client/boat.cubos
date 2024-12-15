@@ -221,6 +221,20 @@
         "z": -14.0
       }
     },
+    "boiler.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -2.75
+      },
+      "cubos::engine::Rotation": {
+        "w": -0.7071068,
+        "x": 0.0,
+        "y": 0.7071068,
+        "z": 0.0
+      }
+    },
     "cannon1.root": {
       "cubos::engine::ChildOf@root": {},
       "cubos::engine::Position": {
@@ -251,6 +265,7 @@
     }
   },
   "imports": {
+    "boiler": "16c5fcbd-a418-4d36-87e1-bfc01d9b15dc",
     "steering-wheel": "d0815d31-57a0-46f5-b348-9e32803f9a67",
     "cannon1": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
     "cannon2": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d"
