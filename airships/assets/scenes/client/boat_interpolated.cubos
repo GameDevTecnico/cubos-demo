@@ -19,7 +19,7 @@
       "cubos::engine::Position": {
         "x": 0.0,
         "y": 10.0,
-        "z": -4.5
+        "z": -2.25
       },
       "cubos::engine::Scale": 0.5,
       "airships::client::BoatSkinBalloon": {},
@@ -82,7 +82,7 @@
     "hull-back-left-rope-point": {
       "cubos::engine::ChildOf@hull": {},
       "cubos::engine::Position": {
-        "x": 40.0,
+        "x": 32.5,
         "y": 1.0,
         "z": 20.0
       }
@@ -90,7 +90,7 @@
     "hull-back-right-rope-point": {
       "cubos::engine::ChildOf@hull": {},
       "cubos::engine::Position": {
-        "x": 40.0,
+        "x": 32.5,
         "y": 1.0,
         "z": -20.0
       }
