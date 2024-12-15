@@ -34,6 +34,12 @@ namespace airships::client
 
         /// @brief Factor which determines how fast the wheel lerps towards the target turn angle.
         float targetLerpFactor = 0.1F;
+
+        /// @brief Distance from the center of the map at which the boat starts turning back.
+        float startAutoTurnDistance = 100.0F;
+
+        /// @brief Distance from the center of the map at which the boat turns back at full speed.
+        float endAutoTurnDistance = 200.0F;
     };
 
     /// @brief Component which identifies the entity which represents the rotating part of a steering wheel.

@@ -23,7 +23,9 @@
                 "turnAxis": "horizontal",
                 "maxTurnAngle": 720.0,
                 "turnSpeed": 180.0,
-                "targetLerpFactor": 0.99
+                "targetLerpFactor": 0.99,
+                "startAutoTurnDistance": 1750.0,
+                "endAutoTurnDistance": 20000.0
             }
         },
         "blocker": {
