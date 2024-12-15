@@ -48,18 +48,26 @@ void airships::client::playerIdPlugin(Cubos& cubos)
                 input.gamepad(player.id, usedGamepads);
                 usedGamepads++;
             }
+            else
+            {
+                input.gamepad(player.id, -1);
+            }
         }
 
         // If there are still gamepads left, give them to player 1
-        if (usedGamepads < input.gamepadCount())
+        for (auto [player] : players)
         {
-            for (auto [player] : players)
+            if (player.id == 1)
             {
-                if (player.id == 1)
+                if (usedGamepads < input.gamepadCount())
                 {
                     input.gamepad(player.id, usedGamepads);
-                    break;
                 }
+                else
+                {
+                    input.gamepad(player.id, -1);
+                }
+                break;
             }
         }
     });
