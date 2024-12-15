@@ -11,9 +11,16 @@
                 "y": 20.0,
                 "z": 6.0
             },
-            "airships::client::Interpolated": "d69cdeb7-13ab-4e98-8dc3-620560606862"
+            "airships::client::Interpolated": "d69cdeb7-13ab-4e98-8dc3-620560606862",
+            "airships::client::Boiler": {
+                "leverAxis": "vertical",
+                "leverSpeed": 2.5,
+                "leverLerpFactor": 0.99,
+                "minBuoyancy": 0.75,
+                "maxBuoyancy": 1.25
+            }
         },
-        "blocker": {
+        "lever": {
             "cubos::engine::ChildOf@root": {},
             "cubos::engine::Position": {
                 "x": 12.0,
@@ -28,7 +35,8 @@
                 "x": 2.0,
                 "y": 20.0,
                 "z": 3.0
-            }
+            },
+            "airships::client::BoilerLeverCollider": {}
         }
     }
 }

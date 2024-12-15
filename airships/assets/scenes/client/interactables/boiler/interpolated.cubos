@@ -45,6 +45,10 @@
           "y": 0.0,
           "z": -20.0
         }
+      },
+      "airships::client::BoilerLeverAnimator": {
+        "minHeight": -3.0,
+        "maxHeight": 3.0
       }
     }
   }

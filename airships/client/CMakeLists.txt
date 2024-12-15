@@ -19,7 +19,7 @@ add_executable(airships-client
     src/hide/plugin.cpp
     src/rope/plugin.cpp
     src/see_through/plugin.cpp
-    src/furnace/plugin.cpp
+    src/boiler/plugin.cpp
     src/interpolation/plugin.cpp
     src/auto_draws_to/plugin.cpp
     src/auto_child_of/plugin.cpp
