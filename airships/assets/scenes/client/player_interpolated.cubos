@@ -16,6 +16,7 @@
         "zFar": 10000.0
       },
       "cubos::engine::PerspectiveCamera": 70.0,
+      "cubos::engine::AudioListener": true,
       "cubos::engine::Position": {
         "x": 0,
         "y": 20,
