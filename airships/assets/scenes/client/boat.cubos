@@ -111,12 +111,12 @@
         "z": 0.0
       }
     },
-    "front-collider": {
+    "front-collider-1": {
       "cubos::engine::ChildOf@hull": {},
       "cubos::engine::Position": {
         "x": -25.0,
         "y": 2.0,
-        "z": 0.0
+        "z": 9.0
       },
       "cubos::engine::Collider": {
         "layer": 1,
@@ -125,7 +125,24 @@
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
         "y": 10.0,
-        "z": 20.0
+        "z": 5.0
+      }
+    },
+    "front-collider-2": {
+      "cubos::engine::ChildOf@hull": {},
+      "cubos::engine::Position": {
+        "x": -25.0,
+        "y": 2.0,
+        "z": -9.0
+      },
+      "cubos::engine::Collider": {
+        "layer": 1,
+        "mask": 4
+      },
+      "cubos::engine::BoxCollisionShape": {
+        "x": 4.0,
+        "y": 10.0,
+        "z": 5.0
       }
     },
     "back-collider": {
@@ -262,12 +279,27 @@
         "y": 1.0,
         "z": 0.0
       }
+    },
+    "harpoon.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 15.0
+      },
+      "cubos::engine::Rotation": {
+        "w": 0.7071068,
+        "x": 0.0,
+        "y": 0.7071068,
+        "z": 0.0
+      }
     }
   },
   "imports": {
     "boiler": "16c5fcbd-a418-4d36-87e1-bfc01d9b15dc",
     "steering-wheel": "d0815d31-57a0-46f5-b348-9e32803f9a67",
     "cannon1": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
-    "cannon2": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d"
+    "cannon2": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
+    "harpoon": "e93db0f7-8db1-4987-8e49-dc2020e3a75b"
   }
 }
