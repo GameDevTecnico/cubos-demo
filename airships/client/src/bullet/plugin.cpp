@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../damageable/plugin.hpp"
+#include "../destroy_tree/plugin.hpp"
 
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/collisions/colliding_with.hpp>
@@ -16,6 +17,7 @@ void airships::client::bulletPlugin(Cubos& cubos)
 {
     cubos.depends(collisionsPlugin);
     cubos.depends(damageablePlugin);
+    cubos.depends(destroyTreePlugin);
 
     cubos.component<Bullet>();
 
@@ -24,7 +26,7 @@ void airships::client::bulletPlugin(Cubos& cubos)
             for (auto [entity, bullet, collidingWith, damageable] : query)
             {
                 damageable.health -= 1;
-                cmds.destroy(entity);
+                cmds.add(entity, DestroyTree{});
             }
         });
 }

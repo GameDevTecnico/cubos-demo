@@ -32,6 +32,7 @@ add_executable(airships-client
     src/damageable/plugin.cpp
     src/render_damage/plugin.cpp
     src/bullet/plugin.cpp
+    src/destroy_tree/plugin.cpp
 )
 target_link_libraries(airships-client PUBLIC cubos::engine)
 target_link_libraries(airships-client PRIVATE airships-common)
