@@ -169,17 +169,20 @@ void airships::client::drivablePlugin(Cubos& cubos)
                 velocity.vec.z = vel.z;
 
                 float buoyancy = drivable.buoyancy;
-                if (position.vec.y <= drivable.buoyancyIncreaseHeight)
+                if (drivable.buoyancy > 0.0F)
                 {
-                    float s = drivable.buoyancyIncreaseHeight - drivable.buoyancyDoubleHeight;
-                    float f = (position.vec.y - drivable.buoyancyDoubleHeight) / s;
-                    buoyancy = glm::mix(2.0F, drivable.buoyancy, glm::clamp(f, 0.0F, 1.0F));
-                }
-                else if (position.vec.y >= drivable.buoyancyDecreaseHeight)
-                {
-                    float s = drivable.buoyancyZeroHeight - drivable.buoyancyDecreaseHeight;
-                    float f = (position.vec.y - drivable.buoyancyDecreaseHeight) / s;
-                    buoyancy = glm::mix(drivable.buoyancy, 0.0F, glm::clamp(f, 0.0F, 1.0F));
+                    if (position.vec.y <= drivable.buoyancyIncreaseHeight)
+                    {
+                        float s = drivable.buoyancyIncreaseHeight - drivable.buoyancyDoubleHeight;
+                        float f = (position.vec.y - drivable.buoyancyDoubleHeight) / s;
+                        buoyancy = glm::mix(2.0F, drivable.buoyancy, glm::clamp(f, 0.0F, 1.0F));
+                    }
+                    else if (position.vec.y >= drivable.buoyancyDecreaseHeight)
+                    {
+                        float s = drivable.buoyancyZeroHeight - drivable.buoyancyDecreaseHeight;
+                        float f = (position.vec.y - drivable.buoyancyDecreaseHeight) / s;
+                        buoyancy = glm::mix(drivable.buoyancy, 0.0F, glm::clamp(f, 0.0F, 1.0F));
+                    }
                 }
                 force.add(-mass.mass * gravity.value * buoyancy);
 
