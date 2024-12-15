@@ -235,6 +235,14 @@
         "z": 4.0
       }
     },
+    "ammo_box.root": {
+      "cubos::engine::ChildOf@root": {},
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -11.0
+      }
+    },
     "steering-wheel.root": {
       "cubos::engine::ChildOf@root": {},
       "cubos::engine::Position": {
@@ -305,6 +313,10 @@
     "steering-wheel": "d0815d31-57a0-46f5-b348-9e32803f9a67",
     "cannon1": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
     "cannon2": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
+<<<<<<< HEAD
     "harpoon": "e93db0f7-8db1-4987-8e49-dc2020e3a75b"
+=======
+    "ammo_box": "fb0ef08a-1d45-4dba-b3b7-d7ee894f7023"
+>>>>>>> fdd6e8f (feat(tessaratos): Temporarily make boxes infinite)
   }
 }

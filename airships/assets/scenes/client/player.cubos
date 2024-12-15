@@ -16,6 +16,11 @@
         "horizontalAxis": "horizontal",
         "verticalAxis": "vertical",
         "interactAction": "interact",
+        "holdablePos": {
+          "x": 0.0,
+          "y": 16.0,
+          "z": 0.0
+        },
         "interactDistance": 7.5,
         "moveSpeed": 20.0,
         "halfRotationTime": 0.025
