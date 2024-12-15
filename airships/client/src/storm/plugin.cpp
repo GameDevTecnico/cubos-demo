@@ -34,12 +34,9 @@ namespace airships::client
         cubos.depends(assetsPlugin);
         cubos.resource<StormInfo>();
 
-        /** 
         cubos.startupSystem("storm").tagged(assetsTag).call([](Commands cmds, Assets& assets) {
-            // TODO: spawnar storm e ir andando ao long do tempo
+
             auto blueprint = cmds.spawn(assets.read(StormWall)->blueprint);
-            blueprint.add("player", Position{.vec = {10.0F, 5.0F, 10.0F}});
         });
-        **/
     }
 } // namespace airships::client

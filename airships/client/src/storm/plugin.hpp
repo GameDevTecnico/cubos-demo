@@ -8,7 +8,7 @@ struct StormInfo
     CUBOS_REFLECT;
 
     // added this just to help with spawning islands and balloons
-    int stormRadius = 1000;
+    int stormRadius = 500;
 };
 
 namespace airships::client
