@@ -8,7 +8,12 @@
         "topAngularVelocity": 60.0,
         "angularAcceleration": 45.0,
         "maxRoll": 20.0,
-        "rollLerpFactor": 0.99
+        "rollLerpFactor": 0.99,
+        "buoyancyDoubleHeight": -500.0,
+        "buoyancyIncreaseHeight": -100.0,
+        "buoyancyDecreaseHeight": 100.0,
+        "buoyancyZeroHeight": 500.0,
+        "verticalDampening": 0.1
       },
       "airships::client::Damageable": 3,
       "airships::client::DrivableDestruction": -1000.0,

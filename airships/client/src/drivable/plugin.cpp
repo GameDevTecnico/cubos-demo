@@ -31,6 +31,11 @@ CUBOS_REFLECT_IMPL(airships::client::Drivable)
         .withField("rollLerpFactor", &Drivable::rollLerpFactor)
         .withField("yaw", &Drivable::yaw)
         .withField("buoyancy", &Drivable::buoyancy)
+        .withField("buoyancyDoubleHeight", &Drivable::buoyancyDoubleHeight)
+        .withField("buoyancyIncreaseHeight", &Drivable::buoyancyIncreaseHeight)
+        .withField("buoyancyDecreaseHeight", &Drivable::buoyancyDecreaseHeight)
+        .withField("buoyancyZeroHeight", &Drivable::buoyancyZeroHeight)
+        .withField("verticalDampening", &Drivable::verticalDampening)
         .build();
 }
 
@@ -163,13 +168,23 @@ void airships::client::drivablePlugin(Cubos& cubos)
                 velocity.vec.x = vel.x;
                 velocity.vec.z = vel.z;
 
-                glm::vec3 buoyancy = -mass.mass * gravity.value * drivable.buoyancy;
-                if (position.vec.y < 0.0F && drivable.buoyancy > 0.0F && velocity.vec.y < 0.0F)
+                float buoyancy = drivable.buoyancy;
+                if (position.vec.y <= drivable.buoyancyIncreaseHeight)
                 {
-                    // Negate vertical velocity
-                    buoyancy += glm::vec3{0.0F, -velocity.vec.y * mass.mass, 0.0F};
+                    float s = drivable.buoyancyIncreaseHeight - drivable.buoyancyDoubleHeight;
+                    float f = (position.vec.y - drivable.buoyancyDoubleHeight) / s;
+                    buoyancy = glm::mix(2.0F, drivable.buoyancy, glm::clamp(f, 0.0F, 1.0F));
                 }
-                force.add(buoyancy);
+                else if (position.vec.y >= drivable.buoyancyDecreaseHeight)
+                {
+                    float s = drivable.buoyancyZeroHeight - drivable.buoyancyDecreaseHeight;
+                    float f = (position.vec.y - drivable.buoyancyDecreaseHeight) / s;
+                    buoyancy = glm::mix(drivable.buoyancy, 0.0F, glm::clamp(f, 0.0F, 1.0F));
+                }
+                force.add(-mass.mass * gravity.value * buoyancy);
+
+                // Apply some dampening to the vertical velocity
+                force.add({0.0F, -velocity.vec.y * mass.mass * drivable.verticalDampening, 0.0F});
             }
         });
 }
