@@ -7,6 +7,7 @@
 
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/physics/plugin.hpp>
+#include <cubos/engine/physics/plugins/gravity.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
 
 using namespace cubos::engine;
@@ -34,6 +35,7 @@ void airships::client::furnacePlugin(cubos::engine::Cubos& cubos)
     cubos.depends(interactablePlugin);
     cubos.depends(physicsPlugin);
     cubos.depends(fixedStepPlugin);
+    cubos.depends(gravityPlugin);
 
     cubos.component<Furnace>();
 
@@ -56,20 +58,22 @@ void airships::client::furnacePlugin(cubos::engine::Cubos& cubos)
 
     cubos.system("update Furnace entities")
         .tagged(physicsApplyForcesTag)
-        .call([](const DeltaTime& dt, Query<Furnace&, const ChildOf&, Drivable&, Mass&, Velocity&, Force&> query) {
+        .call([](const DeltaTime& dt, const Gravity& gravity, Query<Furnace&, const ChildOf&, Drivable&, Mass&, Velocity&, Force&> query) {
             for (auto [furnace, childOf, drivable, mass, velocity, force] : query)
             {
-                // Update vertical velocity
-                if (furnace.coal >= furnace.addCoal)
-                {
-                    velocity.vec.y = map(furnace.coal, 0.0F, furnace.maximumCoal, 0, furnace.maxUpVelocity);
-                }
-                else
-                {
-                    velocity.vec.y = map(furnace.coal, 0.0F, furnace.addCoal, furnace.maxVelocityDown, 0.0F);
-                }
+                force.add(-mass.mass * gravity.value);
 
-                furnace.coal = glm::max(furnace.coal - dt.value(), 0.0F);
+                // Update vertical velocity
+                // if (furnace.coal >= furnace.addCoal)
+                // {
+                //     velocity.vec.y = map(furnace.coal, 0.0F, furnace.maximumCoal, 0, furnace.maxUpVelocity);
+                // }
+                // else
+                // {
+                //     velocity.vec.y = map(furnace.coal, 0.0F, furnace.addCoal, furnace.maxVelocityDown, 0.0F);
+                // }
+
+                // furnace.coal = glm::max(furnace.coal - dt.value(), 0.0F);
             }
         });
 

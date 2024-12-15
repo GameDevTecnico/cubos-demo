@@ -138,7 +138,7 @@ void airships::client::drivablePlugin(Cubos& cubos)
                 // Update velocity position
                 auto forward = rotation.quat * glm::vec3{0.0F, 0.0F, 1.0F};
 
-                // Don't push the airship imediatly forward and slow it down
+                // Don't push the airship immediately forward and slow it down
                 if (collisionModifiers.time >= 0.0F)
                 {
                     collisionModifiers.time -= dt.value;

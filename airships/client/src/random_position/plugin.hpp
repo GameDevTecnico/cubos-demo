@@ -24,6 +24,7 @@ namespace airships::client
     {
         CUBOS_REFLECT;
         glm::vec3 startingPos = {0.0F, 0.0F, 0.0F};
+        bool setYToZero = false;
     };
 
     /// @brief Plugin that gives entities a random position but not overlapping with others

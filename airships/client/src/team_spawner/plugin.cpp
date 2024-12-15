@@ -44,7 +44,7 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
             for (auto [ent, spawner] : query)
             {
                 auto boatEnt = cmds.spawn(assets.read(spawner.boat)->blueprint).entity("root");
-                cmds.add(boatEnt, RandomPosition{});
+                cmds.add(boatEnt, RandomPosition{.setYToZero = true});
                 cmds.relate(boatEnt, ent, ChildOf{});
 
                 for (auto& player : spawner.players)
