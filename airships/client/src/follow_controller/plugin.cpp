@@ -113,4 +113,16 @@ void airships::client::followControllerPlugin(Cubos& cubos)
                 follow.theta = glm::mod(follow.theta - thetaInput * controller.rotationSpeed * dt.value(), 360.0F);
             }
         });
+
+    cubos.observer("unlock mouse on FollowController destruction")
+        .onRemove<FollowController>()
+        .call([](Window& window, Query<Entity, const FollowController&> query) {
+            for (auto [ent, controller] : query)
+            {
+                if (controller.useMouse && window->mouseState() == MouseState::Locked)
+                {
+                    window->mouseState(MouseState::Default);
+                }
+            }
+        });
 }

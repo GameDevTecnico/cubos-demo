@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../random_position/plugin.hpp"
+#include "../destroy_tree/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/vector.hpp>
@@ -7,8 +8,6 @@
 
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
-
-#include <queue>
 
 using namespace cubos::engine;
 
@@ -57,20 +56,9 @@ void airships::client::levelGeneratorPlugin(Cubos& cubos)
         .call([](Commands cmds, Query<Entity> query, Query<Entity, const ChildOf&> childOfQuery) {
             for (auto [ent] : query)
             {
-                // Queue necessary to also remove children of children and so on
-                // Cascading when :(
-                std::queue<Entity> pending{};
-                pending.push(ent);
-                while (!pending.empty())
+                for (auto [child, childOf] : childOfQuery.pin(1, ent))
                 {
-                    auto current = pending.front();
-                    pending.pop();
-
-                    for (auto [child, childOf] : childOfQuery.pin(1, current))
-                    {
-                        cmds.destroy(child);
-                        pending.push(child);
-                    }
+                    cmds.add(child, DestroyTree{});
                 }
             }
         });
