@@ -7,6 +7,7 @@
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/physics/plugin.hpp>
+#include <cubos/engine/physics/plugins/gravity.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/collisions/colliding_with.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
@@ -47,6 +48,7 @@ void airships::client::drivablePlugin(Cubos& cubos)
     cubos.depends(collisionsPlugin);
     cubos.depends(physicsPlugin);
     cubos.depends(fixedStepPlugin);
+    cubos.depends(gravityPlugin);
 
     cubos.component<Drivable>();
     cubos.resource<CollisionMovementModifiers>();
@@ -131,9 +133,10 @@ void airships::client::drivablePlugin(Cubos& cubos)
     cubos.system("auto move Drivable entities")
         .tagged(physicsApplyForcesTag)
         .after(drivableControlTag)
-        .call([](Input& input, Query<Drivable&, Position&, Rotation&, Velocity&> drivables, const FixedDeltaTime& dt,
-                 CollisionMovementModifiers& collisionModifiers) {
-            for (auto [drivable, position, rotation, velocity] : drivables)
+        .call([](Input& input, const Gravity& gravity,
+                 Query<Drivable&, Position&, Rotation&, Velocity&, const Mass&, Force&> drivables,
+                 const FixedDeltaTime& dt, CollisionMovementModifiers& collisionModifiers) {
+            for (auto [drivable, position, rotation, velocity, mass, force] : drivables)
             {
                 // Update velocity position
                 auto forward = rotation.quat * glm::vec3{0.0F, 0.0F, 1.0F};
@@ -158,6 +161,8 @@ void airships::client::drivablePlugin(Cubos& cubos)
 
                 velocity.vec.x = vel.x;
                 velocity.vec.z = vel.z;
+
+                force.add(-mass.mass * gravity.value);
             }
         });
 }

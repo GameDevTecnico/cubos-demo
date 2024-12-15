@@ -89,6 +89,8 @@ int main(int argc, char** argv)
     cubos.plugin(airships::client::boxPlugin);
     cubos.plugin(airships::client::renderDamagePlugin);
 
+    cubos.startupSystem("increase gravity").call([](Gravity& gravity) { gravity.value *= 5.0F; });
+
     cubos.startupSystem("configure Assets plugin").tagged(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);
         settings.setString("assets.builtin.osPath", BUILTIN_ASSETS_PATH);
