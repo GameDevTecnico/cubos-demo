@@ -36,7 +36,7 @@ namespace airships::client
 
         cubos.startupSystem("storm").tagged(assetsTag).call([](Commands cmds, Assets& assets) {
 
-            auto blueprint = cmds.spawn(assets.read(StormWall)->blueprint);
+            // auto blueprint = cmds.spawn(assets.read(StormWall)->blueprint);
         });
     }
 } // namespace airships::client
