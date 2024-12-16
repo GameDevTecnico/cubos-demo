@@ -11,7 +11,8 @@
                 }
             },
             "cubos::engine::AudioSource": {
-                "sound": "7401edb8-4dbb-4456-b546-06916889ee7a"
+                "sound": "7401edb8-4dbb-4456-b546-06916889ee7a",
+                "gain": 20.0
             }
         }
     }
