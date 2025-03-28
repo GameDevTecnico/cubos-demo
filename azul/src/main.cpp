@@ -13,8 +13,8 @@
 
 using namespace cubos::engine;
 
-static const Asset<VoxelPalette> PaletteAsset = AnyAsset("96e982ca-a18e-49e0-bf0b-2ddbbcf4d4cb");
-static const Asset<Scene> MainSceneAsset = AnyAsset("b36dfc06-4ec3-4658-ba67-f8cb3ec787c0");
+static const Asset<VoxelPalette> PaletteAsset = AnyAsset("/assets/voxels/main.pal");
+static const Asset<Scene> MainSceneAsset = AnyAsset("/assets/scenes/main.cubos");
 
 int main(int argc, char** argv)
 {
@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets) { cmds.spawn(assets.read(MainSceneAsset)->blueprint); });
+        .call([](Commands cmds, const Assets& assets) { cmds.spawn(*assets.read(MainSceneAsset)).named("main"); });
 
     cubos.run();
 }
