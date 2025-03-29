@@ -19,6 +19,9 @@
 #include "tile_map/plugin.hpp"
 #include "tile_map_generator/plugin.hpp"
 #include "camera_controller/plugin.hpp"
+#include "player_movement/plugin.hpp"
+#include "player_controller/plugin.hpp"
+#include "player_spawner/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -37,6 +40,9 @@ int main(int argc, char** argv)
     cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::cameraControllerPlugin);
     cubos.plugin(demo::wavesPlugin);
+    cubos.plugin(demo::movementPlugin);
+    cubos.plugin(demo::playerControllerPlugin);
+    cubos.plugin(demo::playerSpawnerPlugin);
     // TODO: ???
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
