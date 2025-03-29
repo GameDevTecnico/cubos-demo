@@ -22,6 +22,7 @@
 #include "player_spawner/plugin.hpp"
 #include "waves/plugin.hpp"
 #include "waves_animator/plugin.hpp"
+#include "health/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -44,6 +45,8 @@ int main(int argc, char** argv)
     cubos.plugin(demo::playerSpawnerPlugin);
     cubos.plugin(demo::wavesAnimatorPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
+    cubos.plugin(demo::healthPlugin);
+    // TODO: ???
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

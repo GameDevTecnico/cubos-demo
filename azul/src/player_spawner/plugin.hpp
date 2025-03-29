@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../player_movement/plugin.hpp"
+#include "../health/plugin.hpp"
 
 #include <glm/vec2.hpp>
 
@@ -31,6 +32,9 @@ namespace demo
 
             /// @brief Voxel model of the player.
             cubos::engine::Asset<cubos::engine::VoxelGrid> model;
+
+            /// @brief Player team
+            demo::Team team;
         };
 
         /// @brief Player scene.
