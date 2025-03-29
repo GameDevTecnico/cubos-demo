@@ -28,7 +28,15 @@
       },
       "intensity": 1.0
     },
-    "cubos::engine::DirectionalShadowCaster": {},
+    "cubos::engine::DirectionalShadowCaster": {
+      "baseSettings": {
+        "bias": 0.005,
+        "blurRadius": 0.5,
+        "normalOffsetScale": 0.007
+      },
+      "nearDistance": 120.0,
+      "maxDistance": 200.0
+    },
     "cubos::engine::Position": {
       "x": 0.0,
       "y": 0.0,
