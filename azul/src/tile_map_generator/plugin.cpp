@@ -146,11 +146,17 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
 
                 auto mapRect = Rect::square(generator.mapSide);
 
-                std::vector<glm::vec2> landPoints = {};
+                std::vector<glm::vec2> landPoints = {
+                    {4, 4},
+                    {generator.mapSide - 4, 4},
+                    {4, generator.mapSide - 4},
+                    {generator.mapSide - 4, generator.mapSide - 4},
+                };
                 for (int i = 0; i < 4; ++i)
                 {
-                    landPoints.push_back({static_cast<float>(rand() % (generator.mapSide - 4) + 2),
-                                          static_cast<float>(rand() % (generator.mapSide - 4) + 2)});
+                    auto offsetX = static_cast<float>(rand() % 4 - 2);
+                    auto offsetY = static_cast<float>(rand() % 4 - 2);
+                    landPoints[i] += glm::vec2(offsetX, offsetY);
                 }
 
                 for (int ty = 0; ty < generator.mapSide; ++ty)
@@ -171,10 +177,11 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
 
                         float distanceToMapEdge = glm::min(glm::min(tx, ty), glm::min(generator.mapSide - tx, generator.mapSide - ty));
                         float centerFactor = distanceToMapEdge / mapDiagonal;
-                        centerFactor = glm::pow(centerFactor, 0.25F);
+                        centerFactor = glm::pow(centerFactor, 0.15F);
 
                         float islandFactor = 1.0F - distanceToIsland / mapDiagonal;
                         islandFactor = glm::clamp(islandFactor, 0.0F, 1.0F);
+                        islandFactor = glm::pow(islandFactor, 3.0F);
                         islandFactor = islandFactor * centerFactor;
 
                         if (islandFactor < 0.6)
