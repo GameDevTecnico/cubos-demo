@@ -1,0 +1,56 @@
+{
+    "actions": {
+        "shoot": [
+            {
+                "keys": [
+                    "Space"
+                ]
+            },
+            {
+                "gamepadButtons": [
+                    "A"
+                ]
+            }
+        ]
+    },
+    "axes": {
+        "move-x": {
+            "positive": [
+                {
+                    "keys": [
+                        "S"
+                    ]
+                }
+            ],
+            "negative": [
+                {
+                    "keys": [
+                        "W"
+                    ]
+                }
+            ],
+            "gamepadAxes": [
+                "LY"
+            ]
+        },
+        "move-y": {
+            "positive": [
+                {
+                    "keys": [
+                        "D"
+                    ]
+                }
+            ],
+            "negative": [
+                {
+                    "keys": [
+                        "A"
+                    ]
+                }
+            ],
+            "gamepadAxes": [
+                "LX"
+            ]
+        }
+    }
+}

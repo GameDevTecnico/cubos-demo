@@ -9,9 +9,13 @@
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/imgui/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
+#include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
 
 #include <glm/gtx/color_space.hpp>
+
+#include "tile_map/plugin.hpp"
+#include "tile_map_generator/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -26,7 +30,8 @@ int main(int argc, char** argv)
     cubos.plugin(toolsPlugin);
 
     // Add game plugins
-    // TODO: ???
+    cubos.plugin(demo::tileMapPlugin);
+    cubos.plugin(demo::tileMapGeneratorPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);
