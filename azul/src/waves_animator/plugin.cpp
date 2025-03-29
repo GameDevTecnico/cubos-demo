@@ -39,7 +39,7 @@ void demo::wavesAnimatorPlugin(Cubos& cubos)
                 for (size_t x = 0; x < waves.state[x].size(); ++x)
                 {
                     Entity waveEntity =
-                        cmds.spawn(*assets.read(animator.water)).add(Position{{x * 8, 0, y * 8}}).entity();
+                        cmds.spawn(*assets.read(animator.water)).add(Position{{x, 0, y}}).entity();
                     cmds.relate(waveEntity, rootEntity, ChildOf{});
                     animator.entities[y][x] = waveEntity;
                 }
@@ -60,21 +60,9 @@ void demo::wavesAnimatorPlugin(Cubos& cubos)
                         {
                             auto match = positionQuery.at(animator.entities[y][x]);
                             auto [position] = *match;
-                            auto target = static_cast<float>(waves.state[y][x]);
-
-                            if (animator.initialized)
-                            {
-                                position.vec.y = glm::mix(position.vec.y, target,
-                                                          1 - glm::pow(1.0 - animator.waterLerpFactor, dt.value()));
-                            }
-                            else
-                            {
-                                position.vec.y = target;
-                            }
+                            position.vec.y = waves.actual[y][x];
                         }
                     }
-
-                    animator.initialized = true;
                 }
             });
 }

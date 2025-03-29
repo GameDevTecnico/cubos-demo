@@ -3,7 +3,7 @@
 #include <cubos/core/reflection/reflect.hpp>
 
 #include <cubos/engine/assets/asset.hpp>
-#include <cubos/engine/voxels/grid.hpp>
+#include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/prelude.hpp>
 
 #include <unordered_map>
@@ -34,14 +34,8 @@ namespace demo
     {
         CUBOS_REFLECT;
 
-        /// @brief How many voxels wide is a single tile.
-        int tileSide = 8;
-
-        /// @brief How many voxels high is a single tile.
-        int tileHeight = 8;
-
         /// @brief Map of tile indices to their voxel grids.
-        std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> types;
+        std::vector<cubos::engine::Asset<cubos::engine::Scene>> types;
 
         /// @brief Tile-map data.
         std::vector<std::vector<Tile>> tiles;
