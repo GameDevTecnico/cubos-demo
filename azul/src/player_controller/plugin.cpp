@@ -38,13 +38,15 @@ void demo::playerControllerPlugin(Cubos& cubos)
     cubos.system("player controller handler")
         .after(inputUpdateTag)
         .call([](Commands cmds, Input& input,
-                 Query<Entity, RenderVoxelGrid&, PlayerController&, Movement&> players) {
+                 Query<Entity, RenderVoxelGrid&, const ChildOf&, PlayerController&, Movement&> players) {
 
-            for (auto [playerEnt, grid, controller, movement] : players)
+            for (auto [playerEnt, grid, _1, controller, movement] : players)
             {
+
                 // Load the player model if not loaded.
                 if (grid.asset != controller.model)
                 {
+                    CUBOS_WARN("LOAD THE PLAYER!!!!");
                     grid.asset = controller.model;
                     cmds.add(playerEnt, LoadRenderVoxels{});
                 }

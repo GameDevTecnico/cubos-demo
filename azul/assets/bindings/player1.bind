@@ -14,7 +14,7 @@
         ]
     },
     "axes": {
-        "move-x": {
+        "move-y": {
             "positive": [
                 {
                     "keys": [
@@ -33,18 +33,18 @@
                 "LY"
             ]
         },
-        "move-y": {
+        "move-x": {
             "positive": [
                 {
                     "keys": [
-                        "D"
+                        "A"
                     ]
                 }
             ],
             "negative": [
                 {
                     "keys": [
-                        "A"
+                        "D"
                     ]
                 }
             ],

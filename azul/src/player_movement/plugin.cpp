@@ -35,8 +35,8 @@ void demo::movementPlugin(Cubos& cubos)
 
     cubos.system("player movement handler")
         .before(transformUpdateTag)
-        .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, Movement&, const ChildOf&, TileMap&> query) {
-            for (auto [ent, position, rotation, movement, childOf, map] : query)
+        .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, const ChildOf&, Movement&, const ChildOf&, TileMap&> query) {
+            for (auto [ent, position, rotation, _1, movement, _2, map] : query)
             {
                 auto tileSide = 1.0;
 
@@ -63,8 +63,10 @@ void demo::movementPlugin(Cubos& cubos)
 
                     // Set the actual position of the entity.
                     position.vec.x = tileSide / 2.0F + tileSide * static_cast<float>(movement.position.x);
-                    position.vec.y = 0.0F;
                     position.vec.z = tileSide / 2.0F + tileSide * static_cast<float>(movement.position.y);
+                    position.vec.y = map.tiles[movement.position.y][movement.position.x].height + 5.0F;
+
+                    CUBOS_WARN("{}", map.tiles[movement.position.y][movement.position.x].height);
                     movement.initialized = true;
                 }
 
@@ -74,12 +76,10 @@ void demo::movementPlugin(Cubos& cubos)
                     movement.facing = movement.direction;
 
                     // Check if movement is valid.
-                    if (targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.tiles.size() ||
-                        targetTile.y >= map.tiles.size() || targetTile.x < movement.minPosition.x ||
-                        targetTile.y < movement.minPosition.y || targetTile.x > movement.maxPosition.x ||
-                        targetTile.y > movement.maxPosition.y ||
-                        (!map.entities[targetTile.y][targetTile.x].isNull() &&
-                         map.entities[targetTile.y][targetTile.x] != ent))
+
+                    if (targetTile.x < 0 || targetTile.y < 0 
+                        || targetTile.x >= map.tiles.size() || targetTile.y >= map.tiles.size())
+                        /*|| !map.entities[targetTile.y][targetTile.x].isNull())*/
                     {
                         // There's already an entity in the target tile, or its out of bounsd, stop the movement.
                         movement.direction = {0, 0};
@@ -88,6 +88,8 @@ void demo::movementPlugin(Cubos& cubos)
 
                 if (movement.direction != glm::ivec2{0, 0})
                 {
+                    /*CUBOS_WARN("MOVING: x: {} y: {}", movement.direction.x, movement.direction.y);*/
+
                     // Occupy the target tile.
                     map.entities[targetTile.y][targetTile.x] = ent;
 
@@ -100,6 +102,7 @@ void demo::movementPlugin(Cubos& cubos)
                     position.vec.x = tileSide / 2.0F + tileSide * glm::mix(source.x, target.x, movement.progress);
                     /*position.vec.y = glm::mix(0.0F, movement.jumpHeight, glm::sin(movement.progress * glm::pi<float>()));*/
                     position.vec.z = tileSide / 2.0F + tileSide * glm::mix(source.y, target.y, movement.progress);
+
 
                     // If the entity has reached the target position, reset the direction.
                     if (movement.progress == 1.0F)
@@ -120,6 +123,13 @@ void demo::movementPlugin(Cubos& cubos)
                                     glm::vec3{0.0F, 1.0F, 0.0F});
                 float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value() / movement.halfRotationTime);
                 rotation.quat = glm::slerp(rotation.quat, targetRotation, rotationAlpha);
+
+
+                // Move the y position to correspond to the sea level.
+                float initialHeight = map.tiles[movement.position.y][movement.position.x].height;
+                float targetHeight = map.tiles[targetTile.y][targetTile.x].height;
+
+                position.vec.y = glm::mix(initialHeight, targetHeight, movement.progress) + 5.0F;
             }
         });
 
