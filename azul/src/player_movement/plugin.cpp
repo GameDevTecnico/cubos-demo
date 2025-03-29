@@ -37,8 +37,8 @@ void demo::movementPlugin(Cubos& cubos)
 
     cubos.system("player movement handler")
         .before(transformUpdateTag)
-        .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, const ChildOf&, Movement&, const ChildOf&, TileMap&, Waves&> query) {
-            for (auto [ent, position, rotation, _1, movement, _2, map, waves] : query)
+        .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, Movement&, const ChildOf&, TileMap&, Waves&> query) {
+            for (auto [ent, position, rotation, movement, _2, map, waves] : query)
             {
                 auto tileSide = 1.0;
 
@@ -66,7 +66,7 @@ void demo::movementPlugin(Cubos& cubos)
                     // Set the actual position of the entity.
                     position.vec.x = tileSide / 2.0F + tileSide * static_cast<float>(movement.position.x);
                     position.vec.z = tileSide / 2.0F + tileSide * static_cast<float>(movement.position.y);
-                    position.vec.y = map.tiles[movement.position.y][movement.position.x].height + 5.0F;
+                    position.vec.y = map.tiles[movement.position.y][movement.position.x].height;
 
                     CUBOS_WARN("{}", map.tiles[movement.position.y][movement.position.x].height);
                     movement.initialized = true;

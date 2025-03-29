@@ -23,6 +23,7 @@
 #include "waves/plugin.hpp"
 #include "waves_animator/plugin.hpp"
 #include "health/plugin.hpp"
+#include "animation/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -37,6 +38,7 @@ int main(int argc, char** argv)
     cubos.plugin(toolsPlugin);
 
     // Add game plugins
+    cubos.plugin(demo::animationPlugin);
     cubos.plugin(demo::tileMapPlugin);
     cubos.plugin(demo::cameraControllerPlugin);
     cubos.plugin(demo::wavesPlugin);

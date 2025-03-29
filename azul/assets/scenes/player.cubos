@@ -1,18 +1,59 @@
 {
-  "#player": {
-	"cubos::engine::RenderVoxelGrid": {
-	  "offset": {
-		"x": -4.0,
-		"y": 4.0,
-		"z": -4.0
-	  }
-	},
-	"cubos::engine::Rotation": {
-	  "w": 1.0,
-	  "x": 0.0,
-	  "y": 0.0,
-	  "z": 0.0
-	},
-	"cubos::engine::Scale": 0.2
-  }
+	"cubos::engine::Scale": 0.06666666667,
+	"#rotated": {
+		"cubos::engine::Rotation": {
+			"x": 0.0,
+			"y": 1.0,
+			"z": 0.0,
+			"w": 0.0
+		},
+		"#hull": {
+			"cubos::engine::RenderVoxelGrid": {
+				"asset": "db132ded-5870-430f-b6d6-883def2fbd9b"
+			},
+			"cubos::engine::Position": {
+				"x": -7.5,
+				"y": 12.5,
+				"z": -7.5
+			},
+			"#flag": {
+				"demo::RenderAnimation": {
+					"animation": "c9f7269a-f64b-4702-8bc9-1c71678c74d7",
+					"currentModel": -1
+				},
+				"cubos::engine::Position": {}
+			},
+			"#mast": {
+				"cubos::engine::RenderVoxelGrid": {
+					"asset": "4074c441-12cd-4c12-8021-86114f88c0c3"
+				},
+				"cubos::engine::Position": {}
+			},
+			"#sailor1": {
+				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"cubos::engine::Position": {
+					"z": 0.0
+				}
+			},
+			"#sailor2": {
+				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"cubos::engine::Position": {
+					"z": -3.0
+				}
+			},
+			"#sailor3": {
+				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"cubos::engine::Position": {
+					"z": -6.0
+				}
+			},
+			"#sail": {
+				"demo::RenderAnimation": {
+					"animation": "b8647a67-385d-44bc-982e-5ec57e28c267",
+					"currentModel": -1
+				},
+				"cubos::engine::Position": {}
+			}
+		}
+	}
 }

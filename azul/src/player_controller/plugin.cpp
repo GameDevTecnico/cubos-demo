@@ -20,10 +20,8 @@ CUBOS_REFLECT_IMPL(demo::PlayerController)
         .withField("player", &PlayerController::player)
         .withField("moveX", &PlayerController::moveX)
         .withField("moveY", &PlayerController::moveY)
-        .withField("model", &PlayerController::model)
         .build();
 }
-
 
 void demo::playerControllerPlugin(Cubos& cubos)
 {
@@ -37,20 +35,9 @@ void demo::playerControllerPlugin(Cubos& cubos)
 
     cubos.system("player controller handler")
         .after(inputUpdateTag)
-        .call([](Commands cmds, Input& input,
-                 Query<Entity, RenderVoxelGrid&, const ChildOf&, PlayerController&, Movement&> players) {
-
-            for (auto [playerEnt, grid, _1, controller, movement] : players)
+        .call([](Commands cmds, Input& input, Query<PlayerController&, Movement&> players) {
+            for (auto [controller, movement] : players)
             {
-
-                // Load the player model if not loaded.
-                if (grid.asset != controller.model)
-                {
-                    CUBOS_WARN("LOAD THE PLAYER!!!!");
-                    grid.asset = controller.model;
-                    cmds.add(playerEnt, LoadRenderVoxels{});
-                }
-
                 // If the player is already moving then skip.
                 if (movement.direction != glm::ivec2{0, 0})
                 {

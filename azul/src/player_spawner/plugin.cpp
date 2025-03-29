@@ -20,7 +20,6 @@ CUBOS_REFLECT_IMPL(demo::PlayerSpawner::Player)
     return cubos::core::ecs::TypeBuilder<PlayerSpawner::Player>("demo::PlayerSpawner::Player")
         .withField("bindings", &PlayerSpawner::Player::bindings)
         .withField("needsGamepad", &PlayerSpawner::Player::needsGamepad)
-        .withField("model", &PlayerSpawner::Player::model)
         .withField("team", &PlayerSpawner::Player::team)
         .build();
 }
@@ -117,8 +116,7 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
 
                     cmds.relate(playerEnt, mapEnt, ChildOf{})
                         .add(playerEnt, spawner.movement)
-                        .add(playerEnt, PlayerController{.player = player,
-                                                         .model = spawner.players[player - 1].model})
+                        .add(playerEnt, PlayerController{.player = player})
                         .add(playerEnt, demo::Health{.hp = 3, .team = spawner.players[player - 1].team});
 
                     // Bind input for the player.

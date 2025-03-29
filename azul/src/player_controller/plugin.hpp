@@ -23,9 +23,6 @@ namespace demo
 
         /// @brief Axis used to move the character in the y direction.
         std::string moveY = "move-y";
-
-        /// @brief Normal voxel model of the character.
-        cubos::engine::Asset<cubos::engine::VoxelGrid> model;
     };
 
     void playerControllerPlugin(cubos::engine::Cubos& cubos);
