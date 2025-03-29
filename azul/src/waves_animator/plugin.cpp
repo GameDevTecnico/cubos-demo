@@ -36,7 +36,7 @@ void demo::wavesAnimatorPlugin(Cubos& cubos)
             {
                 animator.entities[y].resize(waves.state[y].size());
 
-                for (size_t x = 0; x < waves.state[x].size(); ++x)
+                for (size_t x = 0; x < waves.state[y].size(); ++x)
                 {
                     Entity waveEntity =
                         cmds.spawn(*assets.read(animator.water)).add(Position{{x, 0, y}}).entity();
