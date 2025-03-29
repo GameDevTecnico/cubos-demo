@@ -43,12 +43,12 @@ int main(int argc, char** argv)
     cubos.plugin(demo::tileMapPlugin);
     cubos.plugin(demo::cameraControllerPlugin);
     cubos.plugin(demo::wavesPlugin);
+    cubos.plugin(demo::healthPlugin);
     cubos.plugin(demo::movementPlugin);
     cubos.plugin(demo::playerControllerPlugin);
     cubos.plugin(demo::playerSpawnerPlugin);
     cubos.plugin(demo::wavesAnimatorPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
-    cubos.plugin(demo::healthPlugin);
     cubos.plugin(demo::randomGridPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {

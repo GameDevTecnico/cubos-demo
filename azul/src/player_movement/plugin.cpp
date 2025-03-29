@@ -1,6 +1,7 @@
 #include "plugin.hpp"
 #include "../tile_map/plugin.hpp"
 #include "../waves/plugin.hpp"
+#include "../health/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -47,6 +48,7 @@ void demo::movementPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(tileMapPlugin);
     cubos.depends(wavesPlugin);
+    cubos.depends(healthPlugin);
 
     cubos.component<Movement>();
 
@@ -54,7 +56,7 @@ void demo::movementPlugin(Cubos& cubos)
         .before(transformUpdateTag)
         .call([](const DeltaTime& dt, Commands cmds,
                  Query<Entity, Position&, Rotation&, Movement&, const ChildOf&, TileMap&, Waves&> query,
-                 Query<Entity, Movement&> movementsQuery) {
+                 Query<Entity, Movement&, Health&> movementsQuery) {
             for (auto [ent, position, rotation, movement, _2, map, waves] : query)
             {
                 auto tileSide = 1.0;
@@ -119,7 +121,7 @@ void demo::movementPlugin(Cubos& cubos)
                         {
                             // Handle player collisions.
                             auto match = movementsQuery.at(map.entities[targetTile.y][targetTile.x]);
-                            auto [opponentEntity, opponentMovement] = *match;
+                            auto [opponentEntity, opponentMovement, health] = *match;
 
                             if (movement.direction == movement.facing)
                             {
@@ -141,7 +143,7 @@ void demo::movementPlugin(Cubos& cubos)
                                 }
                                 else
                                 {
-                                    cmds.destroy(opponentEntity);
+                                    health.hp = 0;
                                     CUBOS_WARN("KILL OPPONENT");
                                 }
                             }
