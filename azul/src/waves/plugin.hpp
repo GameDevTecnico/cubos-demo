@@ -14,6 +14,11 @@ namespace demo
         std::vector<std::vector<int>> state, stateNext;
         std::vector<std::vector<int>> terrain;
 
+        float updateInterval = 0.4F;
+        float waveFrequency = 0.5F;
+        float waveAmplitude = 2.0F;
+        float seaLevel = 3.0F;
+
         float accumDeltaTime = 0;
         int iter = 0;
 

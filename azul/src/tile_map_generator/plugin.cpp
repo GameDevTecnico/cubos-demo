@@ -22,6 +22,7 @@ CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
         .withField("tileHeight", &TileMapGenerator::tileHeight)
         .withField("grass", &TileMapGenerator::grass)
         .withField("sand", &TileMapGenerator::sand)
+        .withField("waves", &TileMapGenerator::waves)
         .withField("wavesAnimator", &TileMapGenerator::wavesAnimator)
         .build();
 }
@@ -134,6 +135,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
 
                 VoxelGrid grass{{8, 8, 8}};
                 VoxelGrid sand{{8, 8, 8}};
+                Waves waves = generator.waves;
 
                 for (std::size_t x = 0; x < 8; ++x)
                 {
@@ -154,6 +156,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 types.sand = registerTile(map, assets.create(std::move(sand)));
 
                 map.tiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{0, 0}));
+                waves.terrain.resize(generator.mapSide, std::vector<int>(generator.mapSide, 0));
 
                 auto mapRect = Rect::square(generator.mapSide);
 
@@ -168,14 +171,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 {
                     for (int tx = 0; tx < generator.mapSide; ++tx)
                     {
-                        Cursor cursor{
-                            .mapEnt = entity,
-                            .cmds = cmds,
-                            .types = types,
-                            .tile = map.tiles[ty][tx],
-                            .tx = tx,
-                            .ty = ty,
-                        };
+                        auto& tile = map.tiles[ty][tx];
 
                         float distanceToIsland = INFINITY;
                         for (const auto& point : landPoints)
@@ -188,25 +184,36 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         float mapDiagonal = glm::sqrt(static_cast<float>(map.tileSide * map.tileSide));
                         float islandFactor = 1.0F - distanceToIsland / mapDiagonal;
                         islandFactor = glm::clamp(islandFactor, 0.0F, 1.0F);
+                        islandFactor = islandFactor * islandFactor;
 
                         // Apply some noise to the island factor
-                        islandFactor *= (rand() % 2) ? 1.0 : 0.8;
+                        // islandFactor *= (rand() % 2) ? 1.0 : 0.8;
 
-                        cursor.tile.height = static_cast<unsigned char>(glm::round(islandFactor * 8.0F));
+                        // int level = static_cast<int>(glm::round(islandFactor * 3.0F));
 
-                        if (islandFactor > 0.75F)
+                        tile.height = static_cast<int>(glm::round(islandFactor * 4.0F)) * 2;
+
+                        if (tile.height > 5)
                         {
-                            cursor.tile.type = types.grass;
+                            tile.type = types.grass;
                         }
                         else
                         {
-                            cursor.tile.type = types.sand;
+                            tile.type = types.sand;
                         }
                     }
                 }
 
+                for (size_t y = 0; y < map.tiles.size(); ++y)
+                {
+                    for (size_t x = 0; x < map.tiles[y].size(); ++x)
+                    {
+                        waves.terrain[y][x] = map.tiles[y][x].height;
+                    }
+                }
+
                 cmds.add(entity, std::move(map));
-                cmds.add(entity, Waves{});
+                cmds.add(entity, waves);
                 cmds.add(entity, generator.wavesAnimator);
                 cmds.remove<TileMapGenerator>(entity);
             }

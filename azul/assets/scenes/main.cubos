@@ -2,6 +2,12 @@
   "demo::TileMapGenerator": {
     "grass": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
     "sand": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
+    "waves": {
+      "updateInterval": 0.4,
+      "waveFrequency": 0.5,
+      "waveAmplitude": 1.5,
+      "seaLevel": 3.0
+    },
     "wavesAnimator": {
       "water": "7ceb697a-e7cb-46f6-921c-7f467880aa13",
       "waterLerpFactor": 0.9
