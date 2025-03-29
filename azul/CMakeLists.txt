@@ -3,6 +3,8 @@
 
 add_executable(azul
     src/main.cpp
+    src/tile_map/plugin.cpp
+    src/tile_map_generator/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)

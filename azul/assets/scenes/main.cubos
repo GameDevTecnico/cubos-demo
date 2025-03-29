@@ -1,4 +1,8 @@
 {
+  "demo::TileMapGenerator": {
+    "grass": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
+    "sand": "db7efa06-95cf-494e-a45d-63e5a44cba6c"
+  },
   "#render-target": {
     "cubos::engine::RenderTarget": {},
     "cubos::engine::HDR": {},
@@ -41,9 +45,15 @@
   "#camera": {
     "cubos::engine::PerspectiveCamera": 70.0,
     "cubos::engine::Position": {
-      "x": 0.0,
-      "y": 0.0,
+      "x": 64.0,
+      "y": 100.0,
       "z": 0.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 0.0,
+      "x": 0.0,
+      "y": 0.8660254,
+      "z": 0.5
     },
     "cubos::engine::Scale": 1.0,
     "cubos::engine::DrawsTo#render-target": {}
