@@ -29,15 +29,12 @@ namespace demo
             /// @brief Does the player need a gamepad?
             bool needsGamepad = true;
 
-            /// @brief Normal voxel model of the character.
+            /// @brief Voxel model of the player.
             cubos::engine::Asset<cubos::engine::VoxelGrid> model;
         };
 
         /// @brief Player scene.
         cubos::engine::Asset<cubos::engine::Scene> scene;
-
-        /// @brief Scene root entity name.
-        std::string root;
 
         /// @brief Data for each player.
         std::vector<Player> players;

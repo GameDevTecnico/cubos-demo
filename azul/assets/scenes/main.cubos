@@ -3,6 +3,39 @@
     "grass": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
     "sand": "db7efa06-95cf-494e-a45d-63e5a44cba6c"
   },
+  "#player-spawner": {
+	"demo::PlayerSpawner": {
+	  "scene": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c",
+	  "players": [
+		{
+		  "bindings": "602177be-b7e6-42b4-917e-3947c19e6c19",
+		  "needsGamepad": false,
+		  "model": "e1051eed-b40e-4dfa-8ca9-b553b5eb1994"
+		},
+		{
+		  "bindings": "ca74927e-8f5e-4e45-b9e5-184533e2a646",
+		  "needsGamepad": false,
+		  "model": "8127cf38-825a-464a-8912-c29c2c3570bf"
+		}
+	  ],
+	  "movement": {
+		"position": {
+		  "x": 30,
+		  "y": 48
+		},
+		"moveSpeed": 5.0,
+		"halfRotationTime": 0.03,
+		"minPosition": {
+		  "x": 25,
+		  "y": 0
+		},
+		"maxPosition": {
+		  "x": 96,
+		  "y": 96
+		}
+	  }
+	}
+  },
   "#render-target": {
     "cubos::engine::RenderTarget": {},
     "cubos::engine::HDR": {},
