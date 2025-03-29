@@ -55,9 +55,6 @@
     "cubos::engine::RenderPicker": {},
     "cubos::engine::GBuffer": {},
     "cubos::engine::GBufferRasterizer": {},
-    "cubos::engine::SSAO": {
-      "radius": 4
-    },
     "cubos::engine::DeferredShading": {},
     "cubos::engine::Bloom": {},
     "cubos::engine::SplitScreen": {},
