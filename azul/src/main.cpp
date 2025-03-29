@@ -16,6 +16,7 @@
 
 #include "tile_map/plugin.hpp"
 #include "tile_map_generator/plugin.hpp"
+#include "camera_controller/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -32,6 +33,7 @@ int main(int argc, char** argv)
     // Add game plugins
     cubos.plugin(demo::tileMapPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
+    cubos.plugin(demo::cameraControllerPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

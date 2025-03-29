@@ -17,7 +17,11 @@
     "cubos::engine::DeferredShading": {},
     "cubos::engine::Bloom": {},
     "cubos::engine::SplitScreen": {},
-    "cubos::engine::GizmosTarget": {}
+    "cubos::engine::GizmosTarget": {},
+    "cubos::engine::UICanvas": {},
+    "#rect": {
+      "cubos::engine::UIElement": {}
+    }
   },
   "#sun": {
     "cubos::engine::DirectionalLight": {
@@ -30,40 +34,32 @@
     },
     "cubos::engine::DirectionalShadowCaster": {
       "baseSettings": {
-        "bias": 0.005,
+        "bias": 0.001,
         "blurRadius": 0.5,
         "normalOffsetScale": 0.007
       },
       "nearDistance": 120.0,
       "maxDistance": 200.0
     },
-    "cubos::engine::Position": {
-      "x": 0.0,
-      "y": 0.0,
-      "z": 0.0
-    },
-    "cubos::engine::Rotation": {
-      "w": 1.0,
-      "x": 0.30000001192092896,
-      "y": -0.10000000149011612,
-      "z": 0.5
-    },
-    "cubos::engine::Scale": 1.0
+    "demo::CameraController": {
+      "yaw": 40.0,
+      "pitch": -20.0
+    }
   },
   "#camera": {
-    "cubos::engine::PerspectiveCamera": 70.0,
-    "cubos::engine::Position": {
-      "x": 64.0,
-      "y": 100.0,
-      "z": 0.0
+    "cubos::engine::OrthographicCamera": {
+      "size": 65.0
     },
-    "cubos::engine::Rotation": {
-      "w": 0.0,
-      "x": 0.0,
-      "y": 0.8660254,
-      "z": 0.5
+    "demo::CameraController": {
+      "yaw": -90.0,
+      "pitch": 45.0,
+      "distance": 100.0,
+      "center": {
+        "x": 64.0,
+        "y": 0.0,
+        "z": 64.0
+      }
     },
-    "cubos::engine::Scale": 1.0,
     "cubos::engine::DrawsTo#render-target": {}
   }
 }
