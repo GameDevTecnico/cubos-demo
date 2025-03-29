@@ -9,61 +9,75 @@
 
 using namespace cubos::engine;
 
-// TODO: Get rid of DEFINE
-#define GRID_SIZE 16
-
 namespace demo
 {
     std::optional<int> Waves::fetch(int x, int y) const
     {
-        if (x < 0 || x > GRID_SIZE - 1)
+        if (x < 0 || x > state[0].size() - 1)
             return std::nullopt;
-        if (y < 0 || y > GRID_SIZE - 1)
+        if (y < 0 || y > state.size() - 1)
             return std::nullopt;
         return state[y][x];
     }
 
     void Waves::modify(int x, int y, int value)
     {
-        if (x < 0 || x > GRID_SIZE - 1)
+        if (x < 0 || x > state[0].size() - 1)
             return;
-        if (y < 0 || y > GRID_SIZE - 1)
+        if (y < 0 || y > state.size() - 1)
             return;
         stateNext[y][x] = value;
     }
 
     void Waves::step(int value, int x, int y)
     {
+        int result = INT_MIN;
+
         // Get the avg. of values on the left, and set our value to it
         const auto leftValues = {
             fetch(x - 1, y - 1),
             fetch(x - 1, y),
             fetch(x - 1, y + 1),
         };
-        int sum = 0, num = 0;
         for (auto& optValue : leftValues)
         {
             if (!optValue)
                 continue;
-            ++num;
-            sum += *optValue;
+            result = std::max(result, *optValue);
         }
-        if (num == 0)
-        {
-            // We're on the edge, decrement value each tick
-            modify(x, y, std::max(value - 1, 0));
-        }
-        else
-        {
-            int result = std::ceil((float)sum / num);
 
-            // Only allow modifications if the result is higher than terrain.
-            // Otherwise, set it to 0
-            if (result < terrain[y][x])
-                result = 0;
-
-            modify(x, y, result);
+        if (result == INT_MIN)
+        {
+            result = std::max(value - 1, 0);
         }
+
+        // int sum = 0, num = 0;
+        // for (auto& optValue : leftValues)
+        // {
+        //     if (!optValue)
+        //         continue;
+        //     ++num;
+        //     sum += *optValue;
+        // }
+
+        // int result;
+        // if (num == 0)
+        // {
+        //     // We're on the edge, decrement value each tick
+        //     result = std::max(value - 1, 0);
+        // }
+        // else
+        // {
+        //     num += 1;
+        //     result = std::ceil((float)sum / num);
+        // }
+
+        // Only allow modifications if the result is higher than terrain.
+        // Otherwise, set it to 0
+        if (result < terrain[y][x])
+            result = 0;
+
+        modify(x, y, result);
     }
 
     void Waves::iteration()
@@ -75,9 +89,6 @@ namespace demo
                 step(state[y][x], x, y);
             }
         }
-
-        print(state);
-        // print(stateNext);
 
         // Copy next to curr, and clear next buff
         for (int y = 0; y < stateNext.size(); ++y)
@@ -121,7 +132,7 @@ namespace demo
             {
                 if (!firstPrint)
                     std::cout << " ";
-                std::cout << convertValueToASCII(i);
+                std::cout << i;
                 firstPrint = false;
             }
             std::cout << std::endl;
@@ -134,6 +145,10 @@ CUBOS_REFLECT_IMPL(demo::Waves)
     return cubos::core::ecs::TypeBuilder<Waves>("demo::Waves")
         .withField("accumDeltaTime", &Waves::accumDeltaTime)
         .withField("iter", &Waves::iter)
+        .withField("updateInterval", &Waves::updateInterval)
+        .withField("waveAmplitude", &Waves::waveAmplitude)
+        .withField("waveFrequency", &Waves::waveFrequency)
+        .withField("seaLevel", &Waves::seaLevel)
         .build();
 }
 
@@ -155,32 +170,16 @@ void demo::wavesPlugin(Cubos& cubos)
         if (!waves)
             return;
 
-        waves->state.resize(GRID_SIZE);
-        waves->stateNext.resize(GRID_SIZE);
-        waves->terrain.resize(GRID_SIZE);
+        waves->state.resize(waves->terrain.size());
+        waves->stateNext.resize(waves->terrain.size());
         for (auto& v : waves->state)
         {
-            v.resize(GRID_SIZE);
+            v.resize(waves->terrain[0].size(), waves->seaLevel);
         }
         for (auto& v : waves->stateNext)
         {
-            v.resize(GRID_SIZE);
+            v.resize(waves->terrain[0].size(), waves->seaLevel);
         }
-        for (auto& v : waves->terrain)
-        {
-            v.resize(GRID_SIZE);
-        }
-
-        // for( auto &v : waves->state ) {
-        //     for( int& i : v ) {
-        //         i = (rand() % 5) + 1;
-        //     }
-        // }
-
-        // waves->state[3][2] = 5;
-        // waves->state[4][2] = 5;
-        // waves->state[5][2] = 5;
-        // waves->state[6][2] = 5;
     });
 
     cubos.system("update waves calculation").call([](const DeltaTime& dt, Query<Waves&> q) {
@@ -189,27 +188,18 @@ void demo::wavesPlugin(Cubos& cubos)
             return;
 
         waves->accumDeltaTime += dt.value();
-        if (waves->accumDeltaTime >= 0.6f)
+        while (waves->accumDeltaTime >= waves->updateInterval)
         {
-            waves->accumDeltaTime = 0.0f;
+            waves->accumDeltaTime -= waves->updateInterval;
 
-            float t = (float)waves->iter * 0.5;
-            float waveRatio = (sin(t) + 1.0) * 0.5;
-            int waveHeight = static_cast<int>(waveRatio * 10);
-            for (int i = 0; i < GRID_SIZE; ++i)
+            waves->iteration();
+
+            float t = (float)(waves->iter++) * waves->waveFrequency;
+            int waveHeight = static_cast<int>(roundf(waves->seaLevel + waves->waveAmplitude * sin(t)));
+            for (int i = 0; i < waves->state.size(); ++i)
             {
                 waves->state[i][0] = waveHeight;
             }
-
-            // waves->terrain[8][10] = 5;
-            // waves->terrain[7][10] = 5;
-            // waves->terrain[6][10] = 5;
-            // waves->terrain[9][10] = 5;
-            // waves->terrain[8][11] = 5;
-            // waves->terrain[7][11] = 5;
-
-            CUBOS_INFO("Iteration: {}", waves->iter++);
-            waves->iteration();
         }
     });
 }

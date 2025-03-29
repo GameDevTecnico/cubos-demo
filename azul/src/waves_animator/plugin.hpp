@@ -20,6 +20,7 @@ namespace demo
         cubos::engine::Asset<cubos::engine::Scene> water;
         std::vector<std::vector<cubos::engine::Entity>> entities;
         float waterLerpFactor{0.5F};
+        bool initialized{false};
     };
 
     void wavesAnimatorPlugin(cubos::engine::Cubos& cubos);

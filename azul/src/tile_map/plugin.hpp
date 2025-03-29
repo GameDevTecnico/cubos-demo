@@ -24,7 +24,7 @@ namespace demo
         unsigned char rotation;
 
         /// @brief Height of the tile.
-        unsigned char height;
+        int height;
     };
 
     /// @brief Component which keeps information about the tile-map.

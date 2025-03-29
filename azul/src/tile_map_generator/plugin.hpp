@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../waves_animator/plugin.hpp"
+#include "../waves/plugin.hpp"
 
 #include <cubos/core/reflection/reflect.hpp>
 
@@ -35,6 +36,7 @@ namespace demo
         cubos::engine::Asset<cubos::engine::VoxelGrid> sand;
         /// @}
 
+        Waves waves;
         WavesAnimator wavesAnimator;
     };
 
