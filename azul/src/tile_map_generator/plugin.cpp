@@ -147,15 +147,15 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 auto mapRect = Rect::square(generator.mapSide);
 
                 std::vector<glm::vec2> landPoints = {
-                    {4, 4},
-                    {generator.mapSide - 4, 4},
-                    {4, generator.mapSide - 4},
-                    {generator.mapSide - 4, generator.mapSide - 4},
+                    {5, 5},
+                    {generator.mapSide - 5, 5},
+                    {5, generator.mapSide - 5},
+                    {generator.mapSide - 5, generator.mapSide - 5},
                 };
                 for (int i = 0; i < 4; ++i)
                 {
-                    auto offsetX = static_cast<float>(rand() % 4 - 2);
-                    auto offsetY = static_cast<float>(rand() % 4 - 2);
+                    auto offsetX = static_cast<float>(rand() % 6 - 3);
+                    auto offsetY = static_cast<float>(rand() % 6 - 3);
                     landPoints[i] += glm::vec2(offsetX, offsetY);
                 }
 
