@@ -113,12 +113,6 @@ static unsigned char registerTile(demo::TileMap& tileMap, Asset<VoxelGrid> asset
     return static_cast<unsigned char>(tileMap.types.size() - 1);
 }
 
-static bool makeIsland(const Cursor& cursor)
-{
-    cursor.tile = {cursor.types.grass, 0, 0};
-    return true;
-}
-
 void demo::tileMapGeneratorPlugin(Cubos& cubos)
 {
     cubos.depends(tileMapPlugin);
@@ -134,11 +128,26 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
             {
                 srand(time(nullptr));
 
+                VoxelGrid grass{{8, 8, 8}};
+                VoxelGrid sand{{8, 8, 8}};
+
+                for (std::size_t x = 0; x < 8; ++x)
+                {
+                    for (std::size_t y = 0; y < 8; ++y)
+                    {
+                        for (std::size_t z = 0; z < 8; ++z)
+                        {
+                            grass.set({x, y, z}, 1);
+                            sand.set({x, y, z}, 2);
+                        }
+                    }
+                }
+
                 TileMap map{.tileSide = generator.tileSide, .tileHeight = generator.tileHeight};
 
                 Types types{};
-                types.grass = registerTile(map, generator.grass);
-                types.sand = registerTile(map, generator.sand);
+                types.grass = registerTile(map, assets.create(std::move(grass)));
+                types.sand = registerTile(map, assets.create(std::move(sand)));
 
                 map.tiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{0, 0}));
 
@@ -157,7 +166,16 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                             .ty = ty,
                         };
 
-                        makeIsland(cursor);
+                        if ((tx + ty) % 2 == 0)
+                        {
+                            cursor.tile.type = types.grass;
+                            cursor.tile.height = (tx + ty) % 8;
+                        }
+                        else
+                        {
+                            cursor.tile.type = types.sand;
+                            cursor.tile.height = (tx + ty) % 4;
+                        }
                     }
                 }
 

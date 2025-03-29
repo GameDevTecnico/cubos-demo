@@ -37,13 +37,13 @@ namespace demo
         /// @brief How many voxels wide is a single tile.
         int tileSide = 8;
 
-        /// @brief How many voxels high is a single wall tile.
+        /// @brief How many voxels high is a single tile.
         int tileHeight = 8;
 
         /// @brief Map of tile indices to their voxel grids.
         std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> types;
 
-        /// @brief Tile-map data. Each dimension's size must be a multiple of @ref chunkSide.
+        /// @brief Tile-map data.
         std::vector<std::vector<Tile>> tiles;
 
         /// @brief Entity occupying each tile (if any).
