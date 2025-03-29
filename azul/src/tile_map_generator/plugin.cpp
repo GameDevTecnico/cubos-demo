@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../tile_map/plugin.hpp"
+#include "../waves/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -21,6 +22,7 @@ CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
         .withField("tileHeight", &TileMapGenerator::tileHeight)
         .withField("grass", &TileMapGenerator::grass)
         .withField("sand", &TileMapGenerator::sand)
+        .withField("wavesAnimator", &TileMapGenerator::wavesAnimator)
         .build();
 }
 
@@ -118,6 +120,8 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
     cubos.depends(tileMapPlugin);
     cubos.depends(assetsPlugin);
     cubos.depends(transformPlugin);
+    cubos.depends(wavesPlugin);
+    cubos.depends(wavesAnimatorPlugin);
 
     cubos.component<TileMapGenerator>();
 
@@ -202,6 +206,8 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 }
 
                 cmds.add(entity, std::move(map));
+                cmds.add(entity, Waves{});
+                cmds.add(entity, generator.wavesAnimator);
                 cmds.remove<TileMapGenerator>(entity);
             }
         });
