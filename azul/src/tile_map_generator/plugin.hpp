@@ -24,16 +24,11 @@ namespace demo
         /// @brief How many tiles are in the side of the entire map.
         int mapSide = 16;
 
-        /// @brief How many voxels wide is a single tile.
-        int tileSide = 8;
-
-        /// @brief How many voxels high is a single wall tile.
-        int tileHeight = 8;
-
-        /// @name Voxel grids for the different floor types.
+        /// @name Voxel grids for the different tile types.
         /// @{
-        cubos::engine::Asset<cubos::engine::VoxelGrid> grass;
-        cubos::engine::Asset<cubos::engine::VoxelGrid> sand;
+        cubos::engine::Asset<cubos::engine::Scene> grass;
+        cubos::engine::Asset<cubos::engine::Scene> mountain;
+        cubos::engine::Asset<cubos::engine::Scene> sand;
         /// @}
 
         Waves waves;

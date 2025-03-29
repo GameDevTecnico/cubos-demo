@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iostream>
 #include <optional>
+#include <glm/glm.hpp>
 
 #include <cubos/core/ecs/reflection.hpp>
 
@@ -11,7 +12,7 @@ using namespace cubos::engine;
 
 namespace demo
 {
-    std::optional<int> Waves::fetch(int x, int y) const
+    std::optional<float> Waves::fetch(int x, int y) const
     {
         if (x < 0 || x > state[0].size() - 1)
             return std::nullopt;
@@ -20,7 +21,7 @@ namespace demo
         return state[y][x];
     }
 
-    void Waves::modify(int x, int y, int value)
+    void Waves::modify(int x, int y, float value)
     {
         if (x < 0 || x > state[0].size() - 1)
             return;
@@ -29,9 +30,9 @@ namespace demo
         stateNext[y][x] = value;
     }
 
-    void Waves::step(int value, int x, int y)
+    void Waves::step(float value, int x, int y)
     {
-        int result = INT_MIN;
+        float result = -INFINITY;
 
         // Get the avg. of values on the left, and set our value to it
         const auto leftValues = {
@@ -46,9 +47,10 @@ namespace demo
             result = std::max(result, *optValue);
         }
 
-        if (result == INT_MIN)
+        if (result == -INFINITY)
         {
-            result = std::max(value - 1, 0);
+            modify(x, y, value);
+            return;
         }
 
         // int sum = 0, num = 0;
@@ -74,8 +76,8 @@ namespace demo
 
         // Only allow modifications if the result is higher than terrain.
         // Otherwise, set it to 0
-        if (result < terrain[y][x])
-            result = 0;
+        // if (result < static_cast<float>(terrain[y][x]))
+        //     result = seaLevel;
 
         modify(x, y, result);
     }
@@ -90,6 +92,13 @@ namespace demo
             }
         }
 
+        float t = (float)(iter++) * waveFrequency;
+        float waveHeight = seaLevel + waveAmplitude * sin(t);
+        for (int y = 0; y < state.size(); ++y)
+        {
+            stateNext[y][0] = waveHeight;
+        }
+
         // Copy next to curr, and clear next buff
         for (int y = 0; y < stateNext.size(); ++y)
         {
@@ -98,44 +107,6 @@ namespace demo
                 state[y][x] = stateNext[y][x];
                 stateNext[y][x] = 0;
             }
-        }
-    }
-
-    std::string Waves::convertValueToASCII(int value)
-    {
-        switch (value)
-        {
-        case 5:
-            return "█";
-        case 4:
-            return "▆";
-        case 3:
-            return "▄";
-        case 2:
-            return "▂";
-        case 1:
-            return "▁";
-        case 0:
-            return ".";
-
-        default:
-            return "?";
-        }
-    }
-
-    void Waves::print(std::vector<std::vector<int>>& state)
-    {
-        CUBOS_INFO("Automata state:");
-        for (auto& v : state)
-        {
-            for (bool firstPrint = true; auto& i : v)
-            {
-                if (!firstPrint)
-                    std::cout << " ";
-                std::cout << i;
-                firstPrint = false;
-            }
-            std::cout << std::endl;
         }
     }
 } // namespace demo
@@ -149,6 +120,7 @@ CUBOS_REFLECT_IMPL(demo::Waves)
         .withField("waveAmplitude", &Waves::waveAmplitude)
         .withField("waveFrequency", &Waves::waveFrequency)
         .withField("seaLevel", &Waves::seaLevel)
+        .withField("lerpFactor", &Waves::lerpFactor)
         .build();
 }
 
@@ -172,11 +144,16 @@ void demo::wavesPlugin(Cubos& cubos)
 
         waves->state.resize(waves->terrain.size());
         waves->stateNext.resize(waves->terrain.size());
+        waves->actual.resize(waves->terrain.size());
         for (auto& v : waves->state)
         {
             v.resize(waves->terrain[0].size(), waves->seaLevel);
         }
         for (auto& v : waves->stateNext)
+        {
+            v.resize(waves->terrain[0].size(), waves->seaLevel);
+        }
+        for (auto& v : waves->actual)
         {
             v.resize(waves->terrain[0].size(), waves->seaLevel);
         }
@@ -191,14 +168,15 @@ void demo::wavesPlugin(Cubos& cubos)
         while (waves->accumDeltaTime >= waves->updateInterval)
         {
             waves->accumDeltaTime -= waves->updateInterval;
-
             waves->iteration();
+        }
 
-            float t = (float)(waves->iter++) * waves->waveFrequency;
-            int waveHeight = static_cast<int>(roundf(waves->seaLevel + waves->waveAmplitude * sin(t)));
-            for (int i = 0; i < waves->state.size(); ++i)
+        for (int y = 0; y < waves->state.size(); ++y)
+        {
+            for (int x = 0; x < waves->state.size(); ++x)
             {
-                waves->state[i][0] = waveHeight;
+                waves->actual[y][x] = glm::mix(waves->actual[y][x], waves->state[y][x],
+                                                 1 - glm::pow(1.0 - waves->lerpFactor, dt.value()));
             }
         }
     });

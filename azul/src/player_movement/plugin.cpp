@@ -38,7 +38,7 @@ void demo::movementPlugin(Cubos& cubos)
         .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, Movement&, const ChildOf&, TileMap&> query) {
             for (auto [ent, position, rotation, movement, childOf, map] : query)
             {
-                auto tileSide = static_cast<float>(map.tileSide);
+                auto tileSide = 1.0;
 
                 if (!movement.initialized)
                 {
