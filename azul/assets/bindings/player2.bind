@@ -37,14 +37,14 @@
             "positive": [
                 {
                     "keys": [
-                        "Left"
+                        "Right"
                     ]
                 }
             ],
             "negative": [
                 {
                     "keys": [
-                        "Right"
+                        "Left"
                     ]
                 }
             ],

@@ -61,6 +61,7 @@ void demo::movementPlugin(Cubos& cubos)
                             movement.position.y -= map.tiles.size();
                         }
                     }
+                    CUBOS_INFO("Set ent {} at {}x{}", ent, movement.position.x, movement.position.y);
                     map.entities[movement.position.y][movement.position.x] = ent;
 
                     // Set the actual position of the entity.
@@ -78,8 +79,10 @@ void demo::movementPlugin(Cubos& cubos)
                     movement.facing = movement.direction;
 
                     bool outOfBoundsCheck = targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.tiles.size() || targetTile.y >= map.tiles.size();
-                    
-                    if (outOfBoundsCheck) {
+                    if (outOfBoundsCheck
+                        || (!map.entities[targetTile.y][targetTile.x].isNull() && map.entities[targetTile.y][targetTile.x] != ent))
+                    {
+                        // There's already an entity in the target tile, or its out of bounsd, stop the movement.
                         movement.direction = {0, 0};
                     }
                     else {
