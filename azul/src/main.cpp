@@ -1,5 +1,7 @@
 #include <imgui.h>
 
+#include "waves/plugin.hpp"
+
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
@@ -34,6 +36,8 @@ int main(int argc, char** argv)
     cubos.plugin(demo::tileMapPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::cameraControllerPlugin);
+    cubos.plugin(demo::wavesPlugin);
+    // TODO: ???
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

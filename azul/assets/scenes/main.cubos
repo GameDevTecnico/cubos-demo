@@ -57,5 +57,8 @@
       }
     },
     "cubos::engine::DrawsTo#render-target": {}
+  },
+  "#waves": {
+    "demo::Waves": {}
   }
 }

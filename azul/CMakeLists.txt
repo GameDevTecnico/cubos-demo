@@ -6,6 +6,7 @@ add_executable(azul
     src/tile_map/plugin.cpp
     src/tile_map_generator/plugin.cpp
     src/camera_controller/plugin.cpp
+    src/waves/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)
