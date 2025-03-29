@@ -45,7 +45,7 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
 
     cubos.component<PlayerSpawner>();
 
-    cubos.system("spawn missing players during the day")
+    cubos.system("spawn players")
         .call([](Commands cmds, Assets& assets, Settings& settings, Input& input,
                  Query<PlayerSpawner&, const ChildOf&, Entity> spawners,
                  Query<Entity, const PlayerController&> playerControllers) {
