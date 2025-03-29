@@ -70,7 +70,7 @@ void demo::tileMapPlugin(Cubos& cubos)
                         auto chunk =
                             cmds.create()
                                 .add(RenderVoxelGrid{.asset = map.types[tile.type]})
-                                .add(Position{glm::vec3{map.tileSide * x, map.tileHeight, map.tileSide * y}})
+                                .add(Position{glm::vec3{map.tileSide * x, tile.height, map.tileSide * y}})
                                 .add(Rotation{glm::angleAxis(glm::radians(90.0F * tile.rotation), glm::vec3{0, 1, 0})})
                                 .entity();
                         cmds.relate(chunk, tilesRoot, ChildOf{});
