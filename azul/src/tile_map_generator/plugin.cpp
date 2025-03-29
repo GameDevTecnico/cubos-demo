@@ -210,6 +210,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                             tile.height = 2;
                             tile.type = types.mountain;
                         }
+                        tile.rotation = rand() % 4;
                     }
                 }
 

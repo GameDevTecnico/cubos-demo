@@ -61,7 +61,7 @@ void demo::tileMapPlugin(Cubos& cubos)
                         const auto& tile = map.tiles[y][x];
                         auto tileEnt =
                             cmds.spawn(*tileScenes[tile.type])
-                                .add(Position{glm::vec3{x, tile.height * 0.5F, y}})
+                                .add(Position{glm::vec3{x + 0.5F, tile.height * 0.5F, y + 0.5F}})
                                 .add(Rotation{glm::angleAxis(glm::radians(90.0F * tile.rotation), glm::vec3{0, 1, 0})})
                                 .entity();
                         cmds.relate(tileEnt, tilesRoot, ChildOf{});
