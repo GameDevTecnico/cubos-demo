@@ -20,12 +20,14 @@
 		{
 		  "bindings": "602177be-b7e6-42b4-917e-3947c19e6c19",
 		  "needsGamepad": false,
-		  "model": "e1051eed-b40e-4dfa-8ca9-b553b5eb1994"
+		  "model": "e1051eed-b40e-4dfa-8ca9-b553b5eb1994",
+      "team": "Player 1"
 		},
 		{
 		  "bindings": "ca74927e-8f5e-4e45-b9e5-184533e2a646",
 		  "needsGamepad": false,
-		  "model": "8127cf38-825a-464a-8912-c29c2c3570bf"
+		  "model": "8127cf38-825a-464a-8912-c29c2c3570bf",
+      "team": "Player 2"
 		}
 	  ],
 	  "movement": {
