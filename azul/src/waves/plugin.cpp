@@ -19,6 +19,7 @@ namespace demo
         CUBOS_REFLECT;
 
         std::vector<std::vector<int>> state, stateNext;
+        std::vector<std::vector<int>> terrain;
 
         float accumDeltaTime = 0;
         int iter = 0;
@@ -38,7 +39,7 @@ namespace demo
         }
 
         void step(int value, int x, int y) {
-            // Get the avg. of values on the left, and decrease to a maximum delta value
+            // Get the avg. of values on the left, and set our value to it
             const auto leftValues = {
                 fetch(x-1, y-1),
                 fetch(x-1, y),
@@ -53,7 +54,14 @@ namespace demo
             int result = std::ceil((float)sum / num);
 
             int delta = std::max(result - value, -1);
-            modify(x, y, std::max(value + delta, 0));
+
+            // Only allow modifications if the result is not higher than terrain.
+            // Otherwise, set it to 0
+            int finalResult = value + delta;
+            if(finalResult < terrain[y][x])
+                finalResult = 0;
+
+            modify(x, y, finalResult);
         }
 
         void iteration() {
@@ -65,16 +73,14 @@ namespace demo
 
             print(state);
             //print(stateNext);
-            // Copy next to curr, and clear next buff
 
+            // Copy next to curr, and clear next buff
             for(int y = 0; y < stateNext.size(); ++y) {
                 for(int x = 0; x < stateNext[y].size(); ++x) {
                     state[y][x] = stateNext[y][x];
                     stateNext[y][x] = 0;
                 }
             }
-
-            //std::swap(state, stateNext);
         }
 
         std::string convertValueToASCII(int value) {
@@ -134,10 +140,14 @@ void demo::wavesPlugin(Cubos& cubos)
 
             waves->state.resize(GRID_SIZE);
             waves->stateNext.resize(GRID_SIZE);
+            waves->terrain.resize(GRID_SIZE);
             for( auto& v : waves->state ) {
                 v.resize(GRID_SIZE);
             }
             for( auto& v : waves->stateNext ) {
+                v.resize(GRID_SIZE);
+            }
+            for( auto& v : waves->terrain ) {
                 v.resize(GRID_SIZE);
             }
 
@@ -166,6 +176,13 @@ void demo::wavesPlugin(Cubos& cubos)
                     waves->state[8][3] = 5;
                     waves->state[7][3] = 5;
                 }
+
+                waves->terrain[8][10] = 5;
+                waves->terrain[7][10] = 5;
+                waves->terrain[6][10] = 5;
+                waves->terrain[9][10] = 5;
+                waves->terrain[8][11] = 5;
+                waves->terrain[7][11] = 5;
 
                 CUBOS_INFO("Iteration: {}", waves->iter++);
                 waves->iteration();
