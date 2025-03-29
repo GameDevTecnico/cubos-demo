@@ -12,6 +12,7 @@ add_executable(azul
     src/player_spawner/plugin.cpp
     src/waves_animator/plugin.cpp
     src/health/plugin.cpp
+    src/animation/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)

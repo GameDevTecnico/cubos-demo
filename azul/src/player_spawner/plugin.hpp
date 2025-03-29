@@ -30,9 +30,6 @@ namespace demo
             /// @brief Does the player need a gamepad?
             bool needsGamepad = true;
 
-            /// @brief Voxel model of the player.
-            cubos::engine::Asset<cubos::engine::VoxelGrid> model;
-
             /// @brief Player team
             demo::Team team;
         };
