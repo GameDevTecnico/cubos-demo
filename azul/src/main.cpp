@@ -1,7 +1,5 @@
 #include <imgui.h>
 
-#include "waves/plugin.hpp"
-
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
@@ -22,6 +20,8 @@
 #include "player_movement/plugin.hpp"
 #include "player_controller/plugin.hpp"
 #include "player_spawner/plugin.hpp"
+#include "waves/plugin.hpp"
+#include "waves_animator/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -37,13 +37,13 @@ int main(int argc, char** argv)
 
     // Add game plugins
     cubos.plugin(demo::tileMapPlugin);
-    cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::cameraControllerPlugin);
     cubos.plugin(demo::wavesPlugin);
     cubos.plugin(demo::movementPlugin);
     cubos.plugin(demo::playerControllerPlugin);
     cubos.plugin(demo::playerSpawnerPlugin);
-    // TODO: ???
+    cubos.plugin(demo::wavesAnimatorPlugin);
+    cubos.plugin(demo::tileMapGeneratorPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

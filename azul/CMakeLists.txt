@@ -10,6 +10,7 @@ add_executable(azul
     src/player_movement/plugin.cpp
     src/player_controller/plugin.cpp
     src/player_spawner/plugin.cpp
+    src/waves_animator/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)

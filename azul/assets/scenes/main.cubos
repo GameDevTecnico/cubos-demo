@@ -1,7 +1,11 @@
 {
   "demo::TileMapGenerator": {
     "grass": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
-    "sand": "db7efa06-95cf-494e-a45d-63e5a44cba6c"
+    "sand": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
+    "wavesAnimator": {
+      "water": "7ceb697a-e7cb-46f6-921c-7f467880aa13",
+      "waterLerpFactor": 0.9
+    }
   },
   "#player-spawner": {
 	"demo::PlayerSpawner": {
@@ -90,8 +94,5 @@
       }
     },
     "cubos::engine::DrawsTo#render-target": {}
-  },
-  "#waves": {
-    "demo::Waves": {}
   }
 }

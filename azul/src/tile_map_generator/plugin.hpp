@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../waves_animator/plugin.hpp"
+
 #include <cubos/core/reflection/reflect.hpp>
 
 #include <cubos/engine/assets/asset.hpp>
@@ -32,6 +34,8 @@ namespace demo
         cubos::engine::Asset<cubos::engine::VoxelGrid> grass;
         cubos::engine::Asset<cubos::engine::VoxelGrid> sand;
         /// @}
+
+        WavesAnimator wavesAnimator;
     };
 
     void tileMapGeneratorPlugin(cubos::engine::Cubos& cubos);
