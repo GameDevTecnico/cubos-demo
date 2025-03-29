@@ -76,8 +76,8 @@ namespace demo
 
         // Only allow modifications if the result is higher than terrain.
         // Otherwise, set it to 0
-        // if (result < static_cast<float>(terrain[y][x]))
-        //     result = seaLevel;
+        if (result < terrain[y][x])
+            result = seaLevel;
 
         modify(x, y, result);
     }
