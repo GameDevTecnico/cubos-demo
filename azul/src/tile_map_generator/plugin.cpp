@@ -142,7 +142,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 types.sand = registerTile(map, generator.sand);
 
                 map.tiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{0, 0}));
-                waves.terrain.resize(generator.mapSide, std::vector<int>(generator.mapSide, 0));
+                waves.terrain.resize(generator.mapSide, std::vector<float>(generator.mapSide, 0.0F));
 
                 auto mapRect = Rect::square(generator.mapSide);
 
@@ -175,7 +175,8 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
 
                         float mapDiagonal = glm::sqrt(static_cast<float>(2 * generator.mapSide * generator.mapSide));
 
-                        float distanceToMapEdge = glm::min(glm::min(tx, ty), glm::min(generator.mapSide - tx, generator.mapSide - ty));
+                        float distanceToMapEdge =
+                            glm::min(glm::min(tx, ty), glm::min(generator.mapSide - tx, generator.mapSide - ty));
                         float centerFactor = distanceToMapEdge / mapDiagonal;
                         centerFactor = glm::pow(centerFactor, 0.15F);
 
@@ -216,7 +217,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 {
                     for (size_t x = 0; x < map.tiles[y].size(); ++x)
                     {
-                        waves.terrain[y][x] = map.tiles[y][x].height;
+                        waves.terrain[y][x] = static_cast<float>(map.tiles[y][x].height) * 0.5F + 1;
                     }
                 }
 

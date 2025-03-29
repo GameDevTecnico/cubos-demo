@@ -13,7 +13,7 @@ namespace demo
 
         std::vector<std::vector<float>> state, stateNext;
         std::vector<std::vector<float>> actual;
-        std::vector<std::vector<int>> terrain;
+        std::vector<std::vector<float>> terrain;
 
         float updateInterval = 0.4F;
         float waveFrequency = 0.5F;
