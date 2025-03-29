@@ -1,5 +1,6 @@
 #include "plugin.hpp"
 #include "../tile_map/plugin.hpp"
+#include "../waves/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -29,14 +30,15 @@ void demo::movementPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
     cubos.depends(tileMapPlugin);
+    cubos.depends(wavesPlugin);
 
     cubos.component<Movement>();
 
 
     cubos.system("player movement handler")
         .before(transformUpdateTag)
-        .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, const ChildOf&, Movement&, const ChildOf&, TileMap&> query) {
-            for (auto [ent, position, rotation, _1, movement, _2, map] : query)
+        .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, const ChildOf&, Movement&, const ChildOf&, TileMap&, Waves&> query) {
+            for (auto [ent, position, rotation, _1, movement, _2, map, waves] : query)
             {
                 auto tileSide = 1.0;
 
@@ -75,21 +77,22 @@ void demo::movementPlugin(Cubos& cubos)
                 {
                     movement.facing = movement.direction;
 
-                    // Check if movement is valid.
-
-                    if (targetTile.x < 0 || targetTile.y < 0 
-                        || targetTile.x >= map.tiles.size() || targetTile.y >= map.tiles.size())
-                        /*|| !map.entities[targetTile.y][targetTile.x].isNull())*/
-                    {
-                        // There's already an entity in the target tile, or its out of bounsd, stop the movement.
+                    bool outOfBoundsCheck = targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.tiles.size() || targetTile.y >= map.tiles.size();
+                    
+                    if (outOfBoundsCheck) {
                         movement.direction = {0, 0};
+                    }
+                    else {
+                        bool landCheck = waves.terrain[targetTile.y][targetTile.x] > 0;
+
+                        if (landCheck) {
+                            movement.direction = {0,0};
+                        }
                     }
                 }
 
                 if (movement.direction != glm::ivec2{0, 0})
                 {
-                    /*CUBOS_WARN("MOVING: x: {} y: {}", movement.direction.x, movement.direction.y);*/
-
                     // Occupy the target tile.
                     map.entities[targetTile.y][targetTile.x] = ent;
 
@@ -98,7 +101,14 @@ void demo::movementPlugin(Cubos& cubos)
                     glm::vec2 target = static_cast<glm::vec2>(movement.position + movement.direction);
 
                     // Increase the progress value and calculate the new position of the entity.
-                    movement.progress = glm::clamp(movement.progress + dt.value() * movement.moveSpeed, 0.0F, 1.0F);
+                    
+                    // Sea level modifier
+                    float seaLevelDiff = waves.actual[targetTile.y][targetTile.x] - waves.actual[movement.position.y][movement.position.x];
+                    float seaLevelModifier = -seaLevelDiff * 50;
+
+                    CUBOS_WARN("Sea level mod: {}", seaLevelModifier);
+                    
+                    movement.progress = glm::clamp(movement.progress + dt.value() * (movement.moveSpeed + seaLevelModifier), 0.0F, 1.0F);
                     position.vec.x = tileSide / 2.0F + tileSide * glm::mix(source.x, target.x, movement.progress);
                     /*position.vec.y = glm::mix(0.0F, movement.jumpHeight, glm::sin(movement.progress * glm::pi<float>()));*/
                     position.vec.z = tileSide / 2.0F + tileSide * glm::mix(source.y, target.y, movement.progress);
@@ -126,13 +136,13 @@ void demo::movementPlugin(Cubos& cubos)
 
 
                 // Move the y position to correspond to the sea level.
-                float initialHeight = map.tiles[movement.position.y][movement.position.x].height;
-                float targetHeight = map.tiles[targetTile.y][targetTile.x].height;
+                float initialHeight = waves.actual[movement.position.y][movement.position.x];
+                float targetHeight = waves.actual[targetTile.y][targetTile.x];
 
-                position.vec.y = glm::mix(initialHeight, targetHeight, movement.progress) + 5.0F;
+                position.vec.y = glm::mix(initialHeight, targetHeight, movement.progress) - 1.0F;
             }
         });
-
+ 
     cubos.observer("clear up Movement positions")
         .onRemove<Movement>()
         .call([](Query<Entity, Movement&, const ChildOf&, TileMap&> query) {

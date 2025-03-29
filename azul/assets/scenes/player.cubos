@@ -13,6 +13,6 @@
 	  "y": 0.0,
 	  "z": 0.0
 	},
-	"cubos::engine::Scale": 1.0
+	"cubos::engine::Scale": 0.2
   }
 }
