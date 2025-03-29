@@ -13,6 +13,7 @@ add_executable(azul
     src/waves_animator/plugin.cpp
     src/health/plugin.cpp
     src/animation/plugin.cpp
+    src/random_grid/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)

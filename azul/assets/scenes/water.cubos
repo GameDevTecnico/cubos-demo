@@ -1,11 +1,14 @@
 {
-    "cubos::engine::RenderVoxelGrid": {
-        "asset": "1ae62d2c-0027-4875-a595-9d71033b1314",
+    "demo::RandomGrid": {
+        "models": [
+            "1ae62d2c-0027-4875-a595-9d71033b1314",
+            "e98f8808-4361-4345-9b41-326b2b0a7112"
+        ],
         "offset": {
             "x": -0.05,
-            "y": -4.1,
+            "y": -59.7,
             "z": -0.05
         }
     },
-    "cubos::engine::Scale": 1.1
+    "cubos::engine::Scale": 0.07333333333
 }
