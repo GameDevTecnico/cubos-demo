@@ -17,6 +17,8 @@ CUBOS_REFLECT_EXTERNAL_IMPL(demo::Team)
         EnumTrait{}
             .withVariant<demo::Team::PLAYER_1>("Player 1")
             .withVariant<demo::Team::PLAYER_2>("Player 2")
+            .withVariant<demo::Team::PLAYER_3>("Player 3")
+            .withVariant<demo::Team::PLAYER_4>("Player 4")
     );
 }
 

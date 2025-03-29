@@ -11,12 +11,12 @@
     "axes": {
         "move-x": {
             "gamepadAxes": [
-                "LY"
+                "LX"
             ]
         },
         "move-y": {
             "gamepadAxes": [
-                "LX"
+                "LY"
             ]
         }
     }

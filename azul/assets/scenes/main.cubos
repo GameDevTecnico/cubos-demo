@@ -16,17 +16,30 @@
   },
   "#player-spawner": {
     "demo::PlayerSpawner": {
-      "scene": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c",
       "players": [
         {
           "bindings": "602177be-b7e6-42b4-917e-3947c19e6c19",
+          "scene": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c",
           "needsGamepad": false,
           "team": "Player 1"
         },
         {
           "bindings": "ca74927e-8f5e-4e45-b9e5-184533e2a646",
+          "scene": "a625e03a-3199-42c1-b750-a0b5cdd82815",
           "needsGamepad": false,
           "team": "Player 2"
+        },
+        {
+          "bindings": "a7d60c6c-a7c4-4231-bc65-d1995211a822",
+          "scene": "9db82199-a2b3-446b-a26c-1488058703c0",
+          "needsGamepad": true,
+          "team": "Player 3"
+        },
+        {
+          "bindings": "a7d60c6c-a7c4-4231-bc65-d1995211a822",
+          "scene": "d996b20f-5b02-4652-b389-98504ca81aa0",
+          "needsGamepad": true,
+          "team": "Player 4"
         }
       ],
       "movement": {
