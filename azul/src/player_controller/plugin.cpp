@@ -45,7 +45,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
                 }
 
                 // Move the character as requested.
-                auto moveX = input.axis(controller.moveX.c_str(), controller.player);
+                auto moveX = -input.axis(controller.moveX.c_str(), controller.player);
                 auto moveY = -input.axis(controller.moveY.c_str(), controller.player);
 
                 // Handle input deadzones.

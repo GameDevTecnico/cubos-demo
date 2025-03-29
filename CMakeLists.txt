@@ -20,6 +20,8 @@ function(common_demo_options target)
     endif()
 endfunction()
 
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize-recover=address")
+
 #add_subdirectory(cars)
 #add_subdirectory(tanks)
 #add_subdirectory(scraps)
