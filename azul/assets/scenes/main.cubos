@@ -17,11 +17,7 @@
     "cubos::engine::DeferredShading": {},
     "cubos::engine::Bloom": {},
     "cubos::engine::SplitScreen": {},
-    "cubos::engine::GizmosTarget": {},
-    "cubos::engine::UICanvas": {},
-    "#rect": {
-      "cubos::engine::UIElement": {}
-    }
+    "cubos::engine::GizmosTarget": {}
   },
   "#sun": {
     "cubos::engine::DirectionalLight": {
