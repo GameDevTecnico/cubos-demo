@@ -8,19 +8,12 @@
 			"w": 0.0
 		},
 		"#hull": {
-			"cubos::engine::RenderVoxelGrid": {
-				"asset": "db132ded-5870-430f-b6d6-883def2fbd9b"
-			},
 			"cubos::engine::Position": {
 				"x": -7.5,
-				"y": 12.5,
+				"y": 14.0,
 				"z": -7.5
 			},
 			"#flag": {
-				"demo::RenderAnimation": {
-					"animation": "c9f7269a-f64b-4702-8bc9-1c71678c74d7",
-					"currentModel": -1
-				},
 				"cubos::engine::Position": {}
 			},
 			"#mast": {

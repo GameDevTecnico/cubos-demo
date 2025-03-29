@@ -19,6 +19,7 @@ CUBOS_REFLECT_IMPL(demo::PlayerSpawner::Player)
 {
     return cubos::core::ecs::TypeBuilder<PlayerSpawner::Player>("demo::PlayerSpawner::Player")
         .withField("bindings", &PlayerSpawner::Player::bindings)
+        .withField("scene", &PlayerSpawner::Player::scene)
         .withField("needsGamepad", &PlayerSpawner::Player::needsGamepad)
         .withField("team", &PlayerSpawner::Player::team)
         .build();
@@ -27,7 +28,6 @@ CUBOS_REFLECT_IMPL(demo::PlayerSpawner::Player)
 CUBOS_REFLECT_IMPL(demo::PlayerSpawner)
 {
     return cubos::core::ecs::TypeBuilder<PlayerSpawner>("demo::PlayerSpawner")
-        .withField("scene", &PlayerSpawner::scene)
         .withField("players", &PlayerSpawner::players)
         .withField("movement", &PlayerSpawner::movement)
         .build();
@@ -48,7 +48,6 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Settings& settings, Input& input,
                  Query<PlayerSpawner&, const ChildOf&, Entity> spawners,
                  Query<Entity, const PlayerController&> playerControllers) {
-
             auto match = spawners.first();
             if (!match)
             {
@@ -109,7 +108,7 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
                     CUBOS_WARN("SPAWNED PLAYER {}", player);
 
                     // Spawn missing player.
-                    auto sceneRead = assets.read(spawner.scene);
+                    auto sceneRead = assets.read(spawner.players[player - 1].scene);
                     auto builder = cmds.spawn(*sceneRead);
 
                     auto playerEnt = builder.entity();

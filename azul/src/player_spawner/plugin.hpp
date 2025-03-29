@@ -27,15 +27,15 @@ namespace demo
             /// @brief Input bindings for the player.
             cubos::engine::Asset<cubos::engine::InputBindings> bindings;
 
+            /// @brief Player scene.
+            cubos::engine::Asset<cubos::engine::Scene> scene;
+
             /// @brief Does the player need a gamepad?
             bool needsGamepad = true;
 
             /// @brief Player team
             demo::Team team;
         };
-
-        /// @brief Player scene.
-        cubos::engine::Asset<cubos::engine::Scene> scene;
 
         /// @brief Data for each player.
         std::vector<Player> players;
