@@ -12,6 +12,7 @@
 
 using namespace cubos::engine;
 
+
 CUBOS_REFLECT_IMPL(demo::Movement)
 {
     return cubos::core::ecs::TypeBuilder<Movement>("demo::Movement")
@@ -26,6 +27,24 @@ CUBOS_REFLECT_IMPL(demo::Movement)
         .build();
 }
 
+
+glm::ivec2 rotateDirection(glm::ivec2 direction, bool turnRight) 
+{
+    glm::ivec2 newDirection = glm::ivec2{direction.y,direction.x};
+
+    if (direction.y != 0 && turnRight) 
+    {
+        newDirection.x *= -1;
+    }
+    else if (direction.x != 0 && !turnRight) 
+    {
+        newDirection.y *= -1;
+    }
+
+    return newDirection;
+}
+
+
 void demo::movementPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
@@ -37,7 +56,9 @@ void demo::movementPlugin(Cubos& cubos)
 
     cubos.system("player movement handler")
         .before(transformUpdateTag)
-        .call([](const DeltaTime& dt, Query<Entity, Position&, Rotation&, Movement&, const ChildOf&, TileMap&, Waves&> query) {
+        .call([](const DeltaTime& dt, Commands cmds, 
+                Query<Entity, Position&, Rotation&, Movement&, const ChildOf&, TileMap&, Waves&> query,
+                Query<Entity, Movement&> movementsQuery) {
             for (auto [ent, position, rotation, movement, _2, map, waves] : query)
             {
                 auto tileSide = 1.0;
@@ -76,28 +97,63 @@ void demo::movementPlugin(Cubos& cubos)
                 auto targetTile = movement.position + movement.direction;
                 if (movement.direction != glm::ivec2{0, 0})
                 {
-                    movement.facing = movement.direction;
-
+                    // Check if player is out of bounds.
                     bool outOfBoundsCheck = targetTile.x < 0 || targetTile.y < 0 || targetTile.x >= map.tiles.size() || targetTile.y >= map.tiles.size();
-                    if (outOfBoundsCheck
-                        || (!map.entities[targetTile.y][targetTile.x].isNull() && map.entities[targetTile.y][targetTile.x] != ent))
+
+                    if (outOfBoundsCheck)
                     {
-                        // There's already an entity in the target tile, or its out of bounsd, stop the movement.
+                        // Player is out of bounds, stop the movement.
                         movement.direction = {0, 0};
                         targetTile = movement.position;
                     }
-                    else {
+                    else 
+                    {
                         bool landCheck = waves.terrain[targetTile.y][targetTile.x] > 0;
+                        bool playerCollisionCheck = !map.entities[targetTile.y][targetTile.x].isNull() && map.entities[targetTile.y][targetTile.x] != ent;
+                        bool fullTurnCheck = movement.direction == -movement.facing;
 
-                        if (landCheck) {
+                        if (landCheck || fullTurnCheck)
+                        {
                             movement.direction = {0,0};
                             targetTile = movement.position;
+                        }
+                        else if (playerCollisionCheck)
+                        {
+                            // Handle player collisions.
+                            auto match = movementsQuery.at(map.entities[targetTile.y][targetTile.x]);
+                            auto [opponentEntity, opponentMovement] = *match;
+
+                            if (movement.direction == movement.facing) {
+                                if (movement.direction == -opponentMovement.facing) 
+                                {
+                                    // Players collide frontally, turn both players to opposite sides.                                    
+                                    
+                                    // Either turn left or turn right.
+                                    bool turnDirection = rand() % 2;
+
+                                    glm::ivec2 newDirection = rotateDirection(movement.direction, turnDirection);
+                                    glm::ivec2 newOpponentDirection = rotateDirection(opponentMovement.facing, turnDirection);
+                                    
+                                    movement.direction = newDirection;
+                                    opponentMovement.direction = newOpponentDirection;
+                                    opponentMovement.progress = 0.0F;
+                                    CUBOS_WARN("FACE FRONTALLY");
+                                }
+                                else
+                                {
+                                    cmds.destroy(opponentEntity);
+                                    CUBOS_WARN("KILL OPPONENT");
+                                }
+                            }
                         }
                     }
                 }
 
                 if (movement.direction != glm::ivec2{0, 0})
                 {
+                    // Update the facing direction.
+                    movement.facing = movement.direction;
+
                     // Occupy the target tile.
                     map.entities[targetTile.y][targetTile.x] = ent;
 
@@ -111,8 +167,6 @@ void demo::movementPlugin(Cubos& cubos)
                     float seaLevelDiff = waves.actual[targetTile.y][targetTile.x] - waves.actual[movement.position.y][movement.position.x];
                     float seaLevelModifier = -seaLevelDiff * 20;
 
-                    CUBOS_WARN("Sea level mod: {}", seaLevelModifier);
-                    
                     movement.progress = glm::clamp(movement.progress + dt.value() * (movement.moveSpeed + seaLevelModifier), 0.0F, 1.0F);
                     position.vec.x = tileSide / 2.0F + tileSide * glm::mix(source.x, target.x, movement.progress);
                     /*position.vec.y = glm::mix(0.0F, movement.jumpHeight, glm::sin(movement.progress * glm::pi<float>()));*/
@@ -129,41 +183,45 @@ void demo::movementPlugin(Cubos& cubos)
                         movement.direction = {0, 0};
                         movement.progress = 0.0F;
                     }
+
+                    // Set the entity's rotation as appropriate.
+                    auto targetRotation =
+                        glm::quatLookAt(-glm::normalize(glm::vec3(static_cast<float>(movement.facing.x), 0.0F,
+                                                                  static_cast<float>(movement.facing.y))),
+                                        glm::vec3{0.0F, 1.0F, 0.0F});
+                    float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value() / movement.halfRotationTime);
+                    rotation.quat = glm::slerp(rotation.quat, targetRotation, rotationAlpha);
                 }
-
-                // Set the entity's rotation as appropriate.
-                auto targetRotation =
-                    glm::quatLookAt(-glm::normalize(glm::vec3(static_cast<float>(movement.facing.x), 0.0F,
-                                                              static_cast<float>(movement.facing.y))),
-                                    glm::vec3{0.0F, 1.0F, 0.0F});
-                float rotationAlpha = 1.0F - glm::pow(0.5F, dt.value() / movement.halfRotationTime);
-                rotation.quat = glm::slerp(rotation.quat, targetRotation, rotationAlpha);
-
 
                 // Move the y position to correspond to the sea level.
                 float initialHeight = waves.actual[movement.position.y][movement.position.x];
                 float targetHeight = waves.actual[targetTile.y][targetTile.x];
-
                 position.vec.y = glm::mix(initialHeight, targetHeight, movement.progress) - 1.0F;
             }
         });
  
-    cubos.observer("clear up Movement positions")
+    cubos.observer("clear up movement positions")
         .onRemove<Movement>()
         .call([](Query<Entity, Movement&, const ChildOf&, TileMap&> query) {
             for (auto [ent, movement, childOf, map] : query)
             {
                 // Mark the tile as free.
-                CUBOS_ASSERT(map.entities[movement.position.y][movement.position.x] == ent,
-                             "Tile is not occupied by the entity");
+                /*CUBOS_ASSERT(map.entities[movement.position.y][movement.position.x] == ent,*/
+                /*             "Tile is not occupied by the entity");*/
                 map.entities[movement.position.y][movement.position.x] = {};
 
                 auto target = movement.position + movement.direction;
-                if (target.x >= 0 && target.y >= 0 && target.x < map.tiles.size() &&
-                    target.y < map.tiles.size() && map.entities[target.y][target.x] == ent)
+                if (movement.progress != 0.0F) 
                 {
                     map.entities[target.y][target.x] = {};
                 }
+
+                /*auto target = movement.position + movement.direction;*/
+                /*if (target.x >= 0 && target.y >= 0 && target.x < map.tiles.size() &&*/
+                /*    target.y < map.tiles.size() && map.entities[target.y][target.x] == ent)*/
+                /*{*/
+                /*    map.entities[target.y][target.x] = {};*/
+                /*}*/
             }
         });
 }
