@@ -147,7 +147,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 auto mapRect = Rect::square(generator.mapSide);
 
                 std::vector<glm::vec2> landPoints = {};
-                for (int i = 0; i < 2; ++i)
+                for (int i = 0; i < 4; ++i)
                 {
                     landPoints.push_back({static_cast<float>(rand() % (generator.mapSide - 4) + 2),
                                           static_cast<float>(rand() % (generator.mapSide - 4) + 2)});
@@ -177,22 +177,22 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         islandFactor = glm::clamp(islandFactor, 0.0F, 1.0F);
                         islandFactor = islandFactor * centerFactor;
 
-                        if (islandFactor < 0.5)
+                        if (islandFactor < 0.6)
                         {
                             tile.height = 0;
                             tile.type = types.sand;
                         }
-                        else if (islandFactor < 0.6)
+                        else if (islandFactor < 0.65)
                         {
                             tile.height = 1;
                             tile.type = types.sand;
                         }
-                        else if (islandFactor < 0.8)
+                        else if (islandFactor < 0.675)
                         {
                             tile.height = 1;
                             tile.type = types.grass;
                         }
-                        else if (islandFactor < 0.9)
+                        else if (islandFactor < 0.7)
                         {
                             tile.height = 2;
                             tile.type = types.grass;
