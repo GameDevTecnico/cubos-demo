@@ -27,7 +27,6 @@ CUBOS_REFLECT_IMPL(demo::PlayerSpawner)
 {
     return cubos::core::ecs::TypeBuilder<PlayerSpawner>("demo::PlayerSpawner")
         .withField("scene", &PlayerSpawner::scene)
-        .withField("root", &PlayerSpawner::root)
         .withField("players", &PlayerSpawner::players)
         .withField("movement", &PlayerSpawner::movement)
         .build();
@@ -106,11 +105,13 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
             {
                 if (!playerSpawned[player - 1])
                 {
+                    CUBOS_WARN("SPAWNED PLAYER {}", player);
+
                     // Spawn missing player.
                     auto sceneRead = assets.read(spawner.scene);
                     auto builder = cmds.spawn(*sceneRead);
 
-                    auto playerEnt = builder.entity(spawner.root);
+                    auto playerEnt = builder.entity();
 
                     cmds.relate(playerEnt, mapEnt, ChildOf{})
                         .add(playerEnt, spawner.movement)
