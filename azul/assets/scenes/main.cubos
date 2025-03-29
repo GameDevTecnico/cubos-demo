@@ -34,7 +34,7 @@
           "x": 30,
           "y": 48
         },
-        "moveSpeed": 5.0,
+        "moveSpeed": 3.0,
         "halfRotationTime": 0.03,
         "minPosition": {
           "x": 25,

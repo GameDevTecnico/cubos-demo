@@ -104,7 +104,7 @@ void demo::movementPlugin(Cubos& cubos)
                     
                     // Sea level modifier
                     float seaLevelDiff = waves.actual[targetTile.y][targetTile.x] - waves.actual[movement.position.y][movement.position.x];
-                    float seaLevelModifier = -seaLevelDiff * 50;
+                    float seaLevelModifier = -seaLevelDiff * 20;
 
                     CUBOS_WARN("Sea level mod: {}", seaLevelModifier);
                     
