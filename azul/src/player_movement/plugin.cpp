@@ -84,12 +84,14 @@ void demo::movementPlugin(Cubos& cubos)
                     {
                         // There's already an entity in the target tile, or its out of bounsd, stop the movement.
                         movement.direction = {0, 0};
+                        targetTile = movement.position;
                     }
                     else {
                         bool landCheck = waves.terrain[targetTile.y][targetTile.x] > 0;
 
                         if (landCheck) {
                             movement.direction = {0,0};
+                            targetTile = movement.position;
                         }
                     }
                 }
