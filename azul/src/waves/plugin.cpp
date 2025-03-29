@@ -1,5 +1,7 @@
 #include "plugin.hpp"
 
+#include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <optional>
 
@@ -25,7 +27,7 @@ namespace demo
             if( x < 0 || x > GRID_SIZE-1) return std::nullopt;
             if( y < 0 || y > GRID_SIZE-1) return std::nullopt;
 
-            return stateNext[y][x];
+            return state[y][x];
         }
 
         void modify(int x, int y, int value) {
@@ -36,20 +38,22 @@ namespace demo
         }
 
         void step(int value, int x, int y) {
-            // If no wave, no behave
-            if(value <= 0) return;
-
-            // If we are at the highest, we move to the right, and affect next values
-            if(value == 5) {
-                modify(x+1, y, value);
-                modify(x+2, y, value - 2);
-                modify(x+3, y, value - 4);
+            // Get the avg. of values on the left, and decrease to a maximum delta value
+            const auto leftValues = {
+                fetch(x-1, y-1),
+                fetch(x-1, y),
+                fetch(x-1, y+1),
+            };
+            int sum = 0, num = 0;
+            for( auto& optValue : leftValues) {
+                if(!optValue) continue;
+                ++num;
+                sum += *optValue;
             }
-            // ...and, if our value at modified it at 5, we were affected
-            // by a wave, so don't self modify
-            if(auto v = fetch(x, y); v && *v == 5) return;
-            // otherwise, decrease intensity on our spot
-            modify(x, y, value-1);
+            int result = std::ceil((float)sum / num);
+
+            int delta = std::max(result - value, -1);
+            modify(x, y, std::max(value + delta, 0));
         }
 
         void iteration() {
@@ -137,13 +141,12 @@ void demo::wavesPlugin(Cubos& cubos)
                 v.resize(GRID_SIZE);
             }
 
-            for( auto &v : waves->state ) {
-                for( int& i : v ) {
-                    i = (rand() % 5) + 1;
-                }
-            }
+            //for( auto &v : waves->state ) {
+            //    for( int& i : v ) {
+            //        i = (rand() % 5) + 1;
+            //    }
+            //}
 
-            //waves->state[2][2] = 5;
             //waves->state[3][2] = 5;
             //waves->state[4][2] = 5;
             //waves->state[5][2] = 5;
@@ -158,6 +161,11 @@ void demo::wavesPlugin(Cubos& cubos)
             waves->accumDeltaTime += dt.value();
             if(waves->accumDeltaTime >= 0.6f) {
                 waves->accumDeltaTime = 0.0f;
+
+                if(waves->iter < 20) {
+                    waves->state[8][3] = 5;
+                    waves->state[7][3] = 5;
+                }
 
                 CUBOS_INFO("Iteration: {}", waves->iter++);
                 waves->iteration();
