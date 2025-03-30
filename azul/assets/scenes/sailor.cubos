@@ -1,0 +1,14 @@
+{
+    "demo::RenderAnimation": {
+        "animation": "3719eabd-3705-4855-830f-cf478cde047c",
+        "currentModel": -1
+    },
+    "cubos::engine::Position": {},
+    "#paddle": {
+        "demo::RenderAnimation": {
+            "animation": "6917b7f0-a3a8-4dba-bfce-653896188151",
+            "currentModel": -1
+        },
+        "cubos::engine::Position": {}
+    }
+}

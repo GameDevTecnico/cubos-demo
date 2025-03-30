@@ -1,0 +1,16 @@
+{
+    "inherit": "940a5681-5616-4d13-a84f-5351bdf60a28",
+    "#rotated": {
+        "#hull": {
+            "cubos::engine::RenderVoxelGrid": {
+                "asset": "77f2f189-508b-427c-98a6-dc1ed0842127"
+            },
+            "#flag": {
+                "demo::RenderAnimation": {
+					"animation": "7a674721-153f-491d-9f99-3a5d25733e6f",
+					"currentModel": -1
+				}
+            }
+        }
+    }
+}

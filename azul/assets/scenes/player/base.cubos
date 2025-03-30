@@ -1,0 +1,55 @@
+{
+	"cubos::engine::Scale": 0.06666666667,
+	"#rotated": {
+		"cubos::engine::Rotation": {
+			"x": 0.0,
+			"y": 1.0,
+			"z": 0.0,
+			"w": 0.0
+		},
+		"#hull": {
+			"cubos::engine::Position": {
+				"x": -7.5,
+				"y": 14.0,
+				"z": -7.5
+			},
+			"#flag": {
+				"cubos::engine::Position": {}
+			},
+			"#mast": {
+				"cubos::engine::RenderVoxelGrid": {
+					"asset": "4074c441-12cd-4c12-8021-86114f88c0c3"
+				},
+				"cubos::engine::Position": {}
+			},
+			"#sailor1": {
+				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"demo::SailorDeath#": 2,
+				"cubos::engine::Position": {
+					"z": 0.0
+				}
+			},
+			"#sailor2": {
+				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"demo::SailorDeath#": 0,
+				"cubos::engine::Position": {
+					"z": -3.0
+				}
+			},
+			"#sailor3": {
+				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"demo::SailorDeath#": 1,
+				"cubos::engine::Position": {
+					"z": -6.0
+				}
+			},
+			"#sail": {
+				"demo::RenderAnimation": {
+					"animation": "b8647a67-385d-44bc-982e-5ec57e28c267",
+					"currentModel": -1
+				},
+				"cubos::engine::Position": {}
+			}
+		}
+	}
+}
