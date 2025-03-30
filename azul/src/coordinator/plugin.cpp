@@ -84,16 +84,13 @@ void demo::coordinatorPlugin(Cubos& cubos)
                     }
                 }
 
-                if (alivePlayer == -1)
-                {
-                    return;
-                }
-
                 coordinator.acc += dt.value();
 
                 if (coordinator.acc > 3.0F)
                 {
-                    score.increaseScore(alivePlayer);
+                    if (alivePlayer != -1) {
+                        score.increaseScore(alivePlayer);
+                    }
                     goToScore = true;
                 }
             }
