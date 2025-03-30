@@ -22,6 +22,11 @@ CUBOS_REFLECT_IMPL(demo::PlayerController)
         .withField("moveY", &PlayerController::moveY)
         .withField("shoot", &PlayerController::shoot)
         .withField("bullet", &PlayerController::bullet)
+        .withField("bulletReloadTime", &PlayerController::bulletReloadTime)
+        .withField("bulletSpeed", &PlayerController::bulletSpeed)
+        .withField("shootMinDistance", &PlayerController::shootMinDistance)
+        .withField("shootConeWidenDistance", &PlayerController::shootConeWidenDistance)
+        .withField("bulletReloadAcc", &PlayerController::bulletReloadAcc)
         .build();
 }
 
@@ -39,7 +44,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
 
     cubos.system("player controller handler")
         .after(inputUpdateTag)
-        .call([](Commands cmds, Input& input,
+        .call([](Commands cmds, Input& input, const DeltaTime& dt,
                  Query<const Position&, PlayerController&, Movement&, const ChildOf&, const TileMap&, Entity> players,
                  Assets& assets) {
             for (auto [position, controller, movement, _1, tileMap, tileMapEnt] : players)
@@ -73,11 +78,16 @@ void demo::playerControllerPlugin(Cubos& cubos)
                     movement.direction.y = 0;
                 }
 
+                if (controller.bulletReloadAcc > 0.0F)
+                {
+                    controller.bulletReloadAcc -= dt.value();
+                }
+
                 // Shoot if requested.
                 if (input.justPressed(controller.shoot.c_str(), controller.player) &&
-                    movement.facing != glm::ivec2{0, 0})
+                    movement.facing != glm::ivec2{0, 0} && controller.bulletReloadAcc <= 0.0F)
                 {
-                    const int coneSpreadDistance = 5;
+                    controller.bulletReloadAcc = controller.bulletReloadTime;
 
                     // Find entities to the left or right of the boat.
                     std::vector<glm::ivec2> targets = {};
@@ -85,7 +95,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
                     size_t frontAxis = 1 - sideAxis;
                     for (int u = movement.position[sideAxis] - 1; u >= 0; --u)
                     {
-                        int coneSide = (movement.position[sideAxis] - u) / coneSpreadDistance;
+                        int coneSide = glm::abs(movement.position[sideAxis] - u) / controller.shootConeWidenDistance;
                         for (int v = glm::max(0, movement.position[frontAxis] - coneSide);
                              v <= glm::min((int)tileMap.tiles.size() - 1, movement.position[frontAxis] + coneSide); ++v)
                         {
@@ -95,21 +105,24 @@ void demo::playerControllerPlugin(Cubos& cubos)
                             if (!tileMap.entities[pos.y][pos.x].isNull())
                             {
                                 targets.push_back(pos);
+                                break;
                             }
                         }
                     }
                     for (int u = movement.position[sideAxis] + 1; u < tileMap.tiles.size(); ++u)
                     {
-                        int coneSide = (movement.position[sideAxis] - u) / coneSpreadDistance;
+                        int coneSide = glm::abs(movement.position[sideAxis] - u) / controller.shootConeWidenDistance;
                         for (int v = glm::max(0, movement.position[frontAxis] - coneSide);
                              v <= glm::min((int)tileMap.tiles.size() - 1, movement.position[frontAxis] + coneSide); ++v)
                         {
                             glm::ivec2 pos{};
                             pos[sideAxis] = u;
                             pos[frontAxis] = v;
+
                             if (!tileMap.entities[pos.y][pos.x].isNull())
                             {
                                 targets.push_back(pos);
+                                break;
                             }
                         }
                     }
@@ -117,9 +130,9 @@ void demo::playerControllerPlugin(Cubos& cubos)
                     for (auto target : targets)
                     {
                         auto distance = glm::distance(glm::vec2(movement.position), glm::vec2(target));
-                        auto speed = 5.0F / distance;
+                        auto speed = controller.bulletSpeed / distance;
                         auto maxHeight = distance * 0.15F;
-                        if (distance < 3.5F)
+                        if (distance < (float)controller.shootMinDistance)
                         {
                             continue;
                         }

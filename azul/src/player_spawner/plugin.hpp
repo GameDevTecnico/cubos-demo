@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../player_controller/plugin.hpp"
 #include "../player_movement/plugin.hpp"
 #include "../health/plugin.hpp"
 
@@ -43,8 +44,8 @@ namespace demo
         /// @brief Base player movement component.
         Movement movement;
 
-        /// @brief Bullet scene.
-        cubos::engine::Asset<cubos::engine::Scene> bullet;
+        /// @brief Base player controller.
+        PlayerController controller;
     };
 
     void playerSpawnerPlugin(cubos::engine::Cubos& cubos);

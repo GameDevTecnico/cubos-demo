@@ -58,7 +58,13 @@
           "y": 96
         }
       },
-      "bullet": "50c06595-5d7d-4552-9034-f87f6ba6d17e"
+      "controller": {
+        "bullet": "50c06595-5d7d-4552-9034-f87f6ba6d17e",
+        "bulletReloadTime": 1.0,
+        "bulletSpeed": 5.0,
+        "shootMinDistance": 4,
+        "shootConeWidenDistance": 5
+      }
     }
   },
   "#render-target": {
