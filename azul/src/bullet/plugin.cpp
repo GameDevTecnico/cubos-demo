@@ -82,12 +82,15 @@ void demo::bulletPlugin(Cubos& cubos)
                     }
 
                     // Check if the bullet has hit the ground or water.
-                    auto tileY =
-                        glm::max(map.tiles[tileXZ.y][tileXZ.x].blockHeight + 1.0F, waves.actual[tileXZ.y][tileXZ.x]);
-                    if (currentY <= tileY)
+                    if (bullet.progress > 0.2)
                     {
-                        cmds.add(ent, DestroyTree{});
-                        continue;
+                        auto tileY = glm::max(map.tiles[tileXZ.y][tileXZ.x].blockHeight + 1.0F,
+                                              waves.actual[tileXZ.y][tileXZ.x]);
+                        if (currentY <= tileY)
+                        {
+                            cmds.add(ent, DestroyTree{});
+                            continue;
+                        }
                     }
                 }
             }
