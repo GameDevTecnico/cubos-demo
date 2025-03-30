@@ -1,10 +1,12 @@
 #include "plugin.hpp"
-#include "cubos/engine/prelude.hpp"
+#include "../destroy_tree/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/traits/enum.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
 #include <cubos/core/reflection/external/string.hpp>
+
+#include <cubos/engine/prelude.hpp>
 
 using namespace cubos::engine;
 
@@ -13,13 +15,12 @@ CUBOS_REFLECT_EXTERNAL_IMPL(demo::Team)
     using cubos::core::reflection::EnumTrait;
     using cubos::core::reflection::Type;
 
-    return Type::create("demo::Team").with(
-        EnumTrait{}
-            .withVariant<demo::Team::PLAYER_1>("Player 1")
-            .withVariant<demo::Team::PLAYER_2>("Player 2")
-            .withVariant<demo::Team::PLAYER_3>("Player 3")
-            .withVariant<demo::Team::PLAYER_4>("Player 4")
-    );
+    return Type::create("demo::Team")
+        .with(EnumTrait{}
+                  .withVariant<demo::Team::PLAYER_1>("Player 1")
+                  .withVariant<demo::Team::PLAYER_2>("Player 2")
+                  .withVariant<demo::Team::PLAYER_3>("Player 3")
+                  .withVariant<demo::Team::PLAYER_4>("Player 4"));
 }
 
 CUBOS_REFLECT_IMPL(demo::Health)
@@ -32,6 +33,8 @@ CUBOS_REFLECT_IMPL(demo::Health)
 
 void demo::healthPlugin(Cubos& cubos)
 {
+    cubos.depends(destroyTreePlugin);
+
     cubos.component<Health>();
 
     cubos.system("check healthbars").call([](Commands cmds, Query<Entity, const Health&> query) {
@@ -39,7 +42,7 @@ void demo::healthPlugin(Cubos& cubos)
         {
             if (hp.hp <= 0)
             {
-                cmds.destroy(entity);
+                cmds.add(entity, DestroyTree{});
             }
         }
     });
