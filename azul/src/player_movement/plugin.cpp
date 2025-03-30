@@ -114,9 +114,9 @@ void demo::movementPlugin(Cubos& cubos)
                         {
                             // Handle player collisions.
                             auto match = movementsQuery.at(map.entities[targetTile.y][targetTile.x]);
-                            auto [opponentEntity, opponentMovement, health] = *match;
+                            auto [opponentEntity, opponentMovement, opponentHealth] = *match;
 
-                            if (movement.direction == -opponentMovement.facing)
+                            if (movement.direction == -opponentMovement.facing && opponentHealth.hp > 0)
                             {
                                 auto inBounds = [&](glm::ivec2 pos) {
                                     return pos.x >= 0 && pos.x < map.tiles.size() && pos.y >= 0 &&
@@ -159,13 +159,13 @@ void demo::movementPlugin(Cubos& cubos)
                                 cmds.add(opponentEntity, Damage{.hp = 1});
                                 cmds.add(ent, Damage{.hp = 1});
                             }
-                            else
+                            else if (opponentHealth.hp > 0)
                             {
                                 movement.direction = {0, 0};
                                 targetTile = movement.position;
 
                                 // Player kills opponent.
-                                cmds.add(opponentEntity, Damage{.hp = health.hp});
+                                cmds.add(opponentEntity, Damage{.hp = opponentHealth.hp});
                             }
                         }
 
