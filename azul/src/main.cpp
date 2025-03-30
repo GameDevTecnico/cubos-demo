@@ -31,6 +31,7 @@
 #include "restart/plugin.hpp"
 #include "scoreboard/plugin.hpp"
 #include "level/plugin.hpp"
+#include "numerals/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -62,6 +63,8 @@ int main(int argc, char** argv)
     cubos.plugin(demo::randomGridPlugin);
     cubos.plugin(demo::sailorDeathPlugin);
     cubos.plugin(demo::restartPlugin);
+    cubos.plugin(demo::scoreboardPlugin);
+    cubos.plugin(demo::numeralsPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);
