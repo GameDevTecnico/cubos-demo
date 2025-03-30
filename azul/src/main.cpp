@@ -27,6 +27,7 @@
 #include "random_grid/plugin.hpp"
 #include "bullet/plugin.hpp"
 #include "destroy_tree/plugin.hpp"
+#include "sailor_death/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -54,6 +55,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::wavesAnimatorPlugin);
     cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::randomGridPlugin);
+    cubos.plugin(demo::sailorDeathPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);
