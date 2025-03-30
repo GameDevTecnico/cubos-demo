@@ -17,7 +17,7 @@ add_executable(azul
     src/bullet/plugin.cpp
     src/destroy_tree/plugin.cpp
     src/sailor_death/plugin.cpp
-    src/restart/plugin.cpp
+    src/coordinator/plugin.cpp
     src/scoreboard/plugin.cpp
     src/level/plugin.cpp
     src/numerals/plugin.cpp
