@@ -32,6 +32,8 @@
 #include "scoreboard/plugin.hpp"
 #include "level/plugin.hpp"
 #include "numerals/plugin.hpp"
+#include "score_indicator/plugin.hpp"
+#include "rotating_animation/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -65,6 +67,8 @@ int main(int argc, char** argv)
     cubos.plugin(demo::restartPlugin);
     cubos.plugin(demo::scoreboardPlugin);
     cubos.plugin(demo::numeralsPlugin);
+    cubos.plugin(demo::rotatingAnimationPlugin);
+    cubos.plugin(demo::scoreIndicatorPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);

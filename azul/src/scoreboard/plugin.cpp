@@ -8,20 +8,22 @@ using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(demo::Scoreboard)
 {
-    return cubos::core::ecs::TypeBuilder<Scoreboard>("demo::Scoreboard")
-        .build();
+    return cubos::core::ecs::TypeBuilder<Scoreboard>("demo::Scoreboard").build();
 }
 
 void demo::scoreboardPlugin(Cubos& cubos)
 {
-    cubos.resource<Scoreboard>();
+    cubos.resource<Scoreboard>(Scoreboard{});
 }
 
 void demo::Scoreboard::increaseScore(int playerID)
 {
-    if( scores.contains( playerID ) ) {
+    if (scores.contains(playerID))
+    {
         scores[playerID] += 1;
-    } else {
+    }
+    else
+    {
         scores[playerID] = 1;
     }
 }
