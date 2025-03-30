@@ -46,6 +46,22 @@ glm::ivec2 rotateDirection(glm::ivec2 direction, bool turnRight)
     return newDirection;
 }
 
+glm::ivec2 getSpawnPosition(int i, int mapSize) {
+    glm::ivec2 position = {0,0};
+
+    if (i >= 2) {
+        position.x = mapSize-1;
+    }
+
+    if ((i+1) % 4 >= 2) {
+        position.y = mapSize-1;
+    }
+
+    CUBOS_WARN("SPAWN POSITION {} {}", position.x, position.y);
+
+    return position;
+}
+
 void demo::movementPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
@@ -63,26 +79,43 @@ void demo::movementPlugin(Cubos& cubos)
             for (auto [ent, position, rotation, movement, _2, map, waves] : query)
             {
                 auto tileSide = 1.0;
+                int r, r2, initialRandomIndex = -1;
 
                 if (!movement.initialized)
                 {
-                    // If the initial position is already occupied, try to find an empty one nearby.
+                    r = rand() % 4;    
+                    initialRandomIndex = r;
+
+                    movement.position = getSpawnPosition(r, map.tiles.size());
+
                     movement.position.x = glm::clamp(movement.position.x, 0, static_cast<int>(map.tiles.size() - 1));
                     movement.position.y = glm::clamp(movement.position.y, 0, static_cast<int>(map.tiles.size() - 1));
+
+                    // If the initial position is already occupied, try to find an empty one nearby.
                     while (!map.entities[movement.position.y][movement.position.x].isNull())
                     {
-                        movement.position += glm::ivec2{1, 0};
-                        int r = rand() % 2;
-                        movement.position += (rand() % 2 == 0 ? -1 : 1) * glm::ivec2{r, 1 - r};
-                        if (movement.position.x >= map.tiles.size())
-                        {
-                            movement.position.x -= map.tiles.size();
+                        if (r == initialRandomIndex) {
+                            movement.position += glm::ivec2{1, 0};
+                            r2 = rand() % 2;
+                            movement.position += (rand() % 2 == 0 ? -1 : 1) * glm::ivec2{r, 1 - r};
+                            if (movement.position.x >= map.tiles.size())
+                            {
+                                movement.position.x -= map.tiles.size();
+                            }
+                            if (movement.position.y >= map.tiles.size())
+                            {
+                                movement.position.y -= map.tiles.size();
+                            }
                         }
-                        if (movement.position.y >= map.tiles.size())
-                        {
-                            movement.position.y -= map.tiles.size();
+
+                        if (initialRandomIndex == -1) {
+                            initialRandomIndex = r;
                         }
+
+                        r = (r+1) % 4;
+                        movement.position = getSpawnPosition(r, map.tiles.size());
                     }
+
                     CUBOS_INFO("Set ent {} at {}x{}", ent, movement.position.x, movement.position.y);
                     map.entities[movement.position.y][movement.position.x] = ent;
 
@@ -238,6 +271,18 @@ void demo::movementPlugin(Cubos& cubos)
                 position.vec.y = glm::mix(initialHeight, targetHeight, movement.progress) - 1.0F;
             }
         });
+
+    cubos.system("print out entities in map").call([](Query<TileMap&>) query) {
+        for (auto [map]: query)
+        {
+            for (int i= 0; i < map.tiles.size(); i++) {
+                for (int j= 0; j < map.tiles.size(); j++) {
+                    printf("%d", !map.entities[j][i].isNull());
+                }
+                printf("\n");
+            }
+        }
+    } 
 
     cubos.observer("clear up movement positions")
         .onRemove<Movement>()

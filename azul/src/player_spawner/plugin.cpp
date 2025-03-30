@@ -34,6 +34,8 @@ CUBOS_REFLECT_IMPL(demo::PlayerSpawner)
         .build();
 }
 
+
+
 void demo::playerSpawnerPlugin(Cubos& cubos)
 {
     cubos.depends(settingsPlugin);
@@ -62,7 +64,7 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
             {
                 CUBOS_WARN("Invalid player count {}, setting to 1", playerCount);
                 playerCount = 1;
-                settings.setInteger("player.count", playerCount);
+                settings.setInteger("p layer.count", playerCount);
             }
             else if (playerCount > spawner.players.size())
             {
@@ -116,7 +118,7 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
                     controller.player = player;
 
                     auto playerEnt = builder.entity();
-
+                    
                     cmds.relate(playerEnt, mapEnt, ChildOf{})
                         .add(playerEnt, spawner.movement)
                         .add(playerEnt, controller)
