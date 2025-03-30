@@ -12,6 +12,18 @@ using namespace cubos::engine;
 
 namespace demo
 {
+    float Waves::waveEquation(float t)
+    {
+        CUBOS_INFO("t: {}", t);
+        float base = sin(t);
+        if((int)(t/5) % 3 == 2) {
+            CUBOS_INFO("TSUNAMI");
+            base += sin(t) * sin(t);
+        }
+
+        return base;
+    }
+
     std::optional<float> Waves::fetch(int x, int y) const
     {
         if (x < 0 || x > state[0].size() - 1)
@@ -93,7 +105,7 @@ namespace demo
         }
 
         float t = (float)(iter++) * waveFrequency;
-        float waveHeight = seaLevel + waveAmplitude * sin(t);
+        float waveHeight = seaLevel + waveAmplitude * waveEquation(t);
         for (int y = 0; y < state.size(); ++y)
         {
             stateNext[y][0] = waveHeight;
