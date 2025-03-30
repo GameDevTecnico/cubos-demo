@@ -23,6 +23,11 @@ CUBOS_REFLECT_EXTERNAL_IMPL(demo::Team)
                   .withVariant<demo::Team::PLAYER_4>("Player 4"));
 }
 
+CUBOS_REFLECT_IMPL(demo::Damage)
+{
+    return cubos::core::ecs::TypeBuilder<Damage>("demo::Damage").withField("hp", &Damage::hp).build();
+}
+
 CUBOS_REFLECT_IMPL(demo::Health)
 {
     return cubos::core::ecs::TypeBuilder<Health>("demo::Health")
@@ -35,7 +40,22 @@ void demo::healthPlugin(Cubos& cubos)
 {
     cubos.depends(destroyTreePlugin);
 
+    cubos.component<Damage>();
     cubos.component<Health>();
+
+    cubos.observer("apply damage")
+        .onAdd<Damage>()
+        .call([](Commands cmds, Query<Entity, const Damage&, Opt<Health&>> query) {
+            for (auto [ent, dmg, health] : query)
+            {
+                if (health.contains())
+                {
+                    health->hp -= dmg.hp;
+                }
+
+                cmds.remove<Damage>(ent);
+            }
+        });
 
     cubos.system("check healthbars").call([](Commands cmds, Query<Entity, const Health&> query) {
         for (auto [entity, hp] : query)

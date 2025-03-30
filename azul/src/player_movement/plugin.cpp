@@ -143,7 +143,7 @@ void demo::movementPlugin(Cubos& cubos)
                                 }
                                 else
                                 {
-                                    health.hp = 0;
+                                    cmds.add(opponentEntity, Damage{.hp = health.hp});
                                     CUBOS_WARN("KILL OPPONENT");
                                 }
                             }
