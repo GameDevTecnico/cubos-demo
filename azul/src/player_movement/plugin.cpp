@@ -123,14 +123,26 @@ void demo::movementPlugin(Cubos& cubos)
 
                             if (movement.direction == -opponentMovement.facing)
                             {
-                                // Players collide frontally, turn both players to opposite sides.
+                                auto inBounds = [&](glm::ivec2 pos) {
+                                    return pos.x >= 0 && pos.x < map.tiles.size() && pos.y >= 0 &&
+                                           pos.y < map.tiles.size();
+                                };
 
+                                // Players collide frontally, turn both players to opposite sides.
                                 // Either turn left or turn right.
                                 bool turnDirection = rand() % 2;
 
                                 glm::ivec2 newDirection = rotateDirection(movement.direction, turnDirection);
                                 glm::ivec2 newOpponentDirection =
                                     rotateDirection(opponentMovement.facing, turnDirection);
+                                if (!inBounds(movement.position + newDirection))
+                                {
+                                    newDirection = newOpponentDirection;
+                                }
+                                else if (!inBounds(opponentMovement.position + newOpponentDirection))
+                                {
+                                    newOpponentDirection = newDirection;
+                                }
 
                                 if (opponentMovement.direction.x != 0 && opponentMovement.direction.y != 0)
                                 {
