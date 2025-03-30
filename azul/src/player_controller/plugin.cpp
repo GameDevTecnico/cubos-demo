@@ -148,7 +148,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
                         auto bullet = cmds.spawn(*assets.read(controller.bullet))
                                           .add(Bullet{.origin = movement.position,
                                                       .target = target,
-                                                      .baseHeight = position.vec.y + 1.5F,
+                                                      .baseHeight = position.vec.y + 1.75F,
                                                       .maxHeight = maxHeight,
                                                       .speed = speed})
                                           .entity();

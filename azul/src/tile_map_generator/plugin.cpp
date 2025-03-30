@@ -21,6 +21,7 @@ CUBOS_REFLECT_IMPL(demo::TileMapGenerator)
         .withField("grass", &TileMapGenerator::grass)
         .withField("mountain", &TileMapGenerator::mountain)
         .withField("sand", &TileMapGenerator::sand)
+        .withField("seafloor", &TileMapGenerator::seafloor)
         .withField("waves", &TileMapGenerator::waves)
         .withField("wavesAnimator", &TileMapGenerator::wavesAnimator)
         .build();
@@ -33,6 +34,7 @@ namespace
         unsigned char grass;
         unsigned char mountain;
         unsigned char sand;
+        unsigned char seafloor;
     };
 
     struct Cursor
@@ -140,6 +142,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                 types.grass = registerTile(map, generator.grass);
                 types.mountain = registerTile(map, generator.mountain);
                 types.sand = registerTile(map, generator.sand);
+                types.seafloor = registerTile(map, generator.seafloor);
 
                 map.tiles.resize(generator.mapSide, std::vector<Tile>(generator.mapSide, Tile{0, 0}));
                 waves.terrain.resize(generator.mapSide, std::vector<float>(generator.mapSide, 0.0F));
@@ -185,11 +188,17 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         islandFactor = glm::pow(islandFactor, 3.0F);
                         islandFactor = islandFactor * centerFactor;
 
-                        if (islandFactor < 0.6)
+                        if (islandFactor < 0.3)
+                        {
+                            tile.height = -2;
+                            tile.blockHeight = -0.5F;
+                            tile.type = types.seafloor;
+                        }
+                        else if (islandFactor < 0.6)
                         {
                             tile.height = -1;
-                            tile.blockHeight = 0.5F;
-                            tile.type = types.sand;
+                            tile.blockHeight = 0.0F;
+                            tile.type = types.seafloor;
                         }
                         else if (islandFactor < 0.65)
                         {
