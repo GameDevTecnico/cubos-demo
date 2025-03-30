@@ -6,7 +6,7 @@
     "waves": {
       "updateInterval": 0.4,
       "waveFrequency": 0.5,
-      "waveAmplitude": 0.25,
+      "waveAmplitude": 0.75,
       "seaLevel": 1.25
     },
     "wavesAnimator": {

@@ -34,7 +34,7 @@ namespace demo
     {
         float result = -INFINITY;
 
-        // Get the avg. of values on the left, and set our value to it
+        // Get the max of values on the left, and set our value to it
         const auto leftValues = {
             fetch(x - 1, y - 1),
             fetch(x - 1, y),

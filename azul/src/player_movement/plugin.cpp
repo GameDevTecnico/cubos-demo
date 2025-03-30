@@ -1,4 +1,5 @@
 #include "plugin.hpp"
+#include "../restart/plugin.hpp"
 #include "../tile_map/plugin.hpp"
 #include "../waves/plugin.hpp"
 #include "../health/plugin.hpp"
@@ -6,6 +7,8 @@
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
 #include <cubos/core/reflection/external/glm.hpp>
+
+#include <cubos/engine/prelude.hpp>
 
 #include <cubos/engine/transform/plugin.hpp>
 
@@ -102,6 +105,7 @@ void demo::movementPlugin(Cubos& cubos)
                         // Player is out of bounds, stop the movement.
                         movement.direction = {0, 0};
                         targetTile = movement.position;
+                        cmds.add(ent, Restart{});
                     }
                     else
                     {
