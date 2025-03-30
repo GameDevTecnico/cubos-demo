@@ -28,7 +28,7 @@
 #include "bullet/plugin.hpp"
 #include "destroy_tree/plugin.hpp"
 #include "sailor_death/plugin.hpp"
-#include "restart/plugin.hpp"
+#include "coordinator/plugin.hpp"
 #include "scoreboard/plugin.hpp"
 #include "level/plugin.hpp"
 #include "numerals/plugin.hpp"
@@ -38,7 +38,6 @@
 using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("/assets/voxels/main.pal");
-static const Asset<Scene> MainSceneAsset = AnyAsset("/assets/scenes/main.cubos");
 
 int main(int argc, char** argv)
 {
@@ -64,8 +63,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::tileMapGeneratorPlugin);
     cubos.plugin(demo::randomGridPlugin);
     cubos.plugin(demo::sailorDeathPlugin);
-    cubos.plugin(demo::restartPlugin);
-    cubos.plugin(demo::scoreboardPlugin);
+    cubos.plugin(demo::coordinatorPlugin);
     cubos.plugin(demo::numeralsPlugin);
     cubos.plugin(demo::rotatingAnimationPlugin);
     cubos.plugin(demo::scoreIndicatorPlugin);
@@ -85,10 +83,6 @@ int main(int argc, char** argv)
         environment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
         environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
     });
-
-    cubos.startupSystem("load and spawn the Main Scene")
-        .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets) { cmds.spawn(*assets.read(MainSceneAsset)).named("main"); });
 
     cubos.run();
 }

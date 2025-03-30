@@ -1,7 +1,4 @@
 {
-  "#score": {
-    "inherit": "87b60d83-5056-40cc-adba-1e9dd38cf8ba"
-  },
   "#render-target": {
     "cubos::engine::RenderTarget": {},
     "cubos::engine::HDR": {},
