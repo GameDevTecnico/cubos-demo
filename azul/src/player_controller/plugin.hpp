@@ -29,6 +29,20 @@ namespace demo
 
         /// @brief Asset of the bullet to shoot.
         cubos::engine::Asset<cubos::engine::Scene> bullet;
+
+        /// @brief Bullet reload time.
+        float bulletReloadTime{1.0F};
+
+        /// @brief Bullet speed multiplier.
+        float bulletSpeed{5.0F};
+
+        /// @brief Minimum distance for shooting.
+        int shootMinDistance{3};
+
+        /// @brief Distance at which the shooting cone widens.
+        int shootConeWidenDistance{5};
+
+        float bulletReloadAcc{0.0F};
     };
 
     void playerControllerPlugin(cubos::engine::Cubos& cubos);
