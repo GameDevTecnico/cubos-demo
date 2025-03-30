@@ -187,7 +187,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
 
                         if (islandFactor < 0.6)
                         {
-                            tile.height = 0;
+                            tile.height = -1;
                             tile.blockHeight = 0.5F;
                             tile.type = types.sand;
                         }

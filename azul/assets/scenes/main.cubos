@@ -6,7 +6,7 @@
     "waves": {
       "updateInterval": 0.4,
       "waveFrequency": 0.5,
-      "waveAmplitude": 0.75,
+      "waveAmplitude": 0.5,
       "seaLevel": 1.25
     },
     "wavesAnimator": {
@@ -47,7 +47,7 @@
           "x": 30,
           "y": 48
         },
-        "moveSpeed": 2.0,
+        "moveSpeed": 3.0,
         "halfRotationTime": 0.075,
         "minPosition": {
           "x": 25,

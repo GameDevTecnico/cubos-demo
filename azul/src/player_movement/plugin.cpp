@@ -127,29 +127,30 @@ void demo::movementPlugin(Cubos& cubos)
                             auto match = movementsQuery.at(map.entities[targetTile.y][targetTile.x]);
                             auto [opponentEntity, opponentMovement, health] = *match;
 
-                            if (movement.direction == movement.facing)
+                            if (movement.direction == -opponentMovement.facing)
                             {
-                                if (movement.direction == -opponentMovement.facing)
-                                {
-                                    // Players collide frontally, turn both players to opposite sides.
+                                // Players collide frontally, turn both players to opposite sides.
 
-                                    // Either turn left or turn right.
-                                    bool turnDirection = rand() % 2;
+                                // Either turn left or turn right.
+                                bool turnDirection = rand() % 2;
 
-                                    glm::ivec2 newDirection = rotateDirection(movement.direction, turnDirection);
-                                    glm::ivec2 newOpponentDirection =
-                                        rotateDirection(opponentMovement.facing, turnDirection);
+                                glm::ivec2 newDirection = rotateDirection(movement.direction, turnDirection);
+                                glm::ivec2 newOpponentDirection =
+                                    rotateDirection(opponentMovement.facing, turnDirection);
 
-                                    movement.direction = newDirection;
-                                    opponentMovement.direction = newOpponentDirection;
-                                    opponentMovement.progress = 0.0F;
-                                    CUBOS_WARN("FACE FRONTALLY");
-                                }
-                                else
-                                {
-                                    cmds.add(opponentEntity, Damage{.hp = health.hp});
-                                    CUBOS_WARN("KILL OPPONENT");
-                                }
+                                movement.direction = newDirection;
+                                opponentMovement.direction = newOpponentDirection;
+                                opponentMovement.progress = 0.0F;
+
+                                cmds.add(opponentEntity, Damage{.hp = 1});
+                                cmds.add(ent, Damage{.hp = 1});
+                                CUBOS_WARN("FACE FRONTALLY");
+                            }
+                            else
+                            {
+                                // Player kills opponent.
+                                cmds.add(opponentEntity, Damage{.hp = health.hp});
+                                CUBOS_WARN("KILL OPPONENT");
                             }
                         }
                     }
@@ -232,6 +233,7 @@ void demo::movementPlugin(Cubos& cubos)
                 if (movement.progress != 0.0F)
                 {
                     map.entities[target.y][target.x] = {};
+                    movement.progress = 0.0F;
                 }
 
                 /*auto target = movement.position + movement.direction;*/
