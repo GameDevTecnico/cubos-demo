@@ -6,7 +6,7 @@
 
 #include <cubos/engine/assets/asset.hpp>
 #include <cubos/engine/prelude.hpp>
-#include <cubos/engine/voxels/grid.hpp>
+#include <cubos/engine/scene/scene.hpp>
 
 namespace demo
 {
@@ -23,6 +23,12 @@ namespace demo
 
         /// @brief Axis used to move the character in the y direction.
         std::string moveY = "move-y";
+
+        /// @brief Action used to shoot.
+        std::string shoot = "shoot";
+
+        /// @brief Asset of the bullet to shoot.
+        cubos::engine::Asset<cubos::engine::Scene> bullet;
     };
 
     void playerControllerPlugin(cubos::engine::Cubos& cubos);

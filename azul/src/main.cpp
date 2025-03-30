@@ -25,6 +25,8 @@
 #include "health/plugin.hpp"
 #include "animation/plugin.hpp"
 #include "random_grid/plugin.hpp"
+#include "bullet/plugin.hpp"
+#include "destroy_tree/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -39,12 +41,14 @@ int main(int argc, char** argv)
     cubos.plugin(toolsPlugin);
 
     // Add game plugins
+    cubos.plugin(demo::destroyTreePlugin);
     cubos.plugin(demo::animationPlugin);
     cubos.plugin(demo::tileMapPlugin);
     cubos.plugin(demo::cameraControllerPlugin);
     cubos.plugin(demo::wavesPlugin);
     cubos.plugin(demo::healthPlugin);
     cubos.plugin(demo::movementPlugin);
+    cubos.plugin(demo::bulletPlugin);
     cubos.plugin(demo::playerControllerPlugin);
     cubos.plugin(demo::playerSpawnerPlugin);
     cubos.plugin(demo::wavesAnimatorPlugin);

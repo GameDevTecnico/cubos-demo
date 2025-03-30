@@ -188,26 +188,31 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                         if (islandFactor < 0.6)
                         {
                             tile.height = 0;
+                            tile.blockHeight = 0.5F;
                             tile.type = types.sand;
                         }
                         else if (islandFactor < 0.65)
                         {
                             tile.height = 1;
+                            tile.blockHeight = 1.0F;
                             tile.type = types.sand;
                         }
                         else if (islandFactor < 0.675)
                         {
                             tile.height = 1;
+                            tile.blockHeight = 1.0F;
                             tile.type = types.grass;
                         }
                         else if (islandFactor < 0.7)
                         {
                             tile.height = 2;
+                            tile.blockHeight = 1.5F;
                             tile.type = types.grass;
                         }
                         else
                         {
                             tile.height = 2;
+                            tile.blockHeight = 2.0F;
                             tile.type = types.mountain;
                         }
                         tile.rotation = rand() % 4;

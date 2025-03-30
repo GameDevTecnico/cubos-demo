@@ -42,6 +42,9 @@ namespace demo
 
         /// @brief Base player movement component.
         Movement movement;
+
+        /// @brief Bullet scene.
+        cubos::engine::Asset<cubos::engine::Scene> bullet;
     };
 
     void playerSpawnerPlugin(cubos::engine::Cubos& cubos);
