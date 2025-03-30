@@ -23,6 +23,7 @@ add_executable(azul
     src/numerals/plugin.cpp
     src/score_indicator/plugin.cpp
     src/rotating_animation/plugin.cpp
+    src/audio/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)

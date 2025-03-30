@@ -176,11 +176,20 @@ void demo::movementPlugin(Cubos& cubos)
                                 /*{*/
                                 /*    map.entities[targetTile.y][targetTile.x] = {};*/
                                 /*}*/
+                                CUBOS_CRITICAL("Player is {}, target is {}x{}, movement is {}x{}",
+                                    movement.playerID,
+                                    targetTile.x,
+                                    targetTile.y,
+                                    movement.position.x,
+                                    movement.position.y);
+                                map.entities[targetTile.y][targetTile.x] = {};
                                 map.entities[movement.position.y][movement.position.x] = {};
 
                                 if (opponentMovement.progress != 0.0F) {
-                                    opponentMovement.progress = 0.0F;
+                                    auto oppTarget = opponentMovement.position + opponentMovement.direction;
 
+                                    opponentMovement.progress = 0.0F;
+                                    map.entities[oppTarget.y][oppTarget.x] = {};
                                     map.entities[opponentMovement.position.y][opponentMovement.position.x] = {};
                                 }
 

@@ -16,5 +16,13 @@
             "z": 0.0,
             "w": 0.7071068
         }
+    },
+    "#sfx": {
+        "cubos::engine::AudioSource": {
+            "sound": "1c302c46-72c9-4451-a04f-75a166c1f555",
+            "looping": false,
+            "gain": 25
+        },
+        "cubos::engine::AudioPlay": {}
     }
 }

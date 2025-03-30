@@ -1,5 +1,6 @@
 #include <imgui.h>
 
+#include <cubos/engine/audio/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/scene/scene.hpp>
@@ -32,6 +33,7 @@
 #include "numerals/plugin.hpp"
 #include "score_indicator/plugin.hpp"
 #include "rotating_animation/plugin.hpp"
+#include "audio/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -41,6 +43,7 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.plugin(defaultsPlugin);
+    cubos.plugin(audioPlugin);
 
     // Add game plugins
     cubos.plugin(demo::levelPlugin);
@@ -63,6 +66,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::numeralsPlugin);
     cubos.plugin(demo::rotatingAnimationPlugin);
     cubos.plugin(demo::scoreIndicatorPlugin);
+    cubos.plugin(demo::audioPlugin);
 
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);
