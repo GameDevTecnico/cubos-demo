@@ -10,9 +10,7 @@
 
 namespace demo
 {
-    /// @brief Relation linking sailor entities and their player entities.
-    ///
-    /// Animates the sailor's death.
+    /// @brief Spawns digits to display a roman numeral.
     struct Numeral
     {
         CUBOS_REFLECT;

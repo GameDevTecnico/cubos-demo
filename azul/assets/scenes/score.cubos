@@ -1,0 +1,19 @@
+{
+    "demo::ScoreIndicator": {
+        "numeral": {
+            "model0": "9718a99d-bfa0-466a-9d68-5242b582f935",
+            "modelI": "13c58ec1-91ad-4f68-970e-cb127af95086",
+            "modelV": "a6c94ef5-e1af-47ec-b9c2-96a34f3df0e9",
+            "modelX": "4df11b60-61d9-46c0-9d41-e954004f98b1"
+        },
+        "playerScenes": {
+            "1": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c",
+            "2": "a625e03a-3199-42c1-b750-a0b5cdd82815",
+            "3": "9db82199-a2b3-446b-a26c-1488058703c0",
+            "4": "d996b20f-5b02-4652-b389-98504ca81aa0"
+        },
+        "rotatingAnimation": {
+            "speed": 0.2
+        }
+    }
+}

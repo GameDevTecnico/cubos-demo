@@ -21,6 +21,8 @@ add_executable(azul
     src/scoreboard/plugin.cpp
     src/level/plugin.cpp
     src/numerals/plugin.cpp
+    src/score_indicator/plugin.cpp
+    src/rotating_animation/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)
