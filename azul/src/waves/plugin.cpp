@@ -14,14 +14,21 @@ namespace demo
 {
     float Waves::waveEquation(float t)
     {
-        CUBOS_INFO("t: {}", t);
-        float base = sin(t);
-        if((int)(t/5) % 3 == 2) {
-            CUBOS_INFO("TSUNAMI");
-            base += sin(t) * sin(t);
+        float value = sin(t);
+        int peakT = (int)(t/5);
+        int droughtT = (int)(t/ 8);
+        //CUBOS_INFO("t: {}, peakT: {}, droughtT: {}", t, peakT, droughtT);
+
+        if(peakT % 3 == 2) {
+            //CUBOS_INFO("TSUNAMI");
+            value += 3* sin(t) * sin(t);
+        }
+        if(droughtT % 5 == 4) {
+            //CUBOS_INFO("DROUGHT");
+            value -= 2* sin(t) * sin(t);
         }
 
-        return base;
+        return value;
     }
 
     std::optional<float> Waves::fetch(int x, int y) const

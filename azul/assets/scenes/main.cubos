@@ -6,8 +6,8 @@
     "seafloor": "5085e5eb-233a-4aae-ad30-512805ed8a8c",
     "waves": {
       "updateInterval": 0.4,
-      "waveFrequency": 0.5,
-      "waveAmplitude": 0.5,
+      "waveFrequency": 0.55,
+      "waveAmplitude": 0.75,
       "seaLevel": 1.0
     },
     "wavesAnimator": {
