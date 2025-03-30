@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../player_controller/plugin.hpp"
+
 #include <cubos/core/reflection/reflect.hpp>
 
 #include <cubos/engine/assets/asset.hpp>

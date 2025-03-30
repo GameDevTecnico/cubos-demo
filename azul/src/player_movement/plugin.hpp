@@ -13,6 +13,8 @@ namespace demo
     {
         CUBOS_REFLECT;
 
+        int playerID;
+
         /// @brief Where the entity is currently in (or moving from), in tile coordinates.
         glm::ivec2 position = {0, 0};
 

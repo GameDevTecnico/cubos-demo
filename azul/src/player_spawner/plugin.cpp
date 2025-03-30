@@ -9,11 +9,14 @@
 #include <cubos/core/reflection/external/vector.hpp>
 
 #include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/audio/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/input/plugin.hpp>
 
 using namespace cubos::engine;
+
+static const Asset<Audio> ArrowSound = AnyAsset("/assets/sounds/arrow.mp3");
 
 CUBOS_REFLECT_IMPL(demo::PlayerSpawner::Player)
 {
@@ -122,7 +125,8 @@ void demo::playerSpawnerPlugin(Cubos& cubos)
                     cmds.relate(playerEnt, mapEnt, ChildOf{})
                         .add(playerEnt, spawner.movement)
                         .add(playerEnt, controller)
-                        .add(playerEnt, demo::Health{.hp = 3, .team = spawner.players[player - 1].team});
+                        .add(playerEnt, demo::Health{.hp = 3, .team = spawner.players[player - 1].team})
+                        .add(playerEnt, AudioSource{ .looping = false, .gain = 25, .sound = ArrowSound });
 
                     // Bind input for the player.
                     input.bind(*assets.read(spawner.players[player - 1].bindings), player);

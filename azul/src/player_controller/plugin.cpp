@@ -10,8 +10,11 @@
 
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
+#include <cubos/engine/audio/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/scene/plugin.hpp>
+
+#include <iostream>
 
 using namespace cubos::engine;
 
@@ -47,10 +50,10 @@ void demo::playerControllerPlugin(Cubos& cubos)
     cubos.system("player controller handler")
         .after(inputUpdateTag)
         .call([](Commands cmds, Input& input, const DeltaTime& dt,
-                 Query<const Position&, PlayerController&, Movement&, Health&, const ChildOf&, const TileMap&, Entity>
+                 Query<Entity, const Position&, PlayerController&, Movement&, Health&, const ChildOf&, const TileMap&, Entity>
                      players,
                  Assets& assets) {
-            for (auto [position, controller, movement, health, _1, tileMap, tileMapEnt] : players)
+            for (auto [ent, position, controller, movement, health, _1, tileMap, tileMapEnt] : players)
             {
                 // If the player is already moving then skip.
                 if (movement.direction != glm::ivec2{0, 0})
@@ -59,6 +62,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
                 }
 
                 // Move the character as requested.
+                movement.playerID = controller.player;
                 auto moveX = -input.axis(controller.moveX.c_str(), controller.player);
                 auto moveY = -input.axis(controller.moveY.c_str(), controller.player);
                 if (health.hp <= 0)
@@ -153,11 +157,37 @@ void demo::playerControllerPlugin(Cubos& cubos)
                                                       .speed = speed})
                                           .entity();
 
+                        //cmds.add(ent, AudioStop{});
+                        //cmds.add(ent, AudioPlay{});
                         cmds.relate(bullet, tileMapEnt, ChildOf{});
                     }
                 }
             }
         });
+    
+        // cubos.system("print entities")
+        // .call([&](Query<Entity, const TileMap&> query,
+        //         Query<Entity, const PlayerController&> queryPlayer) {
+        //     for( auto [ ent, map ] : query )
+        //     {
+        //         std::cout << "--------------\n";
+        //         for(auto& v : map.entities){
+        //             for(bool firstPrint = true; auto& ent : v) {
+        //                 if(!firstPrint)
+        //                     std::cout << " ";
+        //                 std::string playerChar = ".";
+        //                 if(!ent.isNull()) {
+        //                     auto match = queryPlayer.at(ent);
+        //                     auto [ playerEnt, player ] = *match;
+        //                     playerChar = std::to_string(player.player);
+        //                 }
+        //                 std::cout << playerChar;
+        //                 firstPrint = false;
+        //             }
+        //             std::cout << std::endl;
+        //         }
+        //     }
+        // });
 
     /*cubos.observer("drop item on player death")*/
     /*    .onRemove<PlayerController>(1)*/
