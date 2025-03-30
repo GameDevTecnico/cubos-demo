@@ -19,6 +19,7 @@ add_executable(azul
     src/sailor_death/plugin.cpp
     src/restart/plugin.cpp
     src/scoreboard/plugin.cpp
+    src/level/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)

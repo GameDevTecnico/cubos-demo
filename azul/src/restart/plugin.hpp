@@ -16,6 +16,7 @@ namespace demo
         CUBOS_REFLECT;
 
         cubos::engine::Asset<cubos::engine::Scene> scene;
+        float accumT = 0;
     };
 
     void restartPlugin(cubos::engine::Cubos& cubos);
