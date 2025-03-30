@@ -152,6 +152,7 @@ void demo::movementPlugin(Cubos& cubos)
                                 }
 
                                 movement.direction = newDirection;
+                                targetTile = movement.position + movement.direction;
                                 opponentMovement.direction = newOpponentDirection;
 
 
@@ -161,6 +162,7 @@ void demo::movementPlugin(Cubos& cubos)
                             else
                             {
                                 movement.direction = {0, 0};
+                                targetTile = movement.position;
 
                                 // Player kills opponent.
                                 cmds.add(opponentEntity, Damage{.hp = health.hp});
