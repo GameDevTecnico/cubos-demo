@@ -3,11 +3,12 @@
     "grass": "918b8d1f-abf6-46be-a1cd-cc71f7a7a140",
     "mountain": "accc2b99-2bb4-4d3e-80ce-4c556a8e1b5c",
     "sand": "a004f1af-1cce-44cb-8fe5-702301f12abe",
+    "seafloor": "5085e5eb-233a-4aae-ad30-512805ed8a8c",
     "waves": {
       "updateInterval": 0.4,
       "waveFrequency": 0.5,
       "waveAmplitude": 0.5,
-      "seaLevel": 1.25
+      "seaLevel": 1.0
     },
     "wavesAnimator": {
       "water": "7ceb697a-e7cb-46f6-921c-7f467880aa13",

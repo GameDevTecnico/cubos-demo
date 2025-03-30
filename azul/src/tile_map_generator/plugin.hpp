@@ -29,6 +29,7 @@ namespace demo
         cubos::engine::Asset<cubos::engine::Scene> grass;
         cubos::engine::Asset<cubos::engine::Scene> mountain;
         cubos::engine::Asset<cubos::engine::Scene> sand;
+        cubos::engine::Asset<cubos::engine::Scene> seafloor;
         /// @}
 
         Waves waves;
