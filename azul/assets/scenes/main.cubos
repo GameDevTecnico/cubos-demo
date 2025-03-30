@@ -49,6 +49,7 @@
           "y": 48
         },
         "moveSpeed": 3.0,
+        "seaLevelDiffModifier": 20.0,
         "halfRotationTime": 0.075,
         "minPosition": {
           "x": 25,

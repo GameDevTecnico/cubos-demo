@@ -25,6 +25,9 @@ namespace demo
         /// @brief Move speed of the entity.
         float moveSpeed = 1.0F;
 
+        /// @brief Speed modifier calculated by the difference of the sea level of the tiles.
+        float seaLevelDiffModifier = 20.0F;
+
         /// @brief Time which the entity takes to rotate half of the way to the target rotation.
         float halfRotationTime = 1.0F;
 

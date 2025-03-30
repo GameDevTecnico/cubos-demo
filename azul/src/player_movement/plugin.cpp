@@ -22,6 +22,7 @@ CUBOS_REFLECT_IMPL(demo::Movement)
         .withField("direction", &Movement::direction)
         .withField("facing", &Movement::facing)
         .withField("moveSpeed", &Movement::moveSpeed)
+        .withField("seaLevelDiffModifier", &Movement::seaLevelDiffModifier)
         .withField("halfRotationTime", &Movement::halfRotationTime)
         .withField("minPosition", &Movement::minPosition)
         .withField("maxPosition", &Movement::maxPosition)
@@ -107,12 +108,6 @@ void demo::movementPlugin(Cubos& cubos)
                     }
                     else
                     {
-                        if (movement.direction == -movement.facing)
-                        {
-                            movement.direction = {0, 0};
-                            targetTile = movement.position;
-                        }
-
                         bool playerCollisionCheck = !map.entities[targetTile.y][targetTile.x].isNull() &&
                                                     map.entities[targetTile.y][targetTile.x] != ent;
                         if (playerCollisionCheck)
@@ -133,8 +128,8 @@ void demo::movementPlugin(Cubos& cubos)
                                 bool turnDirection = rand() % 2;
 
                                 glm::ivec2 newDirection = rotateDirection(movement.direction, turnDirection);
-                                glm::ivec2 newOpponentDirection =
-                                    rotateDirection(opponentMovement.facing, turnDirection);
+                                glm::ivec2 newOpponentDirection = rotateDirection(opponentMovement.facing, turnDirection);
+
                                 if (!inBounds(movement.position + newDirection))
                                 {
                                     newDirection = newOpponentDirection;
@@ -144,14 +139,21 @@ void demo::movementPlugin(Cubos& cubos)
                                     newOpponentDirection = newDirection;
                                 }
 
-                                if (opponentMovement.direction.x != 0 && opponentMovement.direction.y != 0)
-                                {
-                                    map.entities[targetTile.y][targetTile.x] = {};
+                                /*if (opponentMovement.direction.x != 0 && opponentMovement.direction.y != 0)*/
+                                /*{*/
+                                /*    map.entities[targetTile.y][targetTile.x] = {};*/
+                                /*}*/
+                                map.entities[movement.position.y][movement.position.x] = {};
+
+                                if (opponentMovement.progress != 0.0F) {
+                                    opponentMovement.progress = 0.0F;
+
+                                    map.entities[opponentMovement.position.y][opponentMovement.position.x] = {};
                                 }
 
                                 movement.direction = newDirection;
                                 opponentMovement.direction = newOpponentDirection;
-                                opponentMovement.progress = 0.0F;
+
 
                                 cmds.add(opponentEntity, Damage{.hp = 1});
                                 cmds.add(ent, Damage{.hp = 1});
@@ -191,13 +193,11 @@ void demo::movementPlugin(Cubos& cubos)
                     // Sea level modifier
                     float seaLevelDiff = waves.actual[targetTile.y][targetTile.x] -
                                          waves.actual[movement.position.y][movement.position.x];
-                    float seaLevelModifier = -seaLevelDiff * 20;
+                    float seaLevelModifier = -(seaLevelDiff/2) * movement.seaLevelDiffModifier;
 
                     movement.progress = glm::clamp(
                         movement.progress + dt.value() * (movement.moveSpeed + seaLevelModifier), 0.0F, 1.0F);
                     position.vec.x = tileSide / 2.0F + tileSide * glm::mix(source.x, target.x, movement.progress);
-                    /*position.vec.y = glm::mix(0.0F, movement.jumpHeight, glm::sin(movement.progress *
-                     * glm::pi<float>()));*/
                     position.vec.z = tileSide / 2.0F + tileSide * glm::mix(source.y, target.y, movement.progress);
 
                     // If the entity has reached the target position, reset the direction.
@@ -248,7 +248,7 @@ void demo::movementPlugin(Cubos& cubos)
                 map.entities[movement.position.y][movement.position.x] = {};
 
                 auto target = movement.position + movement.direction;
-                if (movement.progress != 0.0F)
+                if (movement.progress != 0.0F && map.entities[target.y][target.x] == ent)
                 {
                     map.entities[target.y][target.x] = {};
                     movement.progress = 0.0F;
