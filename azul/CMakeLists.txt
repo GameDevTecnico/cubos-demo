@@ -16,6 +16,7 @@ add_executable(azul
     src/random_grid/plugin.cpp
     src/bullet/plugin.cpp
     src/destroy_tree/plugin.cpp
+    src/sailor_death/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)

@@ -24,18 +24,21 @@
 			},
 			"#sailor1": {
 				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"demo::SailorDeath#": 2,
 				"cubos::engine::Position": {
 					"z": 0.0
 				}
 			},
 			"#sailor2": {
 				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"demo::SailorDeath#": 0,
 				"cubos::engine::Position": {
 					"z": -3.0
 				}
 			},
 			"#sailor3": {
 				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
+				"demo::SailorDeath#": 1,
 				"cubos::engine::Position": {
 					"z": -6.0
 				}
