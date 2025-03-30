@@ -272,17 +272,17 @@ void demo::movementPlugin(Cubos& cubos)
             }
         });
 
-    cubos.system("print out entities in map").call([](Query<TileMap&>) query) {
-        for (auto [map]: query)
-        {
-            for (int i= 0; i < map.tiles.size(); i++) {
-                for (int j= 0; j < map.tiles.size(); j++) {
-                    printf("%d", !map.entities[j][i].isNull());
-                }
-                printf("\n");
-            }
-        }
-    } 
+    /*cubos.system("print out entities in map").call([](Query<TileMap&>) query) {*/
+    /*    for (auto [map]: query)*/
+    /*    {*/
+    /*        for (int i= 0; i < map.tiles.size(); i++) {*/
+    /*            for (int j= 0; j < map.tiles.size(); j++) {*/
+    /*                printf("%d", !map.entities[j][i].isNull());*/
+    /*            }*/
+    /*            printf("\n");*/
+    /*        }*/
+    /*    }*/
+    /*} */
 
     cubos.observer("clear up movement positions")
         .onRemove<Movement>()
