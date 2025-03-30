@@ -24,6 +24,8 @@ namespace demo
         float accumDeltaTime = 0;
         int iter = 0;
 
+        float waveEquation(float t);
+
         std::optional<float> fetch(int x, int y) const;
         void modify(int x, int y, float value);
         void step(float value, int x, int y);
