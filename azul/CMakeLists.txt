@@ -20,6 +20,7 @@ add_executable(azul
     src/restart/plugin.cpp
     src/scoreboard/plugin.cpp
     src/level/plugin.cpp
+    src/numerals/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)
