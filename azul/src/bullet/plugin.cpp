@@ -39,8 +39,7 @@ void demo::bulletPlugin(Cubos& cubos)
     cubos.system("bullet movement handler")
         .before(transformUpdateTag)
         .call([](const DeltaTime& dt, Commands cmds,
-                 Query<Entity, Position&, Rotation&, Bullet&, const ChildOf&, TileMap&, Waves&> query,
-                 Query<Health&> healthQuery) {
+                 Query<Entity, Position&, Rotation&, Bullet&, const ChildOf&, TileMap&, Waves&> query) {
             for (auto [ent, position, rotation, bullet, _2, map, waves] : query)
             {
                 bullet.progress = bullet.progress + bullet.speed * dt.value();
@@ -72,10 +71,9 @@ void demo::bulletPlugin(Cubos& cubos)
                     if (bullet.progress >= 1.0F)
                     {
                         auto tileEnt = map.entities[tileXZ.y][tileXZ.x];
-                        if (auto match = healthQuery.at(tileEnt))
+                        if (!tileEnt.isNull())
                         {
-                            auto [health] = *match;
-                            health.hp -= 1;
+                            cmds.add(tileEnt, Damage{.hp = 1});
                         }
 
                         // The bullet has reached its target.
@@ -84,7 +82,8 @@ void demo::bulletPlugin(Cubos& cubos)
                     }
 
                     // Check if the bullet has hit the ground or water.
-                    auto tileY = glm::max(map.tiles[tileXZ.y][tileXZ.x].blockHeight + 1.0F, waves.actual[tileXZ.y][tileXZ.x]);
+                    auto tileY =
+                        glm::max(map.tiles[tileXZ.y][tileXZ.x].blockHeight + 1.0F, waves.actual[tileXZ.y][tileXZ.x]);
                     if (currentY <= tileY)
                     {
                         cmds.add(ent, DestroyTree{});
