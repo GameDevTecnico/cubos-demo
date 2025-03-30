@@ -16,6 +16,8 @@ CUBOS_REFLECT_IMPL(demo::Tile)
     return cubos::core::ecs::TypeBuilder<Tile>("demo::Tile")
         .withField("type", &Tile::type)
         .withField("rotation", &Tile::rotation)
+        .withField("height", &Tile::height)
+        .withField("blockHeight", &Tile::blockHeight)
         .build();
 }
 

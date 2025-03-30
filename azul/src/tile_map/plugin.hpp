@@ -25,6 +25,9 @@ namespace demo
 
         /// @brief Height of the tile.
         int height;
+
+        /// @brief Height at which the tile blocks projectiles and players.
+        float blockHeight;
     };
 
     /// @brief Component which keeps information about the tile-map.

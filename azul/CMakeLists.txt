@@ -14,6 +14,8 @@ add_executable(azul
     src/health/plugin.cpp
     src/animation/plugin.cpp
     src/random_grid/plugin.cpp
+    src/bullet/plugin.cpp
+    src/destroy_tree/plugin.cpp
 )
 
 target_link_libraries(azul cubos::engine)
