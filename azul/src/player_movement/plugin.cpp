@@ -1,5 +1,4 @@
 #include "plugin.hpp"
-#include "../restart/plugin.hpp"
 #include "../tile_map/plugin.hpp"
 #include "../waves/plugin.hpp"
 #include "../health/plugin.hpp"
@@ -105,23 +104,18 @@ void demo::movementPlugin(Cubos& cubos)
                         // Player is out of bounds, stop the movement.
                         movement.direction = {0, 0};
                         targetTile = movement.position;
-                        cmds.add(ent, Restart{});
                     }
                     else
                     {
-                        bool landCheck =
-                            waves.terrain[targetTile.y][targetTile.x] > waves.actual[targetTile.y][targetTile.x] &&
-                            movement.progress <= 0.0F;
-                        bool playerCollisionCheck = !map.entities[targetTile.y][targetTile.x].isNull() &&
-                                                    map.entities[targetTile.y][targetTile.x] != ent;
-                        bool fullTurnCheck = movement.direction == -movement.facing;
-
-                        if (landCheck || fullTurnCheck)
+                        if (movement.direction == -movement.facing)
                         {
                             movement.direction = {0, 0};
                             targetTile = movement.position;
                         }
-                        else if (playerCollisionCheck)
+
+                        bool playerCollisionCheck = !map.entities[targetTile.y][targetTile.x].isNull() &&
+                                                    map.entities[targetTile.y][targetTile.x] != ent;
+                        if (playerCollisionCheck)
                         {
                             // Handle player collisions.
                             auto match = movementsQuery.at(map.entities[targetTile.y][targetTile.x]);
@@ -138,20 +132,32 @@ void demo::movementPlugin(Cubos& cubos)
                                 glm::ivec2 newOpponentDirection =
                                     rotateDirection(opponentMovement.facing, turnDirection);
 
+                                if (opponentMovement.direction.x != 0 && opponentMovement.direction.y != 0)
+                                {
+                                    map.entities[targetTile.y][targetTile.x] = {};
+                                }
+
                                 movement.direction = newDirection;
                                 opponentMovement.direction = newOpponentDirection;
                                 opponentMovement.progress = 0.0F;
 
                                 cmds.add(opponentEntity, Damage{.hp = 1});
                                 cmds.add(ent, Damage{.hp = 1});
-                                CUBOS_WARN("FACE FRONTALLY");
                             }
                             else
                             {
+                                movement.direction = {0, 0};
+
                                 // Player kills opponent.
                                 cmds.add(opponentEntity, Damage{.hp = health.hp});
-                                CUBOS_WARN("KILL OPPONENT");
                             }
+                        }
+
+                        if (waves.terrain[targetTile.y][targetTile.x] > waves.actual[targetTile.y][targetTile.x] &&
+                            movement.progress <= 0.0F)
+                        {
+                            movement.direction = {0, 0};
+                            targetTile = movement.position;
                         }
                     }
                 }
