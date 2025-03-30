@@ -56,14 +56,4 @@ void demo::healthPlugin(Cubos& cubos)
                 cmds.remove<Damage>(ent);
             }
         });
-
-    cubos.system("check healthbars").call([](Commands cmds, Query<Entity, const Health&> query) {
-        for (auto [entity, hp] : query)
-        {
-            if (hp.hp <= 0)
-            {
-                cmds.add(entity, DestroyTree{});
-            }
-        }
-    });
 }

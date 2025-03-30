@@ -2,6 +2,7 @@
 #include "../player_movement/plugin.hpp"
 #include "../tile_map/plugin.hpp"
 #include "../bullet/plugin.hpp"
+#include "../health/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -39,15 +40,17 @@ void demo::playerControllerPlugin(Cubos& cubos)
     cubos.depends(tileMapPlugin);
     cubos.depends(bulletPlugin);
     cubos.depends(assetsPlugin);
+    cubos.depends(healthPlugin);
 
     cubos.component<PlayerController>();
 
     cubos.system("player controller handler")
         .after(inputUpdateTag)
         .call([](Commands cmds, Input& input, const DeltaTime& dt,
-                 Query<const Position&, PlayerController&, Movement&, const ChildOf&, const TileMap&, Entity> players,
+                 Query<const Position&, PlayerController&, Movement&, Health&, const ChildOf&, const TileMap&, Entity>
+                     players,
                  Assets& assets) {
-            for (auto [position, controller, movement, _1, tileMap, tileMapEnt] : players)
+            for (auto [position, controller, movement, health, _1, tileMap, tileMapEnt] : players)
             {
                 // If the player is already moving then skip.
                 if (movement.direction != glm::ivec2{0, 0})
@@ -58,6 +61,11 @@ void demo::playerControllerPlugin(Cubos& cubos)
                 // Move the character as requested.
                 auto moveX = -input.axis(controller.moveX.c_str(), controller.player);
                 auto moveY = -input.axis(controller.moveY.c_str(), controller.player);
+                if (health.hp <= 0)
+                {
+                    moveX = 0;
+                    moveY = 0;
+                }
 
                 // Handle input deadzones.
                 if (glm::abs(moveX) < 0.75F)
@@ -84,7 +92,7 @@ void demo::playerControllerPlugin(Cubos& cubos)
                 }
 
                 // Shoot if requested.
-                if (input.justPressed(controller.shoot.c_str(), controller.player) &&
+                if (health.hp > 0 && input.justPressed(controller.shoot.c_str(), controller.player) &&
                     movement.facing != glm::ivec2{0, 0} && controller.bulletReloadAcc <= 0.0F)
                 {
                     controller.bulletReloadAcc = controller.bulletReloadTime;
