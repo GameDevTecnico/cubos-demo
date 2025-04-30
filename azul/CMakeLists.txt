@@ -34,6 +34,7 @@ if(EMSCRIPTEN)
     target_link_options(azul PRIVATE
         "SHELL:--embed-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
         "SHELL:--embed-file ${CUBOS_ENGINE_ASSETS_PATH}@/builtin"
+        "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/emscripten.html"
     )
     target_compile_definitions(azul PRIVATE
         APP_ASSETS_PATH="/assets"
