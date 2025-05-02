@@ -1,6 +1,7 @@
 {
   "#render-target": {
-    "cubos::engine::RenderTargetDefaults": {}
+    "cubos::engine::RenderTargetDefaults": {},
+    "cubos::engine::GizmosTarget": {}
   },
   "#sun": {
     "cubos::engine::DirectionalLight": {
