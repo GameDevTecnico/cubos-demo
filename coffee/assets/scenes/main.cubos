@@ -1,0 +1,38 @@
+{
+  "#render-target": {
+    "cubos::engine::RenderTargetDefaults": {}
+  },
+  "#sun": {
+    "cubos::engine::DirectionalLight": {
+      "color": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "intensity": 1.0
+    },
+    "cubos::engine::Rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 1.0
+    }
+  },
+  "#camera": {
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 50.0
+    },
+    "cubos::engine::PerspectiveCamera": {
+      "fovY": 60.0
+    },
+    "cubos::engine::DrawsTo#render-target": {}
+  },
+  "#knight": {
+    "cubos::engine::Position": {},
+    "cubos::engine::RenderVoxelGrid": {
+        "asset": "6f04466d-1fec-4a6f-b84c-d1e529fc69c1"
+    }
+  }
+}
