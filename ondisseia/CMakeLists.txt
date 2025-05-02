@@ -1,7 +1,7 @@
-# azul/CMakeLists.txt
-# Azul jam build configuration
+# ondisseia/CMakeLists.txt
+# Ondisseia build configuration
 
-add_executable(azul
+add_executable(ondisseia
     src/main.cpp
     src/tile_map/plugin.cpp
     src/tile_map_generator/plugin.cpp
@@ -26,28 +26,28 @@ add_executable(azul
     src/audio/plugin.cpp
 )
 
-target_link_libraries(azul cubos::engine)
-target_compile_features(azul PRIVATE cxx_std_20)
-common_demo_options(azul)
+target_link_libraries(ondisseia cubos::engine)
+target_compile_features(ondisseia PRIVATE cxx_std_20)
+common_demo_options(ondisseia)
 
 if(EMSCRIPTEN)
-    target_link_options(azul PRIVATE
+    target_link_options(ondisseia PRIVATE
         "SHELL:--embed-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets"
         "SHELL:--embed-file ${CUBOS_ENGINE_ASSETS_PATH}@/builtin"
         "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/emscripten.html"
     )
-    target_compile_definitions(azul PRIVATE
+    target_compile_definitions(ondisseia PRIVATE
         APP_ASSETS_PATH="/assets"
         BUILTIN_ASSETS_PATH="/builtin"
     )
 else()
     if(DISTRIBUTE)
-        target_compile_definitions(azul PRIVATE
+        target_compile_definitions(ondisseia PRIVATE
             APP_ASSETS_PATH="assets"
             BUILTIN_ASSETS_PATH="builtin"
         )
     else()
-        target_compile_definitions(azul PRIVATE
+        target_compile_definitions(ondisseia PRIVATE
             APP_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets"
             BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
         )
@@ -58,13 +58,13 @@ endif()
 
 if(DISTRIBUTE)
     if(EMSCRIPTEN)
-        install(FILES $<TARGET_FILE_DIR:azul>/azul.html DESTINATION azul)
-        install(FILES $<TARGET_FILE_DIR:azul>/azul.wasm DESTINATION azul)
-        install(FILES $<TARGET_FILE_DIR:azul>/azul.js DESTINATION azul)
-        install(FILES $<TARGET_FILE_DIR:azul>/azul.worker.js DESTINATION azul)
+        install(FILES $<TARGET_FILE_DIR:ondisseia>/ondisseia.html DESTINATION ondisseia)
+        install(FILES $<TARGET_FILE_DIR:ondisseia>/ondisseia.wasm DESTINATION ondisseia)
+        install(FILES $<TARGET_FILE_DIR:ondisseia>/ondisseia.js DESTINATION ondisseia)
+        install(FILES $<TARGET_FILE_DIR:ondisseia>/ondisseia.worker.js DESTINATION ondisseia)
     else()
-        install(TARGETS azul EXPORT azul RUNTIME DESTINATION azul)
+        install(TARGETS ondisseia EXPORT ondisseia RUNTIME DESTINATION ondisseia)
     endif()
-    install(DIRECTORY assets/ DESTINATION azul/assets)
-    install(DIRECTORY ${CUBOS_ENGINE_ASSETS_PATH}/ DESTINATION azul/builtin)
+    install(DIRECTORY assets/ DESTINATION ondisseia/assets)
+    install(DIRECTORY ${CUBOS_ENGINE_ASSETS_PATH}/ DESTINATION ondisseia/builtin)
 endif()
