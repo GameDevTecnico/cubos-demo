@@ -3,7 +3,7 @@
         "asset": "6bef594b-ce82-414f-865f-ac72824a69b8"
     },
     "cubos::engine::Position": {
-        "x": 16.0,
+        "x": 8.0,
         "y": 4.0,
         "z": 4.0
     },
