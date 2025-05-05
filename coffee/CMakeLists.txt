@@ -6,6 +6,7 @@ add_executable(coffee
     src/progression/plugin.cpp
     src/day_night/plugin.cpp
     src/map_generator/plugin.cpp
+    src/ui_effects/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)

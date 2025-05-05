@@ -17,11 +17,13 @@
 #include <cubos/engine/tools/plugin.hpp>
 
 #include "map_generator/plugin.hpp"
+#include "ui_effects/plugin.hpp"
 
 using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("96e982ca-a18e-49e0-bf0b-2ddbbcf4d4cb");
 static const Asset<Scene> MainSceneAsset = AnyAsset("b36dfc06-4ec3-4658-ba67-f8cb3ec787c0");
+static const Asset<Scene> IntroSceneAsset = AnyAsset("78d434eb-276b-4c80-9046-0f285bc3edfe");
 static const Asset<InputBindings> DebugBindingsAsset = AnyAsset("ba1151fe-c610-499c-96c2-c67f64f24425");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
 
@@ -37,6 +39,7 @@ int main(int argc, char** argv)
 
     // Add game plugins
     cubos.plugin(coffee::mapGeneratorPlugin);
+    cubos.plugin(coffee::uiEffectsPlugin);
 
     cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
         ImGui::SetCurrentContext(holder.context);
