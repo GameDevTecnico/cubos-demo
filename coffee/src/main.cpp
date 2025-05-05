@@ -1,5 +1,8 @@
 #include <imgui.h>
 
+#include "progression/plugin.hpp"
+#include "day_night/plugin.hpp"
+
 #include <cubos/engine/audio/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
@@ -10,6 +13,7 @@
 #include <cubos/engine/imgui/plugin.hpp>
 #include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/utils/free_camera/plugin.hpp>
+#include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 
 using namespace cubos::engine;
@@ -26,6 +30,8 @@ int main(int argc, char** argv)
     cubos.plugin(audioPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
+    cubos.plugin(demo::progressionPlugin);
+    cubos.plugin(demo::dayNightPlugin);
 
     // Add game plugins
     // TODO

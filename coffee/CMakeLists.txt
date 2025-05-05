@@ -3,6 +3,8 @@
 
 add_executable(coffee
     src/main.cpp
+    src/progression/plugin.cpp
+    src/day_night/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)
