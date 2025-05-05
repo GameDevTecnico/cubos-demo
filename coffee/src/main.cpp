@@ -18,6 +18,7 @@
 
 #include "map_generator/plugin.hpp"
 #include "ui_effects/plugin.hpp"
+#include "car/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -40,6 +41,7 @@ int main(int argc, char** argv)
     // Add game plugins
     cubos.plugin(coffee::mapGeneratorPlugin);
     cubos.plugin(coffee::uiEffectsPlugin);
+    cubos.plugin(demo::carPlugin);
 
     cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
         ImGui::SetCurrentContext(holder.context);

@@ -1,0 +1,63 @@
+{
+"#car": {
+    "demo::Car": {
+      "playerOwner": 1,
+      "drivetrain": 0
+    },
+    "cubos::engine::BoxCollisionShape": {
+        "x": 7.0,
+        "y": 3.0,
+        "z": 16.0
+    },
+    "cubos::engine::CollisionLayers": 1,
+    "cubos::engine::CollisionMask": 3,
+    "cubos::engine::PhysicsBundle": {
+      "mass": 100,
+      "centerOfMass": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "cubos::engine::Position": {
+      "x": 0,
+      "y": 30,
+      "z": 0
+    },
+    "cubos::engine::RenderVoxelGrid": {
+        "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75"
+    },
+    "#wheel-front-left": {
+      "demo::Wheel": {
+        "axis": 0,
+        "mass": 25,
+        "gripFactor": 0.9
+      },
+      "cubos::engine::Position": {"x": -6, "y": 0, "z": 9}
+    },
+    "#wheel-front-right": {
+      "demo::Wheel": {
+        "axis": 0,
+        "mass": 25,
+        "gripFactor": 0.9
+      },
+      "cubos::engine::Position": {"x": 6, "y": 0, "z": 9}
+    },
+    "#wheel-back-left": {
+      "demo::Wheel": {
+        "axis": 1,
+        "mass": 25,
+        "gripFactor": 0.3
+      },
+      "cubos::engine::Position": {"x": -6, "y": 0, "z": -9}
+    },
+    "#wheel-back-right": {
+      "demo::Wheel": {
+        "axis": 1,
+        "mass": 25,
+        "gripFactor": 0.3
+      },
+      "cubos::engine::Position": {"x": 6, "y": 0, "z": -9}
+    }
+  }
+}
