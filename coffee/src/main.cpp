@@ -16,6 +16,8 @@
 #include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 
+#include "map_generator/plugin.hpp"
+
 using namespace cubos::engine;
 
 static const Asset<VoxelPalette> PaletteAsset = AnyAsset("96e982ca-a18e-49e0-bf0b-2ddbbcf4d4cb");
@@ -34,7 +36,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::dayNightPlugin);
 
     // Add game plugins
-    // TODO
+    cubos.plugin(coffee::mapGeneratorPlugin);
 
     cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
         ImGui::SetCurrentContext(holder.context);
