@@ -63,7 +63,7 @@ void demo::dayNightPlugin(Cubos& cubos)
 
             // Update the render environment.
             renderEnvironment.ambient = glm::mix(glm::vec3(0.4F), glm::vec3(0.1F), state.state);
-            renderEnvironment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
-            renderEnvironment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
+            renderEnvironment.skyGradient[0] = glm::mix({0.6F, 1.0F, 0.8F}, glm::vec3(0.1F), state.state);
+            renderEnvironment.skyGradient[1] = glm::mix({0.6F, 1.0F, 0.8F}, glm::vec3(0.1F), state.state);
         });
 }
