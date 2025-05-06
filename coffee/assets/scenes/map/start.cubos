@@ -1,7 +1,10 @@
 {
     "#road": {
         "cubos::engine::RenderVoxelGrid": {
-            "asset": "4548d5d5-6c16-4151-a34b-a10a67fd2249"
+            "asset": "add570e8-8688-4b57-8de7-914ce34f72c1"
+        },
+        "cubos::engine::Position": {
+            "y": 11.5
         },
         "cubos::engine::Rotation": {
             "x": 0.0,

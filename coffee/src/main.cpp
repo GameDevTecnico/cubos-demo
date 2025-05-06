@@ -16,6 +16,7 @@
 #include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 
+#include "map/plugin.hpp"
 #include "map_generator/plugin.hpp"
 #include "ui_effects/plugin.hpp"
 #include "car/plugin.hpp"
@@ -41,6 +42,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::followPlugin);
 
     // Add game plugins
+    cubos.plugin(coffee::mapPlugin);
     cubos.plugin(coffee::mapGeneratorPlugin);
     cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(demo::carPlugin);
