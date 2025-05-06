@@ -18,14 +18,14 @@
             "positive": [
                 {
                     "keys": [
-                        "S"
+                        "Down"
                     ]
                 }
             ],
             "negative": [
                 {
                     "keys": [
-                        "W"
+                        "Up"
                     ]
                 }
             ],
@@ -37,14 +37,14 @@
             "positive": [
                 {
                     "keys": [
-                        "D"
+                        "Right"
                     ]
                 }
             ],
             "negative": [
                 {
                     "keys": [
-                        "A"
+                        "Left"
                     ]
                 }
             ],
