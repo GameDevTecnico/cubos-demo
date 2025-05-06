@@ -6,6 +6,9 @@
         "cubos::engine::RenderVoxelGrid": {
             "asset": "50032612-f987-4591-8763-e740ab705f10"
         },
+        "cubos::engine::Position": {
+            "y": -5.0
+        },
         "cubos::engine::Rotation": {
             "x": 0.0,
             "y": 1.0,
