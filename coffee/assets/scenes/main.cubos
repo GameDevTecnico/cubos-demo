@@ -25,6 +25,13 @@
       "y": 0.0,
       "z": 50.0
     },
+    "cubos::engine::Rotation": {},
+    "demo::Follow#knight": {
+        "distance": 50.0,
+        "phi": 0.0,
+        "theta": 270.0,
+        "halfTime": 2
+      },
     "cubos::engine::PerspectiveCamera": {
       "fovY": 60.0
     },
@@ -32,6 +39,7 @@
   },
   "#knight": {
     "cubos::engine::Position": {},
+    "cubos::engine::Rotation": {},
     "cubos::engine::RenderVoxelGrid": {
       "asset": "6f04466d-1fec-4a6f-b84c-d1e529fc69c1"
     }

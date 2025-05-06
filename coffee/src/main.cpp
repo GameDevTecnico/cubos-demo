@@ -19,6 +19,7 @@
 #include "map_generator/plugin.hpp"
 #include "ui_effects/plugin.hpp"
 #include "car/plugin.hpp"
+#include "follow/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -37,6 +38,7 @@ int main(int argc, char** argv)
     cubos.plugin(toolsPlugin);
     cubos.plugin(demo::progressionPlugin);
     cubos.plugin(demo::dayNightPlugin);
+    cubos.plugin(demo::followPlugin);
 
     // Add game plugins
     cubos.plugin(coffee::mapGeneratorPlugin);

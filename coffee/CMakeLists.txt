@@ -8,6 +8,7 @@ add_executable(coffee
     src/map_generator/plugin.cpp
     src/ui_effects/plugin.cpp
     src/car/plugin.cpp
+    src/follow/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)
