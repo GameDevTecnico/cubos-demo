@@ -208,8 +208,8 @@ void demo::carPlugin(Cubos& cubos)
                         continue;
                     }
 
-                    gizmos.color({0.0F, 0.0F, 1.0F});
-                    gizmos.drawLine("line", wheelLTW.worldPosition(), hit->point);
+                    // gizmos.color({0.0F, 0.0F, 1.0F});
+                    // gizmos.drawLine("line", wheelLTW.worldPosition(), hit->point);
 
                     calculateSuspensionForces(distance, wheelLTW, car, carMass, carForce, carVelocity, carAngVelocity,
                                               carCOM, carLTW);
