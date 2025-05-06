@@ -41,84 +41,16 @@
       "y": -10.0
     },
     "coffee::MapGenerator": {
-      "length": 20,
-      "start": {
-        "scene": "f8ee3077-938e-4bbd-9fa8-acb4d440874f",
-        "connectors": [
-          {
-            "position": {
-              "x": 0.0,
-              "z": -32.0
-            }
-          }
-        ]
+      "tileSize": {
+        "x": 68,
+        "y": 68
       },
-      "middle": [
-        {
-          "scene": "c57a9b23-128a-4fbf-9a0b-7d7be052eab3",
-          "connectors": [
-            {
-              "position": {
-                "x": 0.0,
-                "z": 32.0
-              }
-            },
-            {
-              "position": {
-                "x": 0.0,
-                "z": -32.0
-              }
-            }
-          ]
-        },
-        {
-          "scene": "11a5e491-cfa2-443e-a264-b169a0cce982",
-          "connectors": [
-            {
-              "position": {
-                "x": 6.0,
-                "z": 28.0
-              }
-            },
-            {
-              "position": {
-                "x": -28.0,
-                "z": -6.0
-              },
-              "rotation": 1
-            }
-          ]
-        },
-        {
-          "scene": "1f10c948-ee61-453c-9225-67430c8004d1",
-          "connectors": [
-            {
-              "position": {
-                "x": -6.0,
-                "z": 28.0
-              }
-            },
-            {
-              "position": {
-                "x": 28.0,
-                "z": -6.0
-              },
-              "rotation": -1
-            }
-          ]
-        }
-      ],
-      "end": {
-        "scene": "2bd823a5-b11d-461f-b909-340e822b5b17",
-        "connectors": [
-          {
-            "position": {
-              "x": 0.0,
-              "z": 32.0
-            }
-          }
-        ]
-      }
+      "trackLength": 16,
+      "startTileScene": "f8ee3077-938e-4bbd-9fa8-acb4d440874f",
+      "endTileScene": "2bd823a5-b11d-461f-b909-340e822b5b17",
+      "straightTileScene": "c57a9b23-128a-4fbf-9a0b-7d7be052eab3",
+      "curveLeftTileScene": "11a5e491-cfa2-443e-a264-b169a0cce982",
+      "curveRightTileScene": "1f10c948-ee61-453c-9225-67430c8004d1"
     }
   }
 }

@@ -1,4 +1,5 @@
 #include "plugin.hpp"
+#include "../map/plugin.hpp"
 
 #include <random>
 
@@ -6,115 +7,91 @@
 
 #include <cubos/core/ecs/reflection.hpp>
 
-#include <cubos/engine/assets/plugin.hpp>
-#include <cubos/engine/scene/plugin.hpp>
-#include <cubos/engine/transform/plugin.hpp>
-
 using namespace cubos::engine;
-
-CUBOS_REFLECT_IMPL(coffee::MapConnector)
-{
-    return cubos::core::ecs::TypeBuilder<MapConnector>("coffee::MapConnector")
-        .withField("position", &MapConnector::position)
-        .withField("rotation", &MapConnector::rotation)
-        .build();
-}
-
-CUBOS_REFLECT_IMPL(coffee::MapTile)
-{
-    return cubos::core::ecs::TypeBuilder<MapTile>("coffee::MapTile")
-        .withField("scene", &MapTile::scene)
-        .withField("connectors", &MapTile::connectors)
-        .build();
-}
 
 CUBOS_REFLECT_IMPL(coffee::MapGenerator)
 {
     return cubos::core::ecs::TypeBuilder<MapGenerator>("coffee::MapGenerator")
-        .withField("length", &MapGenerator::length)
-        .withField("start", &MapGenerator::start)
-        .withField("middle", &MapGenerator::middle)
-        .withField("end", &MapGenerator::end)
+        .withField("tileSize", &MapGenerator::tileSize)
+        .withField("trackLength", &MapGenerator::trackLength)
+        .withField("startTileScene", &MapGenerator::startTileScene)
+        .withField("endTileScene", &MapGenerator::endTileScene)
+        .withField("straightTileScene", &MapGenerator::straightTileScene)
+        .withField("curveLeftTileScene", &MapGenerator::curveLeftTileScene)
+        .withField("curveRightTileScene", &MapGenerator::curveRightTileScene)
         .build();
+}
+
+static glm::ivec2 rotationToDirection(int rotation)
+{
+    rotation = (rotation + 4) % 4;
+    switch (rotation)
+    {
+    case 0:
+        return {0, 1};
+    case 1:
+        return {-1, 0};
+    case 2:
+        return {0, -1};
+    case 3:
+        return {1, 0};
+    default:
+        CUBOS_FAIL("Rotation must be between 0 and 3");
+    }
 }
 
 void coffee::mapGeneratorPlugin(Cubos& cubos)
 {
-    cubos.depends(assetsPlugin);
-    cubos.depends(scenePlugin);
-    cubos.depends(transformPlugin);
+    cubos.depends(mapPlugin);
 
     cubos.component<MapGenerator>();
 
-    cubos.observer("generate map")
+    cubos.observer("generate Map")
         .onAdd<MapGenerator>()
-        .call([](Commands cmds, Assets& assets, Query<Entity, MapGenerator&> query) {
+        .call([](Commands cmds, Query<Entity, MapGenerator&> query) {
+            std::mt19937 rng(std::random_device{}());
+            std::uniform_real_distribution<float> chanceDist(0.0F, 1.0F);
+
             for (auto [ent, generator] : query)
             {
-                std::mt19937 rng(std::random_device{}());
-                std::uniform_int_distribution<int> dist(0, generator.middle.size() - 1);
+                Map map{};
+                map.tileSize = generator.tileSize;
 
-                CUBOS_ASSERT(generator.start.connectors.size() == 1,
-                             "MapGenerator::start tile must have exactly one connector");
-                auto cursor = generator.start.connectors[0];
-                auto startEnt =
-                    cmds.spawn(assets.read(generator.start.scene)->blueprint()).named("start").add(Position{}).entity();
-                cmds.relate(startEnt, ent, ChildOf{});
+                // Start by placing the main road.
+                map.tiles[{0, 0}] = {generator.startTileScene, 0};
+                glm::ivec2 cursorPosition{0, 1};
+                int cursorRotation = 0;
 
-                for (std::size_t i = 0; i < generator.length; ++i)
+                for (std::size_t i = 0; i < generator.trackLength; ++i)
                 {
-                    int j = dist(rng);
-                    while (true)
+                    if (chanceDist(rng) < 0.6F)
                     {
-                        int newRot = cursor.rotation - generator.middle[j].connectors[0].rotation +
-                                     generator.middle[j].connectors[1].rotation;
-                        if (newRot >= -1 && newRot <= 1)
+                        bool left = chanceDist(rng) < 0.5F;
+                        if (cursorRotation == -1 && left || cursorRotation == 1 && !left)
                         {
-                            break;
+                            // If the rotation is too high, pick another tile.
+                            left = !left;
                         }
-                        // If the rotation is too high, pick another tile.
-                        j = dist(rng);
+
+                        // Place a curve.
+                        map.tiles[cursorPosition] = {
+                            left ? generator.curveLeftTileScene : generator.curveRightTileScene, cursorRotation};
+                        cursorRotation += left ? -1 : 1;
+                    }
+                    else
+                    {
+                        // Place a straight tile.
+                        map.tiles[cursorPosition] = {generator.straightTileScene, cursorRotation};
                     }
 
-                    auto& tile = generator.middle[j];
-                    CUBOS_ASSERT(tile.connectors.size() == 2,
-                                 "MapGenerator::middle tiles must have exactly two connectors");
-
-                    cursor.position -= tile.connectors[0].position *
-                                       glm::angleAxis(-glm::pi<float>() * 0.5F * static_cast<float>(cursor.rotation),
-                                                      glm::vec3{0.0F, 1.0F, 0.0F});
-                    cursor.rotation -= tile.connectors[0].rotation;
-                    auto middleEnt =
-                        cmds.spawn(assets.read(tile.scene)->blueprint())
-                            .named("middle" + std::to_string(i))
-                            .add(Position{cursor.position})
-                            .add(Rotation{glm::angleAxis(glm::pi<float>() * 0.5F * static_cast<float>(cursor.rotation),
-                                                         glm::vec3{0.0F, 1.0F, 0.0F})})
-                            .entity();
-                    cmds.relate(middleEnt, ent, ChildOf{});
-                    cursor.position += tile.connectors[1].position *
-                                       glm::angleAxis(-glm::pi<float>() * 0.5F * static_cast<float>(cursor.rotation),
-                                                      glm::vec3{0.0F, 1.0F, 0.0F});
-                    cursor.rotation += tile.connectors[1].rotation;
+                    cursorPosition += rotationToDirection(cursorRotation);
                 }
 
-                CUBOS_ASSERT(generator.end.connectors.size() == 1,
-                             "MapGenerator::end tile must have exactly one connector");
-
-                cursor.position -= generator.end.connectors[0].position *
-                                   glm::angleAxis(-glm::pi<float>() * 0.5F * static_cast<float>(cursor.rotation),
-                                                  glm::vec3{0.0F, 1.0F, 0.0F});
-                cursor.rotation -= generator.end.connectors[0].rotation;
-                auto endEnt =
-                    cmds.spawn(assets.read(generator.end.scene)->blueprint())
-                        .named("end")
-                        .add(Position{cursor.position})
-                        .add(Rotation{glm::angleAxis(glm::pi<float>() * 0.5F * static_cast<float>(cursor.rotation),
-                                                     glm::vec3{0.0F, 1.0F, 0.0F})})
-                        .entity();
-                cmds.relate(endEnt, ent, ChildOf{});
+                // Place the end tile.
+                map.tiles[cursorPosition] = {generator.endTileScene, cursorRotation};
 
                 cmds.remove<MapGenerator>(ent);
+                cmds.add(ent, map);
             }
         });
 }
