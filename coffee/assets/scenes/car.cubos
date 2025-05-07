@@ -1,13 +1,16 @@
 {
-"#car": {
+  "#car": {
     "demo::Car": {
       "playerOwner": 1,
-      "drivetrain": 0
+      "drivetrain": 0,
+      "suspensionRestDist": 2.5,
+      "springStrength": 200.0,
+      "springDamper": 300.0
     },
     "cubos::engine::BoxCollisionShape": {
-        "x": 7.0,
-        "y": 3.0,
-        "z": 16.0
+      "x": 3.75,
+      "y": 3.0,
+      "z": 8.0
     },
     "cubos::engine::CollisionLayers": 1,
     "cubos::engine::CollisionMask": 3,
@@ -24,16 +27,22 @@
       "y": 5,
       "z": 0
     },
-    "cubos::engine::RenderVoxelGrid": {
-        "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75"
-    },
-    "#wheel-front-left": {
-      "demo::Wheel": {
-        "axis": 0,
-        "mass": 25,
-        "gripFactor": 0.9
+    "#body": {
+      "cubos::engine::Scale": 0.25,
+      "cubos::engine::Position": {
+        "x": 0.0,
+        "y": -1.0,
+        "z": 0.0
       },
-      "cubos::engine::Position": {"x": -6, "y": 0, "z": 9}
+      "cubos::engine::Rotation": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0,
+        "w": 0.0
+      },
+      "cubos::engine::RenderVoxelGrid": {
+        "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75"
+      }
     },
     "#wheel-front-right": {
       "demo::Wheel": {
@@ -41,15 +50,35 @@
         "mass": 25,
         "gripFactor": 0.9
       },
-      "cubos::engine::Position": {"x": 6, "y": 0, "z": 9}
-    },
-    "#wheel-back-left": {
-      "demo::Wheel": {
-        "axis": 1,
-        "mass": 25,
-        "gripFactor": 0.3
+      "cubos::engine::Position": {
+        "x": -3.25,
+        "y": -3.0,
+        "z": 4.75
       },
-      "cubos::engine::Position": {"x": -6, "y": 0, "z": -9}
+      "#model": {
+        "cubos::engine::Scale": 0.25,
+        "cubos::engine::RenderVoxelGrid": {
+          "asset": "2066b168-67bf-441f-88ff-f17923093340"
+        }
+      }
+    },
+    "#wheel-front-left": {
+      "demo::Wheel": {
+        "axis": 0,
+        "mass": 25,
+        "gripFactor": 0.9
+      },
+      "cubos::engine::Position": {
+        "x": 3.25,
+        "y": -3.0,
+        "z": 4.75
+      },
+      "#model": {
+        "cubos::engine::Scale": 0.25,
+        "cubos::engine::RenderVoxelGrid": {
+          "asset": "2066b168-67bf-441f-88ff-f17923093340"
+        }
+      }
     },
     "#wheel-back-right": {
       "demo::Wheel": {
@@ -57,7 +86,35 @@
         "mass": 25,
         "gripFactor": 0.3
       },
-      "cubos::engine::Position": {"x": 6, "y": 0, "z": -9}
+      "cubos::engine::Position": {
+        "x": -3.25,
+        "y": -3.0,
+        "z": -4.25
+      },
+      "#model": {
+        "cubos::engine::Scale": 0.25,
+        "cubos::engine::RenderVoxelGrid": {
+          "asset": "2066b168-67bf-441f-88ff-f17923093340"
+        }
+      }
+    },
+    "#wheel-back-left": {
+      "demo::Wheel": {
+        "axis": 1,
+        "mass": 25,
+        "gripFactor": 0.3
+      },
+      "cubos::engine::Position": {
+        "x": 3.25,
+        "y": -3.0,
+        "z": -4.25
+      },
+      "#model": {
+        "cubos::engine::Scale": 0.25,
+        "cubos::engine::RenderVoxelGrid": {
+          "asset": "2066b168-67bf-441f-88ff-f17923093340"
+        }
+      }
     }
   }
 }

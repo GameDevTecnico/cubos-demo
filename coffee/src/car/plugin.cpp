@@ -23,7 +23,15 @@ CUBOS_REFLECT_IMPL(demo::Car)
     return cubos::core::ecs::TypeBuilder<Car>("demo::Car")
         .withField("playerOwner", &Car::playerOwner)
         .withField("drivetrain", &Car::drivetrain)
+        .withField("accelInput", &Car::accelInput)
+        .withField("enginePower", &Car::enginePower)
         .withField("topSpeed", &Car::topSpeed)
+        .withField("minimumSpeed", &Car::minimumSpeed)
+        .withField("resistanceMassRatio", &Car::resistanceMassRatio)
+        .withField("suspensionRestDist", &Car::suspensionRestDist)
+        .withField("wheelRadius", &Car::wheelRadius)
+        .withField("springStrength", &Car::springStrength)
+        .withField("springDamper", &Car::springDamper)
         .build();
 }
 
