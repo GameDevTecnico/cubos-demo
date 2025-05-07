@@ -57,7 +57,8 @@
       "curveRightTileScene": "1f10c948-ee61-453c-9225-67430c8004d1",
       "orangeBuildingTileScene": "82dcf9bc-baa6-48ef-adf2-d72b688d98ca",
       "blackBuildingTileScene": "7931f087-6b20-45bb-95e3-135bfd34ddf1",
-      "whiteBuildingTileScene": "c82c3ba5-d017-4ec6-88ae-85aa62aa131e"
+      "whiteBuildingTileScene": "c82c3ba5-d017-4ec6-88ae-85aa62aa131e",
+      "fillerBuildingTileScene": "72965074-abb2-455e-886c-0a66d23fe116"
     }
   }
 }
