@@ -217,7 +217,6 @@ void demo::carPlugin(Cubos& cubos)
                         glm::min(glm::distance(hit->point, ray.origin), car.suspensionRestDist);
                     if (wheel.currentSuspensionHeight >= car.suspensionRestDist)
                     {
-                        wheel.currentVelocity = 0.0F;
                         continue;
                     }
 
@@ -236,10 +235,6 @@ void demo::carPlugin(Cubos& cubos)
 
                     calculateAccelerationForces(wheel, wheelLTW, car, carMass, carForce, carVelocity, carAngVelocity,
                                                 carCOM, carLTW);
-                }
-                else
-                {
-                    wheel.currentVelocity = 0.0F;
                 }
             }
         });
