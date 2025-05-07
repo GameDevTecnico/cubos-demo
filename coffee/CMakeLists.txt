@@ -10,6 +10,7 @@ add_executable(coffee
     src/ui_effects/plugin.cpp
     src/car/plugin.cpp
     src/follow/plugin.cpp
+    src/interpolation/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)
