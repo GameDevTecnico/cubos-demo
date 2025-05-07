@@ -1,38 +1,11 @@
 {
-  "demo::Car": {
-    "playerOwner": 1,
-    "drivetrain": 0,
-    "suspensionRestDist": 2.5,
-    "springStrength": 200.0,
-    "springDamper": 300.0
-  },
-  "cubos::engine::BoxCollisionShape": {
-    "x": 3.75,
-    "y": 3.0,
-    "z": 8.0
-  },
-  "cubos::engine::CollisionLayers": 1,
-  "cubos::engine::CollisionMask": 3,
-  "cubos::engine::PhysicsBundle": {
-    "mass": 100,
-    "centerOfMass": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    }
-  },
-  "cubos::engine::Position": {
-    "x": 0,
-    "y": 5,
-    "z": 0
-  },
   "#body": {
-    "cubos::engine::Scale": 0.25,
     "cubos::engine::Position": {
       "x": 0.0,
       "y": -1.0,
       "z": 0.0
     },
+    "cubos::engine::Scale": 0.25,
     "cubos::engine::Rotation": {
       "x": 0.0,
       "y": 1.0,
@@ -44,11 +17,6 @@
     }
   },
   "#wheel-front-right": {
-    "demo::Wheel": {
-      "axis": 0,
-      "mass": 25,
-      "gripFactor": 0.9
-    },
     "cubos::engine::Position": {
       "x": -3.25,
       "y": -3.0,
