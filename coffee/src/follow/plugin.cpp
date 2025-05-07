@@ -14,6 +14,7 @@ CUBOS_REFLECT_IMPL(demo::Follow)
         .withField("phi", &Follow::phi)
         .withField("theta", &Follow::theta)
         .withField("halfTime", &Follow::halfTime)
+        .withField("rotationHalfTime", &Follow::rotationHalfTime)
         .tree() // Many-to-one relation.
         .build();
 }
