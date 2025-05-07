@@ -34,6 +34,7 @@ CUBOS_REFLECT_IMPL(demo::Car)
         .withField("springDamper", &Car::springDamper)
         .withField("minSuspensionHeight", &Car::minSuspensionHeight)
         .withField("suspensionHalfTime", &Car::suspensionHalfTime)
+        .withField("turnHalfTime", &Car::turnHalfTime)
         .build();
 }
 
@@ -187,15 +188,16 @@ void demo::carPlugin(Cubos& cubos)
                 float steeringAngle = glm::pi<float>() / 6.0F;
 
                 float steeringRotation = steeringInput * steeringAngle;
+                auto wheelAngleAlpha = 1.0F - glm::pow(0.5F, dt.value() / car.turnHalfTime);
 
                 if (steeringRotation != 0)
                 {
                     auto newRotation = steeringRotation;
-                    axleRotation.quat = glm::slerp(axleRotation.quat, glm::quat({0.0F, newRotation, 0.0F}), 0.3F);
+                    axleRotation.quat = glm::slerp(axleRotation.quat, glm::quat({0.0F, newRotation, 0.0F}), wheelAngleAlpha);
                 }
                 else
                 {
-                    axleRotation.quat = glm::slerp(axleRotation.quat, glm::quat({0.0F, 0.0F, 0.0F}), 0.2F);
+                    axleRotation.quat = glm::slerp(axleRotation.quat, glm::quat({0.0F, 0.0F, 0.0F}), wheelAngleAlpha);
                 }
             }
         });

@@ -31,6 +31,7 @@ namespace demo
 
         float minSuspensionHeight = 0.0F; // Minimum suspension height, only used to animate the wheels
         float suspensionHalfTime = 1.0F; // Time it takes for the tire model to reach half of the desired suspension height
+        float turnHalfTime = 1.0F; // Time it takes for the tires to rotate halfway to the desired angle
     };
 
     /// @brief Component which represents a wheel/suspension of a car
