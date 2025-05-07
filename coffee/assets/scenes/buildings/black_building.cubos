@@ -7,7 +7,7 @@
             "asset": "fd0b2311-d4c2-4f0f-b119-d3901f357aa7"
         },
         "cubos::engine::Position": {
-            "y": 29.0
+            "y": 19.0
         },
         "cubos::engine::Rotation": {
             "x": 0.0,
