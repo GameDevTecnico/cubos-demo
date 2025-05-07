@@ -36,15 +36,6 @@
   "#car" : {
     "inherit": "f91c4d18-7a4e-4269-aef2-3c9987d7df1e"
   },
-
-
-  "#knight": {
-    "cubos::engine::Position": {},
-    "cubos::engine::Rotation": {},
-    "cubos::engine::RenderVoxelGrid": {
-      "asset": "6f04466d-1fec-4a6f-b84c-d1e529fc69c1"
-    }
-  },
   "#map": {
     "cubos::engine::Position": {
       "y": -10.0
