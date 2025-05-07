@@ -1,6 +1,8 @@
 {
   "#render-target": {
-    "cubos::engine::RenderTargetDefaults": {},
+    "cubos::engine::RenderTargetDefaults": {
+      "ssao": null
+    },
     "cubos::engine::GizmosTarget": {}
   },
   "#sun": {
