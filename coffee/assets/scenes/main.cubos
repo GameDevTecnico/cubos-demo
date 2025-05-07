@@ -26,7 +26,8 @@
         "distance": 50.0,
         "phi": 0.0,
         "theta": 270.0,
-        "halfTime": 2
+        "halfTime": 0.25,
+        "rotationHalfTime": 0.25
       },
     "cubos::engine::PerspectiveCamera": {
       "fovY": 60.0
