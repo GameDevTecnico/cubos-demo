@@ -21,6 +21,7 @@
 #include "ui_effects/plugin.hpp"
 #include "car/plugin.hpp"
 #include "follow/plugin.hpp"
+#include "interpolation/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -42,6 +43,7 @@ int main(int argc, char** argv)
     cubos.plugin(demo::followPlugin);
 
     // Add game plugins
+    cubos.plugin(coffee::interpolationPlugin);
     cubos.plugin(coffee::mapPlugin);
     cubos.plugin(coffee::mapGeneratorPlugin);
     cubos.plugin(coffee::uiEffectsPlugin);
