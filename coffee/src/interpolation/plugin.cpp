@@ -64,7 +64,7 @@ void coffee::interpolationPlugin(Cubos& cubos)
             {
                 auto interpolatedEnt = cmds.spawn(assets.read(interpolated.scene)->blueprint()).entity();
                 cmds.relate(interpolatedEnt, entity, InterpolationOf{});
-                cmds.add(interpolatedEnt, InterpolatedDirty{});
+                cmds.add(interpolatedEnt, InterpolatedDirty{}).add(interpolatedEnt, Position{});
             }
         });
 
