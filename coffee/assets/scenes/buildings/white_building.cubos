@@ -1,13 +1,13 @@
 {
     "#building": {
-        "cubos::engine::VoxelCollisionShape": "fd0b2311-d4c2-4f0f-b119-d3901f357aa7",
+        "cubos::engine::VoxelCollisionShape": "83010100-9a19-40dd-a17c-4b009cb70757",
         "cubos::engine::CollisionLayers": 2,
         "cubos::engine::CollisionMask": 1,
         "cubos::engine::RenderVoxelGrid": {
-            "asset": "fd0b2311-d4c2-4f0f-b119-d3901f357aa7"
+            "asset": "83010100-9a19-40dd-a17c-4b009cb70757"
         },
         "cubos::engine::Position": {
-            "y": 34.0
+            "y": 29.0
         },
         "cubos::engine::Rotation": {
             "x": 0.0,
