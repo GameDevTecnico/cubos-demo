@@ -4,7 +4,8 @@
     "drivetrain": 0,
     "suspensionRestDist": 1.6,
     "springStrength": 200.0,
-    "springDamper": 500.0
+    "springDamper": 500.0,
+    "wheelRadius": 1.5
   },
   "cubos::engine::BoxCollisionShape": {
     "x": 3.0,
@@ -41,7 +42,14 @@
     "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
     }
   },
   "#wheel-front-left": {
@@ -58,7 +66,14 @@
     "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
     }
   },
   "#wheel-back-right": {
@@ -75,7 +90,14 @@
     "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
     }
   },
   "#wheel-back-left": {
@@ -92,7 +114,14 @@
     "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
     }
   }
 }

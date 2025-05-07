@@ -45,6 +45,10 @@ namespace demo
         // The distance from the wheel to the ground, or the suspension rest distance.
         // Determined automatically by the car plugin.
         float currentSuspensionHeight;
+
+        // Current velocity of the wheel.
+        // Determined automatically by the car plugin.
+        float currentVelocity;
     };
 
     void carPlugin(cubos::engine::Cubos& cubos);

@@ -160,9 +160,11 @@ void demo::carPlugin(Cubos& cubos)
     // query wheels and input, if wheels are front rotate according to input.
     cubos.system("read input and animate wheels")
         .call([](Input& input, DeltaTime& dt,
-                 Query<Position&, Rotation&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Car&> query) {
-            for (auto [modelPosition, modelRotation, childOf1, wheel, axleRotation, childOf2, car] : query)
+                 Query<Rotation&, ChildOf&, Position&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Car&> query) {
+            for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, car] : query)
             {
+                float wheelAngularVelocity = wheel.currentVelocity / car.wheelRadius;
+                modelRotation.quat *= glm::angleAxis(wheelAngularVelocity * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
                 modelPosition.vec.y = -wheel.currentSuspensionHeight;
 
                 if (wheel.axis != 0)
@@ -215,8 +217,13 @@ void demo::carPlugin(Cubos& cubos)
                         glm::min(glm::distance(hit->point, ray.origin), car.suspensionRestDist);
                     if (wheel.currentSuspensionHeight >= car.suspensionRestDist)
                     {
+                        wheel.currentVelocity = 0.0F;
                         continue;
                     }
+
+                    glm::vec3 r1 = wheelLTW.worldPosition() - carLTW.worldPosition();
+                    glm::vec3 tireWorldVelocity = carVelocity.vec + glm::cross(carAngVelocity.vec, r1);
+                    wheel.currentVelocity = glm::dot(wheelLTW.forward(), tireWorldVelocity);
 
                     // gizmos.color({0.0F, 0.0F, 1.0F});
                     // gizmos.drawLine("line", wheelLTW.worldPosition(), hit->point);
@@ -229,6 +236,10 @@ void demo::carPlugin(Cubos& cubos)
 
                     calculateAccelerationForces(wheel, wheelLTW, car, carMass, carForce, carVelocity, carAngVelocity,
                                                 carCOM, carLTW);
+                }
+                else
+                {
+                    wheel.currentVelocity = 0.0F;
                 }
             }
         });
