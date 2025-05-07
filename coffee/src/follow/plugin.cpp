@@ -18,17 +18,6 @@ CUBOS_REFLECT_IMPL(demo::Follow)
         .build();
 }
 
-/*
-settings da camara que seguem o player 
-
-"demo::Follow#knight": {
-        "distance": 50.0,
-        "phi": 90.0,
-        "theta": 0.0,
-        "halfTime": 0.25
-      },
-*/
-
 void demo::followPlugin(Cubos& cubos)
 {
     cubos.relation<Follow>();
@@ -42,13 +31,10 @@ void demo::followPlugin(Cubos& cubos)
             {
 
                 // Direction "backward" from the target's rotation.
-                glm::vec3 backDir = targetRotation.quat * glm::vec3(0.0F, 0.0F, -1.0F); // forward
-                glm::vec3 upDir = targetRotation.quat * glm::vec3(0.0F, 1.0F, 0.0F);    // up
+                glm::vec3 backDir = targetRotation.quat * glm::vec3(0.0F, 0.0F, 1.0F);
+                glm::vec3 upDir = targetRotation.quat * glm::vec3(0.0F, 1.0F, 0.0F);
 
-
-                glm::vec3 desired = targetPosition.vec 
-                              - backDir * follow.distance 
-                              + upDir * follow.height;
+                glm::vec3 desired = targetPosition.vec - backDir * follow.distance + upDir * follow.height;
 
                 // Move towards the desired position.
                 if (follow.initialized)
@@ -60,7 +46,6 @@ void demo::followPlugin(Cubos& cubos)
                 else
                 {
                     position.vec = desired;
-                    follow.initialized = true;
                 }
 
                 // Set the rotation to look at where the target would be if we had reached the desired position.
@@ -71,10 +56,18 @@ void demo::followPlugin(Cubos& cubos)
                 glm::vec3 direction = glm::normalize(targetPosition.vec - position.vec);
                 glm::quat desiredRot = glm::quatLookAt(direction, upDir);
 
-                // Interpolate rotation separately
-                float alphaRot = 1.0F - glm::pow(0.5F, dt.value() / follow.rotationHalfTime);
-                rotation.quat = glm::slerp(rotation.quat, desiredRot, alphaRot);
+                if (follow.initialized)
+                {
+                    // Interpolate rotation separately
+                    float alphaRot = 1.0F - glm::pow(0.5F, dt.value() / follow.rotationHalfTime);
+                    rotation.quat = glm::slerp(rotation.quat, desiredRot, alphaRot);
+                }
+                else
+                {
+                    rotation.quat = desiredRot;
+                }
 
+                follow.initialized = true;
             }
         });
 }
