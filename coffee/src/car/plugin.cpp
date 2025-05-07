@@ -158,13 +158,16 @@ void demo::carPlugin(Cubos& cubos)
 
     // system for turning wheel ()
     // query wheels and input, if wheels are front rotate according to input.
-    cubos.system("read input and turn wheels")
-        .call([](Input& input, DeltaTime& dt, Query<const Wheel&, Rotation&, ChildOf&, Car&> query) {
-            for (auto [wheel, rotation, childOf, car] : query)
+    cubos.system("read input and animate wheels")
+        .call([](Input& input, DeltaTime& dt,
+                 Query<Position&, Rotation&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Car&> query) {
+            for (auto [modelPosition, modelRotation, childOf1, wheel, axleRotation, childOf2, car] : query)
             {
+                modelPosition.vec.y = -wheel.currentSuspensionHeight;
+
                 if (wheel.axis != 0)
                 {
-                    rotation.quat = glm::quat({0.0F, 0.0F, 0.0F});
+                    axleRotation.quat = glm::quat({0.0F, 0.0F, 0.0F});
                     continue;
                 }
 
@@ -181,12 +184,11 @@ void demo::carPlugin(Cubos& cubos)
                 if (steeringRotation != 0)
                 {
                     auto newRotation = steeringRotation;
-
-                    rotation.quat = glm::slerp(rotation.quat, glm::quat({0.0F, newRotation, 0.0F}), 0.3F);
+                    axleRotation.quat = glm::slerp(axleRotation.quat, glm::quat({0.0F, newRotation, 0.0F}), 0.3F);
                 }
                 else
                 {
-                    rotation.quat = glm::slerp(rotation.quat, glm::quat({0.0F, 0.0F, 0.0F}), 0.2F);
+                    axleRotation.quat = glm::slerp(axleRotation.quat, glm::quat({0.0F, 0.0F, 0.0F}), 0.2F);
                 }
             }
         });
@@ -194,9 +196,8 @@ void demo::carPlugin(Cubos& cubos)
     cubos.system("calculate wheel forces")
         .tagged(physicsApplyForcesTag)
         .call([](Gizmos& gizmos,
-                 Query<const Wheel&, const Position&, const LocalToWorld&, ChildOf&, const Car&, const Rotation&,
-                       Velocity&, const AngularVelocity&, Force&, Torque&, const Mass&, const CenterOfMass&,
-                       const LocalToWorld&>
+                 Query<Wheel&, const Position&, const LocalToWorld&, ChildOf&, const Car&, const Rotation&, Velocity&,
+                       const AngularVelocity&, Force&, Torque&, const Mass&, const CenterOfMass&, const LocalToWorld&>
                      wheels,
                  Raycast raycast) {
             for (auto [wheel, wheelPosition, wheelLTW, childOf, car, carRotation, carVelocity, carAngVelocity, carForce,
@@ -210,8 +211,9 @@ void demo::carPlugin(Cubos& cubos)
                 // suspension force
                 if (hit)
                 {
-                    const float distance = glm::distance(hit->point, ray.origin);
-                    if (distance > car.suspensionRestDist)
+                    wheel.currentSuspensionHeight =
+                        glm::min(glm::distance(hit->point, ray.origin), car.suspensionRestDist);
+                    if (wheel.currentSuspensionHeight >= car.suspensionRestDist)
                     {
                         continue;
                     }
@@ -219,8 +221,8 @@ void demo::carPlugin(Cubos& cubos)
                     // gizmos.color({0.0F, 0.0F, 1.0F});
                     // gizmos.drawLine("line", wheelLTW.worldPosition(), hit->point);
 
-                    calculateSuspensionForces(distance, wheelLTW, car, carMass, carForce, carVelocity, carAngVelocity,
-                                              carCOM, carLTW);
+                    calculateSuspensionForces(wheel.currentSuspensionHeight, wheelLTW, car, carMass, carForce,
+                                              carVelocity, carAngVelocity, carCOM, carLTW);
 
                     calculateSteeringForces(wheel, wheelLTW, carMass, carForce, carVelocity, carAngVelocity, carCOM,
                                             carLTW);
