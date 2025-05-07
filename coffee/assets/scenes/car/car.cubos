@@ -8,7 +8,9 @@
     "wheelRadius": 1.5,
     "minSuspensionHeight": 0.9,
     "suspensionHalfTime": 0.075,
-    "turnHalfTime": 0.1
+    "turnHalfTime": 0.1,
+    "topSpeed": 75.0,
+    "enginePower": 1000.0
   },
   "cubos::engine::BoxCollisionShape": {
     "x": 3.0,
