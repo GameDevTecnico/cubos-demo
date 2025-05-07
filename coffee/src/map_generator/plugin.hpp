@@ -19,6 +19,9 @@ namespace coffee
         cubos::engine::Asset<cubos::engine::Scene> straightTileScene;
         cubos::engine::Asset<cubos::engine::Scene> curveLeftTileScene;
         cubos::engine::Asset<cubos::engine::Scene> curveRightTileScene;
+        cubos::engine::Asset<cubos::engine::Scene> orangeBuildingTileScene;
+        cubos::engine::Asset<cubos::engine::Scene> blackBuildingTileScene;
+        cubos::engine::Asset<cubos::engine::Scene> whiteBuildingTileScene;
     };
 
     void mapGeneratorPlugin(cubos::engine::Cubos& cubos);
