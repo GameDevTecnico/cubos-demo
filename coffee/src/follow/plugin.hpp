@@ -12,8 +12,6 @@ namespace demo
         CUBOS_REFLECT;
 
         float distance{1.0F};
-        float phi{0.0F};
-        float theta{0.0F};
         float height{15.0F};
 
         /// @brief Time in seconds until the camera reaches half of the distance to the target.

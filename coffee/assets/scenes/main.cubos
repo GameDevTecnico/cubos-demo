@@ -27,11 +27,10 @@
     "cubos::engine::Position": {},
     "cubos::engine::Rotation": {},
     "demo::Follow#car": {
-        "distance": 50.0,
-        "phi": 0.0,
-        "theta": 270.0,
+        "distance": 25.0,
+        "height": 7.5,
         "halfTime": 0.25,
-        "rotationHalfTime": 0.25
+        "rotationHalfTime": 0.0
       },
     "cubos::engine::PerspectiveCamera": {
       "fovY": 60.0
