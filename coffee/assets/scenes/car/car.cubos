@@ -6,7 +6,8 @@
     "springStrength": 200.0,
     "springDamper": 500.0,
     "wheelRadius": 1.5,
-    "minSuspensionHeight": 0.9
+    "minSuspensionHeight": 0.9,
+    "suspensionHalfTime": 0.075
   },
   "cubos::engine::BoxCollisionShape": {
     "x": 3.0,

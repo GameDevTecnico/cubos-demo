@@ -33,6 +33,7 @@ CUBOS_REFLECT_IMPL(demo::Car)
         .withField("springStrength", &Car::springStrength)
         .withField("springDamper", &Car::springDamper)
         .withField("minSuspensionHeight", &Car::minSuspensionHeight)
+        .withField("suspensionHalfTime", &Car::suspensionHalfTime)
         .build();
 }
 
@@ -166,7 +167,10 @@ void demo::carPlugin(Cubos& cubos)
             {
                 float wheelAngularVelocity = wheel.currentVelocity / car.wheelRadius;
                 modelRotation.quat *= glm::angleAxis(wheelAngularVelocity * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
-                modelPosition.vec.y = -glm::max(wheel.currentSuspensionHeight, car.minSuspensionHeight);
+
+                auto desiredWheelHeight = -glm::max(wheel.currentSuspensionHeight, car.minSuspensionHeight);
+                auto wheelHeightAlpha = 1.0F - glm::pow(0.5F, dt.value() / car.suspensionHalfTime);
+                modelPosition.vec.y = glm::mix(modelPosition.vec.y, desiredWheelHeight, wheelHeightAlpha);
 
                 if (wheel.axis != 0)
                 {
