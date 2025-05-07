@@ -3,7 +3,9 @@
     "cubos::engine::RenderTargetDefaults": {
       "ssao": null
     },
-    "cubos::engine::GizmosTarget": {}
+    "cubos::engine::GizmosTarget": {},
+    "cubos::engine::UICanvas": {},
+    "cubos::engine::UIExpand": {}
   },
   "#sun": {
     "cubos::engine::DirectionalLight": {

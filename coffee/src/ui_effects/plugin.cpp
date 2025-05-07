@@ -30,7 +30,7 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
 
     cubos.resource<State>();
 
-    cubos.system("update RenderEnvironment")
+    cubos.system("apply UI effects")
         .call([](const DeltaTime& dt, State& state, Query<UIText&, UIBlink&> textElements) {
             // Update time
             state.state += 4.0F * dt.value();

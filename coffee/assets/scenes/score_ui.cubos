@@ -1,0 +1,43 @@
+{
+  "cubos::engine::UIElement": {
+    "offset": {
+      "x": 160.0,
+      "y": -40.0
+    },
+    "anchor": {
+      "x": 0.0,
+      "y": 1.0
+    }
+  },
+  "#score-text": {
+    "cubos::engine::UIElement": {
+      "size": {
+        "x": 100.0,
+        "y": 100.0
+      },
+      "layer": 1
+    },
+    "cubos::engine::UIText": {
+      "text": "00000",
+      "fontSize": 80.0,
+      "fontAtlas": "bd0387d2-af3d-4c65-8561-33f5bcf6ab37"
+    },
+    "cubos::engine::UITextStretch": {}
+  },
+  "#score-bg": {
+    "cubos::engine::UIElement": {
+      "size": {
+        "x": 360.0,
+        "y": 140.0
+      }
+    },
+    "cubos::engine::UIColorRect": {
+      "color": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.5
+      }
+    }
+  }
+}
