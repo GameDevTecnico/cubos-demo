@@ -19,6 +19,9 @@ CUBOS_REFLECT_IMPL(coffee::MapGenerator)
         .withField("straightTileScene", &MapGenerator::straightTileScene)
         .withField("curveLeftTileScene", &MapGenerator::curveLeftTileScene)
         .withField("curveRightTileScene", &MapGenerator::curveRightTileScene)
+        .withField("orangeBuildingTileScene", &MapGenerator::orangeBuildingTileScene)
+        .withField("blackBuildingTileScene", &MapGenerator::blackBuildingTileScene)
+        .withField("whiteBuildingTileScene", &MapGenerator::whiteBuildingTileScene)
         .build();
 }
 
@@ -62,6 +65,11 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                 glm::ivec2 cursorPosition{0, 1};
                 int cursorRotation = 0;
 
+                // List of road tiles by the order they were placed in.
+                std::vector<std::pair<glm::ivec2, MapTile>> roadTiles;
+                std::vector<glm::ivec2> directions = {{1,0}, {0,1}, {-1,0}, {0,-1}};
+                MapTile newTile;
+
                 for (std::size_t i = 0; i < generator.trackLength; ++i)
                 {
                     if (chanceDist(rng) < 0.6F)
@@ -74,17 +82,51 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                         }
 
                         // Place a curve.
-                        map.tiles[cursorPosition] = {
-                            left ? generator.curveLeftTileScene : generator.curveRightTileScene, cursorRotation};
+
+                        newTile = {left ? generator.curveLeftTileScene : generator.curveRightTileScene, cursorRotation};
                         cursorRotation += left ? -1 : 1;
                     }
                     else
                     {
                         // Place a straight tile.
-                        map.tiles[cursorPosition] = {generator.straightTileScene, cursorRotation};
+                        newTile = {generator.straightTileScene, cursorRotation};
                     }
 
+                    map.tiles[cursorPosition] = newTile;
+                    roadTiles.push_back({cursorPosition, newTile});
+
                     cursorPosition += rotationToDirection(cursorRotation);
+                }
+
+                // Add surrounding buildings to the road tiles.
+                for (const auto& [position, tile] : roadTiles)
+                {
+                    // Check all adjacent directions of the road tile.
+                    for (int i = 0; i < 4; i++)
+                    {
+                        glm::ivec2 buildingPosition = position + directions[i];
+
+                        if (map.tiles.find(buildingPosition) == map.tiles.end())
+                        {
+                            float buildingChance = chanceDist(rng);
+                            cubos::engine::Asset<cubos::engine::Scene> buildingScene;
+
+                            // Choose random building color.
+                            if (buildingChance < 0.63)
+                            {
+                                buildingScene = generator.orangeBuildingTileScene;
+                            }
+                            else if (buildingChance < 0.9)
+                            {
+                                buildingScene = generator.blackBuildingTileScene;
+                            }
+                            else {
+                                buildingScene = generator.whiteBuildingTileScene;
+                            }
+
+                            map.tiles[buildingPosition] = {buildingScene, i+2};
+                        }
+                    }
                 }
 
                 // Place the end tile.
