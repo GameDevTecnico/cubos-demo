@@ -41,6 +41,10 @@ namespace demo
 
         // not implemented yet but we might want brakes/handbrake
         float brakeForce = 100.0F * 10.0F;
+
+        // The distance from the wheel to the ground, or the suspension rest distance.
+        // Determined automatically by the car plugin.
+        float currentSuspensionHeight;
     };
 
     void carPlugin(cubos::engine::Cubos& cubos);

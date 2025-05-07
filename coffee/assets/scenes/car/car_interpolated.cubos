@@ -2,10 +2,10 @@
   "#body": {
     "cubos::engine::Position": {
       "x": 0.0,
-      "y": -1.0,
+      "y": -0.35,
       "z": 0.0
     },
-    "cubos::engine::Scale": 0.25,
+    "cubos::engine::Scale": 0.2,
     "cubos::engine::Rotation": {
       "x": 0.0,
       "y": 1.0,
@@ -14,73 +14,6 @@
     },
     "cubos::engine::RenderVoxelGrid": {
       "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75"
-    }
-  },
-  "#wheel-front-right": {
-    "cubos::engine::Position": {
-      "x": -3.25,
-      "y": -3.0,
-      "z": 4.75
-    },
-    "#model": {
-      "cubos::engine::Scale": 0.25,
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "2066b168-67bf-441f-88ff-f17923093340"
-      }
-    }
-  },
-  "#wheel-front-left": {
-    "demo::Wheel": {
-      "axis": 0,
-      "mass": 25,
-      "gripFactor": 0.9
-    },
-    "cubos::engine::Position": {
-      "x": 3.25,
-      "y": -3.0,
-      "z": 4.75
-    },
-    "#model": {
-      "cubos::engine::Scale": 0.25,
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "2066b168-67bf-441f-88ff-f17923093340"
-      }
-    }
-  },
-  "#wheel-back-right": {
-    "demo::Wheel": {
-      "axis": 1,
-      "mass": 25,
-      "gripFactor": 0.3
-    },
-    "cubos::engine::Position": {
-      "x": -3.25,
-      "y": -3.0,
-      "z": -4.25
-    },
-    "#model": {
-      "cubos::engine::Scale": 0.25,
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "2066b168-67bf-441f-88ff-f17923093340"
-      }
-    }
-  },
-  "#wheel-back-left": {
-    "demo::Wheel": {
-      "axis": 1,
-      "mass": 25,
-      "gripFactor": 0.3
-    },
-    "cubos::engine::Position": {
-      "x": 3.25,
-      "y": -3.0,
-      "z": -4.25
-    },
-    "#model": {
-      "cubos::engine::Scale": 0.25,
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "2066b168-67bf-441f-88ff-f17923093340"
-      }
     }
   }
 }
