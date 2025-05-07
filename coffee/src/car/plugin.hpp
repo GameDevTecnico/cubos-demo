@@ -28,6 +28,8 @@ namespace demo
         float wheelRadius = 1.25F;
         float springStrength = 30.0F;
         float springDamper = 60.0F;
+
+        float minSuspensionHeight = 0.0F; // Minimum suspension height, only used to animate the wheels
     };
 
     /// @brief Component which represents a wheel/suspension of a car
