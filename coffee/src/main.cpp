@@ -38,14 +38,14 @@ int main(int argc, char** argv)
     cubos.plugin(audioPlugin);
     cubos.plugin(freeCameraPlugin);
     cubos.plugin(toolsPlugin);
-    cubos.plugin(demo::progressionPlugin);
-    cubos.plugin(demo::dayNightPlugin);
-    cubos.plugin(demo::followPlugin);
 
     // Add game plugins
     cubos.plugin(coffee::interpolationPlugin);
     cubos.plugin(coffee::mapPlugin);
     cubos.plugin(coffee::mapGeneratorPlugin);
+    cubos.plugin(demo::progressionPlugin);
+    cubos.plugin(demo::dayNightPlugin);
+    cubos.plugin(demo::followPlugin);
     cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(demo::carPlugin);
 
@@ -65,12 +65,6 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("set the Voxel Palette").tagged(assetsTag).call([](Assets& assets, RenderPalette& palette) {
         palette.asset = PaletteAsset;
-    });
-
-    cubos.startupSystem("set environment").call([](RenderEnvironment& environment) {
-        environment.ambient = {0.4F, 0.4F, 0.4F};
-        environment.skyGradient[0] = {0.6F, 1.0F, 0.8F};
-        environment.skyGradient[1] = {0.25F, 0.65F, 1.0F};
     });
 
     cubos.startupSystem("load and spawn the Main scene")

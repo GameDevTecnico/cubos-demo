@@ -1,4 +1,5 @@
 #include "plugin.hpp"
+#include "../interpolation/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -11,8 +12,7 @@ CUBOS_REFLECT_IMPL(demo::Follow)
 {
     return cubos::core::ecs::TypeBuilder<Follow>("demo::Follow")
         .withField("distance", &Follow::distance)
-        .withField("phi", &Follow::phi)
-        .withField("theta", &Follow::theta)
+        .withField("height", &Follow::height)
         .withField("halfTime", &Follow::halfTime)
         .withField("rotationHalfTime", &Follow::rotationHalfTime)
         .tree() // Many-to-one relation.
@@ -21,19 +21,26 @@ CUBOS_REFLECT_IMPL(demo::Follow)
 
 void demo::followPlugin(Cubos& cubos)
 {
-    cubos.relation<Follow>();
-
     cubos.depends(transformPlugin);
+    cubos.depends(coffee::interpolationPlugin);
+
+    cubos.relation<Follow>();
 
     cubos.system("update Follow relation transforms")
         .before(transformUpdateTag)
+        .with<Position>()
+        .with<Rotation>()
+        .related<Follow>(0, 1)
+        .related<coffee::InterpolationOf>(2, 1)
+        .with<Position>(2)
+        .with<Rotation>(2)
         .call([](const DeltaTime& dt, Query<Position&, Rotation&, Follow&, const Position&, const Rotation&> query) {
             for (auto [position, rotation, follow, targetPosition, targetRotation] : query)
             {
 
                 // Direction "backward" from the target's rotation.
                 glm::vec3 backDir = targetRotation.quat * glm::vec3(0.0F, 0.0F, 1.0F);
-                glm::vec3 upDir = targetRotation.quat * glm::vec3(0.0F, 1.0F, 0.0F);
+                glm::vec3 upDir = glm::vec3(0.0F, 1.0F, 0.0F);
 
                 glm::vec3 desired = targetPosition.vec - backDir * follow.distance + upDir * follow.height;
 
