@@ -1,5 +1,9 @@
 #pragma once
 
+#include <unordered_map>
+
+#include <cubos/core/ecs/entity/entity.hpp>
+#include <cubos/core/ecs/entity/hash.hpp>
 #include <cubos/core/reflection/reflect.hpp>
 
 #include <cubos/engine/prelude.hpp>
@@ -10,6 +14,15 @@ namespace coffee
     struct UIBlink
     {
         CUBOS_REFLECT;
+    };
+
+    /// @brief Component which manages score UIs for each player viewport in the render target
+    struct ScoreUIManager
+    {
+        CUBOS_REFLECT;
+
+        std::unordered_map<cubos::core::ecs::Entity, cubos::core::ecs::Entity, cubos::core::ecs::EntityHash>
+            scoreUIs; ///< Maps camera to score UI.
     };
 
     void uiEffectsPlugin(cubos::engine::Cubos& cubos);

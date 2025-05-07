@@ -5,7 +5,8 @@
     },
     "cubos::engine::GizmosTarget": {},
     "cubos::engine::UICanvas": {},
-    "cubos::engine::UIExpand": {}
+    "cubos::engine::UIExpand": {},
+    "coffee::ScoreUIManager": {}
   },
   "#sun": {
     "cubos::engine::DirectionalLight": {

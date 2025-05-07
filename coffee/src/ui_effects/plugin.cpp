@@ -3,6 +3,15 @@
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/engine/ui/text/plugin.hpp>
 #include <cubos/engine/ui/text/text.hpp>
+#include <cubos/engine/ui/canvas/element.hpp>
+#include <cubos/engine/ui/canvas/plugin.hpp>
+#include <cubos/engine/scene/scene.hpp>
+#include <cubos/engine/render/camera/draws_to.hpp>
+#include <cubos/engine/render/camera/camera.hpp>
+#include <cubos/engine/render/camera/plugin.hpp>
+#include <cubos/engine/render/split_screen/plugin.hpp>
+#include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/transform/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -22,23 +31,89 @@ CUBOS_REFLECT_IMPL(coffee::UIBlink)
     return cubos::core::ecs::TypeBuilder<UIBlink>("coffee::UIBlink").build();
 }
 
+CUBOS_REFLECT_IMPL(coffee::ScoreUIManager)
+{
+    return cubos::core::ecs::TypeBuilder<ScoreUIManager>("coffee::ScoreUIManager").build();
+}
+
+static const Asset<Scene> ScoreUISceneAsset = AnyAsset("d684383c-77b5-47c4-b017-724d42b84ca7");
+
 void coffee::uiEffectsPlugin(Cubos& cubos)
 {
     cubos.depends(uiTextPlugin);
+    cubos.depends(uiCanvasPlugin);
+    cubos.depends(cameraPlugin);
+    cubos.depends(assetsPlugin);
+    cubos.depends(transformPlugin);
+    cubos.depends(splitScreenPlugin);
 
     cubos.component<UIBlink>();
+    cubos.component<ScoreUIManager>();
 
     cubos.resource<State>();
 
-    cubos.system("apply UI effects")
-        .call([](const DeltaTime& dt, State& state, Query<UIText&, UIBlink&> textElements) {
-            // Update time
-            state.state += 4.0F * dt.value();
+    cubos.system("apply UI effects").call([](const DeltaTime& dt, State& state, Query<UIText&, UIBlink&> textElements) {
+        // Update time
+        state.state += 4.0F * dt.value();
 
-            // Update text transparency
-            for (auto [text, _] : textElements)
+        // Update text transparency
+        for (auto [text, _] : textElements)
+        {
+            text.color = glm::vec4(1.0F, 1.0F, 1.0F, 0.5F + 0.5F * glm::sin(state.state));
+        }
+    });
+
+    cubos.system("show score UI for each player")
+        .after(splitScreenTag)
+        .call([](Commands cmds, Assets& assets, Query<ScoreUIManager&> targets, Query<Entity, const Camera&> cameras,
+                 Query<Entity, const Camera&, const DrawsTo&, Entity, ScoreUIManager&> viewports,
+                 Query<UIElement&> elements) {
+            for (auto [manager] : targets)
             {
-                text.color = glm::vec4(1.0F, 1.0F, 1.0F, 0.5F + 0.5F * glm::sin(state.state));
+                // Remove UIs that are no longer needed
+                std::vector<Entity> removedCameras;
+                for (auto& [cameraEntity, _] : manager.scoreUIs)
+                {
+                    if (!cameras.at(cameraEntity))
+                    {
+                        removedCameras.push_back(cameraEntity);
+                    }
+                }
+                for (auto [cameraEntity, camera] : cameras)
+                {
+                    if (!camera.active && manager.scoreUIs.contains(cameraEntity))
+                    {
+                        removedCameras.push_back(cameraEntity);
+                    }
+                }
+                for (auto& cameraEntity : removedCameras)
+                {
+                    cmds.destroy(manager.scoreUIs[cameraEntity]);
+                    manager.scoreUIs.erase(cameraEntity);
+                }
+            }
+
+            for (auto [cameraEntity, camera, drawsTo, targetEntity, manager] : viewports)
+            {
+                if (camera.active && !manager.scoreUIs.contains(cameraEntity))
+                {
+                    // Add new UI
+                    manager.scoreUIs[cameraEntity] =
+                        cmds.spawn(*assets.read(ScoreUISceneAsset))
+                            .add(UIElement{.offset = glm::vec2(160.0F, -40.0F),
+                                           .anchor = glm::vec2(drawsTo.viewportOffset.x,
+                                                               drawsTo.viewportOffset.y + drawsTo.viewportSize.y)})
+                            .entity();
+
+                    cmds.relate(manager.scoreUIs[cameraEntity], targetEntity, ChildOf{});
+                }
+                else if (manager.scoreUIs.contains(cameraEntity))
+                {
+                    // Update UI position
+                    auto element = elements.at(manager.scoreUIs[cameraEntity]);
+                    std::get<0>(element.value()).anchor =
+                        glm::vec2(drawsTo.viewportOffset.x, drawsTo.viewportOffset.y + drawsTo.viewportSize.y);
+                }
             }
         });
 }
