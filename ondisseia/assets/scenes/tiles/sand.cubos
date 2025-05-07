@@ -2,9 +2,7 @@
     "cubos::engine::RenderVoxelGrid": {
         "asset": "83d53d80-f28a-4af6-bc02-63327401e3dd",
         "offset": {
-            "x": -7.5,
-            "y": -15.0,
-            "z": -7.5
+            "y": 7.5
         }
     },
     "cubos::engine::Scale": 0.06666666667

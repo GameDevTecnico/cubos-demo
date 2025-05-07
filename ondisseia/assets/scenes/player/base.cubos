@@ -9,9 +9,9 @@
 		},
 		"#hull": {
 			"cubos::engine::Position": {
-				"x": -7.5,
-				"y": 14.0,
-				"z": -7.5
+				"x": 0.0,
+				"y": 21.5,
+				"z": 0.0
 			},
 			"#flag": {
 				"cubos::engine::Position": {}
@@ -24,21 +24,27 @@
 			},
 			"#sailor1": {
 				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
-				"demo::SailorDeath#": 2,
+				"demo::SailorDeath#": {
+					"hp": 2
+				},
 				"cubos::engine::Position": {
 					"z": 0.0
 				}
 			},
 			"#sailor2": {
 				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
-				"demo::SailorDeath#": 0,
+				"demo::SailorDeath#": {
+					"hp": 0
+				},
 				"cubos::engine::Position": {
 					"z": -3.0
 				}
 			},
 			"#sailor3": {
 				"inherit": "c88b505b-cc6e-479b-930d-cf261dffc0ec",
-				"demo::SailorDeath#": 1,
+				"demo::SailorDeath#": {
+					"hp": 1
+				},
 				"cubos::engine::Position": {
 					"z": -6.0
 				}

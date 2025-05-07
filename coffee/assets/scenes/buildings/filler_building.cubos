@@ -1,0 +1,74 @@
+{
+    "#building": {
+        "cubos::engine::VoxelCollisionShape": "6cbcca56-196d-45c6-b54a-5b435002f697",
+        "cubos::engine::CollisionLayers": 2,
+        "cubos::engine::CollisionMask": 1,
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "6cbcca56-196d-45c6-b54a-5b435002f697"
+        },
+        "cubos::engine::Position": {
+            "y": 10.5
+        },
+        "cubos::engine::Rotation": {
+            "x": 0.0,
+            "y": 0.7071068,
+            "z": 0.0,
+            "w": 0.7071068
+        },
+        "cubos::engine::AccumulatedCorrection": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cubos::engine::Force": {},
+        "cubos::engine::Torque": {},
+        "cubos::engine::Impulse": {},
+        "cubos::engine::AngularImpulse": {},
+        "cubos::engine::Mass": {
+            "inverseMass": 0.0,
+            "mass": 1000.0,
+            "changed": false
+        },
+        "cubos::engine::Inertia": {
+            "inverseInertia": {
+                "a": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "b": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "c": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "autoUpdate": false
+        },
+        "cubos::engine::CenterOfMass": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cubos::engine::PhysicsMaterial": {
+            "friction": 0.0,
+            "bounciness": 0.0,
+            "frictionMix": "Average",
+            "bouncinessMix": "Average"
+        },
+        "cubos::engine::Velocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "cubos::engine::AngularVelocity": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

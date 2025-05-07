@@ -1,0 +1,65 @@
+{
+  "#render-target": {
+    "cubos::engine::RenderTargetDefaults": {
+      "ssao": null
+    },
+    "cubos::engine::GizmosTarget": {},
+    "cubos::engine::UICanvas": {},
+    "cubos::engine::UIExpand": {},
+    "coffee::ScoreUIManager": {}
+  },
+  "#sun": {
+    "cubos::engine::DirectionalLight": {
+      "color": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "intensity": 1.0
+    },
+    "cubos::engine::Rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 1.0
+    }
+  },
+  "#camera": {
+    "cubos::engine::Position": {},
+    "cubos::engine::Rotation": {},
+    "demo::Follow#car": {
+        "distance": 25.0,
+        "height": 7.5,
+        "halfTime": 0.25,
+        "rotationHalfTime": 0.05
+      },
+    "cubos::engine::PerspectiveCamera": {
+      "fovY": 60.0
+    },
+    "cubos::engine::DrawsTo#render-target": {}
+  },
+  "#car" : {
+    "inherit": "f91c4d18-7a4e-4269-aef2-3c9987d7df1e"
+  },
+  "#map": {
+    "cubos::engine::Position": {
+      "y": -10.0
+    },
+    "coffee::MapGenerator": {
+      "tileSize": {
+        "x": 68,
+        "y": 68
+      },
+      "trackLength": 16,
+      "startTileScene": "f8ee3077-938e-4bbd-9fa8-acb4d440874f",
+      "endTileScene": "2bd823a5-b11d-461f-b909-340e822b5b17",
+      "straightTileScene": "c57a9b23-128a-4fbf-9a0b-7d7be052eab3",
+      "curveLeftTileScene": "11a5e491-cfa2-443e-a264-b169a0cce982",
+      "curveRightTileScene": "1f10c948-ee61-453c-9225-67430c8004d1",
+      "orangeBuildingTileScene": "82dcf9bc-baa6-48ef-adf2-d72b688d98ca",
+      "blackBuildingTileScene": "7931f087-6b20-45bb-95e3-135bfd34ddf1",
+      "whiteBuildingTileScene": "c82c3ba5-d017-4ec6-88ae-85aa62aa131e",
+      "fillerBuildingTileScene": "72965074-abb2-455e-886c-0a66d23fe116"
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "demo::Car": {
+    "playerOwner": 1,
+    "drivetrain": 0,
+    "suspensionRestDist": 1.6,
+    "springStrength": 200.0,
+    "springDamper": 500.0,
+    "wheelRadius": 1.5,
+    "minSuspensionHeight": 0.9,
+    "suspensionHalfTime": 0.075,
+    "turnHalfTime": 0.1,
+    "topSpeed": 75.0,
+    "enginePower": 1000.0
+  },
+  "cubos::engine::BoxCollisionShape": {
+    "x": 3.0,
+    "y": 2.4,
+    "z": 6.4
+  },
+  "cubos::engine::CollisionLayers": 1,
+  "cubos::engine::CollisionMask": 3,
+  "cubos::engine::PhysicsBundle": {
+    "mass": 100,
+    "centerOfMass": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "cubos::engine::Position": {
+    "x": 0,
+    "y": 5,
+    "z": 0
+  },
+  "coffee::Interpolated": "d339e10a-c925-47f5-8a2a-28684178a947",
+  "#wheel-front-right": {
+    "demo::Wheel": {
+      "axis": 0,
+      "mass": 25,
+      "gripFactor": 0.9
+    },
+    "cubos::engine::Position": {
+      "x": -2.6,
+      "y": -2.0,
+      "z": 3.8
+    },
+    "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  },
+  "#wheel-front-left": {
+    "demo::Wheel": {
+      "axis": 0,
+      "mass": 25,
+      "gripFactor": 0.9
+    },
+    "cubos::engine::Position": {
+      "x": 2.6,
+      "y": -2.0,
+      "z": 3.8
+    },
+    "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  },
+  "#wheel-back-right": {
+    "demo::Wheel": {
+      "axis": 1,
+      "mass": 25,
+      "gripFactor": 0.3
+    },
+    "cubos::engine::Position": {
+      "x": -2.6,
+      "y": -2.0,
+      "z": -3.4
+    },
+    "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  },
+  "#wheel-back-left": {
+    "demo::Wheel": {
+      "axis": 1,
+      "mass": 25,
+      "gripFactor": 0.3
+    },
+    "cubos::engine::Position": {
+      "x": 2.6,
+      "y": -2.0,
+      "z": -3.4
+    },
+    "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "coffee::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "coffee::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  }
+}
