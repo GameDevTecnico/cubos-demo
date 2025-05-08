@@ -70,5 +70,8 @@
             "y": 0.0,
             "z": 0.0
         }
+    },
+    "#toilet-paper": {
+            "inherit": "f78cf3d5-da2f-4756-b394-7291de673b66"
     }
 }

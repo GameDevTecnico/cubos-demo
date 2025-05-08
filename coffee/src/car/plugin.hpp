@@ -4,7 +4,7 @@
 #include <glm/vec3.hpp>
 #include <cubos/engine/prelude.hpp>
 
-namespace demo
+namespace coffee
 {
     /// @brief Component which represents a car drivable by a player
     struct Car
@@ -59,4 +59,4 @@ namespace demo
     };
 
     void carPlugin(cubos::engine::Cubos& cubos);
-} // namespace demo
+} // namespace coffee

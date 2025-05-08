@@ -22,6 +22,7 @@
 #include "car/plugin.hpp"
 #include "follow/plugin.hpp"
 #include "interpolation/plugin.hpp"
+#include "toilet_paper/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -43,11 +44,12 @@ int main(int argc, char** argv)
     cubos.plugin(coffee::interpolationPlugin);
     cubos.plugin(coffee::mapPlugin);
     cubos.plugin(coffee::mapGeneratorPlugin);
-    cubos.plugin(demo::progressionPlugin);
-    cubos.plugin(demo::dayNightPlugin);
+    cubos.plugin(coffee::progressionPlugin);
+    cubos.plugin(coffee::dayNightPlugin);
     cubos.plugin(demo::followPlugin);
     cubos.plugin(coffee::uiEffectsPlugin);
-    cubos.plugin(demo::carPlugin);
+    cubos.plugin(coffee::carPlugin);
+    cubos.plugin(coffee::toiletPaperPlugin);
 
     cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
         ImGui::SetCurrentContext(holder.context);
