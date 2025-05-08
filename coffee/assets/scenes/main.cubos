@@ -9,14 +9,7 @@
     "coffee::ScoreUIManager": {}
   },
   "#sun": {
-    "cubos::engine::DirectionalLight": {
-      "color": {
-        "x": 1.0,
-        "y": 1.0,
-        "z": 1.0
-      },
-      "intensity": 1.0
-    },
+    "cubos::engine::DirectionalLight": {},
     "cubos::engine::Rotation": {
       "x": 0.0,
       "y": 0.0,
@@ -28,17 +21,17 @@
     "cubos::engine::Position": {},
     "cubos::engine::Rotation": {},
     "demo::Follow#car": {
-        "distance": 25.0,
-        "height": 7.5,
-        "halfTime": 0.25,
-        "rotationHalfTime": 0.05
-      },
+      "distance": 25.0,
+      "height": 7.5,
+      "halfTime": 0.25,
+      "rotationHalfTime": 0.05
+    },
     "cubos::engine::PerspectiveCamera": {
       "fovY": 60.0
     },
     "cubos::engine::DrawsTo#render-target": {}
   },
-  "#car" : {
+  "#car": {
     "inherit": "f91c4d18-7a4e-4269-aef2-3c9987d7df1e"
   },
   "#map": {
@@ -61,5 +54,62 @@
       "whiteBuildingTileScene": "c82c3ba5-d017-4ec6-88ae-85aa62aa131e",
       "fillerBuildingTileScene": "72965074-abb2-455e-886c-0a66d23fe116"
     }
+  },
+  "demo::DayNightManager": {
+    "nightEnvironment": {
+      "ambient": {
+        "x": 0.03,
+        "y": 0.04,
+        "z": 0.05
+      },
+      "skyGradient": [
+        {
+          "x": 0.02,
+          "y": 0.02,
+          "z": 0.01
+        },
+        {
+          "x": 0.01,
+          "y": 0.01,
+          "z": 0.05
+        }
+      ]
+    },
+    "nightSunLight": {
+      "color": {
+        "x": 0.3,
+        "y": 0.35,
+        "z": 0.4
+      },
+      "intensity": 1.0
+    },
+    "dayEnvironment": {
+      "ambient": {
+        "x": 0.1,
+        "y": 0.08,
+        "z": 0.15
+      },
+      "skyGradient": [
+        {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 0.2
+        },
+        {
+          "x": 0.05,
+          "y": 0.02,
+          "z": 0.2
+        }
+      ]
+    },
+    "daySunLight": {
+      "color": {
+        "x": 1.0,
+        "y": 0.63,
+        "z": 0.39
+      },
+      "intensity": 1.0
+    },
+    "dayCarLightIntensity": 0.0
   }
 }
