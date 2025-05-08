@@ -10,11 +10,19 @@
   },
   "#sun": {
     "cubos::engine::DirectionalLight": {},
+    "cubos::engine::DirectionalShadowCaster": {
+      "baseSettings": {
+        "bias": 0.001,
+        "blurRadius": 0.1
+      },
+      "nearDistance": 0.0,
+      "maxDistance": 1000.0
+    },
     "cubos::engine::Rotation": {
-      "x": 0.0,
-      "y": 0.0,
-      "z": 0.0,
-      "w": 1.0
+      "x": 0.1710101,
+      "y": 0.1710101,
+      "z": 0.0301537,
+      "w": 0.9698463
     }
   },
   "#camera": {
