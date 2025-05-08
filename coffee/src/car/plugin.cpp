@@ -89,12 +89,12 @@ namespace demo
         glm::vec3 steeringDir =
             glm::cross(wheelLTW.forward(), wheelLTW.up()); // we should be able to do wheelLTW.right()
 
-        if (car.handBrakeOn && wheel.axis == 1 && car.accelInput > 0.0F)
+        if (car.handBrakeOn && wheel.axis == 1)
         {
             float carLateralSpeed = glm::abs(glm::dot(steeringDir, carVelocity.vec));
             carTorque.add({0.0F,
                            carMass.mass * car.steerInput *
-                               glm::lerp(70.0F, 0.0F, glm::clamp(carLateralSpeed / 30.0F, 0.0F, 1.0F)),
+                               glm::lerp(100.0F, 0.0F, glm::clamp(carLateralSpeed / 30.0F, 0.0F, 1.0F)),
                            0.0F});
             return;
         }
@@ -123,14 +123,30 @@ namespace demo
                                             const AngularVelocity& carAngVelocity, const CenterOfMass& carCOM,
                                             const LocalToWorld& carLTW)
     {
-        if (car.handBrakeOn && wheel.axis != car.drivetrain)
+        if (car.handBrakeOn)
         {
             glm::vec3 accelDir = carLTW.forward();
-            float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-            float resistance = carSpeed * carMass.mass / 2.0F;
+            if (wheel.axis != car.drivetrain)
+            {
+                glm::vec3 accelDir = carLTW.forward();
+                float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+                float resistance = carSpeed * carMass.mass / 2.0F;
 
-            carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
-                                     carCOM.vec);
+                carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
+                                         carCOM.vec);
+            }
+            {
+                float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+
+                // limit power to max speed so it doesn't accelerate more
+                float carEnginePower =
+                    carSpeed >= car.topSpeed || carSpeed <= car.minimumSpeed ? 0.0F : car.enginePower;
+
+                float torque = 0.5F * carEnginePower;
+
+                carForce.addForceOnPoint(accelDir * torque, wheelLTW.worldPosition() - carLTW.worldPosition(),
+                                         carCOM.vec);
+            }
             return;
         }
 
