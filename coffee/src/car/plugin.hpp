@@ -16,6 +16,8 @@ namespace demo
         int drivetrain = 1; // 0 is front wheel drive, 1 is rear wheel drive
 
         float accelInput = 0.0F;
+        float steerInput = 0.0F;
+        bool handBrakeOn = false;
 
         // engine
         float enginePower = 100.0F * 20.0F;
@@ -30,7 +32,8 @@ namespace demo
         float springDamper = 60.0F;
 
         float minSuspensionHeight = 0.0F; // Minimum suspension height, only used to animate the wheels
-        float suspensionHalfTime = 1.0F; // Time it takes for the tire model to reach half of the desired suspension height
+        float suspensionHalfTime =
+            1.0F;                  // Time it takes for the tire model to reach half of the desired suspension height
         float turnHalfTime = 1.0F; // Time it takes for the tires to rotate halfway to the desired angle
     };
 
