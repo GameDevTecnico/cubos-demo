@@ -15,5 +15,43 @@
     "cubos::engine::RenderVoxelGrid": {
       "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75"
     }
+  },
+  "#left-head-light": {
+    "cubos::engine::Position": {
+      "x": -1.8,
+      "y": -0.35,
+      "z": 6.0
+    },
+    "cubos::engine::Rotation": {
+      "x": 0.258819,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 0.9659258
+    },
+    "demo::CarLight": {},
+    "cubos::engine::SpotLight": {
+      "range": 200.0,
+      "innerSpotAngle": 90.0,
+      "spotAngle": 160.0
+    }
+  },
+  "#right-head-light": {
+    "cubos::engine::Position": {
+      "x": 1.8,
+      "y": -0.35,
+      "z": 6.0
+    },
+    "cubos::engine::Rotation": {
+      "x": 0.258819,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 0.9659258
+    },
+    "demo::CarLight": {},
+    "cubos::engine::SpotLight": {
+      "range": 200.0,
+      "innerSpotAngle": 90.0,
+      "spotAngle": 160.0
+    }
   }
 }
