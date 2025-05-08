@@ -28,7 +28,7 @@
   "#camera": {
     "cubos::engine::Position": {},
     "cubos::engine::Rotation": {},
-    "demo::Follow#car": {
+    "coffee::Follow#car": {
       "distance": 25.0,
       "height": 7.5,
       "halfTime": 0.25,
@@ -63,7 +63,7 @@
       "fillerBuildingTileScene": "72965074-abb2-455e-886c-0a66d23fe116"
     }
   },
-  "demo::DayNightManager": {
+  "coffee::DayNightManager": {
     "nightEnvironment": {
       "ambient": {
         "x": 0.03,

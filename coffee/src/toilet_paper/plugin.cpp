@@ -9,6 +9,7 @@
 #include <cubos/engine/physics/constraints/distance_constraint.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
+#include <cubos/engine/physics/solver/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -24,6 +25,7 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
     cubos.depends(physicsPlugin);
     cubos.depends(collisionsPlugin);
     cubos.depends(coffee::carPlugin);
+    cubos.depends(physicsSolverPlugin);
 
     cubos.component<ToiletPaper>();
 
@@ -34,14 +36,29 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
                 {
                     if (!toiletPaper.attached)
                     {
+                        CUBOS_WARN("ut");
                         commands.relate(ent1, ent2,
-                                        DistanceConstraint{.isRigid = false,
-                                                           .minDistance = 3.0F,
-                                                           .maxDistance = 5.0F,
-                                                           .localAnchor1 = {0.0F, 0.0F, -10.0F},
+                                        DistanceConstraint{.entity = ent2,
+                                                           .isRigid = false,
+                                                           .minDistance = 0.0F,
+                                                           .maxDistance = 8.0F,
+                                                           .localAnchor1 = {0.0F, 0.0F, 0.0F},
                                                            .localAnchor2 = {0.0F, 0.0F, 0.0F}});
                         toiletPaper.attached = true;
                     }
                 }
             });
+
+    cubos.system("apply gravity")
+        .tagged(physicsApplyForcesTag)
+        .call([](Query<Entity, const Car&, const DistanceConstraint&, Entity, Force&, const Mass&, const ToiletPaper&>
+                     query) {
+            for (auto [ent1, car, distanceconstraint, ent2, force, mass, toiletPaper] : query)
+            {
+                // Apply gravity force
+                glm::vec3 gravitationForce = mass.mass * glm::vec3(0.0F, -15.0F, 0.0F);
+
+                force.add(gravitationForce);
+            }
+        });
 }

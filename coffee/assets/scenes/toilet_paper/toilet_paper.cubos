@@ -1,8 +1,8 @@
 {
     "coffee::ToiletPaper": {},
     "cubos::engine::VoxelCollisionShape": "aec2f393-a20e-4cf1-9055-597c9a2af983",
-    "cubos::engine::CollisionLayers": 2,
-    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::CollisionLayers": 1,
+    "cubos::engine::CollisionMask": 3,
     "cubos::engine::RenderVoxelGrid": {
         "asset": "aec2f393-a20e-4cf1-9055-597c9a2af983"
     },
