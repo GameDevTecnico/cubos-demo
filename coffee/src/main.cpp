@@ -46,7 +46,7 @@ int main(int argc, char** argv)
     cubos.plugin(coffee::mapGeneratorPlugin);
     cubos.plugin(coffee::progressionPlugin);
     cubos.plugin(coffee::dayNightPlugin);
-    cubos.plugin(demo::followPlugin);
+    cubos.plugin(coffee::followPlugin);
     cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(coffee::carPlugin);
     cubos.plugin(coffee::toiletPaperPlugin);

@@ -9,6 +9,10 @@
 #include <cubos/engine/physics/constraints/distance_constraint.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
+#include <cubos/engine/transform/plugin.hpp>
+#include <cubos/engine/transform/child_of.hpp>
+#include <cubos/engine/transform/local_to_world.hpp>
+#include <cubos/engine/transform/position.hpp>
 
 using namespace cubos::engine;
 
@@ -19,13 +23,33 @@ CUBOS_REFLECT_IMPL(coffee::ToiletPaper)
         .build();
 }
 
+CUBOS_REFLECT_IMPL(coffee::MakeOrphan)
+{
+    return cubos::core::ecs::TypeBuilder<MakeOrphan>("coffee::MakeOrphan").build();
+}
+
 void coffee::toiletPaperPlugin(Cubos& cubos)
 {
+    cubos.depends(transformPlugin);
     cubos.depends(physicsPlugin);
     cubos.depends(collisionsPlugin);
     cubos.depends(coffee::carPlugin);
 
     cubos.component<ToiletPaper>();
+    cubos.component<MakeOrphan>();
+
+    cubos.system("remove make orphan")
+        .after(transformUpdateTag)
+        .call([](Commands commands,
+                 Query<Entity, const MakeOrphan&, const LocalToWorld&, Position&, const ChildOf&, Entity> query) {
+            for (auto [ent1, makeOrphan, localToWorld, pos, childOf, ent2] : query)
+            {
+                glm::vec3 worldPosition = localToWorld.worldPosition();
+                commands.unrelate<ChildOf>(ent1, ent2);
+                pos.vec = worldPosition;
+                commands.remove<MakeOrphan>(ent1);
+            }
+        });
 
     cubos.system("attach to car")
         .call(
@@ -44,4 +68,16 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
                     }
                 }
             });
+
+    cubos.system("apply gravity")
+        .tagged(physicsApplyForcesTag)
+        .call([](Query<Velocity&, Force&, const Mass&, const ToiletPaper&> query) {
+            for (auto [velocity, force, mass, toiletPaper] : query)
+            {
+                // Apply gravity force
+                glm::vec3 gravitationForce = mass.mass * glm::vec3(0.0F, -15.0F, 0.0F);
+
+                force.add(gravitationForce);
+            }
+        });
 }

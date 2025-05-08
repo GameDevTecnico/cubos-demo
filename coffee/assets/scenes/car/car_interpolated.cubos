@@ -28,7 +28,7 @@
       "z": 0.0,
       "w": 0.9659258
     },
-    "demo::CarLight": {},
+    "coffee::CarLight": {},
     "cubos::engine::SpotLight": {
       "range": 200.0,
       "innerSpotAngle": 90.0,
@@ -47,7 +47,7 @@
       "z": 0.0,
       "w": 0.9659258
     },
-    "demo::CarLight": {},
+    "coffee::CarLight": {},
     "cubos::engine::SpotLight": {
       "range": 200.0,
       "innerSpotAngle": 90.0,

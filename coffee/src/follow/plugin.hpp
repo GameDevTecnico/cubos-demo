@@ -4,7 +4,7 @@
 
 #include <cubos/engine/prelude.hpp>
 
-namespace demo
+namespace coffee
 {
     /// @brief Relation which makes an entity smoothly follow another entity at a given distance and angle.
     struct Follow
@@ -22,4 +22,4 @@ namespace demo
     };
 
     void followPlugin(cubos::engine::Cubos& cubos);
-} // namespace demo
+} // namespace coffee

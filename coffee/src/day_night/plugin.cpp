@@ -11,9 +11,9 @@
 
 using namespace cubos::engine;
 
-CUBOS_REFLECT_IMPL(demo::DayNightManager)
+CUBOS_REFLECT_IMPL(coffee::DayNightManager)
 {
-    return cubos::core::ecs::TypeBuilder<DayNightManager>("demo::DayNightManager")
+    return cubos::core::ecs::TypeBuilder<DayNightManager>("coffee::DayNightManager")
         .withField("state", &DayNightManager::state)
         .withField("speed", &DayNightManager::speed)
         .withField("nightEnvironment", &DayNightManager::nightEnvironment)
@@ -25,9 +25,9 @@ CUBOS_REFLECT_IMPL(demo::DayNightManager)
         .build();
 }
 
-CUBOS_REFLECT_IMPL(demo::CarLight)
+CUBOS_REFLECT_IMPL(coffee::CarLight)
 {
-    return cubos::core::ecs::TypeBuilder<CarLight>("demo::CarLight").build();
+    return cubos::core::ecs::TypeBuilder<CarLight>("coffee::CarLight").build();
 }
 
 void coffee::dayNightPlugin(Cubos& cubos)
