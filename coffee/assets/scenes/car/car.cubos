@@ -1,7 +1,7 @@
 {
   "demo::Car": {
     "playerOwner": 1,
-    "drivetrain": 0,
+    "drivetrain": 1,
     "suspensionRestDist": 1.6,
     "springStrength": 200.0,
     "springDamper": 500.0,
@@ -37,7 +37,7 @@
     "demo::Wheel": {
       "axis": 0,
       "mass": 25,
-      "gripFactor": 0.9
+      "gripFactor": 0.8
     },
     "cubos::engine::Position": {
       "x": -2.6,
@@ -61,7 +61,7 @@
     "demo::Wheel": {
       "axis": 0,
       "mass": 25,
-      "gripFactor": 0.9
+      "gripFactor": 0.8
     },
     "cubos::engine::Position": {
       "x": 2.6,
@@ -85,7 +85,7 @@
     "demo::Wheel": {
       "axis": 1,
       "mass": 25,
-      "gripFactor": 0.3
+      "gripFactor": 0.8
     },
     "cubos::engine::Position": {
       "x": -2.6,
@@ -109,7 +109,7 @@
     "demo::Wheel": {
       "axis": 1,
       "mass": 25,
-      "gripFactor": 0.3
+      "gripFactor": 0.8
     },
     "cubos::engine::Position": {
       "x": 2.6,
