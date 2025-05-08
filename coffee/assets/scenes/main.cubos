@@ -91,6 +91,7 @@
       },
       "intensity": 1.0
     },
+    "nightCarLightIntensity": 3.0,
     "dayEnvironment": {
       "ambient": {
         "x": 0.1,
