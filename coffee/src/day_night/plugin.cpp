@@ -30,7 +30,7 @@ CUBOS_REFLECT_IMPL(demo::CarLight)
     return cubos::core::ecs::TypeBuilder<CarLight>("demo::CarLight").build();
 }
 
-void demo::dayNightPlugin(Cubos& cubos)
+void coffee::dayNightPlugin(Cubos& cubos)
 {
     cubos.depends(lightsPlugin);
     cubos.depends(progressionPlugin);

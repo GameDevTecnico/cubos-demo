@@ -11,6 +11,7 @@ add_executable(coffee
     src/car/plugin.cpp
     src/follow/plugin.cpp
     src/interpolation/plugin.cpp
+    src/toilet_paper/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)
