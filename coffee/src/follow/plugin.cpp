@@ -8,9 +8,9 @@
 
 using namespace cubos::engine;
 
-CUBOS_REFLECT_IMPL(demo::Follow)
+CUBOS_REFLECT_IMPL(coffee::Follow)
 {
-    return cubos::core::ecs::TypeBuilder<Follow>("demo::Follow")
+    return cubos::core::ecs::TypeBuilder<Follow>("coffee::Follow")
         .withField("distance", &Follow::distance)
         .withField("height", &Follow::height)
         .withField("halfTime", &Follow::halfTime)
@@ -19,7 +19,7 @@ CUBOS_REFLECT_IMPL(demo::Follow)
         .build();
 }
 
-void demo::followPlugin(Cubos& cubos)
+void coffee::followPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
     cubos.depends(coffee::interpolationPlugin);

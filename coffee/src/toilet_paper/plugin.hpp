@@ -11,5 +11,10 @@ namespace coffee
         bool attached = false;
     };
 
+    struct MakeOrphan
+    {
+        CUBOS_REFLECT;
+    };
+
     void toiletPaperPlugin(cubos::engine::Cubos& cubos);
 } // namespace coffee

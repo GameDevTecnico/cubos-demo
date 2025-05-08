@@ -1,13 +1,16 @@
 {
     "coffee::ToiletPaper": {},
+    "coffee::MakeOrphan": {},
     "cubos::engine::VoxelCollisionShape": "aec2f393-a20e-4cf1-9055-597c9a2af983",
-    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionLayers": 1,
     "cubos::engine::CollisionMask": 1,
     "cubos::engine::RenderVoxelGrid": {
         "asset": "aec2f393-a20e-4cf1-9055-597c9a2af983"
     },
     "cubos::engine::Position": {
-            "y": 2.0
+        "x": 0,
+        "y": 2,
+        "z": 0
     },
     "cubos::engine::Scale": 0.13,
     "cubos::engine::PhysicsBundle": {
