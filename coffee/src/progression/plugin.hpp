@@ -4,7 +4,7 @@
 
 #include <cubos/engine/prelude.hpp>
 
-namespace demo
+namespace coffee
 {
     /// @brief Resource which holds the current progression of the game.
     struct Progression
@@ -22,4 +22,4 @@ namespace demo
     };
 
     void progressionPlugin(cubos::engine::Cubos& cubos);
-} // namespace demo
+} // namespace coffee

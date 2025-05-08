@@ -5,16 +5,16 @@
 
 using namespace cubos::engine;
 
-CUBOS_REFLECT_IMPL(demo::Progression)
+CUBOS_REFLECT_IMPL(coffee::Progression)
 {
-    return cubos::core::ecs::TypeBuilder<Progression>("demo::Progression")
+    return cubos::core::ecs::TypeBuilder<Progression>("coffee::Progression")
         .withField("dayDuration", &Progression::dayDuration)
         .withField("daysPassed", &Progression::daysPassed)
         .withField("timeOfDay", &Progression::timeOfDay)
         .build();
 }
 
-void demo::progressionPlugin(Cubos& cubos)
+void coffee::progressionPlugin(Cubos& cubos)
 {
     cubos.resource<Progression>();
 

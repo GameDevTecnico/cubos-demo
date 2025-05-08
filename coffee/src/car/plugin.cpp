@@ -18,9 +18,9 @@
 
 using namespace cubos::engine;
 
-CUBOS_REFLECT_IMPL(demo::Car)
+CUBOS_REFLECT_IMPL(coffee::Car)
 {
-    return cubos::core::ecs::TypeBuilder<Car>("demo::Car")
+    return cubos::core::ecs::TypeBuilder<Car>("coffee::Car")
         .withField("playerOwner", &Car::playerOwner)
         .withField("drivetrain", &Car::drivetrain)
         .withField("accelInput", &Car::accelInput)
@@ -38,9 +38,9 @@ CUBOS_REFLECT_IMPL(demo::Car)
         .build();
 }
 
-CUBOS_REFLECT_IMPL(demo::Wheel)
+CUBOS_REFLECT_IMPL(coffee::Wheel)
 {
-    return cubos::core::ecs::TypeBuilder<Wheel>("demo::Wheel")
+    return cubos::core::ecs::TypeBuilder<Wheel>("coffee::Wheel")
         .withField("axis", &Wheel::axis)
         .withField("gripFactor", &Wheel::gripFactor)
         .withField("mass", &Wheel::mass)
@@ -48,7 +48,7 @@ CUBOS_REFLECT_IMPL(demo::Wheel)
         .build();
 }
 
-namespace demo
+namespace coffee
 {
     static void calculateGravity(const LocalToWorld& wheelLTW, const Mass& carMass, Force& carForce,
                                  const CenterOfMass& carCOM, const LocalToWorld& carLTW)
@@ -166,9 +166,9 @@ namespace demo
                                      carCOM.vec);
         }
     }
-} // namespace demo
+} // namespace coffee
 
-void demo::carPlugin(Cubos& cubos)
+void coffee::carPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
     cubos.depends(inputPlugin);

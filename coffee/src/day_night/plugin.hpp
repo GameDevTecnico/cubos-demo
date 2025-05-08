@@ -4,7 +4,7 @@
 #include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/render/lights/directional.hpp>
 
-namespace demo
+namespace coffee
 {
     struct DayNightManager
     {
@@ -41,4 +41,4 @@ namespace demo
     };
 
     void dayNightPlugin(cubos::engine::Cubos& cubos);
-} // namespace demo
+} // namespace coffee

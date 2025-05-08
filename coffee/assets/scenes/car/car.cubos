@@ -1,5 +1,5 @@
 {
-  "demo::Car": {
+  "coffee::Car": {
     "playerOwner": 1,
     "drivetrain": 1,
     "suspensionRestDist": 1.6,
@@ -34,7 +34,7 @@
   },
   "coffee::Interpolated": "d339e10a-c925-47f5-8a2a-28684178a947",
   "#wheel-front-right": {
-    "demo::Wheel": {
+    "coffee::Wheel": {
       "axis": 0,
       "mass": 25,
       "gripFactor": 0.8
@@ -58,7 +58,7 @@
     }
   },
   "#wheel-front-left": {
-    "demo::Wheel": {
+    "coffee::Wheel": {
       "axis": 0,
       "mass": 25,
       "gripFactor": 0.8
@@ -82,7 +82,7 @@
     }
   },
   "#wheel-back-right": {
-    "demo::Wheel": {
+    "coffee::Wheel": {
       "axis": 1,
       "mass": 25,
       "gripFactor": 0.8
@@ -106,7 +106,7 @@
     }
   },
   "#wheel-back-left": {
-    "demo::Wheel": {
+    "coffee::Wheel": {
       "axis": 1,
       "mass": 25,
       "gripFactor": 0.8
