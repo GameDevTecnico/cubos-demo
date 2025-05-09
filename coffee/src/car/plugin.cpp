@@ -227,7 +227,8 @@ void coffee::carPlugin(Cubos& cubos)
                 }
 
                 // save accel
-                car.accelInput = -input.axis("accelerate", carOwner.player);
+                car.accelInput = input.axis("throttle", carOwner.player);
+                car.accelInput -= input.axis("reverse", carOwner.player);
 
                 // handbrake
                 car.handBrakeOn = input.pressed("handbrake", carOwner.player);

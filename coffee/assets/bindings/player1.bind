@@ -17,11 +17,16 @@
                 "keys": [
                     "Tab"
                 ]
+            },
+            {
+                "gamepadButtons": [
+                    "Start"
+                ]
             }
         ]
     },
     "axes": {
-        "accelerate": {
+        "reverse": {
             "positive": [
                 {
                     "keys": [
@@ -29,7 +34,12 @@
                     ]
                 }
             ],
-            "negative": [
+            "gamepadAxes": [
+                "LTrigger"
+            ]
+        },
+        "throttle": {
+            "positive": [
                 {
                     "keys": [
                         "W"
@@ -37,7 +47,7 @@
                 }
             ],
             "gamepadAxes": [
-                "LY"
+                "RTrigger"
             ]
         },
         "steer": {
