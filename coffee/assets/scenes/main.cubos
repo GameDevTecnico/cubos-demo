@@ -1,7 +1,8 @@
 {
   "#render-target": {
     "cubos::engine::RenderTargetDefaults": {
-      "ssao": null
+      "ssao": null,
+      "picker": null
     },
     "cubos::engine::GizmosTarget": {},
     "cubos::engine::UICanvas": {},
@@ -10,14 +11,6 @@
   },
   "#sun": {
     "cubos::engine::DirectionalLight": {},
-    "cubos::engine::DirectionalShadowCaster": {
-      "baseSettings": {
-        "bias": 0.001,
-        "blurRadius": 0.1
-      },
-      "nearDistance": 0.0,
-      "maxDistance": 1000.0
-    },
     "cubos::engine::Rotation": {
       "x": 0.1710101,
       "y": 0.1710101,
@@ -60,7 +53,8 @@
       "orangeBuildingTileScene": "82dcf9bc-baa6-48ef-adf2-d72b688d98ca",
       "blackBuildingTileScene": "7931f087-6b20-45bb-95e3-135bfd34ddf1",
       "whiteBuildingTileScene": "c82c3ba5-d017-4ec6-88ae-85aa62aa131e",
-      "fillerBuildingTileScene": "72965074-abb2-455e-886c-0a66d23fe116"
+      "fillerBuildingTileScene": "72965074-abb2-455e-886c-0a66d23fe116",
+      "marketBuildingTileScene": "f52b15be-c722-453e-9005-8737224f3c80"
     }
   },
   "coffee::DayNightManager": {
@@ -91,7 +85,7 @@
       },
       "intensity": 1.0
     },
-    "nightCarLightIntensity": 1.0,
+    "nightCarLightIntensity": 2.0,
     "dayEnvironment": {
       "ambient": {
         "x": 0.1,
@@ -119,6 +113,6 @@
       },
       "intensity": 1.0
     },
-    "dayCarLightIntensity": 1.0
+    "dayCarLightIntensity": 2.0
   }
 }

@@ -1,19 +1,19 @@
 {
-    "#road": {
-        "cubos::engine::VoxelCollisionShape": "eaf687e4-0cc6-4700-a009-5a30877f1e46",
+    "#building": {
+        "cubos::engine::VoxelCollisionShape": "fb3dbb92-65ab-4eff-9f5f-1db991bd4ae1",
         "cubos::engine::CollisionLayers": 2,
         "cubos::engine::CollisionMask": 1,
         "cubos::engine::RenderVoxelGrid": {
-            "asset": "eaf687e4-0cc6-4700-a009-5a30877f1e46"
+            "asset": "fb3dbb92-65ab-4eff-9f5f-1db991bd4ae1"
         },
         "cubos::engine::Position": {
-            "y": -5.0
+            "y": 21.0
         },
         "cubos::engine::Rotation": {
             "x": 0.0,
-            "y": -0.7071068,
+            "y": 0.7071068,
             "z": 0.0,
-            "w": 0.7071068
+            "w": -0.7071068
         },
         "cubos::engine::AccumulatedCorrection": {
             "x": 0.0,
@@ -69,6 +69,17 @@
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
+        }
+    },
+    "#toilet-paper": {
+        "coffee::SpawnOrphan": {
+            "scene": "f78cf3d5-da2f-4756-b394-7291de673b66",
+            "entity": "#toilet-paper"
+        },
+        "cubos::engine::Position": {
+            "x": 0,
+            "y": 2,
+            "z": -20
         }
     }
 }
