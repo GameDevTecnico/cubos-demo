@@ -23,6 +23,7 @@ CUBOS_REFLECT_IMPL(coffee::MapGenerator)
         .withField("blackBuildingTileScene", &MapGenerator::blackBuildingTileScene)
         .withField("whiteBuildingTileScene", &MapGenerator::whiteBuildingTileScene)
         .withField("fillerBuildingTileScene", &MapGenerator::fillerBuildingTileScene)
+        .withField("marketBuildingTileScene", &MapGenerator::marketBuildingTileScene)
         .build();
 }
 
@@ -94,9 +95,16 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
 
                 map.tiles[cursorPosition] = newTile;
                 roadTiles.push_back({cursorPosition, newTile});
-
                 cursorPosition += rotationToDirection(cursorRotation);
             }
+
+            // Place the end tile.
+            map.tiles[cursorPosition] = {generator.endTileScene, cursorRotation};
+            roadTiles.push_back({cursorPosition, map.tiles[cursorPosition]});
+            cursorPosition += rotationToDirection(cursorRotation);
+
+            // Place the supermarket building.
+            map.tiles[cursorPosition] = {generator.marketBuildingTileScene, cursorRotation};
 
             // Add surrounding buildings to the road tiles.
             for (const auto& [position, tile] : roadTiles)
@@ -143,9 +151,6 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                     }
                 }
             }
-
-            // Place the end tile.
-            map.tiles[cursorPosition] = {generator.endTileScene, cursorRotation};
 
             cmds.remove<MapGenerator>(ent);
             cmds.add(ent, map);
