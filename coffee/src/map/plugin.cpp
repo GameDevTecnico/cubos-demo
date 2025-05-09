@@ -46,7 +46,7 @@ void coffee::mapPlugin(Cubos& cubos)
                         .add(Rotation{glm::angleAxis(-glm::pi<float>() * 0.5F * static_cast<float>(tile.rotation),
                                                      glm::vec3{0.0F, 1.0F, 0.0F})})
                         .entity();
-                cmds.relate(mapEnt, tileEnt, ChildOf{});
+                cmds.relate(tileEnt, mapEnt, ChildOf{});
             }
 
             cmds.remove<Map>(mapEnt);

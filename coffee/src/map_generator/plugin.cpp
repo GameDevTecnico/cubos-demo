@@ -18,6 +18,7 @@ CUBOS_REFLECT_IMPL(coffee::MapGenerator)
         .withField("finishTileScene", &MapGenerator::finishTileScene)
         .withField("endTileScene", &MapGenerator::endTileScene)
         .withField("straightTileScene", &MapGenerator::straightTileScene)
+        .withField("straightWithRampTileScene", &MapGenerator::straightWithRampTileScene)
         .withField("curveLeftTileScene", &MapGenerator::curveLeftTileScene)
         .withField("curveRightTileScene", &MapGenerator::curveRightTileScene)
         .withField("orangeBuildingTileScene", &MapGenerator::orangeBuildingTileScene)
@@ -77,12 +78,15 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
 
             int successiveCurves = 0;
             int successiveStraight = 0;
+            int successiveNoRamp = 0;
             bool wasLastCurveLeft = false;
 
             for (std::size_t i = 0; i < generator.trackLength; ++i)
             {
+                successiveNoRamp += 1;
+
                 float curveChance = 0.25F + (0.25F * static_cast<float>(successiveStraight) +
-                                            0.5F * static_cast<float>(successiveCurves));
+                                             0.5F * static_cast<float>(successiveCurves));
                 if (successiveCurves >= 2)
                 {
                     // No more than 2 curves in a row.
@@ -114,11 +118,24 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                 }
                 else
                 {
+                    float rampChance =
+                        0.1F * static_cast<float>(successiveNoRamp) + 0.2F * static_cast<float>(successiveStraight);
+
                     successiveStraight += 1;
                     successiveCurves = 0;
 
-                    // Place a straight tile.
-                    newTile = {generator.straightTileScene, cursorRotation};
+                    if (chanceDist(rng) < rampChance)
+                    {
+                        successiveNoRamp = 0;
+                        int rotModifier = chanceDist(rng) < 0.5F ? 2 : 0;
+                        // Place a straight tile with a ramp.
+                        newTile = {generator.straightWithRampTileScene, cursorRotation + rotModifier};
+                    }
+                    else
+                    {
+                        // Place a straight tile.
+                        newTile = {generator.straightTileScene, cursorRotation};
+                    }
                 }
 
                 map.tiles[cursorPosition] = newTile;

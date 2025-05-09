@@ -18,6 +18,7 @@ namespace coffee
         cubos::engine::Asset<cubos::engine::Scene> finishTileScene;
         cubos::engine::Asset<cubos::engine::Scene> endTileScene;
         cubos::engine::Asset<cubos::engine::Scene> straightTileScene;
+        cubos::engine::Asset<cubos::engine::Scene> straightWithRampTileScene;
         cubos::engine::Asset<cubos::engine::Scene> curveLeftTileScene;
         cubos::engine::Asset<cubos::engine::Scene> curveRightTileScene;
         cubos::engine::Asset<cubos::engine::Scene> orangeBuildingTileScene;
