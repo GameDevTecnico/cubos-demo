@@ -72,6 +72,14 @@
         }
     },
     "#toilet-paper": {
-            "inherit": "f78cf3d5-da2f-4756-b394-7291de673b66"
+        "coffee::SpawnOrphan": {
+            "scene": "f78cf3d5-da2f-4756-b394-7291de673b66",
+            "entity": "#toilet-paper"
+        },
+        "cubos::engine::Position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+        }
     }
 }
