@@ -63,7 +63,30 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
             {
                 return;
             }
-            if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) || input.justPressed("handbrake", 3) ||
+
+            if (spawner.currentPlayers == 0 && input.gamepadCount() > 0)
+            {
+                input.gamepad(1, 0);
+            }
+            else if (spawner.currentPlayers > 1 && input.gamepadCount() > 0)
+            {
+                int freeGamepads = input.gamepadCount();
+                for (int i = spawner.currentPlayers; i >= 1; --i)
+                {
+                    if (freeGamepads > 0)
+                    {
+                        input.gamepad(i, freeGamepads - 1);
+                        freeGamepads--;
+                    }
+                    else
+                    {
+                        input.gamepad(i, -1);
+                    }
+                }
+            }
+
+            if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) ||
+                input.justPressed("handbrake", 3) ||
                 input.justPressed("handbrake", 4)) // potentially add all others here
             {
                 if (spawner.currentPlayers < 4)
