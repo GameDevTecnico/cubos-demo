@@ -1,4 +1,7 @@
 {
+    "cubos::engine::Position": {
+        "y": -1000.0
+    },
     "cubos::engine::RenderVoxelGrid": {
         "asset": "2066b168-67bf-441f-88ff-f17923093340"
     }

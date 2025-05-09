@@ -1,4 +1,7 @@
 {
+  "cubos::engine::Position": {
+    "y": -1000.0
+  },
   "#body": {
     "cubos::engine::Position": {
       "x": 0.0,

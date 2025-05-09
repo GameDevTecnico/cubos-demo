@@ -31,15 +31,15 @@ CUBOS_REFLECT_IMPL(coffee::Spawner)
 
 namespace coffee
 {
-    void spawnPlayerCar(int player, Commands* cmds, Assets& assets)
+    static void spawnPlayerCar(int player, Commands& cmds, Assets& assets)
     {
-        CUBOS_WARN("SPAWNED PLAYER {}", player);
+        CUBOS_INFO("Spawner player {}", player);
 
         // Spawn missing player.
         auto sceneRead = assets.read(CarSceneAsset);
         float side = (player % 2 == 0) ? -1 : 1;
         float offset = (player < 3) ? 1 : 3;
-        auto builder = cmds->spawn(*sceneRead)
+        auto builder = cmds.spawn(*sceneRead)
                            .add(PlayerOwner{.player = player, .canMove = false})
                            .add(Position{.vec = {side * offset * 5.0F, 30.0F, -5.0F}})
                            .named("car" + std::to_string(player));
@@ -66,16 +66,16 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
             if (input.justPressed("shoot", 1) || input.justPressed("shoot", 2) || input.justPressed("shoot", 3) ||
                 input.justPressed("shoot", 4)) // potentially add all others here
             {
-                CUBOS_INFO("spawning");
                 if (spawner.currentPlayers < 4)
                 {
                     spawner.currentPlayers++;
-                    spawnPlayerCar(spawner.currentPlayers, &cmds, assets);
+                    spawnPlayerCar(spawner.currentPlayers, cmds, assets);
                 }
             }
         });
 
-    cubos.system("read input and spawn cameras and begin game")
+    cubos.system("read input, spawn cameras and begin game")
+        .before(transformUpdateTag)
         .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, Query<Entity, PlayerOwner&> cars,
                  Query<Entity, const RenderTarget&> renderTargets,
                  Query<Entity, Camera&, Position&, Rotation&> cameras) {
