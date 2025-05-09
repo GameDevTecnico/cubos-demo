@@ -18,7 +18,7 @@
     "#left-lamp": {
         "inherit": "33fadc31-3b23-4463-a351-cd1fc5cb9d52",
         "cubos::engine::Position": {
-            "x": -23.0,
+            "x": -21.0,
             "y": 12.5
         },
         "cubos::engine::Rotation": {
@@ -31,7 +31,7 @@
     "#right-lamp": {
         "inherit": "33fadc31-3b23-4463-a351-cd1fc5cb9d52",
         "cubos::engine::Position": {
-            "x": 23.0,
+            "x": 21.0,
             "y": 12.5
         },
         "cubos::engine::Rotation": {
