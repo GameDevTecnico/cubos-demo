@@ -4,9 +4,6 @@
     "cubos::engine::VoxelCollisionShape": "aec2f393-a20e-4cf1-9055-597c9a2af983",
     "cubos::engine::CollisionLayers": 1,
     "cubos::engine::CollisionMask": 1,
-    "cubos::engine::RenderVoxelGrid": {
-        "asset": "aec2f393-a20e-4cf1-9055-597c9a2af983"
-    },
     "cubos::engine::Position": {
         "x": 0,
         "y": 2,
@@ -20,5 +17,6 @@
             "y": 0,
             "z": 0
         }
-    }
+    },
+    "coffee::Interpolated": "c4bbe8d3-0bbf-4aa4-8a62-9fcd80ba75ce"
 }
