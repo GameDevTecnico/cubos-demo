@@ -1,0 +1,30 @@
+{
+    "actions": {
+        "shoot": [
+            {
+                "gamepadButtons": [
+                    "A"
+                ]
+            }
+        ],
+        "play": [
+            {
+                "keys": [
+                    "Tab"
+                ]
+            }
+        ]
+    },
+    "axes": {
+        "move-y": {
+            "gamepadAxes": [
+                "LY"
+            ]
+        },
+        "move-x": {
+            "gamepadAxes": [
+                "LX"
+            ]
+        }
+    }
+}

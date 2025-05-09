@@ -32,7 +32,8 @@ static const Asset<Scene> MainSceneAsset = AnyAsset("b36dfc06-4ec3-4658-ba67-f8c
 static const Asset<Scene> IntroSceneAsset = AnyAsset("78d434eb-276b-4c80-9046-0f285bc3edfe");
 static const Asset<InputBindings> DebugBindingsAsset = AnyAsset("ba1151fe-c610-499c-96c2-c67f64f24425");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
-static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
+static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("a99968d5-ff46-48ec-a814-12d5ecdd41e9");
+static const Asset<InputBindings> PlayerNBindingsAsset = AnyAsset("c32aab5e-e959-4dde-a2c9-5c9b1b68d8bc");
 
 int main(int argc, char** argv)
 {
@@ -67,8 +68,8 @@ int main(int argc, char** argv)
         input.bind(*assets.read(DebugBindingsAsset), 0);
         input.bind(*assets.read(Player1BindingsAsset), 1);
         input.bind(*assets.read(Player2BindingsAsset), 2);
-        input.bind(*assets.read(Player1BindingsAsset), 3);
-        input.bind(*assets.read(Player1BindingsAsset), 4);
+        input.bind(*assets.read(PlayerNBindingsAsset), 3);
+        input.bind(*assets.read(PlayerNBindingsAsset), 4);
     });
 
     cubos.startupSystem("set the Voxel Palette").tagged(assetsTag).call([](Assets& assets, RenderPalette& palette) {
