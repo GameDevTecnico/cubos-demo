@@ -1,6 +1,6 @@
 {
     "actions": {
-        "shoot": [
+        "handbrake": [
             {
                 "keys": [
                     "M"
@@ -21,7 +21,7 @@
         ]
     },
     "axes": {
-        "move-y": {
+        "accelerate": {
             "positive": [
                 {
                     "keys": [
@@ -40,7 +40,7 @@
                 "LY"
             ]
         },
-        "move-x": {
+        "steer": {
             "positive": [
                 {
                     "keys": [

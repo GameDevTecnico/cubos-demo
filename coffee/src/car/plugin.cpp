@@ -227,13 +227,13 @@ void coffee::carPlugin(Cubos& cubos)
                 }
 
                 // save accel
-                car.accelInput = -input.axis("move-y", carOwner.player);
+                car.accelInput = -input.axis("accelerate", carOwner.player);
 
                 // handbrake
-                car.handBrakeOn = input.pressed("shoot", carOwner.player);
+                car.handBrakeOn = input.pressed("handbrake", carOwner.player);
 
                 // Get the user's input.
-                float steeringInput = -input.axis("move-x", carOwner.player);
+                float steeringInput = -input.axis("steer", carOwner.player);
                 car.steerInput = steeringInput;
 
                 float carSpeed = glm::abs(glm::dot(carLTW.forward(), carVelocity.vec));

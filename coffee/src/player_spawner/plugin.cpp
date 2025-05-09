@@ -63,8 +63,8 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
             {
                 return;
             }
-            if (input.justPressed("shoot", 1) || input.justPressed("shoot", 2) || input.justPressed("shoot", 3) ||
-                input.justPressed("shoot", 4)) // potentially add all others here
+            if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) || input.justPressed("handbrake", 3) ||
+                input.justPressed("handbrake", 4)) // potentially add all others here
             {
                 if (spawner.currentPlayers < 4)
                 {
