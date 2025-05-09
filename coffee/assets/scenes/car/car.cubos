@@ -1,6 +1,8 @@
 {
+  "coffee::PlayerOwner": {
+    "player": 1
+  },
   "coffee::Car": {
-    "playerOwner": 1,
     "drivetrain": 1,
     "suspensionRestDist": 1.6,
     "springStrength": 200.0,

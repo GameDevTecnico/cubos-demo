@@ -18,10 +18,16 @@
 
 using namespace cubos::engine;
 
+CUBOS_REFLECT_IMPL(coffee::PlayerOwner)
+{
+    return cubos::core::ecs::TypeBuilder<PlayerOwner>("coffee::PlayerOwner")
+        .withField("player", &PlayerOwner::player)
+        .build();
+}
+
 CUBOS_REFLECT_IMPL(coffee::Car)
 {
     return cubos::core::ecs::TypeBuilder<Car>("coffee::Car")
-        .withField("playerOwner", &Car::playerOwner)
         .withField("drivetrain", &Car::drivetrain)
         .withField("accelInput", &Car::accelInput)
         .withField("enginePower", &Car::enginePower)
@@ -193,6 +199,7 @@ void coffee::carPlugin(Cubos& cubos)
     cubos.depends(physicsPlugin);
     cubos.depends(gizmosPlugin);
 
+    cubos.component<PlayerOwner>();
     cubos.component<Car>();
     cubos.component<Wheel>();
 
@@ -201,10 +208,10 @@ void coffee::carPlugin(Cubos& cubos)
     cubos.system("read input and animate wheels")
         .call([](Input& input, DeltaTime& dt,
                  Query<Rotation&, ChildOf&, Position&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Car&,
-                       const LocalToWorld&, const Velocity&>
+                       const PlayerOwner&, const LocalToWorld&, const Velocity&>
                      query) {
-            for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, car, carLTW,
-                       carVelocity] : query)
+            for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, car, carOwner,
+                       carLTW, carVelocity] : query)
             {
                 float wheelAngularVelocity = wheel.currentVelocity / car.wheelRadius;
                 modelRotation.quat *= glm::angleAxis(wheelAngularVelocity * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
@@ -220,13 +227,13 @@ void coffee::carPlugin(Cubos& cubos)
                 }
 
                 // save accel
-                car.accelInput = -input.axis("move-y", car.playerOwner);
+                car.accelInput = -input.axis("move-y", carOwner.player);
 
                 // handbrake
-                car.handBrakeOn = input.pressed("shoot", car.playerOwner);
+                car.handBrakeOn = input.pressed("shoot", carOwner.player);
 
                 // Get the user's input.
-                float steeringInput = -input.axis("move-x", car.playerOwner);
+                float steeringInput = -input.axis("move-x", carOwner.player);
                 car.steerInput = steeringInput;
 
                 float carSpeed = glm::abs(glm::dot(carLTW.forward(), carVelocity.vec));
@@ -257,12 +264,13 @@ void coffee::carPlugin(Cubos& cubos)
     cubos.system("calculate wheel forces")
         .tagged(physicsApplyForcesTag)
         .call([](Gizmos& gizmos,
-                 Query<Wheel&, const Position&, const LocalToWorld&, ChildOf&, const Car&, const Rotation&, Velocity&,
-                       const AngularVelocity&, Force&, Torque&, const Mass&, const CenterOfMass&, const LocalToWorld&>
+                 Query<Wheel&, const Position&, const LocalToWorld&, ChildOf&, const Car&, const PlayerOwner&,
+                       Rotation&, Velocity&, const AngularVelocity&, Force&, Torque&, const Mass&, const CenterOfMass&,
+                       const LocalToWorld&>
                      wheels,
                  Raycast raycast) {
-            for (auto [wheel, wheelPosition, wheelLTW, childOf, car, carRotation, carVelocity, carAngVelocity, carForce,
-                       carTorque, carMass, carCOM, carLTW] : wheels)
+            for (auto [wheel, wheelPosition, wheelLTW, childOf, car, carOwner, carRotation, carVelocity, carAngVelocity,
+                       carForce, carTorque, carMass, carCOM, carLTW] : wheels)
             {
                 calculateGravity(wheelLTW, carMass, carForce, carCOM, carLTW);
 
@@ -292,8 +300,16 @@ void coffee::carPlugin(Cubos& cubos)
                     calculateSteeringForces(wheel, wheelLTW, car, carMass, carForce, carTorque, carVelocity,
                                             carAngVelocity, carCOM, carLTW);
 
-                    calculateAccelerationForces(wheel, wheelLTW, car, carMass, carForce, carVelocity, carAngVelocity,
-                                                carCOM, carLTW);
+                    if (!carOwner.canMove)
+                    {
+                        carVelocity.vec.x = 0.0F;
+                        carVelocity.vec.z = 0.0F;
+                    }
+                    else
+                    {
+                        calculateAccelerationForces(wheel, wheelLTW, car, carMass, carForce, carVelocity,
+                                                    carAngVelocity, carCOM, carLTW);
+                    }
                 }
             }
         });

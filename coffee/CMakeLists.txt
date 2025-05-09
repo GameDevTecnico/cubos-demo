@@ -12,6 +12,7 @@ add_executable(coffee
     src/follow/plugin.cpp
     src/interpolation/plugin.cpp
     src/toilet_paper/plugin.cpp
+    src/player_spawner/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)

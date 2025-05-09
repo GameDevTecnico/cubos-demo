@@ -26,21 +26,21 @@
     }
   },
   "#camera": {
-    "cubos::engine::Position": {},
-    "cubos::engine::Rotation": {},
-    "coffee::Follow#car": {
-      "distance": 25.0,
-      "height": 7.5,
-      "halfTime": 0.25,
-      "rotationHalfTime": 0.05
+    "cubos::engine::Position": {
+      "x": 0,
+      "y": 15,
+      "z": -40
+    },
+    "cubos::engine::Rotation": {
+      "w": 0,
+      "x": 0,
+      "y": 0.9910,
+      "z": 0.1337
     },
     "cubos::engine::PerspectiveCamera": {
       "fovY": 60.0
     },
     "cubos::engine::DrawsTo#render-target": {}
-  },
-  "#car": {
-    "inherit": "f91c4d18-7a4e-4269-aef2-3c9987d7df1e"
   },
   "#map": {
     "cubos::engine::Position": {
