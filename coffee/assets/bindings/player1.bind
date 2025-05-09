@@ -36,7 +36,8 @@
             ],
             "gamepadAxes": [
                 "LTrigger"
-            ]
+            ],
+            "deadzone": 1.0
         },
         "throttle": {
             "positive": [
@@ -48,7 +49,8 @@
             ],
             "gamepadAxes": [
                 "RTrigger"
-            ]
+            ],
+            "deadzone": 1.0
         },
         "steer": {
             "positive": [
@@ -67,7 +69,8 @@
             ],
             "gamepadAxes": [
                 "LX"
-            ]
+            ],
+            "deadzone": 0.25
         }
     }
 }
