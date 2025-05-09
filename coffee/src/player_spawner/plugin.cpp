@@ -11,14 +11,18 @@
 #include <cubos/engine/render/camera/plugin.hpp>
 #include <cubos/engine/render/camera/camera.hpp>
 #include <cubos/engine/render/camera/draws_to.hpp>
-// #include <cubos/engine/render/split_screen/plugin.hpp>
 
 #include "../car/plugin.hpp"
 #include "../follow/plugin.hpp"
 
 using namespace cubos::engine;
 
-static const Asset<Scene> CarSceneAsset = AnyAsset("f91c4d18-7a4e-4269-aef2-3c9987d7df1e");
+static const Asset<Scene> CarSceneAssets[] = {
+    AnyAsset("01bd8528-b53c-4df2-abd8-0162779a16e8"),
+    AnyAsset("06f898f5-3b1c-435d-907f-4251afb72742"),
+    AnyAsset("8c4939f8-9d3c-41e4-b015-298e8c5087ad"),
+    AnyAsset("5ca206db-1bf7-4771-b9d6-dbf625b4e748"),
+};
 static const Asset<Scene> CameraSceneAsset = AnyAsset("78d434eb-276b-4c80-9046-0f285bc3ed54");
 
 CUBOS_REFLECT_IMPL(coffee::Spawner)
@@ -36,7 +40,7 @@ namespace coffee
         CUBOS_INFO("Spawner player {}", player);
 
         // Spawn missing player.
-        auto sceneRead = assets.read(CarSceneAsset);
+        auto sceneRead = assets.read(CarSceneAssets[player % (sizeof(CarSceneAssets) / sizeof(Asset<Scene>))]);
         float side = (player % 2 == 0) ? -1 : 1;
         float offset = (player < 3) ? 1 : 3;
         auto builder = cmds.spawn(*sceneRead)

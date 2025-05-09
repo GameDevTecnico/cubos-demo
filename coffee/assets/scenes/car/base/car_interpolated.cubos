@@ -14,9 +14,6 @@
       "y": 1.0,
       "z": 0.0,
       "w": 0.0
-    },
-    "cubos::engine::RenderVoxelGrid": {
-      "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c75"
     }
   },
   "#left-head-light": {

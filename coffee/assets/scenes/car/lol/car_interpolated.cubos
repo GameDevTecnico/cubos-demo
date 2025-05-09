@@ -1,0 +1,8 @@
+{
+  "inherit": "d339e10a-c925-47f5-8a2a-28684178a947",
+  "#body": {
+    "cubos::engine::RenderVoxelGrid": {
+      "asset": "058b48d0-a537-4211-9376-539dc3f25c45"
+    }
+  }
+}
