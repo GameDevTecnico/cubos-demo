@@ -26,6 +26,7 @@
 #include "player_spawner/plugin.hpp"
 #include "blackout/plugin.hpp"
 #include "spawn_orphan/plugin.hpp"
+#include "hover_animation/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -58,6 +59,7 @@ int main(int argc, char** argv)
     cubos.plugin(coffee::carPlugin);
     cubos.plugin(coffee::toiletPaperPlugin);
     cubos.plugin(coffee::playerSpawnerPlugin);
+    cubos.plugin(coffee::hoverAnimationPlugin);
 
     cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
         ImGui::SetCurrentContext(holder.context);
