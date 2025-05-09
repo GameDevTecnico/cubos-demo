@@ -15,6 +15,7 @@ add_executable(coffee
     src/player_spawner/plugin.cpp
     src/blackout/plugin.cpp
     src/spawn_orphan/plugin.cpp
+    src/hover_animation/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)
