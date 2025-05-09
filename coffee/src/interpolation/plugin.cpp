@@ -24,6 +24,11 @@ CUBOS_REFLECT_IMPL(coffee::Interpolated)
     return cubos::core::ecs::TypeBuilder<Interpolated>("coffee::Interpolated").wrap(&Interpolated::scene);
 }
 
+CUBOS_REFLECT_IMPL(coffee::InterpolatedDirty)
+{
+    return cubos::core::ecs::TypeBuilder<InterpolatedDirty>("coffee::InterpolatedDirty").build();
+}
+
 namespace
 {
     struct State
@@ -32,16 +37,6 @@ namespace
 
         bool stepped = false;
     };
-
-    struct InterpolatedDirty
-    {
-        CUBOS_REFLECT;
-    };
-
-    CUBOS_REFLECT_IMPL(InterpolatedDirty)
-    {
-        return cubos::core::ecs::TypeBuilder<InterpolatedDirty>("coffee::InterpolatedDirty").build();
-    }
 } // namespace
 
 void coffee::interpolationPlugin(Cubos& cubos)

@@ -14,6 +14,7 @@ add_executable(coffee
     src/toilet_paper/plugin.cpp
     src/player_spawner/plugin.cpp
     src/blackout/plugin.cpp
+    src/spawn_orphan/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)

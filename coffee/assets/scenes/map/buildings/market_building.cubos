@@ -72,13 +72,10 @@
         }
     },
     "#toilet-paper": {
-        "coffee::SpawnOrphan": {
-            "scene": "f78cf3d5-da2f-4756-b394-7291de673b66",
-            "entity": "#toilet-paper"
-        },
+        "coffee::SpawnOrphan": "f78cf3d5-da2f-4756-b394-7291de673b66",
         "cubos::engine::Position": {
             "x": 0,
-            "y": 2,
+            "y": 4,
             "z": -20
         }
     }
