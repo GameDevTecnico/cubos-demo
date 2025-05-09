@@ -14,5 +14,31 @@
             "z": 0.0,
             "w": 0.7071068
         }
+    },
+    "#left-lamp": {
+        "inherit": "33fadc31-3b23-4463-a351-cd1fc5cb9d52",
+        "cubos::engine::Position": {
+            "x": -23.0,
+            "y": 12.5
+        },
+        "cubos::engine::Rotation": {
+            "x": 0.0,
+            "y": 0.7071068,
+            "z": 0.0,
+            "w": 0.7071068
+        }
+    },
+    "#right-lamp": {
+        "inherit": "33fadc31-3b23-4463-a351-cd1fc5cb9d52",
+        "cubos::engine::Position": {
+            "x": 23.0,
+            "y": 12.5
+        },
+        "cubos::engine::Rotation": {
+            "x": 0.0,
+            "y": -0.7071068,
+            "z": 0.0,
+            "w": 0.7071068
+        }
     }
 }

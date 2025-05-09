@@ -24,6 +24,7 @@
 #include "interpolation/plugin.hpp"
 #include "toilet_paper/plugin.hpp"
 #include "player_spawner/plugin.hpp"
+#include "blackout/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -44,6 +45,7 @@ int main(int argc, char** argv)
     cubos.plugin(toolsPlugin);
 
     // Add game plugins
+    cubos.plugin(coffee::blackoutPlugin);
     cubos.plugin(coffee::interpolationPlugin);
     cubos.plugin(coffee::mapPlugin);
     cubos.plugin(coffee::mapGeneratorPlugin);
