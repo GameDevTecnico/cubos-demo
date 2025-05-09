@@ -23,7 +23,7 @@ static const Asset<Scene> CameraSceneAsset = AnyAsset("78d434eb-276b-4c80-9046-0
 
 CUBOS_REFLECT_IMPL(coffee::Spawner)
 {
-    return cubos::core::ecs::TypeBuilder<Spawner>("demo::Spawner")
+    return cubos::core::ecs::TypeBuilder<Spawner>("coffee::Spawner")
         .withField("isChangeable", &Spawner::isChangeable)
         .withField("currentPlayers", &Spawner::currentPlayers)
         .build();
