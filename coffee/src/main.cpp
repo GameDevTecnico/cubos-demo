@@ -23,6 +23,7 @@
 #include "follow/plugin.hpp"
 #include "interpolation/plugin.hpp"
 #include "toilet_paper/plugin.hpp"
+#include "player_spawner/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -31,6 +32,7 @@ static const Asset<Scene> MainSceneAsset = AnyAsset("b36dfc06-4ec3-4658-ba67-f8c
 static const Asset<Scene> IntroSceneAsset = AnyAsset("78d434eb-276b-4c80-9046-0f285bc3edfe");
 static const Asset<InputBindings> DebugBindingsAsset = AnyAsset("ba1151fe-c610-499c-96c2-c67f64f24425");
 static const Asset<InputBindings> Player1BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
+static const Asset<InputBindings> Player2BindingsAsset = AnyAsset("602177be-b7e6-42b4-917e-3947c19e6c19");
 
 int main(int argc, char** argv)
 {
@@ -50,6 +52,7 @@ int main(int argc, char** argv)
     cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(coffee::carPlugin);
     cubos.plugin(coffee::toiletPaperPlugin);
+    cubos.plugin(coffee::playerSpawnerPlugin);
 
     cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
         ImGui::SetCurrentContext(holder.context);
@@ -63,6 +66,9 @@ int main(int argc, char** argv)
     cubos.startupSystem("set the Input Bindings").tagged(assetsTag).call([](Assets& assets, Input& input) {
         input.bind(*assets.read(DebugBindingsAsset), 0);
         input.bind(*assets.read(Player1BindingsAsset), 1);
+        input.bind(*assets.read(Player2BindingsAsset), 2);
+        input.bind(*assets.read(Player1BindingsAsset), 3);
+        input.bind(*assets.read(Player1BindingsAsset), 4);
     });
 
     cubos.startupSystem("set the Voxel Palette").tagged(assetsTag).call([](Assets& assets, RenderPalette& palette) {

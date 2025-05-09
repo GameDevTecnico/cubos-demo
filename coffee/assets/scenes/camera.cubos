@@ -1,0 +1,7 @@
+{
+    "cubos::engine::Position": {},
+    "cubos::engine::Rotation": {},
+    "cubos::engine::PerspectiveCamera": {
+      "fovY": 60.0
+    }
+}
