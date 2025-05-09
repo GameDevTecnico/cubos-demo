@@ -75,24 +75,48 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
             glm::ivec2 cursorPosition{0, 1};
             int cursorRotation = 0;
 
+            int successiveCurves = 0;
+            int successiveStraight = 0;
+            bool wasLastCurveLeft = false;
+
             for (std::size_t i = 0; i < generator.trackLength; ++i)
             {
-                if (chanceDist(rng) < 0.6F)
+                float curveChance = 0.25F + (0.25F * static_cast<float>(successiveStraight) +
+                                            0.5F * static_cast<float>(successiveCurves));
+                if (successiveCurves >= 2)
                 {
+                    // No more than 2 curves in a row.
+                    curveChance = 0.0F;
+                }
+
+                if (chanceDist(rng) < curveChance)
+                {
+                    successiveStraight = 0;
+                    successiveCurves += 1;
+
                     bool left = chanceDist(rng) < 0.5F;
+                    if (successiveCurves == 2)
+                    {
+                        // If we have two curves in a row, we make sure that the second curve is in the opposite
+                        // direction of the first one.
+                        left = !wasLastCurveLeft;
+                    }
                     if (cursorRotation == -1 && left || cursorRotation == 1 && !left)
                     {
                         // If the rotation is too high, pick another tile.
                         left = !left;
                     }
+                    wasLastCurveLeft = left;
 
-                    // Place a curve.
-
+                    // Place a curve tile.
                     newTile = {left ? generator.curveLeftTileScene : generator.curveRightTileScene, cursorRotation};
                     cursorRotation += left ? -1 : 1;
                 }
                 else
                 {
+                    successiveStraight += 1;
+                    successiveCurves = 0;
+
                     // Place a straight tile.
                     newTile = {generator.straightTileScene, cursorRotation};
                 }
