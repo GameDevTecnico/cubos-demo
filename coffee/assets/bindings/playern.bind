@@ -19,17 +19,20 @@
         "reverse": {
             "gamepadAxes": [
                 "LTrigger"
-            ]
+            ],
+            "deadzone": 1.0
         },
         "throttle": {
             "gamepadAxes": [
                 "RTrigger"
-            ]
+            ],
+            "deadzone": 1.0
         },
         "steer": {
             "gamepadAxes": [
                 "LX"
-            ]
+            ],
+            "deadzone": 0.25
         }
     }
 }
