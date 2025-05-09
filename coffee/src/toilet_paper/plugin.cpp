@@ -22,6 +22,8 @@ CUBOS_REFLECT_IMPL(coffee::ToiletPaper)
 {
     return cubos::core::ecs::TypeBuilder<ToiletPaper>("coffee::ToiletPaper")
         .withField("attached", &ToiletPaper::attached)
+        .withField("distanceConstraint", &ToiletPaper::distanceConstraint)
+        .withField("gravity", &ToiletPaper::gravity)
         .build();
 }
 
@@ -66,12 +68,7 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
                 {
                     if (!toiletPaper.attached)
                     {
-                        commands.relate(ent1, ent2,
-                                        DistanceConstraint{.isRigid = false,
-                                                           .minDistance = 3.0F,
-                                                           .maxDistance = 5.0F,
-                                                           .localAnchor1 = {0.0F, 0.0F, -10.0F},
-                                                           .localAnchor2 = {0.0F, 0.0F, 0.0F}});
+                        commands.relate(ent1, ent2, toiletPaper.distanceConstraint);
                         toiletPaper.attached = true;
                     }
                 }
@@ -83,7 +80,7 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
             for (auto [velocity, force, mass, toiletPaper] : query)
             {
                 // Apply gravity force
-                glm::vec3 gravitationForce = mass.mass * glm::vec3(0.0F, -15.0F, 0.0F);
+                glm::vec3 gravitationForce = mass.mass * glm::vec3(0.0F, toiletPaper.gravity, 0.0F);
 
                 force.add(gravitationForce);
             }
