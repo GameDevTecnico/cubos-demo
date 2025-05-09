@@ -34,7 +34,6 @@
     "y": 5,
     "z": 0
   },
-  "coffee::Interpolated": "d339e10a-c925-47f5-8a2a-28684178a947",
   "#wheel-front-right": {
     "coffee::Wheel": {
       "axis": 0,
