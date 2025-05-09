@@ -1,88 +1,85 @@
 #include "plugin.hpp"
 #include "../car/plugin.hpp"
+#include "../interpolation/plugin.hpp"
 
-#include <glm/glm.hpp>
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
+#include <cubos/core/reflection/external/glm.hpp>
 
 #include <cubos/engine/collisions/colliding_with.hpp>
-#include <cubos/engine/physics/constraints/distance_constraint.hpp>
-#include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/transform/child_of.hpp>
 #include <cubos/engine/transform/local_to_world.hpp>
 #include <cubos/engine/transform/position.hpp>
-#include <cubos/engine/render/target/plugin.hpp>
 
 using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(coffee::ToiletPaper)
 {
     return cubos::core::ecs::TypeBuilder<ToiletPaper>("coffee::ToiletPaper")
-        .withField("attached", &ToiletPaper::attached)
-        .withField("distanceConstraint", &ToiletPaper::distanceConstraint)
-        .withField("gravity", &ToiletPaper::gravity)
-        .build();
-}
-
-CUBOS_REFLECT_IMPL(coffee::SpawnOrphan)
-{
-    return cubos::core::ecs::TypeBuilder<SpawnOrphan>("coffee::SpawnOrphan")
-        .withField("scene", &SpawnOrphan::scene)
-        .withField("entity", &SpawnOrphan::entity)
+        .withField("player", &ToiletPaper::player)
+        .withField("carPosition", &ToiletPaper::carPosition)
+        .withField("immunityTime", &ToiletPaper::immunityTime)
+        .withField("heldTime", &ToiletPaper::heldTime)
         .build();
 }
 
 void coffee::toiletPaperPlugin(Cubos& cubos)
 {
     cubos.depends(transformPlugin);
-    cubos.depends(physicsPlugin);
     cubos.depends(collisionsPlugin);
-    cubos.depends(assetsPlugin);
-    cubos.depends(renderTargetPlugin);
+    cubos.depends(coffee::interpolationPlugin);
     cubos.depends(coffee::carPlugin);
 
     cubos.component<ToiletPaper>();
-    cubos.component<SpawnOrphan>();
 
-    cubos.system("spawn orphan")
+    cubos.system("pick up Toilet paper")
         .after(transformUpdateTag)
-        .after(drawToRenderTargetTag)
-        .call([](Commands commands, Assets& assets,
-                 Query<Entity, const SpawnOrphan&, const LocalToWorld&, Position&, const ChildOf&, Entity> query) {
-            for (auto [ent1, spawnOrphan, localToWorld, pos, childOf, ent2] : query)
-            {
-                commands.destroy(ent1);
-                commands.spawn(assets.read(spawnOrphan.scene)->blueprint())
-                    .add(spawnOrphan.entity, Position{localToWorld.worldPosition()})
-                    .named("orphan");
-            }
-        });
-
-    cubos.system("attach to car")
         .call(
-            [](Commands commands, Query<Entity, const coffee::Car&, const CollidingWith&, Entity, ToiletPaper&> query) {
-                for (auto [ent1, _, collidingWith, ent2, toiletPaper] : query)
+            [](Commands commands, Query<Entity, const PlayerOwner&, const CollidingWith&, Entity, ToiletPaper&> query) {
+                for (auto [ent1, carOwner, collidingWith, ent2, toiletPaper] : query)
                 {
-                    if (!toiletPaper.attached)
+                    if (toiletPaper.player == -1)
                     {
-                        commands.relate(ent1, ent2, toiletPaper.distanceConstraint);
-                        toiletPaper.attached = true;
+                        toiletPaper.player = carOwner.player;
+                        commands.relate(ent2, ent1, ChildOf{});
+                        commands.add(ent2, Position{toiletPaper.carPosition});
                     }
                 }
             });
 
-    cubos.system("apply gravity")
-        .tagged(physicsApplyForcesTag)
-        .call([](Query<Velocity&, Force&, const Mass&, const ToiletPaper&> query) {
-            for (auto [velocity, force, mass, toiletPaper] : query)
+    cubos.system("steal Toilet paper")
+        .after(transformUpdateTag)
+        .entity(0)
+        .with<PlayerOwner>(0)
+        .related<CollidingWith>(0, 1)
+        .related<ChildOf>(2, 1)
+        .entity(2)
+        .with<ToiletPaper>(2)
+        .related<InterpolationOf>(3, 2)
+        .entity(3)
+        .call([](Commands commands, Query<Entity, const PlayerOwner&, Entity, ToiletPaper&, Entity> query) {
+            for (auto [stealerEnt, stealerOwner, toiletPaperEnt, toiletPaper, interpolatedEnt] : query)
             {
-                // Apply gravity force
-                glm::vec3 gravitationForce = mass.mass * glm::vec3(0.0F, toiletPaper.gravity, 0.0F);
-
-                force.add(gravitationForce);
+                if (toiletPaper.heldTime > toiletPaper.immunityTime)
+                {
+                    toiletPaper.player = stealerOwner.player;
+                    toiletPaper.heldTime = 0.0F;
+                    commands.relate(toiletPaperEnt, stealerEnt, ChildOf{});
+                    commands.add(interpolatedEnt, InterpolatedDirty{});
+                }
             }
         });
+
+    cubos.system("increase Toilet paper held time").call([](Query<ToiletPaper&> query, const DeltaTime& dt) {
+        for (auto [toiletPaper] : query)
+        {
+            if (toiletPaper.player != -1)
+            {
+                toiletPaper.heldTime += dt.value();
+            }
+        }
+    });
 }

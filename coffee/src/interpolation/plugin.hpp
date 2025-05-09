@@ -38,5 +38,10 @@ namespace coffee
         cubos::engine::Asset<cubos::engine::Scene> scene;
     };
 
+    struct InterpolatedDirty
+    {
+        CUBOS_REFLECT;
+    };
+
     void interpolationPlugin(cubos::engine::Cubos& cubos);
 } // namespace coffee
