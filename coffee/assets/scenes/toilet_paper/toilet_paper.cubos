@@ -1,22 +1,27 @@
 {
-    "coffee::ToiletPaper": {},
-    "coffee::MakeOrphan": {},
-    "cubos::engine::VoxelCollisionShape": "aec2f393-a20e-4cf1-9055-597c9a2af983",
-    "cubos::engine::CollisionLayers": 1,
-    "cubos::engine::CollisionMask": 1,
-    "cubos::engine::Position": {
-        "x": 0,
-        "y": 2,
-        "z": 0
-    },
-    "cubos::engine::Scale": 0.13,
-    "cubos::engine::PhysicsBundle": {
-        "mass": 1,
-        "centerOfMass": {
-            "x": 0,
-            "y": 0,
-            "z": 0
+    "#toilet-paper": {
+        "coffee::ToiletPaper": {},
+        "cubos::engine::Position": {},
+        "cubos::engine::VoxelCollisionShape": "aec2f393-a20e-4cf1-9055-597c9a2af983",
+        "cubos::engine::CollisionLayers": 1,
+        "cubos::engine::CollisionMask": 1,
+        "cubos::engine::Scale": 0.13,
+        "cubos::engine::PhysicsBundle": {
+            "mass": 1,
+            "centerOfMass": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
         }
     },
-    "coffee::Interpolated": "c4bbe8d3-0bbf-4aa4-8a62-9fcd80ba75ce"
+    "#toilet-paper-model": {
+        "coffee::InterpolationOf#toilet-paper": {},
+        "cubos::engine::Position": {
+            "y": -1000
+        },
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "aec2f393-a20e-4cf1-9055-597c9a2af983"
+        }
+    }
 }
