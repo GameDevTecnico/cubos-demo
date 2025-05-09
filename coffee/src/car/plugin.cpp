@@ -97,11 +97,14 @@ namespace coffee
 
         if (car.handBrakeOn && wheel.axis == 1)
         {
+            glm::vec3 accelDir = carLTW.forward();
+            float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+            float steerInput = carSpeed < 0.0F && car.accelInput < 0.0F ? -car.steerInput : car.steerInput;
             float carLateralSpeed = glm::abs(glm::dot(steeringDir, carVelocity.vec));
-            carTorque.add({0.0F,
-                           carMass.mass * car.steerInput *
-                               glm::lerp(100.0F, 0.0F, glm::clamp(carLateralSpeed / 30.0F, 0.0F, 1.0F)),
-                           0.0F});
+            carTorque.add(
+                {0.0F,
+                 carMass.mass * steerInput * glm::lerp(100.0F, 0.0F, glm::clamp(carLateralSpeed / 30.0F, 0.0F, 1.0F)),
+                 0.0F});
             return;
         }
 
@@ -129,7 +132,7 @@ namespace coffee
                                             const AngularVelocity& carAngVelocity, const CenterOfMass& carCOM,
                                             const LocalToWorld& carLTW)
     {
-        if (car.handBrakeOn)
+        if (car.handBrakeOn && wheel.axis != car.drivetrain)
         {
             glm::vec3 accelDir = carLTW.forward();
             if (wheel.axis != car.drivetrain)
@@ -141,30 +144,18 @@ namespace coffee
                 carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
                                          carCOM.vec);
             }
-            {
-                float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-
-                // limit power to max speed so it doesn't accelerate more
-                float carEnginePower =
-                    carSpeed >= car.topSpeed || carSpeed <= car.minimumSpeed ? 0.0F : car.enginePower;
-
-                float torque = 0.5F * carEnginePower;
-
-                carForce.addForceOnPoint(accelDir * torque, wheelLTW.worldPosition() - carLTW.worldPosition(),
-                                         carCOM.vec);
-            }
-            return;
-        }
-
-        // accelerate
-        if (wheel.axis != car.drivetrain)
-        {
             return;
         }
 
         glm::vec3 accelDir = wheelLTW.forward();
 
         float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+
+        // accelerate
+        if (wheel.axis != car.drivetrain)
+        {
+            return;
+        }
 
         // limit power to max speed so it doesn't accelerate more
         float carEnginePower = carSpeed >= car.topSpeed || carSpeed <= car.minimumSpeed ? 0.0F : car.enginePower;
@@ -240,7 +231,7 @@ void coffee::carPlugin(Cubos& cubos)
                 float carSpeed = glm::abs(glm::dot(carLTW.forward(), carVelocity.vec));
 
                 float steeringAngle = glm::lerp(glm::pi<float>() / 2.5F, glm::pi<float>() / 6.0F,
-                                                glm::clamp(carSpeed / 25.0F, 0.0F, 1.0F));
+                                                glm::clamp(carSpeed / 40.0F, 0.0F, 1.0F));
                 if (car.handBrakeOn)
                 {
                     steeringAngle = glm::pi<float>() / 2.5F;
