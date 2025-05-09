@@ -1,6 +1,6 @@
 {
     "actions": {
-        "shoot": [
+        "handbrake": [
             {
                 "gamepadButtons": [
                     "A"
@@ -16,12 +16,12 @@
         ]
     },
     "axes": {
-        "move-y": {
+        "accelerate": {
             "gamepadAxes": [
                 "LY"
             ]
         },
-        "move-x": {
+        "steer": {
             "gamepadAxes": [
                 "LX"
             ]
