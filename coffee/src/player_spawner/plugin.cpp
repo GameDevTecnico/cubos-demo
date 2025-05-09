@@ -106,7 +106,7 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, Query<Entity, PlayerOwner&> cars,
                  Query<Entity, const RenderTarget&> renderTargets,
                  Query<Entity, Camera&, Position&, Rotation&> cameras) {
-            if (!spawner.canSpawn)
+            if (!spawner.canSpawn || spawner.currentPlayers <= 0)
             {
                 return;
             }
