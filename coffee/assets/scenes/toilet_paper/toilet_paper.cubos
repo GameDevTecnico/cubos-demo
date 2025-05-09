@@ -1,6 +1,23 @@
 {
     "#toilet-paper": {
-        "coffee::ToiletPaper": {},
+        "coffee::ToiletPaper": {
+            "distanceConstraint": {
+                "isRigid": false,
+                "minDistance": 1.0,
+                "maxDistance": 4.0,
+                "localAnchor1": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -8.0
+                },
+                "localAnchor2": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "gravity": -20.0
+        },
         "cubos::engine::Position": {},
         "cubos::engine::VoxelCollisionShape": "aec2f393-a20e-4cf1-9055-597c9a2af983",
         "cubos::engine::CollisionLayers": 1,

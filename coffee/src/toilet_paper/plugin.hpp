@@ -3,6 +3,7 @@
 #include <cubos/engine/prelude.hpp>
 #include <cubos/engine/scene/scene.hpp>
 #include <cubos/engine/assets/asset.hpp>
+#include <cubos/engine/physics/constraints/distance_constraint.hpp>
 
 namespace coffee
 {
@@ -11,6 +12,8 @@ namespace coffee
         CUBOS_REFLECT;
 
         bool attached = false;
+        cubos::engine::DistanceConstraint distanceConstraint{};
+        float gravity{};
     };
 
     struct SpawnOrphan
