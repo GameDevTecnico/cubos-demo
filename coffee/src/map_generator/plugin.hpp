@@ -15,6 +15,7 @@ namespace coffee
         glm::ivec2 tileSize{};
         std::size_t trackLength{};
         cubos::engine::Asset<cubos::engine::Scene> startTileScene;
+        cubos::engine::Asset<cubos::engine::Scene> finishTileScene;
         cubos::engine::Asset<cubos::engine::Scene> endTileScene;
         cubos::engine::Asset<cubos::engine::Scene> straightTileScene;
         cubos::engine::Asset<cubos::engine::Scene> curveLeftTileScene;

@@ -15,6 +15,7 @@ CUBOS_REFLECT_IMPL(coffee::MapGenerator)
         .withField("tileSize", &MapGenerator::tileSize)
         .withField("trackLength", &MapGenerator::trackLength)
         .withField("startTileScene", &MapGenerator::startTileScene)
+        .withField("finishTileScene", &MapGenerator::finishTileScene)
         .withField("endTileScene", &MapGenerator::endTileScene)
         .withField("straightTileScene", &MapGenerator::straightTileScene)
         .withField("curveLeftTileScene", &MapGenerator::curveLeftTileScene)
@@ -60,16 +61,19 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
             Map map{};
             map.tileSize = generator.tileSize;
 
-            // Start by placing the main road.
-            map.tiles[{0, 0}] = {generator.startTileScene, 0};
-            glm::ivec2 cursorPosition{0, 1};
-            int cursorRotation = 0;
-
             // List of road tiles by the order they were placed in.
             std::vector<std::pair<glm::ivec2, MapTile>> roadTiles;
             std::vector<glm::ivec2> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
             std::vector<glm::ivec2> cornerDirections = {{1, 1}, {1, -1}, {-1, -1}, {-1, 1}};
             MapTile newTile;
+
+            // Start by placing the main road.
+            map.tiles[{0, -1}] = {generator.finishTileScene, 0};
+            roadTiles.push_back({{0, -1}, map.tiles[{0, -1}]});
+            map.tiles[{0, 0}] = {generator.startTileScene, 0};
+            roadTiles.push_back({{0, 0}, map.tiles[{0, 0}]});
+            glm::ivec2 cursorPosition{0, 1};
+            int cursorRotation = 0;
 
             for (std::size_t i = 0; i < generator.trackLength; ++i)
             {
