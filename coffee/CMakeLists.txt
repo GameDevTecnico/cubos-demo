@@ -17,6 +17,7 @@ add_executable(coffee
     src/spawn_orphan/plugin.cpp
     src/hover_animation/plugin.cpp
     src/round_manager/plugin.cpp
+    src/score/plugin.cpp
 )
 
 target_link_libraries(coffee cubos::engine)

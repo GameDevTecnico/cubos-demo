@@ -25,6 +25,13 @@ CUBOS_REFLECT_IMPL(coffee::PlayerOwner)
         .build();
 }
 
+CUBOS_REFLECT_IMPL(coffee::PlayerCameraOwner)
+{
+    return cubos::core::ecs::TypeBuilder<PlayerCameraOwner>("coffee::PlayerCameraOwner")
+        .withField("player", &PlayerCameraOwner::player)
+        .build();
+}
+
 CUBOS_REFLECT_IMPL(coffee::Car)
 {
     return cubos::core::ecs::TypeBuilder<Car>("coffee::Car")
@@ -248,6 +255,7 @@ void coffee::carPlugin(Cubos& cubos)
     cubos.depends(gizmosPlugin);
 
     cubos.component<PlayerOwner>();
+    cubos.component<PlayerCameraOwner>();
     cubos.component<Car>();
     cubos.component<Wheel>();
 
