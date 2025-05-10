@@ -105,10 +105,9 @@ void coffee::roundManagerPlugin(Cubos& cubos)
         });
 
     cubos.system("detect toilet reached end - reset and add points")
-        .call([](Commands cmds, Assets& assets, GameRoundSettings& roundManager,
+        .call([](Commands cmds, Assets& assets, GameRoundSettings& roundManager, PlayerScores& scores,
                  Query<Entity, ToiletPaper&, CollidingWith&, EndArea&> paperInEnd,
-                 Query<Entity, ToiletPaper&, ChildOf&, PlayerOwner&> carWithPaper, Query<RoundPlaying&> roundPlaying,
-                 PlayerScores& scores) {
+                 Query<Entity, ToiletPaper&, ChildOf&, PlayerOwner&> carWithPaper, Query<RoundPlaying&> roundPlaying) {
             if (roundPlaying.count() == 0)
             {
                 return;
@@ -199,7 +198,7 @@ void coffee::roundManagerPlugin(Cubos& cubos)
             [](GameRoundSettings& roundSettings, Query<Entity, RoundManager&> query) { roundSettings.currentRound++; });
 
     cubos.system("count time between rounds")
-        .call([](Commands cmds, GameRoundSettings& roundSettings, DeltaTime& dt,
+        .call([](Commands cmds, GameRoundSettings& roundSettings, DeltaTime& dt, PlayerScores& scores,
                  Query<Entity, RoundManager&, ShowEndScreen&> query) {
             if (roundSettings.currentRound == 0)
             {
@@ -213,6 +212,10 @@ void coffee::roundManagerPlugin(Cubos& cubos)
                 {
                     cmds.remove<ShowEndScreen>(entity);
                     roundSettings.currentRound = 0;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        scores.scores[i] = 0;
+                    }
                     cmds.add(entity, Destroy{});
                 }
             }
