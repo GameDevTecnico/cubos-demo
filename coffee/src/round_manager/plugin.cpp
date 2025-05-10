@@ -25,6 +25,7 @@ using namespace cubos::engine;
 
 static const Asset<Scene> MainSceneAsset = AnyAsset("b36dfc06-4ec3-4658-ba67-f8cb3ec787c0");
 static const Asset<Scene> RoundManagerSceneAsset = AnyAsset("78d434eb-276b-4c80-9046-0f825bc3ed54");
+static const Asset<Scene> EndSceneAsset = AnyAsset("4deb11a6-b535-4994-a68b-1d16f34ba083");
 
 CUBOS_REFLECT_IMPL(coffee::GameRoundSettings)
 {
@@ -50,6 +51,11 @@ CUBOS_REFLECT_IMPL(coffee::Destroy)
 CUBOS_REFLECT_IMPL(coffee::Build)
 {
     return cubos::core::ecs::TypeBuilder<Build>("coffee::Build").build();
+}
+
+CUBOS_REFLECT_IMPL(coffee::BuildEnd)
+{
+    return cubos::core::ecs::TypeBuilder<BuildEnd>("coffee::BuildEnd").build();
 }
 
 CUBOS_REFLECT_IMPL(coffee::RoundPlaying)
@@ -91,6 +97,7 @@ void coffee::roundManagerPlugin(Cubos& cubos)
     cubos.component<RoundManager>();
     cubos.component<Destroy>();
     cubos.component<Build>();
+    cubos.component<BuildEnd>();
     cubos.component<RoundPlaying>();
     cubos.component<WaitingRoundStart>();
     cubos.component<ShowEndScreen>();
@@ -156,6 +163,7 @@ void coffee::roundManagerPlugin(Cubos& cubos)
             }
             else
             {
+                cmds.add(roundSettings.roundManagerEntity, BuildEnd{});
                 cmds.add(roundSettings.roundManagerEntity, ShowEndScreen{});
             }
         });
@@ -169,6 +177,17 @@ void coffee::roundManagerPlugin(Cubos& cubos)
             for (auto [ent, manager] : query)
             {
                 cmds.remove<Build>(ent);
+            }
+        });
+
+    cubos.observer("load and spawn the end scene")
+        .onAdd<BuildEnd>()
+        .call([](Commands cmds, const Assets& assets, Query<Entity, RoundManager&> query) {
+            CUBOS_INFO("ending game");
+            cmds.spawn(*assets.read(EndSceneAsset)).named("end");
+            for (auto [ent, manager] : query)
+            {
+                cmds.remove<BuildEnd>(ent);
             }
         });
 
@@ -214,7 +233,7 @@ void coffee::roundManagerPlugin(Cubos& cubos)
                     roundSettings.currentRound = 0;
                     for (int i = 0; i < 4; i++)
                     {
-                        scores.scores[i] = 0;
+                        scores.scores[i] = -1;
                     }
                     cmds.add(entity, Destroy{});
                 }

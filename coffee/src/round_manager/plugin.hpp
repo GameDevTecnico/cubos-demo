@@ -36,6 +36,11 @@ namespace coffee
         CUBOS_REFLECT;
     };
 
+    struct BuildEnd
+    {
+        CUBOS_REFLECT;
+    };
+
     struct RoundPlaying
     {
         CUBOS_REFLECT;

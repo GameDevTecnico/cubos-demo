@@ -9,7 +9,7 @@ namespace coffee
     {
         CUBOS_REFLECT;
 
-        int scores[4];
+        int scores[4] = {-1, -1, -1, -1};
         float scoreTimer = 0.0F;
     };
 

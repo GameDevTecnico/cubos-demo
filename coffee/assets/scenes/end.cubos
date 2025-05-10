@@ -1,0 +1,122 @@
+{
+  "#render-target": {
+    "cubos::engine::RenderTargetDefaults": {
+      "ssao": null,
+      "picker": null
+    },
+    "cubos::engine::UICanvas": {},
+    "cubos::engine::UIExpand": {},
+    "cubos::engine::GizmosTarget": {},
+    "#scoreboard": {
+        "inherit": "7922ef98-47e2-4db0-9264-60ad400d7a54"
+    }
+  },
+  "#sun": {
+    "cubos::engine::DirectionalLight": {},
+    "cubos::engine::Rotation": {
+      "x": 0.1710101,
+      "y": 0.1710101,
+      "z": 0.0301537,
+      "w": 0.9698463
+    }
+  },
+  "#camera": {
+    "cubos::engine::Position": {
+      "x": 0,
+      "y": 15,
+      "z": -40
+    },
+    "cubos::engine::Rotation": {
+      "w": 0,
+      "x": 0,
+      "y": 0.9910,
+      "z": 0.1337
+    },
+    "cubos::engine::PerspectiveCamera": {
+      "fovY": 60.0
+    },
+    "cubos::engine::DrawsTo#render-target": {}
+  },
+  "#map": {
+    "cubos::engine::Position": {
+      "y": -10.0
+    },
+    "coffee::MapGenerator": {
+      "tileSize": {
+        "x": 68,
+        "y": 68
+      },
+      "trackLength": 3,
+      "startTileScene": "f8ee3077-938e-4bbd-9fa8-acb4d440874f",
+      "finishTileScene": "91602d5d-3e1d-405e-b8e6-f4ada2c31484",
+      "endTileScene": "2bd823a5-b11d-461f-b909-340e822b5b17",
+      "straightTileScene": "c57a9b23-128a-4fbf-9a0b-7d7be052eab3",
+      "straightWithRampTileScene": "68cff3d9-27e8-4588-bb08-01ff6b6ed04a",
+      "curveLeftTileScene": "11a5e491-cfa2-443e-a264-b169a0cce982",
+      "curveRightTileScene": "1f10c948-ee61-453c-9225-67430c8004d1",
+      "orangeBuildingTileScene": "82dcf9bc-baa6-48ef-adf2-d72b688d98ca",
+      "blackBuildingTileScene": "7931f087-6b20-45bb-95e3-135bfd34ddf1",
+      "whiteBuildingTileScene": "c82c3ba5-d017-4ec6-88ae-85aa62aa131e",
+      "fillerBuildingTileScene": "72965074-abb2-455e-886c-0a66d23fe116",
+      "marketBuildingTileScene": "f52b15be-c722-453e-9005-8737224f3c80"
+    },
+    "coffee::DayNightManager": {
+      "nightEnvironment": {
+        "ambient": {
+          "x": 0.03,
+          "y": 0.04,
+          "z": 0.05
+        },
+        "skyGradient": [
+          {
+            "x": 0.02,
+            "y": 0.02,
+            "z": 0.01
+          },
+          {
+            "x": 0.01,
+            "y": 0.01,
+            "z": 0.05
+          }
+        ]
+      },
+      "nightSunLight": {
+        "color": {
+          "x": 0.3,
+          "y": 0.35,
+          "z": 0.4
+        },
+        "intensity": 0.02
+      },
+      "nightCarLightIntensity": 2.0,
+      "dayEnvironment": {
+        "ambient": {
+          "x": 0.1,
+          "y": 0.08,
+          "z": 0.15
+        },
+        "skyGradient": [
+          {
+            "x": 0.5,
+            "y": 0.2,
+            "z": 0.2
+          },
+          {
+            "x": 0.05,
+            "y": 0.02,
+            "z": 0.2
+          }
+        ]
+      },
+      "daySunLight": {
+        "color": {
+          "x": 1.0,
+          "y": 0.63,
+          "z": 0.39
+        },
+        "intensity": 1.0
+      },
+      "dayCarLightIntensity": 2.0
+    }
+  }
+}

@@ -15,6 +15,7 @@
 #include "../car/plugin.hpp"
 #include "../follow/plugin.hpp"
 #include "../round_manager/plugin.hpp"
+#include "../score/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -88,12 +89,13 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
     cubos.depends(renderTargetPlugin);
     cubos.depends(cameraPlugin);
     cubos.depends(roundManagerPlugin);
+    cubos.depends(scorePlugin);
 
     cubos.resource<Spawner>();
 
     cubos.system("read input and choose number of cars")
         .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, GameRoundSettings& roundSettings,
-                 Query<RoundManager&, WaitingRoundStart&> waitingState) {
+                 PlayerScores& scores, Query<RoundManager&, WaitingRoundStart&> waitingState) {
             if (roundSettings.currentRound == 0)
             {
                 if (!spawner.hasStarted)
@@ -131,6 +133,7 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
                         if (spawner.currentPlayers < 4)
                         {
                             spawner.currentPlayers++;
+                            scores.scores[spawner.currentPlayers - 1] = 0;
                             spawnPlayerCar(spawner.currentPlayers, cmds, assets);
                         }
                     }
