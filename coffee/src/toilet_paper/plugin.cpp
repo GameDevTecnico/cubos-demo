@@ -1,6 +1,7 @@
 #include "plugin.hpp"
 #include "../car/plugin.hpp"
 #include "../interpolation/plugin.hpp"
+#include "../score/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -32,23 +33,25 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
     cubos.depends(collisionsPlugin);
     cubos.depends(coffee::interpolationPlugin);
     cubos.depends(coffee::carPlugin);
+    cubos.depends(coffee::scorePlugin);
 
     cubos.component<ToiletPaper>();
 
     cubos.system("pick up Toilet paper")
         .after(transformUpdateTag)
-        .call(
-            [](Commands commands, Query<Entity, const PlayerOwner&, const CollidingWith&, Entity, ToiletPaper&> query) {
-                for (auto [ent1, carOwner, collidingWith, ent2, toiletPaper] : query)
+        .call([](Commands commands, Query<Entity, const PlayerOwner&, const CollidingWith&, Entity, ToiletPaper&> query,
+                 PlayerScores& scores) {
+            for (auto [ent1, carOwner, collidingWith, ent2, toiletPaper] : query)
+            {
+                if (toiletPaper.player == -1)
                 {
-                    if (toiletPaper.player == -1)
-                    {
-                        toiletPaper.player = carOwner.player;
-                        commands.relate(ent2, ent1, ChildOf{});
-                        commands.add(ent2, Position{toiletPaper.carPosition});
-                    }
+                    toiletPaper.player = carOwner.player;
+                    scores.scores[toiletPaper.player - 1] += 100;
+                    commands.relate(ent2, ent1, ChildOf{});
+                    commands.add(ent2, Position{toiletPaper.carPosition});
                 }
-            });
+            }
+        });
 
     cubos.system("steal Toilet paper")
         .after(transformUpdateTag)
@@ -82,4 +85,20 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
             }
         }
     });
+
+    cubos.system("give score to player holding toilet paper")
+        .call([](Query<ToiletPaper&> query, const DeltaTime& dt, PlayerScores& scores) {
+            scores.scoreTimer -= dt.value();
+            for (auto [toiletPaper] : query)
+            {
+                if (toiletPaper.player != -1 && scores.scoreTimer <= 0.0F)
+                {
+                    scores.scores[toiletPaper.player - 1] += 1;
+                }
+            }
+            if (scores.scoreTimer <= 0.0F)
+            {
+                scores.scoreTimer = 0.1F;
+            }
+        });
 }
