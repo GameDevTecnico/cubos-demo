@@ -48,10 +48,16 @@
   },
   "cubos::engine::AudioSource": {
     "sound": "3fa5cc2f-9b5c-44ba-8eba-44c30ada4630",
-    "playing": true,
     "looping": true,
     "gain": 0.75,
     "pitch": 1.0
+  },
+  "#horn": {
+    "cubos::engine::AudioSource": {
+      "sound": "38eb65e2-b06c-4fec-a551-4e08caa0747a",
+      "gain": 1.5
+    },
+    "cubos::engine::Position": {}
   },
   "#wheel-front-right": {
     "coffee::Wheel": {
