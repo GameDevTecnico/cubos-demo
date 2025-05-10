@@ -71,6 +71,26 @@
                 "LX"
             ],
             "deadzone": 0.25
+        },
+        "look": {
+            "positive": [
+                {
+                    "keys": [
+                        "Q"
+                    ]
+                }
+            ],
+            "negative": [
+                {
+                    "keys": [
+                        "E"
+                    ]
+                }
+            ],
+            "gamepadAxes": [
+                "RX"
+            ],
+            "deadzone": 0.25
         }
     }
 }

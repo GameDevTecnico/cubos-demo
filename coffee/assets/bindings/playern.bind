@@ -33,6 +33,12 @@
                 "LX"
             ],
             "deadzone": 0.25
+        },
+        "look": {
+            "gamepadAxes": [
+                "RX"
+            ],
+            "deadzone": 0.25
         }
     }
 }
