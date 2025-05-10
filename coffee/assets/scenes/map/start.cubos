@@ -14,5 +14,197 @@
             "z": 0.0,
             "w": 0.7071068
         }
+    },
+    "#green-light-1": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 10.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#green-light-2": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 4.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#green-light-3": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -2.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#green-light-4": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -8.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-1": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 10.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 10.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-2": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 10.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 4.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-3": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 10.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -2.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-4": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 10.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -8.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-1": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 10.0,
+            "y": 15.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-2": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 4.0,
+            "y": 15.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-3": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -2.0,
+            "y": 15.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-4": {
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 20.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -8.0,
+            "y": 15.0,
+            "z": 12.5
+        }
     }
 }
