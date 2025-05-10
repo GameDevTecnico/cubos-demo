@@ -25,5 +25,13 @@ namespace coffee
             scoreUIs; ///< Maps camera to score UI.
     };
 
+    /// @brief Component which marks a UI as being a score display
+    struct ScoreUI
+    {
+        CUBOS_REFLECT;
+
+        int player = 0;
+    };
+
     void uiEffectsPlugin(cubos::engine::Cubos& cubos);
 } // namespace coffee

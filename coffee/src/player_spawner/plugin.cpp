@@ -64,7 +64,9 @@ namespace coffee
             playerOwner.canMove = true;
 
             auto sceneRead = assets.read(CameraSceneAsset);
-            auto builder = cmds.spawn(*sceneRead).named("camera" + std::to_string(playerOwner.player));
+            auto builder = cmds.spawn(*sceneRead)
+                               .named("camera" + std::to_string(playerOwner.player))
+                               .add(PlayerCameraOwner{.player = playerOwner.player});
 
             auto cameraEnt = builder.entity();
 

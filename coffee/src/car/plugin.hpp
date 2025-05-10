@@ -14,6 +14,13 @@ namespace coffee
         bool canMove = true;
     };
 
+    struct PlayerCameraOwner
+    {
+        CUBOS_REFLECT;
+
+        int player = 0;
+    };
+
     /// @brief Component which represents a car drivable by a player
     struct Car
     {

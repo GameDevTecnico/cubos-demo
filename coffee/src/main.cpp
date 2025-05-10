@@ -28,6 +28,7 @@
 #include "spawn_orphan/plugin.hpp"
 #include "hover_animation/plugin.hpp"
 #include "round_manager/plugin.hpp"
+#include "score/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -56,10 +57,11 @@ int main(int argc, char** argv)
     cubos.plugin(coffee::progressionPlugin);
     cubos.plugin(coffee::dayNightPlugin);
     cubos.plugin(coffee::followPlugin);
-    cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(coffee::carPlugin);
     cubos.plugin(coffee::toiletPaperPlugin);
     cubos.plugin(coffee::roundManagerPlugin);
+    cubos.plugin(coffee::scorePlugin);
+    cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(coffee::playerSpawnerPlugin);
     cubos.plugin(coffee::hoverAnimationPlugin);
 

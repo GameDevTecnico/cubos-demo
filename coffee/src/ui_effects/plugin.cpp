@@ -1,4 +1,6 @@
 #include "plugin.hpp"
+#include "../score/plugin.hpp"
+#include "../car/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/engine/ui/text/plugin.hpp>
@@ -36,6 +38,11 @@ CUBOS_REFLECT_IMPL(coffee::ScoreUIManager)
     return cubos::core::ecs::TypeBuilder<ScoreUIManager>("coffee::ScoreUIManager").build();
 }
 
+CUBOS_REFLECT_IMPL(coffee::ScoreUI)
+{
+    return cubos::core::ecs::TypeBuilder<ScoreUI>("coffee::ScoreUI").withField("player", &ScoreUI::player).build();
+}
+
 static const Asset<Scene> ScoreUISceneAsset = AnyAsset("d684383c-77b5-47c4-b017-724d42b84ca7");
 
 void coffee::uiEffectsPlugin(Cubos& cubos)
@@ -46,9 +53,12 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
     cubos.depends(assetsPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(splitScreenPlugin);
+    cubos.depends(scorePlugin);
+    cubos.depends(carPlugin);
 
     cubos.component<UIBlink>();
     cubos.component<ScoreUIManager>();
+    cubos.component<ScoreUI>();
 
     cubos.resource<State>();
 
@@ -66,7 +76,8 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
     cubos.system("show score UI for each player")
         .after(splitScreenTag)
         .call([](Commands cmds, Assets& assets, Query<ScoreUIManager&> targets, Query<Entity, const Camera&> cameras,
-                 Query<Entity, const Camera&, const DrawsTo&, Entity, ScoreUIManager&> viewports,
+                 Query<Entity, const Camera&, const PlayerCameraOwner&, const DrawsTo&, Entity, ScoreUIManager&>
+                     viewports,
                  Query<UIElement&> elements) {
             for (auto [manager] : targets)
             {
@@ -93,7 +104,7 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
                 }
             }
 
-            for (auto [cameraEntity, camera, drawsTo, targetEntity, manager] : viewports)
+            for (auto [cameraEntity, camera, cameraOwner, drawsTo, targetEntity, manager] : viewports)
             {
                 if (camera.active && !manager.scoreUIs.contains(cameraEntity))
                 {
@@ -103,6 +114,7 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
                             .add(UIElement{.offset = glm::vec2(160.0F, -40.0F),
                                            .anchor = glm::vec2(drawsTo.viewportOffset.x,
                                                                drawsTo.viewportOffset.y + drawsTo.viewportSize.y)})
+                            .add(ScoreUI{.player = cameraOwner.player})
                             .entity();
 
                     cmds.relate(manager.scoreUIs[cameraEntity], targetEntity, ChildOf{});
@@ -114,6 +126,18 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
                     std::get<0>(element.value()).anchor =
                         glm::vec2(drawsTo.viewportOffset.x, drawsTo.viewportOffset.y + drawsTo.viewportSize.y);
                 }
+            }
+        });
+
+    cubos.system("update score display")
+        .call([](Commands commands, Query<Entity, const UIText&, const ChildOf&, const ScoreUI&> scoreDisplays,
+                 PlayerScores& scores) {
+            for (auto [entity, _, __, display] : scoreDisplays)
+            {
+                commands.remove<UIText>(entity);
+                commands.add(entity, UIText{.text = std::format("{:05d}", scores.scores[display.player - 1]),
+                                            .fontSize = 80.0F,
+                                            .fontAtlas = AnyAsset("bd0387d2-af3d-4c65-8561-33f5bcf6ab37")});
             }
         });
 }
