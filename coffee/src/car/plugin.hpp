@@ -32,9 +32,9 @@ namespace coffee
         float steerInput = 0.0F;
         bool handBrakeOn = false;
 
-        float headLightIntensity = 2.0F; // Intensity of the head lights.
+        float headLightIntensity = 2.0F;     // Intensity of the head lights.
         float highBackLightIntensity = 3.0F; // Intensity of the back lights when reversing or braking.
-        float lowBackLightIntensity = 1.0F; // Minimum intensity of the back lights.
+        float lowBackLightIntensity = 1.0F;  // Minimum intensity of the back lights.
         float lightIntensityHalfTime = 0.5F; // Time it takes for the lights to reach half of the desired intensity.
 
         float dragConstant = 0.0F;              // Multiplied by the square of the velocity.
@@ -85,6 +85,12 @@ namespace coffee
         // Current velocity of the wheel.
         // Determined automatically by the car plugin.
         float currentVelocity;
+    };
+
+    /// @brief Component which identifies the horn.
+    struct Horn
+    {
+        CUBOS_REFLECT;
     };
 
     void carPlugin(cubos::engine::Cubos& cubos);

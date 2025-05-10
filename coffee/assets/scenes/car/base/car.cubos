@@ -55,9 +55,10 @@
   "#horn": {
     "cubos::engine::AudioSource": {
       "sound": "38eb65e2-b06c-4fec-a551-4e08caa0747a",
-      "gain": 1.5
+      "gain": 2.0
     },
-    "cubos::engine::Position": {}
+    "cubos::engine::Position": {},
+    "coffee::Horn": {}
   },
   "#wheel-front-right": {
     "coffee::Wheel": {

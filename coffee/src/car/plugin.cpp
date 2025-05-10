@@ -77,6 +77,11 @@ CUBOS_REFLECT_IMPL(coffee::Wheel)
         .build();
 }
 
+CUBOS_REFLECT_IMPL(coffee::Horn)
+{
+    return cubos::core::ecs::TypeBuilder<Horn>("coffee::Horn").build();
+}
+
 namespace coffee
 {
     static void calculateGravity(const LocalToWorld& wheelLTW, const Mass& carMass, Force& carForce,
@@ -176,6 +181,7 @@ void coffee::carPlugin(Cubos& cubos)
     cubos.component<PlayerCameraOwner>();
     cubos.component<Car>();
     cubos.component<Wheel>();
+    cubos.component<Horn>();
 
     // system for turning wheel ()
     // query wheels and input, if wheels are front rotate according to input.
@@ -186,7 +192,7 @@ void coffee::carPlugin(Cubos& cubos)
                      query,
                  Query<PointLight&, const ChildOf&, const InterpolationOf&, const Car&> backLights,
                  Query<SpotLight&, const ChildOf&, const InterpolationOf&, const Car&> headLights,
-                 Query<Entity, const AudioSource&, const ChildOf&> hornQuery) {
+                 Query<Entity, const AudioSource&, const Horn&, const ChildOf&> hornQuery) {
             for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, carEnt, car,
                        audio, carOwner, carLTW, carVelocity] : query)
             {
@@ -260,7 +266,7 @@ void coffee::carPlugin(Cubos& cubos)
                 // Play horn audio.
                 if (input.justPressed("horn", carOwner.player))
                 {
-                    for (auto [hornEnt, _1, _2] : hornQuery.pin(1, carEnt))
+                    for (auto [hornEnt, _1, _2, _3] : hornQuery.pin(1, carEnt))
                     {
                         cmds.add(hornEnt, AudioPlay{});
                     }
