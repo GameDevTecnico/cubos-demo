@@ -1,10 +1,12 @@
 {
   "#render-target": {
     "cubos::engine::RenderTargetDefaults": {
-      "ssao": null
+      "ssao": null,
+      "picker": null
     },
     "cubos::engine::UICanvas": {},
     "cubos::engine::UIExpand": {},
+    "cubos::engine::GizmosTarget": {},
     "coffee::ScoreUIManager": {}
   },
   "#sun": {
