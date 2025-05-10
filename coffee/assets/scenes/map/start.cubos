@@ -14,20 +14,5 @@
             "z": 0.0,
             "w": 0.7071068
         }
-    },
-    "#delivery-place": {
-        "cubos::engine::Position": {
-            "x": 0.0,
-            "y": 8.0,
-            "z": 3.0
-        },
-        "cubos::engine::BoxCollisionShape": {
-            "x": 30,
-            "y": 15,
-            "z": 1
-        },
-        "cubos::engine::CollisionLayers": 2,
-        "cubos::engine::CollisionMask": 1,
-        "coffee::EndArea": {}
     }
 }
