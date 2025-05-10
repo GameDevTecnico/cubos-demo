@@ -25,11 +25,8 @@ namespace coffee
         float steerInput = 0.0F;
         bool handBrakeOn = false;
 
-        // engine
-        float enginePower = 100.0F * 20.0F;
-        float topSpeed = 100.0F;
-        float minimumSpeed = -20.0F;
-        float resistanceMassRatio = 10.0F; // lower will make the car slow down
+        float dragConstant = 0.0F;              // Multiplied by the square of the velocity.
+        float rollingResistanceConstant = 0.0F; // Multiplied by the velocity.
 
         // suspension
         float suspensionRestDist = 5.5F;
@@ -39,8 +36,21 @@ namespace coffee
 
         float minSuspensionHeight = 0.0F; // Minimum suspension height, only used to animate the wheels
         float suspensionHalfTime =
-            1.0F;                  // Time it takes for the tire model to reach half of the desired suspension height
-        float turnHalfTime = 1.0F; // Time it takes for the tires to rotate halfway to the desired angle
+            1.0F; // Time it takes for the tire model to reach half of the desired suspension height
+
+        float fastWheelSteeringAngle = 0.0F;    // The maximum angle the wheel turns in degrees above peak velocity.
+        float idleWheelSteeringAngle = 0.0F;    // The angle the wheel turns when the car is idle in degrees.
+        float fastWheelSteeringVelocity = 0.0F; // The speed at which the wheel turns to the fastWheelSteeringAngle.
+        float currentWheelSteeringAngle = 0.0F; // The angle the wheel is currently at in degrees.
+        float wheelSteeringHalfTime = 1.0F;     // Time it takes for the tires to rotate halfway to the desired angle
+
+        float tractionConstant = 0.0F; // Constant multiplied by the slip ratio to get the traction force.
+        float tractionPeakSlip = 0.0F; // Slip ratio at which the peak traction occurs.
+
+        float corneringConstant = 0.0F;      // Constant multiplied by the slip angle to get the cornering force.
+        float corneringPeakSlipAngle = 0.0F; // Slip angle (degrees) at which the peak cornering occurs.
+
+        float driveTorque = 0.0F; // Torque applied to the wheels when accelerating.
     };
 
     /// @brief Component which represents a wheel/suspension of a car
@@ -50,6 +60,7 @@ namespace coffee
 
         int axis; // 0 is front, 1 is back;
         float gripFactor;
+        float angularVelocity = 0.0F;
         float mass;
 
         // not implemented yet but we might want brakes/handbrake

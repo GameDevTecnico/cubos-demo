@@ -30,17 +30,24 @@ CUBOS_REFLECT_IMPL(coffee::Car)
     return cubos::core::ecs::TypeBuilder<Car>("coffee::Car")
         .withField("drivetrain", &Car::drivetrain)
         .withField("accelInput", &Car::accelInput)
-        .withField("enginePower", &Car::enginePower)
-        .withField("topSpeed", &Car::topSpeed)
-        .withField("minimumSpeed", &Car::minimumSpeed)
-        .withField("resistanceMassRatio", &Car::resistanceMassRatio)
+        .withField("dragConstant", &Car::dragConstant)
+        .withField("rollingResistanceConstant", &Car::rollingResistanceConstant)
         .withField("suspensionRestDist", &Car::suspensionRestDist)
         .withField("wheelRadius", &Car::wheelRadius)
         .withField("springStrength", &Car::springStrength)
         .withField("springDamper", &Car::springDamper)
         .withField("minSuspensionHeight", &Car::minSuspensionHeight)
         .withField("suspensionHalfTime", &Car::suspensionHalfTime)
-        .withField("turnHalfTime", &Car::turnHalfTime)
+        .withField("fastWheelSteeringAngle", &Car::fastWheelSteeringAngle)
+        .withField("idleWheelSteeringAngle", &Car::idleWheelSteeringAngle)
+        .withField("fastWheelSteeringVelocity", &Car::fastWheelSteeringVelocity)
+        .withField("currentWheelSteeringAngle", &Car::currentWheelSteeringAngle)
+        .withField("wheelSteeringHalfTime", &Car::wheelSteeringHalfTime)
+        .withField("tractionConstant", &Car::tractionConstant)
+        .withField("tractionPeakSlip", &Car::tractionPeakSlip)
+        .withField("corneringConstant", &Car::corneringConstant)
+        .withField("corneringPeakSlipAngle", &Car::corneringPeakSlipAngle)
+        .withField("driveTorque", &Car::driveTorque)
         .build();
 }
 
@@ -87,98 +94,152 @@ namespace coffee
         // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + springDir * force);
     }
 
-    static void calculateSteeringForces(const Wheel& wheel, const LocalToWorld& wheelLTW, const Car& car,
-                                        const Mass& carMass, Force& carForce, Torque& carTorque,
-                                        const Velocity& carVelocity, const AngularVelocity& carAngVelocity,
-                                        const CenterOfMass& carCOM, const LocalToWorld& carLTW)
+    static void calculateTractionForces(Wheel& wheel, const LocalToWorld& wheelLTW, const Car& car, const Mass& carMass,
+                                        Force& carForce, Torque& carTorque, const Velocity& carVelocity,
+                                        const AngularVelocity& carAngVelocity, const CenterOfMass& carCOM,
+                                        const LocalToWorld& carLTW, const FixedDeltaTime& dt,
+                                        const PlayerOwner& carOwner)
     {
-        glm::vec3 steeringDir =
-            glm::cross(wheelLTW.forward(), wheelLTW.up()); // we should be able to do wheelLTW.right()
+        auto right = glm::cross(wheelLTW.forward(), wheelLTW.up()); // we should be able to do wheelLTW.right()
+        float lateralVelocity = glm::dot(right, carVelocity.vec);
+        float longitudinalVelocity = glm::dot(wheelLTW.forward(), carVelocity.vec);
 
-        if (car.handBrakeOn && wheel.axis == 1)
+        float slipRatio =
+            (wheel.angularVelocity * car.wheelRadius - longitudinalVelocity) / glm::abs(longitudinalVelocity);
+
+        float wheelOffset = glm::dot(carLTW.worldPosition() - wheelLTW.worldPosition(), carLTW.forward());
+        float slipAngle =
+            glm::abs(longitudinalVelocity) > 0.0F
+                ? glm::atan((lateralVelocity + carAngVelocity.vec.y * wheelOffset) / glm::abs(longitudinalVelocity))
+                : 0.0F;
+
+        CUBOS_INFO(
+            "Wheel axis: {}, Slip angle: {}, Longitudinal velocity: {}, Wheel offset: {}, Car angular velocity: {}",
+            wheel.axis, slipAngle, longitudinalVelocity, wheelOffset, carAngVelocity.vec.y);
+
+        float tractionForce = car.tractionConstant * glm::clamp(slipRatio, -car.tractionPeakSlip, car.tractionPeakSlip);
+        float tractionTorque = tractionForce * car.wheelRadius;
+
+        float wheelTorque = -tractionTorque + (wheel.axis == car.drivetrain ? car.driveTorque * car.accelInput : 0.0F);
+        float wheelInertia = wheel.mass * car.wheelRadius * car.wheelRadius * 0.5F;
+        float wheelAngularAcceleration = wheelTorque / wheelInertia;
+        wheel.angularVelocity += wheelAngularAcceleration * dt.value;
+
+        if ((car.handBrakeOn && wheel.axis == 1))
         {
-            glm::vec3 accelDir = carLTW.forward();
-            float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-            float steerInput = carSpeed < 0.0F && car.accelInput < 0.0F ? -car.steerInput : car.steerInput;
-            float carLateralSpeed = glm::abs(glm::dot(steeringDir, carVelocity.vec));
-            carTorque.add(
-                {0.0F,
-                 carMass.mass * steerInput * glm::lerp(100.0F, 0.0F, glm::clamp(carLateralSpeed / 30.0F, 0.0F, 1.0F)),
-                 0.0F});
-            return;
+            wheel.angularVelocity = 0.0F;
         }
 
-        glm::vec3 r1 = wheelLTW.worldPosition() - carLTW.worldPosition();
-        glm::vec3 tireWorldVelocity = carVelocity.vec + glm::cross(carAngVelocity.vec, r1);
-        // gizmos.color({1.0F, 1.0F, 0.0F});
-        // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + steeringDir);
-
-        float steeringDirVelocity = glm::dot(steeringDir, tireWorldVelocity);
-
-        float grip = wheel.gripFactor;
-
-        float desiredVelocityChange = -steeringDirVelocity * grip;
-
-        float xForce = carMass.mass * desiredVelocityChange;
-
-        carForce.addForceOnPoint(steeringDir * xForce, wheelLTW.worldPosition() - carLTW.worldPosition(), carCOM.vec);
-
-        // gizmos.color({1.0F, 0.0F, 0.0F});
-        // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + steeringDir * xForce);
-    }
-
-    static void calculateAccelerationForces(const Wheel& wheel, const LocalToWorld& wheelLTW, const Car& car,
-                                            const Mass& carMass, Force& carForce, const Velocity& carVelocity,
-                                            const AngularVelocity& carAngVelocity, const CenterOfMass& carCOM,
-                                            const LocalToWorld& carLTW)
-    {
-        if (car.handBrakeOn && wheel.axis != car.drivetrain)
+        if (carOwner.canMove)
         {
-            glm::vec3 accelDir = carLTW.forward();
-            if (wheel.axis != car.drivetrain)
-            {
-                glm::vec3 accelDir = carLTW.forward();
-                float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-                float resistance = carSpeed * carMass.mass / 2.0F;
+            carForce.addForceOnPoint(tractionForce * wheelLTW.forward(),
+                                     wheelLTW.worldPosition() - carLTW.worldPosition(), carCOM.vec);
 
-                carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
-                                         carCOM.vec);
-            }
-            return;
-        }
-
-        glm::vec3 accelDir = wheelLTW.forward();
-
-        float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-
-        // accelerate
-        if (wheel.axis != car.drivetrain)
-        {
-            return;
-        }
-
-        // limit power to max speed so it doesn't accelerate more
-        float carEnginePower = carSpeed >= car.topSpeed || carSpeed <= car.minimumSpeed ? 0.0F : car.enginePower;
-
-        float torque = car.accelInput * carEnginePower;
-
-        carForce.addForceOnPoint(accelDir * torque, wheelLTW.worldPosition() - carLTW.worldPosition(), carCOM.vec);
-
-        // gizmos.color({1.0F, 0.0F, 0.0F});
-        // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + accelDir * torque);
-
-        // deccelerate
-        if (car.accelInput == 0.0F)
-        {
-            glm::vec3 r1 = wheelLTW.worldPosition() - carLTW.worldPosition();
-            glm::vec3 tireWorldVelocity = carVelocity.vec + glm::cross(carAngVelocity.vec, r1);
-
-            float resistance = glm::dot(accelDir, tireWorldVelocity) * carMass.mass / car.resistanceMassRatio;
-
-            carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
+            float lateralForce =
+                -car.corneringConstant * glm::clamp(slipAngle, -glm::radians(car.corneringPeakSlipAngle),
+                                                    glm::radians(car.corneringPeakSlipAngle));
+            carForce.addForceOnPoint(lateralForce * right, wheelLTW.worldPosition() - carLTW.worldPosition(),
                                      carCOM.vec);
         }
+        else
+        {
+            wheel.angularVelocity = 0.0F;
+        }
     }
+
+    // static void calculateSteeringForces(const Wheel& wheel, const LocalToWorld& wheelLTW, const Car& car,
+    //                                     const Mass& carMass, Force& carForce, Torque& carTorque,
+    //                                     const Velocity& carVelocity, const AngularVelocity& carAngVelocity,
+    //                                     const CenterOfMass& carCOM, const LocalToWorld& carLTW)
+    // {
+    //     glm::vec3 steeringDir =
+    //         glm::cross(wheelLTW.forward(), wheelLTW.up()); // we should be able to do wheelLTW.right()
+
+    //     if (car.handBrakeOn && wheel.axis == 1)
+    //     {
+    //         glm::vec3 accelDir = carLTW.forward();
+    //         float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+    //         float steerInput = carSpeed < 0.0F && car.accelInput < 0.0F ? -car.steerInput : car.steerInput;
+    //         float carLateralSpeed = glm::abs(glm::dot(steeringDir, carVelocity.vec));
+    //         carTorque.add(
+    //             {0.0F,
+    //              carMass.mass * steerInput * glm::lerp(100.0F, 0.0F, glm::clamp(carLateralSpeed / 30.0F,
+    //              0.0F, 1.0F)), 0.0F});
+    //         return;
+    //     }
+
+    //     glm::vec3 r1 = wheelLTW.worldPosition() - carLTW.worldPosition();
+    //     glm::vec3 tireWorldVelocity = carVelocity.vec + glm::cross(carAngVelocity.vec, r1);
+    //     // gizmos.color({1.0F, 1.0F, 0.0F});
+    //     // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + steeringDir);
+
+    //     float steeringDirVelocity = glm::dot(steeringDir, tireWorldVelocity);
+
+    //     float grip = wheel.gripFactor;
+
+    //     float desiredVelocityChange = -steeringDirVelocity * grip;
+
+    //     float xForce = carMass.mass * desiredVelocityChange;
+
+    //     carForce.addForceOnPoint(steeringDir * xForce, wheelLTW.worldPosition() - carLTW.worldPosition(),
+    //     carCOM.vec);
+
+    //     // gizmos.color({1.0F, 0.0F, 0.0F});
+    //     // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + steeringDir * xForce);
+    // }
+
+    // static void calculateAccelerationForces(const Wheel& wheel, const LocalToWorld& wheelLTW, const Car& car,
+    //                                         const Mass& carMass, Force& carForce, const Velocity& carVelocity,
+    //                                         const AngularVelocity& carAngVelocity, const CenterOfMass& carCOM,
+    //                                         const LocalToWorld& carLTW)
+    // {
+    //     if (car.handBrakeOn && wheel.axis != car.drivetrain)
+    //     {
+    //         glm::vec3 accelDir = carLTW.forward();
+    //         if (wheel.axis != car.drivetrain)
+    //         {
+    //             glm::vec3 accelDir = carLTW.forward();
+    //             float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+    //             float resistance = carSpeed * carMass.mass / 2.0F;
+
+    //             carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
+    //                                      carCOM.vec);
+    //         }
+    //         return;
+    //     }
+
+    //     glm::vec3 accelDir = wheelLTW.forward();
+
+    //     float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+
+    //     // accelerate
+    //     if (wheel.axis != car.drivetrain)
+    //     {
+    //         return;
+    //     }
+
+    //     // limit power to max speed so it doesn't accelerate more
+    //     float carEnginePower = carSpeed >= car.topSpeed || carSpeed <= car.minimumSpeed ? 0.0F : car.enginePower;
+
+    //     float torque = car.accelInput * carEnginePower;
+
+    //     carForce.addForceOnPoint(accelDir * torque, wheelLTW.worldPosition() - carLTW.worldPosition(), carCOM.vec);
+
+    //     // gizmos.color({1.0F, 0.0F, 0.0F});
+    //     // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + accelDir * torque);
+
+    //     // deccelerate
+    //     if (car.accelInput == 0.0F)
+    //     {
+    //         glm::vec3 r1 = wheelLTW.worldPosition() - carLTW.worldPosition();
+    //         glm::vec3 tireWorldVelocity = carVelocity.vec + glm::cross(carAngVelocity.vec, r1);
+
+    //         float resistance = glm::dot(accelDir, tireWorldVelocity) * carMass.mass / car.resistanceMassRatio;
+
+    //         carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
+    //                                  carCOM.vec);
+    //     }
+    // }
 } // namespace coffee
 
 void coffee::carPlugin(Cubos& cubos)
@@ -204,8 +265,7 @@ void coffee::carPlugin(Cubos& cubos)
             for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, car, carOwner,
                        carLTW, carVelocity] : query)
             {
-                float wheelAngularVelocity = wheel.currentVelocity / car.wheelRadius;
-                modelRotation.quat *= glm::angleAxis(wheelAngularVelocity * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
+                modelRotation.quat *= glm::angleAxis(wheel.angularVelocity * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
 
                 auto desiredWheelHeight = -glm::max(wheel.currentSuspensionHeight, car.minSuspensionHeight);
                 auto wheelHeightAlpha = 1.0F - glm::pow(0.5F, dt.value() / car.suspensionHalfTime);
@@ -225,31 +285,27 @@ void coffee::carPlugin(Cubos& cubos)
                 car.handBrakeOn = input.pressed("handbrake", carOwner.player);
 
                 // Get the user's input.
-                float steeringInput = -input.axis("steer", carOwner.player);
-                car.steerInput = steeringInput;
+                car.steerInput = -input.axis("steer", carOwner.player);
 
-                float carSpeed = glm::abs(glm::dot(carLTW.forward(), carVelocity.vec));
+                // float carSpeed = glm::abs(glm::dot(carLTW.forward(), carVelocity.vec));
 
-                float steeringAngle = glm::lerp(glm::pi<float>() / 2.5F, glm::pi<float>() / 6.0F,
-                                                glm::clamp(carSpeed / 40.0F, 0.0F, 1.0F));
-                if (car.handBrakeOn)
-                {
-                    steeringAngle = glm::pi<float>() / 2.5F;
-                }
+                // float steeringAngle = glm::lerp(glm::pi<float>() / 2.5F, glm::pi<float>() / 6.0F,
+                //                                 glm::clamp(carSpeed / 40.0F, 0.0F, 1.0F));
+                // if (car.handBrakeOn)
+                // {
+                //     steeringAngle = glm::pi<float>() / 2.5F;
+                // }
 
-                float steeringRotation = steeringInput * steeringAngle;
-                auto wheelAngleAlpha = 1.0F - glm::pow(0.5F, dt.value() / car.turnHalfTime);
+                float carSpeed = glm::length(carVelocity.vec);
+                float fastWheelSteeringRatio = glm::clamp(carSpeed / car.fastWheelSteeringAngle, 0.0F, 1.0F);
+                float maxWheelSteeringAngle =
+                    glm::mix(car.idleWheelSteeringAngle, car.fastWheelSteeringAngle, fastWheelSteeringRatio);
+                float desiredWheelAngle = car.steerInput * maxWheelSteeringAngle;
 
-                if (steeringRotation != 0)
-                {
-                    auto newRotation = steeringRotation;
-                    axleRotation.quat =
-                        glm::slerp(axleRotation.quat, glm::quat({0.0F, newRotation, 0.0F}), wheelAngleAlpha);
-                }
-                else
-                {
-                    axleRotation.quat = glm::slerp(axleRotation.quat, glm::quat({0.0F, 0.0F, 0.0F}), wheelAngleAlpha);
-                }
+                auto wheelAngleAlpha = 1.0F - glm::pow(0.5F, dt.value() / car.wheelSteeringHalfTime);
+                car.currentWheelSteeringAngle =
+                    glm::mix(car.currentWheelSteeringAngle, desiredWheelAngle, wheelAngleAlpha);
+                axleRotation.quat = glm::quat({0.0F, glm::radians(car.currentWheelSteeringAngle), 0.0F});
             }
         });
 
@@ -257,10 +313,10 @@ void coffee::carPlugin(Cubos& cubos)
         .tagged(physicsApplyForcesTag)
         .call([](Gizmos& gizmos,
                  Query<Wheel&, const Position&, const LocalToWorld&, ChildOf&, const Car&, const PlayerOwner&,
-                       Rotation&, Velocity&, const AngularVelocity&, Force&, Torque&, const Mass&, const CenterOfMass&,
+                       Rotation&, Velocity&, AngularVelocity&, Force&, Torque&, const Mass&, const CenterOfMass&,
                        const LocalToWorld&>
                      wheels,
-                 Raycast raycast) {
+                 Raycast raycast, const FixedDeltaTime& dt) {
             for (auto [wheel, wheelPosition, wheelLTW, childOf, car, carOwner, carRotation, carVelocity, carAngVelocity,
                        carForce, carTorque, carMass, carCOM, carLTW] : wheels)
             {
@@ -289,33 +345,27 @@ void coffee::carPlugin(Cubos& cubos)
                     calculateSuspensionForces(wheel.currentSuspensionHeight, wheelLTW, car, carMass, carForce,
                                               carVelocity, carAngVelocity, carCOM, carLTW);
 
-                    calculateSteeringForces(wheel, wheelLTW, car, carMass, carForce, carTorque, carVelocity,
-                                            carAngVelocity, carCOM, carLTW);
+                    calculateTractionForces(wheel, wheelLTW, car, carMass, carForce, carTorque, carVelocity,
+                                            carAngVelocity, carCOM, carLTW, dt, carOwner);
 
                     if (!carOwner.canMove)
                     {
                         carVelocity.vec.x = 0.0F;
                         carVelocity.vec.z = 0.0F;
-                    }
-                    else
-                    {
-                        calculateAccelerationForces(wheel, wheelLTW, car, carMass, carForce, carVelocity,
-                                                    carAngVelocity, carCOM, carLTW);
+                        carAngVelocity.vec.y = 0.0F;
                     }
                 }
             }
         });
 
-    /*
-    cubos.system("apply gravity")
+    cubos.system("apply car drag")
         .tagged(physicsApplyForcesTag)
-        .call([](Query<Velocity&, Force&, const Mass&, const Car&> query) {
-            for (auto [velocity, force, mass, car] : query)
+        .call([](Query<const LocalToWorld&, const Car&, AngularVelocity&, Torque&, Velocity&, Force&> query) {
+            for (auto [carLTW, car, carAngularVelocity, carTorque, carVelocity, carForce] : query)
             {
-                // Apply gravity force
-                glm::vec3 gravitationForce = mass.mass * glm::vec3(0.0F, -15.0F, 0.0F);
-
-                force.add(gravitationForce);
+                float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
+                carForce.add(-carSpeed * car.dragConstant * carVelocity.vec);
+                carForce.add(-car.rollingResistanceConstant * carVelocity.vec);
             }
-        });*/
+        });
 }

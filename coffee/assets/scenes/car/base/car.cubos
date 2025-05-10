@@ -3,16 +3,24 @@
     "player": 1
   },
   "coffee::Car": {
-    "drivetrain": 1,
-    "suspensionRestDist": 1.6,
+    "drivetrain": 0,
+    "dragConstant": 0.0,
+    "rollingResistanceConstant": 0.0,
+    "suspensionRestDist": 1.8,
     "springStrength": 200.0,
-    "springDamper": 500.0,
-    "wheelRadius": 1.5,
+    "springDamper": 300.0,
+    "wheelRadius": 2.0,
     "minSuspensionHeight": 0.9,
     "suspensionHalfTime": 0.075,
-    "turnHalfTime": 0.1,
-    "topSpeed": 75.0,
-    "enginePower": 1000.0
+    "fastWheelSteeringAngle": 30.0,
+    "idleWheelSteeringAngle": 60.0,
+    "fastWheelSteeringVelocity": 100.0,
+    "wheelSteeringHalfTime": 0.1,
+    "tractionConstant": 10000.0,
+    "tractionPeakSlip": 0.2,
+    "corneringConstant": 6000.0,
+    "corneringPeakSlipAngle": 10.0,
+    "driveTorque": 2000.0
   },
   "cubos::engine::BoxCollisionShape": {
     "x": 3.0,
