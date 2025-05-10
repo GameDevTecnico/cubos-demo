@@ -14,6 +14,7 @@
 #include <cubos/engine/collisions/colliding_with.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/physics/solver/plugin.hpp>
+#include <cubos/engine/physics/constraints/distance_constraint.hpp>
 
 #include "../car/plugin.hpp"
 #include "../player_spawner/plugin.hpp"
@@ -77,7 +78,7 @@ CUBOS_REFLECT_IMPL(coffee::EndArea)
 
 void coffee::roundManagerPlugin(Cubos& cubos)
 {
-    // cubos.depends(transformPlugin);
+    cubos.depends(transformPlugin);
     cubos.depends(carPlugin);
     cubos.depends(assetsPlugin);
     // cubos.depends(renderTargetPlugin);
@@ -104,8 +105,7 @@ void coffee::roundManagerPlugin(Cubos& cubos)
     cubos.system("detect toilet reached end - reset and add points")
         .call([](Commands cmds, Assets& assets, GameRoundSettings& roundManager,
                  Query<Entity, ToiletPaper&, CollidingWith&, EndArea&> paperInEnd,
-                 Query<PlayerOwner&, DistanceConstraint&, Entity, ToiletPaper&> carWithPaper,
-                 Query<RoundPlaying&> roundPlaying) {
+                 Query<Entity, ToiletPaper&, ChildOf&, PlayerOwner&> carWithPaper, Query<RoundPlaying&> roundPlaying) {
             if (roundPlaying.count() == 0)
             {
                 return;
@@ -113,10 +113,10 @@ void coffee::roundManagerPlugin(Cubos& cubos)
 
             for (auto [entity, toiletPaper, colliding, endArea] : paperInEnd)
             {
-                auto match = carWithPaper.pin(1, entity).first();
+                auto match = carWithPaper.pin(0, entity).first();
                 if (match)
                 {
-                    auto [playerOwner, constraint, entity, toiletPaper] = *match;
+                    auto [entity, toiletPaper, childOf, playerOwner] = *match;
 
                     cmds.remove<RoundPlaying>(roundManager.roundManagerEntity);
                     cmds.add(roundManager.roundManagerEntity, Destroy{});
