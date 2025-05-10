@@ -1,4 +1,5 @@
 #include "plugin.hpp"
+#include "../interpolation/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/core/reflection/external/primitives.hpp>
@@ -11,6 +12,8 @@
 #include <cubos/engine/fixed_step/plugin.hpp>
 #include <cubos/engine/gizmos/plugin.hpp>
 #include <cubos/engine/gizmos/target.hpp>
+#include <cubos/engine/render/lights/plugin.hpp>
+#include <cubos/engine/render/lights/point.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -37,6 +40,8 @@ CUBOS_REFLECT_IMPL(coffee::Car)
     return cubos::core::ecs::TypeBuilder<Car>("coffee::Car")
         .withField("drivetrain", &Car::drivetrain)
         .withField("accelInput", &Car::accelInput)
+        .withField("backLightIntensity", &Car::backLightIntensity)
+        .withField("backLightIntensityHalfTime", &Car::backLightIntensityHalfTime)
         .withField("dragConstant", &Car::dragConstant)
         .withField("rollingResistanceConstant", &Car::rollingResistanceConstant)
         .withField("suspensionRestDist", &Car::suspensionRestDist)
@@ -149,100 +154,6 @@ namespace coffee
             wheel.angularVelocity = 0.0F;
         }
     }
-
-    // static void calculateSteeringForces(const Wheel& wheel, const LocalToWorld& wheelLTW, const Car& car,
-    //                                     const Mass& carMass, Force& carForce, Torque& carTorque,
-    //                                     const Velocity& carVelocity, const AngularVelocity& carAngVelocity,
-    //                                     const CenterOfMass& carCOM, const LocalToWorld& carLTW)
-    // {
-    //     glm::vec3 steeringDir =
-    //         glm::cross(wheelLTW.forward(), wheelLTW.up()); // we should be able to do wheelLTW.right()
-
-    //     if (car.handBrakeOn && wheel.axis == 1)
-    //     {
-    //         glm::vec3 accelDir = carLTW.forward();
-    //         float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-    //         float steerInput = carSpeed < 0.0F && car.accelInput < 0.0F ? -car.steerInput : car.steerInput;
-    //         float carLateralSpeed = glm::abs(glm::dot(steeringDir, carVelocity.vec));
-    //         carTorque.add(
-    //             {0.0F,
-    //              carMass.mass * steerInput * glm::lerp(100.0F, 0.0F, glm::clamp(carLateralSpeed / 30.0F,
-    //              0.0F, 1.0F)), 0.0F});
-    //         return;
-    //     }
-
-    //     glm::vec3 r1 = wheelLTW.worldPosition() - carLTW.worldPosition();
-    //     glm::vec3 tireWorldVelocity = carVelocity.vec + glm::cross(carAngVelocity.vec, r1);
-    //     // gizmos.color({1.0F, 1.0F, 0.0F});
-    //     // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + steeringDir);
-
-    //     float steeringDirVelocity = glm::dot(steeringDir, tireWorldVelocity);
-
-    //     float grip = wheel.gripFactor;
-
-    //     float desiredVelocityChange = -steeringDirVelocity * grip;
-
-    //     float xForce = carMass.mass * desiredVelocityChange;
-
-    //     carForce.addForceOnPoint(steeringDir * xForce, wheelLTW.worldPosition() - carLTW.worldPosition(),
-    //     carCOM.vec);
-
-    //     // gizmos.color({1.0F, 0.0F, 0.0F});
-    //     // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + steeringDir * xForce);
-    // }
-
-    // static void calculateAccelerationForces(const Wheel& wheel, const LocalToWorld& wheelLTW, const Car& car,
-    //                                         const Mass& carMass, Force& carForce, const Velocity& carVelocity,
-    //                                         const AngularVelocity& carAngVelocity, const CenterOfMass& carCOM,
-    //                                         const LocalToWorld& carLTW)
-    // {
-    //     if (car.handBrakeOn && wheel.axis != car.drivetrain)
-    //     {
-    //         glm::vec3 accelDir = carLTW.forward();
-    //         if (wheel.axis != car.drivetrain)
-    //         {
-    //             glm::vec3 accelDir = carLTW.forward();
-    //             float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-    //             float resistance = carSpeed * carMass.mass / 2.0F;
-
-    //             carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
-    //                                      carCOM.vec);
-    //         }
-    //         return;
-    //     }
-
-    //     glm::vec3 accelDir = wheelLTW.forward();
-
-    //     float carSpeed = glm::dot(carLTW.forward(), carVelocity.vec);
-
-    //     // accelerate
-    //     if (wheel.axis != car.drivetrain)
-    //     {
-    //         return;
-    //     }
-
-    //     // limit power to max speed so it doesn't accelerate more
-    //     float carEnginePower = carSpeed >= car.topSpeed || carSpeed <= car.minimumSpeed ? 0.0F : car.enginePower;
-
-    //     float torque = car.accelInput * carEnginePower;
-
-    //     carForce.addForceOnPoint(accelDir * torque, wheelLTW.worldPosition() - carLTW.worldPosition(), carCOM.vec);
-
-    //     // gizmos.color({1.0F, 0.0F, 0.0F});
-    //     // gizmos.drawLine("line", wheelLTW.worldPosition(), wheelLTW.worldPosition() + accelDir * torque);
-
-    //     // deccelerate
-    //     if (car.accelInput == 0.0F)
-    //     {
-    //         glm::vec3 r1 = wheelLTW.worldPosition() - carLTW.worldPosition();
-    //         glm::vec3 tireWorldVelocity = carVelocity.vec + glm::cross(carAngVelocity.vec, r1);
-
-    //         float resistance = glm::dot(accelDir, tireWorldVelocity) * carMass.mass / car.resistanceMassRatio;
-
-    //         carForce.addForceOnPoint(-accelDir * resistance, wheelLTW.worldPosition() - carLTW.worldPosition(),
-    //                                  carCOM.vec);
-    //     }
-    // }
 } // namespace coffee
 
 void coffee::carPlugin(Cubos& cubos)
@@ -253,6 +164,8 @@ void coffee::carPlugin(Cubos& cubos)
     cubos.depends(fixedStepPlugin);
     cubos.depends(physicsPlugin);
     cubos.depends(gizmosPlugin);
+    cubos.depends(interpolationPlugin);
+    cubos.depends(lightsPlugin);
 
     cubos.component<PlayerOwner>();
     cubos.component<PlayerCameraOwner>();
@@ -263,11 +176,12 @@ void coffee::carPlugin(Cubos& cubos)
     // query wheels and input, if wheels are front rotate according to input.
     cubos.system("read input and animate wheels")
         .call([](Input& input, DeltaTime& dt,
-                 Query<Rotation&, ChildOf&, Position&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Car&,
+                 Query<Rotation&, ChildOf&, Position&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Entity, Car&,
                        const PlayerOwner&, const LocalToWorld&, const Velocity&>
-                     query) {
-            for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, car, carOwner,
-                       carLTW, carVelocity] : query)
+                     query,
+                 Query<PointLight&, const ChildOf&, const InterpolationOf&, const Car&> backLights) {
+            for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, carEnt, car,
+                       carOwner, carLTW, carVelocity] : query)
             {
                 modelRotation.quat *= glm::angleAxis(wheel.angularVelocity * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
 
@@ -291,14 +205,17 @@ void coffee::carPlugin(Cubos& cubos)
                 // Get the user's input.
                 car.steerInput = -input.axis("steer", carOwner.player);
 
-                // float carSpeed = glm::abs(glm::dot(carLTW.forward(), carVelocity.vec));
-
-                // float steeringAngle = glm::lerp(glm::pi<float>() / 2.5F, glm::pi<float>() / 6.0F,
-                //                                 glm::clamp(carSpeed / 40.0F, 0.0F, 1.0F));
-                // if (car.handBrakeOn)
-                // {
-                //     steeringAngle = glm::pi<float>() / 2.5F;
-                // }
+                // Set the backlight intensity depending on the input.
+                float targetBacklightIntensity = 0.0F;
+                if (car.accelInput < 0.0F || car.handBrakeOn)
+                {
+                    targetBacklightIntensity = car.backLightIntensity;
+                }
+                for (auto [light, childOf, interpolation, car] : backLights.pin(2, carEnt))
+                {
+                    light.intensity = glm::mix(light.intensity, targetBacklightIntensity,
+                                               1.0F - glm::pow(0.5F, dt.value() / car.backLightIntensityHalfTime));
+                }
 
                 float carSpeed = glm::length(carVelocity.vec);
                 float fastWheelSteeringRatio = glm::clamp(carSpeed / car.fastWheelSteeringAngle, 0.0F, 1.0F);
