@@ -26,6 +26,7 @@ CUBOS_REFLECT_IMPL(coffee::MapGenerator)
         .withField("whiteBuildingTileScene", &MapGenerator::whiteBuildingTileScene)
         .withField("fillerBuildingTileScene", &MapGenerator::fillerBuildingTileScene)
         .withField("marketBuildingTileScene", &MapGenerator::marketBuildingTileScene)
+        .withField("parkTileScene", &MapGenerator::parkTileScene)
         .build();
 }
 
@@ -96,11 +97,12 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                     // No curves on the first tile or after a hole.
                     curveChance = 0.0F;
                     firstTile = false;
-                    wasHoleBefore = false;
                 }
 
                 if (chanceDist(rng) < curveChance)
                 {
+                    wasHoleBefore = false;
+
                     successiveStraight = 0;
                     successiveCurves += 1;
 
@@ -159,6 +161,47 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
 
             // Place the supermarket building.
             map.tiles[cursorPosition] = {generator.marketBuildingTileScene, cursorRotation};
+
+            // Search for tiles that are not road tiles and that have 3 road tiles around them.
+            for (const auto& [position, tile] : roadTiles)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    glm::ivec2 emptyTilePosition = position + directions[i];
+                    if (map.tiles.find(emptyTilePosition) != map.tiles.end())
+                    {
+                        continue;
+                    }
+
+                    // Count neighbors.
+                    int neighbors = 0;
+                    for (int j = 0; j < 4; ++j)
+                    {
+                        glm::ivec2 neighborPosition = emptyTilePosition + directions[j];
+                        if (map.tiles.find(neighborPosition) != map.tiles.end())
+                        {
+                            neighbors += 1;
+                        }
+                    }
+
+                    float parkChance = 0.1F;
+                    if (neighbors == 3)
+                    {
+                        parkChance = 1.0F;
+                    }
+                    else if (neighbors == 2)
+                    {
+                        parkChance = 0.5F;
+                    }
+
+                    if (chanceDist(rng) < parkChance)
+                    {
+                        // Place a park tile.
+                        map.tiles[emptyTilePosition] = {generator.parkTileScene, 0};
+                        roadTiles.push_back({emptyTilePosition, map.tiles[emptyTilePosition]});
+                    }
+                }
+            }
 
             // Add surrounding buildings to the road tiles.
             for (const auto& [position, tile] : roadTiles)
