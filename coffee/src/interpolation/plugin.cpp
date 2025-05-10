@@ -82,6 +82,7 @@ void coffee::interpolationPlugin(Cubos& cubos)
         .call([](const FixedAccumulatedTime& acc, const DeltaTime& dt, const FixedDeltaTime& fdt,
                  Query<Position&, Rotation&, Scale&, const InterpolationOf&> query) {
             float alpha = (acc.value + dt.value()) / fdt.value;
+            alpha = glm::clamp(alpha, 0.0F, 1.0F);
 
             for (auto [position, rotation, scale, interpolation] : query)
             {
