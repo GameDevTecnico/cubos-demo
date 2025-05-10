@@ -32,8 +32,9 @@ namespace coffee
         float steerInput = 0.0F;
         bool handBrakeOn = false;
 
+        float headLightIntensity = 2.0F; // Intensity of the head lights.
         float backLightIntensity = 3.0F; // Intensity of the back lights when reversing or braking.
-        float backLightIntensityHalfTime = 0.5F; // Time it takes for the back lights to reach half of the desired intensity.
+        float lightIntensityHalfTime = 0.5F; // Time it takes for the lights to reach half of the desired intensity.
 
         float dragConstant = 0.0F;              // Multiplied by the square of the velocity.
         float rollingResistanceConstant = 0.0F; // Multiplied by the velocity.

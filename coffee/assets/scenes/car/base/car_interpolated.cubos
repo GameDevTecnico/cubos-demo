@@ -37,7 +37,8 @@
       },
       "range": 200.0,
       "innerSpotAngle": 90.0,
-      "spotAngle": 160.0
+      "spotAngle": 160.0,
+      "intensity": 0.0
     }
   },
   "#right-head-light": {
@@ -61,7 +62,8 @@
       },
       "range": 200.0,
       "innerSpotAngle": 90.0,
-      "spotAngle": 160.0
+      "spotAngle": 160.0,
+      "intensity": 0.0
     }
   },
   "#left-back-light": {
