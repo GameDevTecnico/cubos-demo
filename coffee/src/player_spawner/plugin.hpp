@@ -6,7 +6,6 @@
 
 namespace coffee
 {
-    /// @brief Component which represents a car drivable by a player
     struct Spawner
     {
         CUBOS_REFLECT;
@@ -17,6 +16,9 @@ namespace coffee
         float timeBetweenSpawns = 0.6F;
         bool isChangeable = true;
         int currentPlayers = 0; // press once per player
+        float timeSinceStart = 0.0F;
+        float timeToStart = 4.0F;
+        bool hasStarted = false;
     };
 
     void playerSpawnerPlugin(cubos::engine::Cubos& cubos);
