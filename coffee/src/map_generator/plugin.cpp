@@ -86,7 +86,7 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
             {
                 successiveNoRamp += 1;
 
-                float curveChance = 0.25F + (0.25F * static_cast<float>(successiveStraight) +
+                float curveChance = 0.20F + (0.15F * static_cast<float>(successiveStraight) +
                                              0.5F * static_cast<float>(successiveCurves));
                 if (successiveCurves >= 2)
                 {

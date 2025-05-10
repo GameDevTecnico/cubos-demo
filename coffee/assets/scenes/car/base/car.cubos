@@ -46,6 +46,13 @@
     "y": 5,
     "z": 0
   },
+  "cubos::engine::AudioSource": {
+    "sound": "3fa5cc2f-9b5c-44ba-8eba-44c30ada4630",
+    "playing": true,
+    "looping": true,
+    "gain": 0.75,
+    "pitch": 1.0
+  },
   "#wheel-front-right": {
     "coffee::Wheel": {
       "axis": 0,

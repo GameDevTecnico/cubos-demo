@@ -15,6 +15,7 @@
 #include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/render/lights/point.hpp>
 #include <cubos/engine/render/lights/spot.hpp>
+#include <cubos/engine/audio/plugin.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -169,6 +170,7 @@ void coffee::carPlugin(Cubos& cubos)
     cubos.depends(gizmosPlugin);
     cubos.depends(interpolationPlugin);
     cubos.depends(lightsPlugin);
+    cubos.depends(audioPlugin);
 
     cubos.component<PlayerOwner>();
     cubos.component<PlayerCameraOwner>();
@@ -178,14 +180,14 @@ void coffee::carPlugin(Cubos& cubos)
     // system for turning wheel ()
     // query wheels and input, if wheels are front rotate according to input.
     cubos.system("read input and animate wheels")
-        .call([](Input& input, DeltaTime& dt,
+        .call([](Commands cmds, Input& input, DeltaTime& dt, Query<Car&> carQuery,
                  Query<Rotation&, ChildOf&, Position&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Entity, Car&,
-                       const PlayerOwner&, const LocalToWorld&, const Velocity&>
+                       AudioSource&, const PlayerOwner&, const LocalToWorld&, const Velocity&>
                      query,
                  Query<PointLight&, const ChildOf&, const InterpolationOf&, const Car&> backLights,
                  Query<SpotLight&, const ChildOf&, const InterpolationOf&, const Car&> headLights) {
             for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, carEnt, car,
-                       carOwner, carLTW, carVelocity] : query)
+                       audio, carOwner, carLTW, carVelocity] : query)
             {
                 modelRotation.quat *= glm::angleAxis(wheel.angularVelocity * dt.value(), glm::vec3(1.0F, 0.0F, 0.0F));
 
@@ -240,7 +242,23 @@ void coffee::carPlugin(Cubos& cubos)
                                                1.0F - glm::pow(0.5F, dt.value() / car.lightIntensityHalfTime));
                 }
 
-                float carSpeed = glm::length(carVelocity.vec);
+                // Play cool audio.
+                float carSpeed = glm::length(glm::vec3{carVelocity.vec.x, 0.0F, carVelocity.vec.z});
+                float engineWork = carSpeed + glm::abs(car.accelInput) * 20.0F;
+
+                int gear = static_cast<int>(glm::floor(engineWork / 20.0F));
+                float rpm = (glm::mod(engineWork, 20.0F) / 20.0F);
+
+                float targetPitch = 0.5F + gear * 0.5F + rpm * 0.5F;
+                float targetGain = 1.5F + gear * 1.5F + rpm * 1.0F;
+                targetGain /= carQuery.count();
+
+                float audioHalfTime = 0.1F;
+                float audioAlpha = 1.0F - glm::pow(0.5F, dt.value() / audioHalfTime);
+                audio.pitch = glm::mix(audio.pitch, targetPitch, audioAlpha);
+                audio.gain = glm::mix(audio.gain, targetGain, audioAlpha);
+                cmds.add(carEnt, AudioPlay{});
+
                 float fastWheelSteeringRatio = glm::clamp(carSpeed / car.fastWheelSteeringAngle, 0.0F, 1.0F);
                 float maxWheelSteeringAngle =
                     glm::mix(car.idleWheelSteeringAngle, car.fastWheelSteeringAngle, fastWheelSteeringRatio);
