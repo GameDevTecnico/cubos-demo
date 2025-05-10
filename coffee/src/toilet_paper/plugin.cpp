@@ -14,6 +14,7 @@
 #include <cubos/engine/transform/child_of.hpp>
 #include <cubos/engine/transform/local_to_world.hpp>
 #include <cubos/engine/transform/position.hpp>
+#include <cubos/engine/audio/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -49,6 +50,12 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
                     scores.scores[toiletPaper.player - 1] += 100;
                     commands.relate(ent2, ent1, ChildOf{});
                     commands.add(ent2, Position{toiletPaper.carPosition});
+
+                    AudioSource source{};
+                    source.sound = AnyAsset{"605c38cf-c331-43ae-8008-c1d69cea35bb"};
+                    source.gain = 1.5F;
+                    commands.add(ent2, source);
+                    commands.add(ent2, AudioPlay{});
                 }
             }
         });
@@ -72,6 +79,12 @@ void coffee::toiletPaperPlugin(Cubos& cubos)
                     toiletPaper.heldTime = 0.0F;
                     commands.relate(toiletPaperEnt, stealerEnt, ChildOf{});
                     commands.add(interpolatedEnt, InterpolatedDirty{});
+
+                    AudioSource source{};
+                    source.sound = AnyAsset{"c3aa1a79-a8a4-4a51-9988-4f4cef1fd68f"};
+                    source.gain = 1.5F;
+                    commands.add(toiletPaperEnt, source);
+                    commands.add(toiletPaperEnt, AudioPlay{});
                 }
             }
         });

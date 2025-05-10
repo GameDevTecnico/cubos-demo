@@ -73,9 +73,9 @@ int main(int argc, char** argv)
     cubos.startupSystem("set the Input Bindings").tagged(assetsTag).call([](Assets& assets, Input& input) {
         input.bind(*assets.read(DebugBindingsAsset), 0);
         input.bind(*assets.read(Player1BindingsAsset), 1);
-        input.bind(*assets.read(Player1BindingsAsset), 2);
-        input.bind(*assets.read(Player1BindingsAsset), 3);
-        input.bind(*assets.read(Player1BindingsAsset), 4);
+        input.bind(*assets.read(Player2BindingsAsset), 2);
+        input.bind(*assets.read(PlayerNBindingsAsset), 3);
+        input.bind(*assets.read(PlayerNBindingsAsset), 4);
     });
 
     cubos.startupSystem("set the Voxel Palette").tagged(assetsTag).call([](Assets& assets, RenderPalette& palette) {
