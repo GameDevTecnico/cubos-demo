@@ -78,14 +78,12 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
 
             int successiveCurves = 0;
             int successiveStraight = 0;
-            int successiveNoRamp = 0;
             bool wasLastCurveLeft = false;
+            bool wasHoleBefore = false;
             bool firstTile = true;
 
             for (std::size_t i = 0; i < generator.trackLength; ++i)
             {
-                successiveNoRamp += 1;
-
                 float curveChance = 0.20F + (0.15F * static_cast<float>(successiveStraight) +
                                              0.5F * static_cast<float>(successiveCurves));
                 if (successiveCurves >= 2)
@@ -93,11 +91,12 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                     // No more than 2 curves in a row.
                     curveChance = 0.0F;
                 }
-                if (firstTile)
+                if (firstTile || wasHoleBefore)
                 {
-                    // No curves on the first tile.
+                    // No curves on the first tile or after a hole.
                     curveChance = 0.0F;
                     firstTile = false;
+                    wasHoleBefore = false;
                 }
 
                 if (chanceDist(rng) < curveChance)
@@ -125,18 +124,21 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                 }
                 else
                 {
-                    float rampChance =
-                        0.1F * static_cast<float>(successiveNoRamp) + 0.1F * static_cast<float>(successiveStraight);
+                    float holeChance = 0.2F + 0.1F * static_cast<float>(successiveStraight);
+                    if (successiveStraight == 0 || wasHoleBefore)
+                    {
+                        holeChance = 0.0F;
+                        wasHoleBefore = false;
+                    }
 
                     successiveStraight += 1;
                     successiveCurves = 0;
 
-                    if (chanceDist(rng) < rampChance)
+                    if (chanceDist(rng) < holeChance)
                     {
-                        successiveNoRamp = 0;
-                        int rotModifier = chanceDist(rng) < 0.5F ? 2 : 0;
-                        // Place a straight tile with a ramp.
-                        newTile = {generator.straightWithRampTileScene, cursorRotation + rotModifier};
+                        // Place a straight tile with a hole.
+                        wasHoleBefore = true;
+                        newTile = {generator.straightWithRampTileScene, cursorRotation};
                     }
                     else
                     {

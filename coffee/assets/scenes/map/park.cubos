@@ -1,0 +1,12 @@
+{
+    "#park": {
+        "inherit": "38308025-ed2e-4fed-a5df-b7c890a54576",
+        "cubos::engine::VoxelCollisionShape": "5e9273fd-968a-4e53-9bd9-d51631715a2b",
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "5e9273fd-968a-4e53-9bd9-d51631715a2b"
+        },
+        "cubos::engine::Position": {
+            "y": -5.0
+        }
+    }
+}

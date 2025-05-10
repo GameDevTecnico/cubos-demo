@@ -1,0 +1,62 @@
+{
+    "#road": {
+        "inherit": "38308025-ed2e-4fed-a5df-b7c890a54576",
+        "cubos::engine::VoxelCollisionShape": "42e37075-01c8-4427-9d31-b576b92da21c",
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "42e37075-01c8-4427-9d31-b576b92da21c"
+        },
+        "cubos::engine::Position": {
+            "y": -5.0
+        },
+        "cubos::engine::Rotation": {
+            "x": 0.0,
+            "y": 0.7071068,
+            "z": 0.0,
+            "w": 0.7071068
+        }
+    },
+    "#ramp1": {
+        "inherit": "38308025-ed2e-4fed-a5df-b7c890a54576",
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "9b3bec38-d70a-49e2-9416-1280fcb7721d"
+        },
+        "cubos::engine::VoxelCollisionShape": "9b3bec38-d70a-49e2-9416-1280fcb7721d",
+        "cubos::engine::Position": {
+            "x": 0.0,
+            "y": -0.45,
+            "z": -35.0
+        },
+        "cubos::engine::Rotation": {
+            "x": -0.1014646,
+            "y": 0.6997892,
+            "z": -0.1014646,
+            "w": 0.6997892
+        }
+    },
+    "#rotate": {
+        "#ramp2": {
+            "inherit": "38308025-ed2e-4fed-a5df-b7c890a54576",
+            "cubos::engine::RenderVoxelGrid": {
+                "asset": "9b3bec38-d70a-49e2-9416-1280fcb7721d"
+            },
+            "cubos::engine::VoxelCollisionShape": "9b3bec38-d70a-49e2-9416-1280fcb7721d",
+            "cubos::engine::Position": {
+                "x": 0.0,
+                "y": -0.45,
+                "z": -35.0
+            },
+            "cubos::engine::Rotation": {
+                "x": -0.1014646,
+                "y": 0.6997892,
+                "z": -0.1014646,
+                "w": 0.6997892
+            }
+        },
+        "cubos::engine::Rotation": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0,
+            "w": 0.0
+        }
+    }
+}
