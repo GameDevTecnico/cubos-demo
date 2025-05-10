@@ -1,6 +1,6 @@
 {
     "#building": {
-        "cubos::engine::VoxelCollisionShape": "7e914102-4604-4c21-868c-42998f71f180",
+        "cubos::engine::VoxelCollisionShape": "83010100-9a19-40dd-a17c-4b009cb70757",
         "cubos::engine::CollisionLayers": 2,
         "cubos::engine::CollisionMask": 1,
         "cubos::engine::RenderVoxelGrid": {
