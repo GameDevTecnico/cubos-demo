@@ -1,8 +1,5 @@
 #include <imgui.h>
 
-#include "progression/plugin.hpp"
-#include "day_night/plugin.hpp"
-
 #include <cubos/engine/audio/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
 #include <cubos/engine/settings/plugin.hpp>
@@ -16,6 +13,7 @@
 #include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/tools/plugin.hpp>
 
+#include "day_night/plugin.hpp"
 #include "map/plugin.hpp"
 #include "map_generator/plugin.hpp"
 #include "ui_effects/plugin.hpp"
@@ -50,11 +48,9 @@ int main(int argc, char** argv)
 
     // Add game plugins
     cubos.plugin(coffee::spawnOrphanPlugin);
-    cubos.plugin(coffee::blackoutPlugin);
     cubos.plugin(coffee::interpolationPlugin);
     cubos.plugin(coffee::mapPlugin);
     cubos.plugin(coffee::mapGeneratorPlugin);
-    cubos.plugin(coffee::progressionPlugin);
     cubos.plugin(coffee::dayNightPlugin);
     cubos.plugin(coffee::followPlugin);
     cubos.plugin(coffee::carPlugin);
@@ -64,6 +60,7 @@ int main(int argc, char** argv)
     cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(coffee::playerSpawnerPlugin);
     cubos.plugin(coffee::hoverAnimationPlugin);
+    cubos.plugin(coffee::blackoutPlugin);
 
     cubos.startupSystem("set ImGui context").after(imguiInitTag).call([](ImGuiContextHolder& holder) {
         ImGui::SetCurrentContext(holder.context);

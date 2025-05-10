@@ -1,5 +1,4 @@
 #include "plugin.hpp"
-#include "../progression/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/engine/render/lights/environment.hpp>
@@ -15,6 +14,7 @@ CUBOS_REFLECT_IMPL(coffee::DayNightManager)
 {
     return cubos::core::ecs::TypeBuilder<DayNightManager>("coffee::DayNightManager")
         .withField("state", &DayNightManager::state)
+        .withField("desiredState", &DayNightManager::desiredState)
         .withField("speed", &DayNightManager::speed)
         .withField("nightEnvironment", &DayNightManager::nightEnvironment)
         .withField("nightSunLight", &DayNightManager::nightSunLight)
@@ -33,15 +33,13 @@ CUBOS_REFLECT_IMPL(coffee::CarLight)
 void coffee::dayNightPlugin(Cubos& cubos)
 {
     cubos.depends(lightsPlugin);
-    cubos.depends(progressionPlugin);
 
     cubos.component<DayNightManager>();
     cubos.component<CarLight>();
 
     cubos.system("update DayNightManager")
-        .call([](const Progression& progression, const DeltaTime& dt, Query<DayNightManager&> managers,
-                 RenderEnvironment& renderEnvironment, Query<DirectionalLight&> sun,
-                 Query<SpotLight&, CarLight&> carLights) {
+        .call([](const DeltaTime& dt, Query<DayNightManager&> managers, RenderEnvironment& renderEnvironment,
+                 Query<DirectionalLight&> sun, Query<SpotLight&, CarLight&> carLights) {
             CUBOS_ASSERT(managers.count() <= 1, "Only one DayNightManager at a time is allowed.");
             auto match = managers.first();
             if (!match)
@@ -52,18 +50,7 @@ void coffee::dayNightPlugin(Cubos& cubos)
 
             // Gradually change the state of the day-night cycle.
             float alpha = 1.0F - glm::pow(0.5F, dt.value() * manager.speed);
-            float desiredState;
-
-            if (progression.timeOfDay < progression.dayDuration * 0.5F)
-            {
-                desiredState = 0.0F;
-            }
-            else
-            {
-                desiredState = 1.0F;
-            }
-
-            manager.state = glm::mix(manager.state, desiredState, alpha);
+            manager.state = glm::mix(manager.state, manager.desiredState, alpha);
 
             // Update the sun's intensity.
             for (auto [light] : sun)
