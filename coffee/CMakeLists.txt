@@ -3,7 +3,6 @@
 
 add_executable(coffee
     src/main.cpp
-    src/progression/plugin.cpp
     src/day_night/plugin.cpp
     src/map/plugin.cpp
     src/map_generator/plugin.cpp

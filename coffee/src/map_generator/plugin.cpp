@@ -80,6 +80,7 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
             int successiveStraight = 0;
             int successiveNoRamp = 0;
             bool wasLastCurveLeft = false;
+            bool firstTile = true;
 
             for (std::size_t i = 0; i < generator.trackLength; ++i)
             {
@@ -91,6 +92,12 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                 {
                     // No more than 2 curves in a row.
                     curveChance = 0.0F;
+                }
+                if (firstTile)
+                {
+                    // No curves on the first tile.
+                    curveChance = 0.0F;
+                    firstTile = false;
                 }
 
                 if (chanceDist(rng) < curveChance)
