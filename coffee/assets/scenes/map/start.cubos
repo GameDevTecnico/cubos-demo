@@ -16,13 +16,17 @@
         }
     },
     "#green-light-1": {
+        "coffee::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 0.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -32,13 +36,17 @@
         }
     },
     "#green-light-2": {
+        "coffee::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 0.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -48,13 +56,17 @@
         }
     },
     "#green-light-3": {
+        "coffee::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 0.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -64,13 +76,17 @@
         }
     },
     "#green-light-4": {
+        "coffee::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 0.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -80,13 +96,17 @@
         }
     },
     "#yellow-light-1": {
+        "coffee::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 10.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -96,13 +116,17 @@
         }
     },
     "#yellow-light-2": {
+        "coffee::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 10.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -112,13 +136,17 @@
         }
     },
     "#yellow-light-3": {
+        "coffee::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 10.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -128,13 +156,17 @@
         }
     },
     "#yellow-light-4": {
+        "coffee::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 1.0,
                 "z": 0.0
             },
-            "intensity": 10.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -144,13 +176,17 @@
         }
     },
     "#red-light-1": {
+        "coffee::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 0.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -160,13 +196,17 @@
         }
     },
     "#red-light-2": {
+        "coffee::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 0.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -176,13 +216,17 @@
         }
     },
     "#red-light-3": {
+        "coffee::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 0.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
@@ -192,13 +236,17 @@
         }
     },
     "#red-light-4": {
+        "coffee::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
         "cubos::engine::PointLight": {
             "color": {
                 "x": 1.0,
                 "y": 0.0,
                 "z": 0.0
             },
-            "intensity": 20.0,
+            "intensity": 0.0,
             "range": 2.0
         },
         "cubos::engine::Position": {
