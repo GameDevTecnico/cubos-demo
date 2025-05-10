@@ -7,7 +7,10 @@
     "cubos::engine::UICanvas": {},
     "cubos::engine::UIExpand": {},
     "cubos::engine::GizmosTarget": {},
-    "coffee::ScoreUIManager": {}
+    "coffee::ScoreUIManager": {},
+    "#instructions": {
+      "inherit": "264c9b69-c0fb-4327-a9f8-e62e3db2a85b"
+    }
   },
   "#audio-listener": {
     "cubos::engine::AudioListener": {

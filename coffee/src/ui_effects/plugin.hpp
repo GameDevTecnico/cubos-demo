@@ -49,5 +49,11 @@ namespace coffee
         int order = 1;
     };
 
+    /// @brief Component which marks the instructions UI
+    struct InstructionsUI
+    {
+        CUBOS_REFLECT;
+    };
+
     void uiEffectsPlugin(cubos::engine::Cubos& cubos);
 } // namespace coffee
