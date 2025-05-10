@@ -18,7 +18,7 @@ namespace coffee
         int maxRound = 5;
 
         float currentTimeBetweenRounds = 0.0F;
-        float maxTimeBetweenRounds = 7.5F;
+        float maxTimeBetweenRounds = 7.0F;
     };
 
     struct RoundManager
