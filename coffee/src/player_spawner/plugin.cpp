@@ -14,6 +14,7 @@
 
 #include "../car/plugin.hpp"
 #include "../follow/plugin.hpp"
+#include "../round_manager/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -48,6 +49,35 @@ namespace coffee
                            .add(Position{.vec = {side * offset * 5.0F, 30.0F, -5.0F}})
                            .named("car" + std::to_string(player));
     }
+
+    static void spawnPlayerCameras(Commands& cmds, Assets& assets, Query<Entity, PlayerOwner&> cars,
+                                   Query<Entity, const RenderTarget&> renderTargets,
+                                   Query<Entity, Camera&, Position&, Rotation&> cameras)
+    {
+        CUBOS_INFO("Spawining camera");
+        // destroy initial camera, we only have one so this works
+        for (auto [ent, camera, position, rotation] : cameras)
+        {
+            cmds.destroy(ent);
+        }
+
+        // create new follow cameras for each spawned car
+        for (auto [carEnt, playerOwner] : cars)
+        {
+            playerOwner.canMove = true;
+
+            auto sceneRead = assets.read(CameraSceneAsset);
+            auto builder = cmds.spawn(*sceneRead).named("camera" + std::to_string(playerOwner.player));
+
+            auto cameraEnt = builder.entity();
+
+            cmds.relate(cameraEnt, carEnt,
+                        Follow{.distance = 25.0F, .height = 7.5, .halfTime = 0.25, .rotationHalfTime = 0.05});
+
+            auto [renderTargetEnt, renderTarget] = *renderTargets.first();
+            cmds.relate(cameraEnt, renderTargetEnt, DrawsTo{});
+        }
+    }
 } // namespace coffee
 
 void coffee::playerSpawnerPlugin(Cubos& cubos)
@@ -58,88 +88,119 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
     cubos.depends(assetsPlugin);
     cubos.depends(renderTargetPlugin);
     cubos.depends(cameraPlugin);
+    cubos.depends(roundManagerPlugin);
 
     cubos.resource<Spawner>();
 
     cubos.system("read input and choose number of cars")
-        .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner) {
-            if (!spawner.isChangeable)
+        .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, GameRoundSettings& roundSettings,
+                 Query<RoundManager&, WaitingRoundStart&> waitingState) {
+            if (roundSettings.currentRound == 0)
             {
-                return;
-            }
-
-            if (spawner.currentPlayers == 0 && input.gamepadCount() > 0)
-            {
-                input.gamepad(1, 0);
-            }
-            else if (spawner.currentPlayers > 1 && input.gamepadCount() > 0)
-            {
-                int freeGamepads = input.gamepadCount();
-                for (int i = spawner.currentPlayers; i >= 1; --i)
+                if (!spawner.isChangeable)
                 {
-                    if (freeGamepads > 0)
+                    spawner.isChangeable = true;
+                    spawner.currentPlayers = 0;
+                }
+                if (spawner.currentPlayers == 0 && input.gamepadCount() > 0)
+                {
+                    input.gamepad(1, 0);
+                }
+                else if (spawner.currentPlayers > 1 && input.gamepadCount() > 0)
+                {
+                    int freeGamepads = input.gamepadCount();
+                    for (int i = spawner.currentPlayers; i >= 1; --i)
                     {
-                        input.gamepad(i, freeGamepads - 1);
-                        freeGamepads--;
+                        if (freeGamepads > 0)
+                        {
+                            input.gamepad(i, freeGamepads - 1);
+                            freeGamepads--;
+                        }
+                        else
+                        {
+                            input.gamepad(i, -1);
+                        }
                     }
-                    else
+                }
+
+                if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) ||
+                    input.justPressed("handbrake", 3) ||
+                    input.justPressed("handbrake", 4)) // potentially add all others here
+                {
+                    if (spawner.currentPlayers < 4)
                     {
-                        input.gamepad(i, -1);
+                        spawner.currentPlayers++;
+                        spawnPlayerCar(spawner.currentPlayers, cmds, assets);
                     }
                 }
             }
-
-            if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) ||
-                input.justPressed("handbrake", 3) ||
-                input.justPressed("handbrake", 4)) // potentially add all others here
+            else
             {
-                if (spawner.currentPlayers < 4)
+                if (spawner.canSpawnCar && waitingState.count() == 1)
                 {
-                    spawner.currentPlayers++;
-                    spawnPlayerCar(spawner.currentPlayers, cmds, assets);
+                    if (spawner.carsSpawned >= spawner.currentPlayers)
+                    {
+                        spawner.canSpawnCar = false;
+                        return;
+                    }
+
+                    auto match = waitingState.first();
+                    if (!match)
+                    {
+                        return;
+                    }
+                    auto& [manager, waitingRoundStart] = *match;
+
+                    if (waitingRoundStart.time >= spawner.timeBetweenSpawns * spawner.carsSpawned)
+                    {
+                        spawner.carsSpawned++;
+                        spawnPlayerCar(spawner.carsSpawned, cmds, assets);
+                    }
                 }
             }
         });
 
+    //
     cubos.system("read input, spawn cameras and begin game")
         .before(transformUpdateTag)
-        .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, Query<Entity, PlayerOwner&> cars,
-                 Query<Entity, const RenderTarget&> renderTargets,
-                 Query<Entity, Camera&, Position&, Rotation&> cameras) {
-            if (!spawner.canSpawn || spawner.currentPlayers <= 0)
+        .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, GameRoundSettings& roundSettings,
+                 Query<Entity, PlayerOwner&> cars, Query<Entity, const RenderTarget&> renderTargets,
+                 Query<Entity, Camera&, Position&, Rotation&> cameras, Query<RoundPlaying&> playingState) {
+            if (spawner.currentPlayers <= 0)
             {
                 return;
             }
 
-            // read input and end player choice
-            if (input.justPressed("play", 1) || input.justPressed("play", 2) || input.justPressed("play", 3) ||
-                input.justPressed("play", 4))
+            if (roundSettings.currentRound == 0)
             {
-                spawner.canSpawn = false;
-                spawner.isChangeable = false;
-
-                // destroy initial camera, we only have one so this works
-                for (auto [ent, camera, position, rotation] : cameras)
+                // read input and end player choice
+                if (input.justPressed("play", 1) || input.justPressed("play", 2) || input.justPressed("play", 3) ||
+                    input.justPressed("play", 4))
                 {
-                    cmds.destroy(ent);
-                }
+                    spawner.canSpawn = false;
+                    spawner.isChangeable = false;
 
-                // create new follow cameras for each spawned car
-                for (auto [carEnt, playerOwner] : cars)
-                {
-                    playerOwner.canMove = true;
+                    spawnPlayerCameras(cmds, assets, cars, renderTargets, cameras);
 
-                    auto sceneRead = assets.read(CameraSceneAsset);
-                    auto builder = cmds.spawn(*sceneRead).named("camera" + std::to_string(playerOwner.player));
-
-                    auto cameraEnt = builder.entity();
-
-                    cmds.relate(cameraEnt, carEnt,
-                                Follow{.distance = 25.0F, .height = 7.5, .halfTime = 0.25, .rotationHalfTime = 0.05});
-
-                    auto [renderTargetEnt, renderTarget] = *renderTargets.first();
-                    cmds.relate(cameraEnt, renderTargetEnt, DrawsTo{});
+                    cmds.remove<WaitingRoundStart>(roundSettings.roundManagerEntity);
+                    cmds.add(roundSettings.roundManagerEntity, RoundPlaying{});
                 }
             }
+            else
+            {
+                if (spawner.canSpawn && playingState.count() != 0)
+                {
+                    spawner.canSpawn = false;
+                    spawnPlayerCameras(cmds, assets, cars, renderTargets, cameras);
+                }
+            }
+        });
+
+    cubos.observer("spawn cameras on round playing")
+        .onAdd<WaitingRoundStart>()
+        .call([](Spawner& spawner, Query<WaitingRoundStart&> query) {
+            spawner.canSpawnCar = true;
+            spawner.carsSpawned = 0;
+            spawner.canSpawn = true;
         });
 }
