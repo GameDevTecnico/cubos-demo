@@ -58,9 +58,9 @@ int main(int argc, char** argv)
     cubos.plugin(coffee::dayNightPlugin);
     cubos.plugin(coffee::followPlugin);
     cubos.plugin(coffee::carPlugin);
+    cubos.plugin(coffee::scorePlugin);
     cubos.plugin(coffee::toiletPaperPlugin);
     cubos.plugin(coffee::roundManagerPlugin);
-    cubos.plugin(coffee::scorePlugin);
     cubos.plugin(coffee::uiEffectsPlugin);
     cubos.plugin(coffee::playerSpawnerPlugin);
     cubos.plugin(coffee::hoverAnimationPlugin);

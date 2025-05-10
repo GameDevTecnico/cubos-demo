@@ -19,6 +19,7 @@
 #include "../car/plugin.hpp"
 #include "../player_spawner/plugin.hpp"
 #include "../toilet_paper/plugin.hpp"
+#include "../score/plugin.hpp"
 
 using namespace cubos::engine;
 
@@ -85,6 +86,7 @@ void coffee::roundManagerPlugin(Cubos& cubos)
     cubos.depends(toiletPaperPlugin);
     cubos.depends(collisionsPlugin);
     cubos.depends(physicsSolverPlugin);
+    cubos.depends(scorePlugin);
 
     cubos.component<RoundManager>();
     cubos.component<Destroy>();
@@ -105,7 +107,8 @@ void coffee::roundManagerPlugin(Cubos& cubos)
     cubos.system("detect toilet reached end - reset and add points")
         .call([](Commands cmds, Assets& assets, GameRoundSettings& roundManager,
                  Query<Entity, ToiletPaper&, CollidingWith&, EndArea&> paperInEnd,
-                 Query<Entity, ToiletPaper&, ChildOf&, PlayerOwner&> carWithPaper, Query<RoundPlaying&> roundPlaying) {
+                 Query<Entity, ToiletPaper&, ChildOf&, PlayerOwner&> carWithPaper, Query<RoundPlaying&> roundPlaying,
+                 PlayerScores& scores) {
             if (roundPlaying.count() == 0)
             {
                 return;
@@ -117,6 +120,8 @@ void coffee::roundManagerPlugin(Cubos& cubos)
                 if (match)
                 {
                     auto [entity, toiletPaper, childOf, playerOwner] = *match;
+
+                    scores.scores[toiletPaper.player - 1] += 100;
 
                     cmds.remove<RoundPlaying>(roundManager.roundManagerEntity);
                     cmds.add(roundManager.roundManagerEntity, Destroy{});
