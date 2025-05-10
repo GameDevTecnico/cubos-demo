@@ -41,7 +41,8 @@ CUBOS_REFLECT_IMPL(coffee::Car)
     return cubos::core::ecs::TypeBuilder<Car>("coffee::Car")
         .withField("drivetrain", &Car::drivetrain)
         .withField("accelInput", &Car::accelInput)
-        .withField("backLightIntensity", &Car::backLightIntensity)
+        .withField("lowBackLightIntensity", &Car::lowBackLightIntensity)
+        .withField("highBackLightIntensity", &Car::highBackLightIntensity)
         .withField("headLightIntensity", &Car::headLightIntensity)
         .withField("lightIntensityHalfTime", &Car::lightIntensityHalfTime)
         .withField("dragConstant", &Car::dragConstant)
@@ -209,17 +210,17 @@ void coffee::carPlugin(Cubos& cubos)
                 car.steerInput = -input.axis("steer", carOwner.player);
 
                 // Set the backlight intensity depending on the input.
-                float targetBacklightIntensity = 0.0F;
+                float targetBacklightIntensity = car.lowBackLightIntensity;
                 if (carOwner.canMove)
                 {
                     if (car.accelInput < 0.0F || car.handBrakeOn)
                     {
-                        targetBacklightIntensity = car.backLightIntensity;
+                        targetBacklightIntensity = car.highBackLightIntensity;
                     }
                 }
                 else
                 {
-                    targetBacklightIntensity = 1.0F;
+                    targetBacklightIntensity = car.lowBackLightIntensity;
                 }
                 for (auto [light, childOf, interpolation, car] : backLights.pin(2, carEnt))
                 {
