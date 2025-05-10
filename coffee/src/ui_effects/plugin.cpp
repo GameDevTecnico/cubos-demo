@@ -160,8 +160,17 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
     cubos.system("update scoreboard")
         .call([](Commands commands, PlayerScores& scores, Query<Entity, const ScoreboardPlayerName&> boardNames,
                  Query<Entity, const ScoreboardPlayerScore&> boardScores) {
+            constexpr glm::vec4 playerColors[4] =
+            {
+                glm::vec4(1.0F, 0.25F, 0.25F, 1.0F),
+                glm::vec4(0.25F, 1.0F, 0.25F, 1.0F),
+                glm::vec4(1.0F, 0.5F, 1.0F, 1.0F),
+                glm::vec4(0.25F, 0.25F, 1.0F, 1.0F)
+            };
+
             // Sort
-            std::vector<std::tuple<int, int>> sortedScores;
+            std::vector<std::tuple<int, int>>
+                sortedScores;
             for (int i = 0; i < 4; i++)
             {
                 if (scores.scores[i] == -1)
@@ -183,6 +192,7 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
                 if (player != -1)
                 {
                     commands.add(entity, UIText{.text = std::format("Player {}", player),
+                                                .color = playerColors[player - 1],
                                                 .fontSize = 80.0F,
                                                 .fontAtlas = AnyAsset("bd0387d2-af3d-4c65-8561-33f5bcf6ab37")});
                 }
@@ -190,11 +200,13 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
             }
             for (auto [entity, boardScore] : boardScores)
             {
+                int player = std::get<0>(sortedScores.at(boardScore.order - 1));
                 int score = std::get<1>(sortedScores.at(boardScore.order - 1));
                 if (score != -1)
                 {
                     commands.add(entity, UIText{.text = std::format("{:05d}",
                                                                     std::get<1>(sortedScores.at(boardScore.order - 1))),
+                                                .color = playerColors[player - 1],
                                                 .fontSize = 80.0F,
                                                 .fontAtlas = AnyAsset("bd0387d2-af3d-4c65-8561-33f5bcf6ab37")});
                 }
