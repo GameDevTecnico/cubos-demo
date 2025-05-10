@@ -174,25 +174,25 @@ void coffee::mapGeneratorPlugin(Cubos& cubos)
                     }
 
                     // Count neighbors.
-                    int neighbors = 0;
-                    for (int j = 0; j < 4; ++j)
-                    {
-                        glm::ivec2 neighborPosition = emptyTilePosition + directions[j];
-                        if (map.tiles.find(neighborPosition) != map.tiles.end())
-                        {
-                            neighbors += 1;
-                        }
-                    }
+                    // int neighbors = 0;
+                    // for (int j = 0; j < 4; ++j)
+                    // {
+                    //     glm::ivec2 neighborPosition = emptyTilePosition + directions[j];
+                    //     if (map.tiles.find(neighborPosition) != map.tiles.end())
+                    //     {
+                    //         neighbors += 1;
+                    //     }
+                    // }
 
-                    float parkChance = 0.1F;
-                    if (neighbors == 3)
-                    {
-                        parkChance = 1.0F;
-                    }
-                    else if (neighbors == 2)
-                    {
-                        parkChance = 0.5F;
-                    }
+                    float parkChance = 0.05F;
+                    // if (neighbors == 3)
+                    // {
+                    //     parkChance = 1.0F;
+                    // }
+                    // else if (neighbors == 2)
+                    // {
+                    //     parkChance = 0.5F;
+                    // }
 
                     if (chanceDist(rng) < parkChance)
                     {
