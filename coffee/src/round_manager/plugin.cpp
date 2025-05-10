@@ -88,6 +88,7 @@ void coffee::roundManagerPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(carPlugin);
     cubos.depends(assetsPlugin);
+    cubos.depends(inputPlugin);
     // cubos.depends(renderTargetPlugin);
     cubos.depends(toiletPaperPlugin);
     cubos.depends(collisionsPlugin);
@@ -104,11 +105,28 @@ void coffee::roundManagerPlugin(Cubos& cubos)
     cubos.component<EndArea>();
     cubos.resource<GameRoundSettings>();
 
-    cubos.startupSystem("load and spawn the round manager")
-        .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets, GameRoundSettings& roundSettings) {
-            roundSettings.roundManagerEntity =
-                cmds.spawn(*assets.read(RoundManagerSceneAsset)).named("round-manager").entity();
+    cubos.system("load and spawn the round manager")
+        .call([](Commands cmds, const Assets& assets, GameRoundSettings& roundSettings, Input& input,
+                 Query<Entity> toDestroy, Query<RoundManager&> roundManager) {
+            if (roundManager.count() != 0)
+            {
+                return;
+            }
+
+            if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) ||
+                input.justPressed("handbrake", 3) ||
+                input.justPressed("handbrake", 4)) // potentially add all others here
+            {
+                // Destroy scene
+                for (auto [entity] : toDestroy)
+                {
+                    cmds.destroy(entity);
+                }
+                // Spawn main scene
+                cmds.spawn(*assets.read(MainSceneAsset)).named("main");
+                roundSettings.roundManagerEntity =
+                    cmds.spawn(*assets.read(RoundManagerSceneAsset)).named("round-manager").entity();
+            }
         });
 
     cubos.system("detect toilet reached end - reset and add points")

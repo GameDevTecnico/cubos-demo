@@ -95,7 +95,13 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
 
     cubos.system("read input and choose number of cars")
         .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, GameRoundSettings& roundSettings,
-                 PlayerScores& scores, Query<RoundManager&, WaitingRoundStart&> waitingState) {
+                 PlayerScores& scores, Query<RoundManager&, WaitingRoundStart&> waitingState,
+                 Query<RoundManager&> roundManager) {
+            if (roundManager.count() == 0)
+            {
+                return;
+            }
+
             if (roundSettings.currentRound == 0)
             {
                 if (!spawner.hasStarted)
