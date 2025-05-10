@@ -5,8 +5,7 @@
       "picker": null
     },
     "cubos::engine::UICanvas": {},
-    "cubos::engine::UIExpand": {},
-    "cubos::engine::GizmosTarget": {}
+    "cubos::engine::UIExpand": {}
   },
   "#audio-listener": {
     "cubos::engine::AudioListener": {
