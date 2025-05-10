@@ -11,7 +11,7 @@ namespace coffee
         CUBOS_REFLECT;
 
         /// @brief Current state of the day-night cycle, where 0.0 is full day and 1.0 is full night.
-        float state = 0.0F;
+        float state = 0.25F;
 
         /// @brief Desired state of the day-night cycle.
         float desiredState = 1.0F;
