@@ -1,6 +1,7 @@
 #include "plugin.hpp"
 #include "../score/plugin.hpp"
 #include "../car/plugin.hpp"
+#include "../round_manager/plugin.hpp"
 
 #include <cubos/core/ecs/reflection.hpp>
 #include <cubos/engine/ui/text/plugin.hpp>
@@ -13,6 +14,7 @@
 #include <cubos/engine/render/camera/plugin.hpp>
 #include <cubos/engine/render/split_screen/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/input/plugin.hpp>
 #include <cubos/engine/transform/plugin.hpp>
 
 using namespace cubos::engine;
@@ -57,6 +59,11 @@ CUBOS_REFLECT_IMPL(coffee::ScoreboardPlayerScore)
         .build();
 }
 
+CUBOS_REFLECT_IMPL(coffee::InstructionsUI)
+{
+    return cubos::core::ecs::TypeBuilder<InstructionsUI>("coffee::InstructionsUI").build();
+}
+
 static const Asset<Scene> ScoreUISceneAsset = AnyAsset("d684383c-77b5-47c4-b017-724d42b84ca7");
 
 void coffee::uiEffectsPlugin(Cubos& cubos)
@@ -65,16 +72,19 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
     cubos.depends(uiCanvasPlugin);
     cubos.depends(cameraPlugin);
     cubos.depends(assetsPlugin);
+    cubos.depends(inputPlugin);
     cubos.depends(transformPlugin);
     cubos.depends(splitScreenPlugin);
     cubos.depends(scorePlugin);
     cubos.depends(carPlugin);
+    cubos.depends(roundManagerPlugin);
 
     cubos.component<UIBlink>();
     cubos.component<ScoreUIManager>();
     cubos.component<ScoreUI>();
     cubos.component<ScoreboardPlayerName>();
     cubos.component<ScoreboardPlayerScore>();
+    cubos.component<InstructionsUI>();
 
     cubos.resource<State>();
 
@@ -160,17 +170,12 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
     cubos.system("update scoreboard")
         .call([](Commands commands, PlayerScores& scores, Query<Entity, const ScoreboardPlayerName&> boardNames,
                  Query<Entity, const ScoreboardPlayerScore&> boardScores) {
-            constexpr glm::vec4 playerColors[4] =
-            {
-                glm::vec4(1.0F, 0.25F, 0.25F, 1.0F),
-                glm::vec4(0.25F, 1.0F, 0.25F, 1.0F),
-                glm::vec4(1.0F, 0.5F, 1.0F, 1.0F),
-                glm::vec4(0.25F, 0.25F, 1.0F, 1.0F)
-            };
+            constexpr glm::vec4 playerColors[4] = {
+                glm::vec4(1.0F, 0.25F, 0.25F, 1.0F), glm::vec4(0.25F, 1.0F, 0.25F, 1.0F),
+                glm::vec4(1.0F, 0.5F, 1.0F, 1.0F), glm::vec4(0.25F, 0.25F, 1.0F, 1.0F)};
 
             // Sort
-            std::vector<std::tuple<int, int>>
-                sortedScores;
+            std::vector<std::tuple<int, int>> sortedScores;
             for (int i = 0; i < 4; i++)
             {
                 if (scores.scores[i] == -1)
@@ -211,6 +216,18 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
                                                 .fontAtlas = AnyAsset("bd0387d2-af3d-4c65-8561-33f5bcf6ab37")});
                 }
                 commands.remove<ScoreboardPlayerScore>(entity);
+            }
+        });
+
+    cubos.system("delete instructions on play")
+        .call([](Commands cmds, Input& input, GameRoundSettings& roundManager, Query<Entity, InstructionsUI&> query) {
+            if (input.justPressed("play", 1) || input.justPressed("play", 2) || input.justPressed("play", 3) ||
+                input.justPressed("play", 4) || roundManager.currentRound != 0)
+            {
+                for (auto [entity, _] : query)
+                {
+                    cmds.destroy(entity);
+                }
             }
         });
 }

@@ -119,7 +119,7 @@
         "layer": 1
       },
       "cubos::engine::UIText": {
-        "text": "Press handbrake key to play",
+        "text": "Press Space/A to play",
         "fontSize": 80.0,
         "fontAtlas": "bd0387d2-af3d-4c65-8561-33f5bcf6ab37"
       },
