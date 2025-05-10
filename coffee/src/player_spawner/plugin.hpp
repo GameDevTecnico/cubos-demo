@@ -12,6 +12,9 @@ namespace coffee
         CUBOS_REFLECT;
 
         bool canSpawn = true;
+        bool canSpawnCar = true;
+        int carsSpawned = 0;
+        float timeBetweenSpawns = 0.6F;
         bool isChangeable = true;
         int currentPlayers = 0; // press once per player
     };
