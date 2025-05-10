@@ -38,8 +38,6 @@ namespace coffee
 {
     static void spawnPlayerCar(int player, Commands& cmds, Assets& assets)
     {
-        CUBOS_INFO("Spawner player {}", player);
-
         // Spawn missing player.
         auto sceneRead = assets.read(CarSceneAssets[player % (sizeof(CarSceneAssets) / sizeof(Asset<Scene>))]);
         float side = (player % 2 == 0) ? -1 : 1;
@@ -54,7 +52,6 @@ namespace coffee
                                    Query<Entity, const RenderTarget&> renderTargets,
                                    Query<Entity, Camera&, Position&, Rotation&> cameras)
     {
-        CUBOS_INFO("Spawining camera");
         // destroy initial camera, we only have one so this works
         for (auto [ent, camera, position, rotation] : cameras)
         {
@@ -97,40 +94,43 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
                  Query<RoundManager&, WaitingRoundStart&> waitingState) {
             if (roundSettings.currentRound == 0)
             {
-                if (!spawner.isChangeable)
+                if (!spawner.hasStarted)
                 {
-                    spawner.isChangeable = true;
-                    spawner.currentPlayers = 0;
-                }
-                if (spawner.currentPlayers == 0 && input.gamepadCount() > 0)
-                {
-                    input.gamepad(1, 0);
-                }
-                else if (spawner.currentPlayers > 1 && input.gamepadCount() > 0)
-                {
-                    int freeGamepads = input.gamepadCount();
-                    for (int i = spawner.currentPlayers; i >= 1; --i)
+                    if (!spawner.isChangeable)
                     {
-                        if (freeGamepads > 0)
+                        spawner.isChangeable = true;
+                        spawner.currentPlayers = 0;
+                    }
+                    if (spawner.currentPlayers == 0 && input.gamepadCount() > 0)
+                    {
+                        input.gamepad(1, 0);
+                    }
+                    else if (spawner.currentPlayers > 1 && input.gamepadCount() > 0)
+                    {
+                        int freeGamepads = input.gamepadCount();
+                        for (int i = spawner.currentPlayers; i >= 1; --i)
                         {
-                            input.gamepad(i, freeGamepads - 1);
-                            freeGamepads--;
-                        }
-                        else
-                        {
-                            input.gamepad(i, -1);
+                            if (freeGamepads > 0)
+                            {
+                                input.gamepad(i, freeGamepads - 1);
+                                freeGamepads--;
+                            }
+                            else
+                            {
+                                input.gamepad(i, -1);
+                            }
                         }
                     }
-                }
 
-                if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) ||
-                    input.justPressed("handbrake", 3) ||
-                    input.justPressed("handbrake", 4)) // potentially add all others here
-                {
-                    if (spawner.currentPlayers < 4)
+                    if (input.justPressed("handbrake", 1) || input.justPressed("handbrake", 2) ||
+                        input.justPressed("handbrake", 3) ||
+                        input.justPressed("handbrake", 4)) // potentially add all others here
                     {
-                        spawner.currentPlayers++;
-                        spawnPlayerCar(spawner.currentPlayers, cmds, assets);
+                        if (spawner.currentPlayers < 4)
+                        {
+                            spawner.currentPlayers++;
+                            spawnPlayerCar(spawner.currentPlayers, cmds, assets);
+                        }
                     }
                 }
             }
@@ -165,7 +165,8 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
         .before(transformUpdateTag)
         .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, GameRoundSettings& roundSettings,
                  Query<Entity, PlayerOwner&> cars, Query<Entity, const RenderTarget&> renderTargets,
-                 Query<Entity, Camera&, Position&, Rotation&> cameras, Query<RoundPlaying&> playingState) {
+                 Query<Entity, Camera&, Position&, Rotation&> cameras, Query<RoundPlaying&> playingState,
+                 const DeltaTime& dt) {
             if (spawner.currentPlayers <= 0)
             {
                 return;
@@ -173,17 +174,24 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
 
             if (roundSettings.currentRound == 0)
             {
-                // read input and end player choice
-                if (input.justPressed("play", 1) || input.justPressed("play", 2) || input.justPressed("play", 3) ||
-                    input.justPressed("play", 4))
+                if (spawner.hasStarted && playingState.empty())
                 {
+                    spawner.timeSinceStart += dt.value();
+                    if (spawner.timeSinceStart >= spawner.timeToStart)
+                    {
+                        spawner.hasStarted = false;
+                        spawner.timeSinceStart = 0.0F;
+                        spawnPlayerCameras(cmds, assets, cars, renderTargets, cameras);
+                        cmds.remove<WaitingRoundStart>(roundSettings.roundManagerEntity);
+                        cmds.add(roundSettings.roundManagerEntity, RoundPlaying{});
+                    }
+                }
+                else if (input.justPressed("play", 1) || input.justPressed("play", 2) || input.justPressed("play", 3) ||
+                         input.justPressed("play", 4))
+                {
+                    spawner.hasStarted = true;
                     spawner.canSpawn = false;
                     spawner.isChangeable = false;
-
-                    spawnPlayerCameras(cmds, assets, cars, renderTargets, cameras);
-
-                    cmds.remove<WaitingRoundStart>(roundSettings.roundManagerEntity);
-                    cmds.add(roundSettings.roundManagerEntity, RoundPlaying{});
                 }
             }
             else
