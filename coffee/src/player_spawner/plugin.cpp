@@ -168,7 +168,7 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Input& input, Spawner& spawner, GameRoundSettings& roundSettings,
                  Query<Entity, PlayerOwner&> cars, Query<Entity, const RenderTarget&> renderTargets,
                  Query<Entity, Camera&, Position&, Rotation&> cameras, Query<RoundPlaying&> playingState,
-                 const DeltaTime& dt) {
+                 Query<WaitingRoundStart&> waitingState, const DeltaTime& dt) {
             if (spawner.currentPlayers <= 0)
             {
                 return;
@@ -176,13 +176,14 @@ void coffee::playerSpawnerPlugin(Cubos& cubos)
 
             if (roundSettings.currentRound == 0)
             {
-                if (spawner.hasStarted && playingState.empty())
+                auto match = waitingState.first();
+                if (spawner.hasStarted && playingState.empty() && match)
                 {
-                    spawner.timeSinceStart += dt.value();
-                    if (spawner.timeSinceStart >= spawner.timeToStart)
+                    auto [waiting] = *match;
+                    waiting.time += dt.value();
+                    if (waiting.time >= roundSettings.maxTimeBetweenRounds)
                     {
                         spawner.hasStarted = false;
-                        spawner.timeSinceStart = 0.0F;
                         spawnPlayerCameras(cmds, assets, cars, renderTargets, cameras);
                         cmds.remove<WaitingRoundStart>(roundSettings.roundManagerEntity);
                         cmds.add(roundSettings.roundManagerEntity, RoundPlaying{});
