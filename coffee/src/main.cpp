@@ -43,7 +43,6 @@ int main(int argc, char** argv)
     cubos.plugin(defaultsPlugin);
     cubos.plugin(audioPlugin);
     cubos.plugin(freeCameraPlugin);
-    cubos.plugin(toolsPlugin);
 
     // Add game plugins
     cubos.plugin(coffee::spawnOrphanPlugin);
