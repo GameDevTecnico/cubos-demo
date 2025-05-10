@@ -45,7 +45,7 @@ void coffee::blackoutPlugin(Cubos& cubos)
                     stage = 1;
                 }
 
-                if (ratio > 0.75F)
+                if (ratio > 0.85F)
                 {
                     for (auto [ent, _] : query)
                     {
@@ -67,7 +67,7 @@ void coffee::blackoutPlugin(Cubos& cubos)
                             targetIntensity = semaphore.intensity;
                         }
 
-                        float halfTime = 0.1F;
+                        float halfTime = 0.025F;
                         float alpha = 1.0F - glm::pow(0.5F, dt.value() / halfTime);
                         light.intensity = glm::mix(light.intensity, targetIntensity, alpha);
                     }
