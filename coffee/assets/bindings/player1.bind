@@ -23,6 +23,18 @@
                     "Start"
                 ]
             }
+        ],
+        "horn": [
+            {
+                "keys": [
+                    "R"
+                ]
+            },
+            {
+                "gamepadButtons": [
+                    "B"
+                ]
+            }
         ]
     },
     "axes": {

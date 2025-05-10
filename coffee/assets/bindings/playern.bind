@@ -13,6 +13,13 @@
                     "Start"
                 ]
             }
+        ],
+        "horn": [
+            {
+                "gamepadButtons": [
+                    "B"
+                ]
+            }
         ]
     },
     "axes": {
