@@ -20,9 +20,9 @@ using namespace cubos::engine;
 
 static const Asset<Scene> CarSceneAssets[] = {
     AnyAsset("01bd8528-b53c-4df2-abd8-0162779a16e8"),
-    AnyAsset("06f898f5-3b1c-435d-907f-4251afb72742"),
-    AnyAsset("8c4939f8-9d3c-41e4-b015-298e8c5087ad"),
     AnyAsset("5ca206db-1bf7-4771-b9d6-dbf625b4e748"),
+    AnyAsset("8c4939f8-9d3c-41e4-b015-298e8c5087ad"),
+    AnyAsset("06f898f5-3b1c-435d-907f-4251afb72742"),
 };
 static const Asset<Scene> CameraSceneAsset = AnyAsset("78d434eb-276b-4c80-9046-0f285bc3ed54");
 
