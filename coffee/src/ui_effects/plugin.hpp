@@ -30,7 +30,23 @@ namespace coffee
     {
         CUBOS_REFLECT;
 
-        int player = 0;
+        int player = 1;
+    };
+
+    /// @brief Component which marks the player name in the scoreboard
+    struct ScoreboardPlayerName
+    {
+        CUBOS_REFLECT;
+
+        int order = 1;
+    };
+
+    /// @brief Component which marks the player score in the scoreboard
+    struct ScoreboardPlayerScore
+    {
+        CUBOS_REFLECT;
+
+        int order = 1;
     };
 
     void uiEffectsPlugin(cubos::engine::Cubos& cubos);

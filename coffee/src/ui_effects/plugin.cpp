@@ -43,6 +43,20 @@ CUBOS_REFLECT_IMPL(coffee::ScoreUI)
     return cubos::core::ecs::TypeBuilder<ScoreUI>("coffee::ScoreUI").withField("player", &ScoreUI::player).build();
 }
 
+CUBOS_REFLECT_IMPL(coffee::ScoreboardPlayerName)
+{
+    return cubos::core::ecs::TypeBuilder<ScoreboardPlayerName>("coffee::ScoreboardPlayerName")
+        .withField("order", &ScoreboardPlayerName::order)
+        .build();
+}
+
+CUBOS_REFLECT_IMPL(coffee::ScoreboardPlayerScore)
+{
+    return cubos::core::ecs::TypeBuilder<ScoreboardPlayerScore>("coffee::ScoreboardPlayerScore")
+        .withField("order", &ScoreboardPlayerScore::order)
+        .build();
+}
+
 static const Asset<Scene> ScoreUISceneAsset = AnyAsset("d684383c-77b5-47c4-b017-724d42b84ca7");
 
 void coffee::uiEffectsPlugin(Cubos& cubos)
@@ -59,6 +73,8 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
     cubos.component<UIBlink>();
     cubos.component<ScoreUIManager>();
     cubos.component<ScoreUI>();
+    cubos.component<ScoreboardPlayerName>();
+    cubos.component<ScoreboardPlayerScore>();
 
     cubos.resource<State>();
 
@@ -138,6 +154,51 @@ void coffee::uiEffectsPlugin(Cubos& cubos)
                 commands.add(entity, UIText{.text = std::format("{:05d}", scores.scores[display.player - 1]),
                                             .fontSize = 80.0F,
                                             .fontAtlas = AnyAsset("bd0387d2-af3d-4c65-8561-33f5bcf6ab37")});
+            }
+        });
+
+    cubos.system("update scoreboard")
+        .call([](Commands commands, PlayerScores& scores, Query<Entity, const ScoreboardPlayerName&> boardNames,
+                 Query<Entity, const ScoreboardPlayerScore&> boardScores) {
+            // Sort
+            std::vector<std::tuple<int, int>> sortedScores;
+            for (int i = 0; i < 4; i++)
+            {
+                if (scores.scores[i] == -1)
+                {
+                    sortedScores.push_back({-1, -1});
+                }
+                else
+                {
+                    sortedScores.push_back({i + 1, scores.scores[i]});
+                }
+            }
+            std::sort(sortedScores.begin(), sortedScores.end(),
+                      [](std::tuple<int, int> a, std::tuple<int, int> b) { return std::get<1>(a) > std::get<1>(b); });
+
+            // Update
+            for (auto [entity, boardName] : boardNames)
+            {
+                int player = std::get<0>(sortedScores.at(boardName.order - 1));
+                if (player != -1)
+                {
+                    commands.add(entity, UIText{.text = std::format("Player {}", player),
+                                                .fontSize = 80.0F,
+                                                .fontAtlas = AnyAsset("bd0387d2-af3d-4c65-8561-33f5bcf6ab37")});
+                }
+                commands.remove<ScoreboardPlayerName>(entity);
+            }
+            for (auto [entity, boardScore] : boardScores)
+            {
+                int score = std::get<1>(sortedScores.at(boardScore.order - 1));
+                if (score != -1)
+                {
+                    commands.add(entity, UIText{.text = std::format("{:05d}",
+                                                                    std::get<1>(sortedScores.at(boardScore.order - 1))),
+                                                .fontSize = 80.0F,
+                                                .fontAtlas = AnyAsset("bd0387d2-af3d-4c65-8561-33f5bcf6ab37")});
+                }
+                commands.remove<ScoreboardPlayerScore>(entity);
             }
         });
 }
