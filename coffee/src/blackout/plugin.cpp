@@ -5,6 +5,8 @@
 #include <cubos/core/reflection/external/primitives.hpp>
 #include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/render/lights/point.hpp>
+#include <cubos/engine/audio/plugin.hpp>
+#include <cubos/engine/transform/position.hpp>
 
 #include <glm/glm.hpp>
 
@@ -47,14 +49,25 @@ void coffee::blackoutPlugin(Cubos& cubos)
 
                 if (ratio > 0.85F)
                 {
+                    bool destroyed = false;
+
                     for (auto [ent, _] : query)
                     {
+                        destroyed = true;
                         cmds.destroy(ent);
                     }
 
                     for (auto [ent, _1, _2] : semaphores)
                     {
                         cmds.destroy(ent);
+                    }
+
+                    if (destroyed)
+                    {
+                        AudioSource source{};
+                        source.sound = AnyAsset{"bc80cc02-6b19-492e-a993-b5b500716c4e"};
+                        source.gain = 2.0F;
+                        cmds.create().named("zap").add(source).add(Position{}).add(AudioPlay{});
                     }
                 }
                 else
