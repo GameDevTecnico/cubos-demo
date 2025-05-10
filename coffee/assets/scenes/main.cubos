@@ -52,7 +52,7 @@
         "x": 68,
         "y": 68
       },
-      "trackLength": 1,
+      "trackLength": 32,
       "startTileScene": "f8ee3077-938e-4bbd-9fa8-acb4d440874f",
       "finishTileScene": "91602d5d-3e1d-405e-b8e6-f4ada2c31484",
       "endTileScene": "2bd823a5-b11d-461f-b909-340e822b5b17",

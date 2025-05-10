@@ -12,7 +12,7 @@
     "rollingResistanceConstant": 0.0,
     "suspensionRestDist": 1.8,
     "springStrength": 200.0,
-    "springDamper": 350.0,
+    "springDamper": 300.0,
     "wheelRadius": 2.0,
     "minSuspensionHeight": 0.9,
     "suspensionHalfTime": 0.075,
@@ -24,11 +24,11 @@
     "tractionPeakSlip": 0.2,
     "corneringConstant": 5000.0,
     "corneringPeakSlipAngle": 7.5,
-    "driveTorque": 2000.0
+    "driveTorque": 2500.0
   },
   "cubos::engine::BoxCollisionShape": {
     "x": 3.0,
-    "y": 2.4,
+    "y": 2.0,
     "z": 6.4
   },
   "cubos::engine::CollisionLayers": 1,
