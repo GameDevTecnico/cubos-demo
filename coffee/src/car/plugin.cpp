@@ -14,6 +14,7 @@
 #include <cubos/engine/gizmos/target.hpp>
 #include <cubos/engine/render/lights/plugin.hpp>
 #include <cubos/engine/render/lights/point.hpp>
+#include <cubos/engine/render/lights/spot.hpp>
 
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -41,7 +42,8 @@ CUBOS_REFLECT_IMPL(coffee::Car)
         .withField("drivetrain", &Car::drivetrain)
         .withField("accelInput", &Car::accelInput)
         .withField("backLightIntensity", &Car::backLightIntensity)
-        .withField("backLightIntensityHalfTime", &Car::backLightIntensityHalfTime)
+        .withField("headLightIntensity", &Car::headLightIntensity)
+        .withField("lightIntensityHalfTime", &Car::lightIntensityHalfTime)
         .withField("dragConstant", &Car::dragConstant)
         .withField("rollingResistanceConstant", &Car::rollingResistanceConstant)
         .withField("suspensionRestDist", &Car::suspensionRestDist)
@@ -179,7 +181,8 @@ void coffee::carPlugin(Cubos& cubos)
                  Query<Rotation&, ChildOf&, Position&, ChildOf&, const Wheel&, Rotation&, ChildOf&, Entity, Car&,
                        const PlayerOwner&, const LocalToWorld&, const Velocity&>
                      query,
-                 Query<PointLight&, const ChildOf&, const InterpolationOf&, const Car&> backLights) {
+                 Query<PointLight&, const ChildOf&, const InterpolationOf&, const Car&> backLights,
+                 Query<SpotLight&, const ChildOf&, const InterpolationOf&, const Car&> headLights) {
             for (auto [modelRotation, childOf1, modelPosition, childOf2, wheel, axleRotation, childOf3, carEnt, car,
                        carOwner, carLTW, carVelocity] : query)
             {
@@ -207,14 +210,33 @@ void coffee::carPlugin(Cubos& cubos)
 
                 // Set the backlight intensity depending on the input.
                 float targetBacklightIntensity = 0.0F;
-                if (car.accelInput < 0.0F || car.handBrakeOn)
+                if (carOwner.canMove)
                 {
-                    targetBacklightIntensity = car.backLightIntensity;
+                    if (car.accelInput < 0.0F || car.handBrakeOn)
+                    {
+                        targetBacklightIntensity = car.backLightIntensity;
+                    }
+                }
+                else
+                {
+                    targetBacklightIntensity = 1.0F;
                 }
                 for (auto [light, childOf, interpolation, car] : backLights.pin(2, carEnt))
                 {
                     light.intensity = glm::mix(light.intensity, targetBacklightIntensity,
-                                               1.0F - glm::pow(0.5F, dt.value() / car.backLightIntensityHalfTime));
+                                               1.0F - glm::pow(0.5F, dt.value() / car.lightIntensityHalfTime));
+                }
+
+                // Set headlight intensity.
+                float targetHeadLightIntensity = 0.0F;
+                if (carOwner.canMove)
+                {
+                    targetHeadLightIntensity = car.headLightIntensity;
+                }
+                for (auto [light, childOf, interpolation, car] : headLights.pin(2, carEnt))
+                {
+                    light.intensity = glm::mix(light.intensity, targetHeadLightIntensity,
+                                               1.0F - glm::pow(0.5F, dt.value() / car.lightIntensityHalfTime));
                 }
 
                 float carSpeed = glm::length(carVelocity.vec);

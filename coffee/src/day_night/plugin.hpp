@@ -25,17 +25,11 @@ namespace coffee
         /// @brief Sun light during the night.
         cubos::engine::DirectionalLight nightSunLight;
 
-        /// @brief Car light intensity during the night.
-        float nightCarLightIntensity = 1.5F;
-
         /// @brief Environment for the day.
         cubos::engine::RenderEnvironment dayEnvironment;
 
         /// @brief Sun light during the day.
         cubos::engine::DirectionalLight daySunLight;
-
-        /// @brief Car light intensity during the day.
-        float dayCarLightIntensity = 0.0F;
     };
 
     struct CarLight

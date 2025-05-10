@@ -18,10 +18,8 @@ CUBOS_REFLECT_IMPL(coffee::DayNightManager)
         .withField("speed", &DayNightManager::speed)
         .withField("nightEnvironment", &DayNightManager::nightEnvironment)
         .withField("nightSunLight", &DayNightManager::nightSunLight)
-        .withField("nightCarLightIntensity", &DayNightManager::nightCarLightIntensity)
         .withField("dayEnvironment", &DayNightManager::dayEnvironment)
         .withField("daySunLight", &DayNightManager::daySunLight)
-        .withField("dayCarLightIntensity", &DayNightManager::dayCarLightIntensity)
         .build();
 }
 
@@ -58,12 +56,6 @@ void coffee::dayNightPlugin(Cubos& cubos)
                 light.color = glm::mix(manager.daySunLight.color, manager.nightSunLight.color, manager.state);
                 light.intensity =
                     glm::mix(manager.daySunLight.intensity, manager.nightSunLight.intensity, manager.state);
-            }
-
-            // Update car lights intensity.
-            for (auto [light, carLight] : carLights)
-            {
-                light.intensity = glm::mix(manager.dayCarLightIntensity, manager.nightCarLightIntensity, manager.state);
             }
 
             // Update the render environment.
