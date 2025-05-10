@@ -63,5 +63,37 @@
       "innerSpotAngle": 90.0,
       "spotAngle": 160.0
     }
+  },
+  "#left-back-light": {
+    "cubos::engine::Position": {
+      "x": -2.375,
+      "y": -0.5,
+      "z": -6.05
+    },
+    "cubos::engine::PointLight": {
+      "color": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "intensity": 3.0,
+      "range": 3.0
+    }
+  },
+  "#right-back-light": {
+    "cubos::engine::Position": {
+      "x": 2.375,
+      "y": -0.5,
+      "z": -6.05
+    },
+    "cubos::engine::PointLight": {
+      "color": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "intensity": 3.0,
+      "range": 3.0
+    }
   }
 }
