@@ -113,10 +113,6 @@ namespace coffee
                 ? glm::atan((lateralVelocity + carAngVelocity.vec.y * wheelOffset) / glm::abs(longitudinalVelocity))
                 : 0.0F;
 
-        CUBOS_INFO(
-            "Wheel axis: {}, Slip angle: {}, Longitudinal velocity: {}, Wheel offset: {}, Car angular velocity: {}",
-            wheel.axis, slipAngle, longitudinalVelocity, wheelOffset, carAngVelocity.vec.y);
-
         float tractionForce = car.tractionConstant * glm::clamp(slipRatio, -car.tractionPeakSlip, car.tractionPeakSlip);
         float tractionTorque = tractionForce * car.wheelRadius;
 
