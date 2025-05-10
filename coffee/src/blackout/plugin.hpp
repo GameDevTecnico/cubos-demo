@@ -12,5 +12,13 @@ namespace coffee
         CUBOS_REFLECT;
     };
 
+    struct Semaphore
+    {
+        CUBOS_REFLECT;
+
+        int stage{0};
+        float intensity{0.0F};
+    };
+
     void blackoutPlugin(cubos::engine::Cubos& cubos);
 } // namespace coffee
