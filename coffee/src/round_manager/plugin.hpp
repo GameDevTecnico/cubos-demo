@@ -15,7 +15,7 @@ namespace coffee
         cubos::engine::Entity roundManagerEntity;
 
         int currentRound = 0;
-        int maxRound = 5;
+        int maxRound = 3;
 
         float currentTimeBetweenRounds = 0.0F;
         float maxTimeBetweenRounds = 7.0F;

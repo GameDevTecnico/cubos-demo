@@ -15,6 +15,7 @@
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/physics/solver/plugin.hpp>
 #include <cubos/engine/physics/constraints/distance_constraint.hpp>
+#include <cubos/engine/audio/plugin.hpp>
 
 #include "../car/plugin.hpp"
 #include "../player_spawner/plugin.hpp"
@@ -205,6 +206,11 @@ void coffee::roundManagerPlugin(Cubos& cubos)
             cmds.spawn(*assets.read(EndSceneAsset)).named("end");
             for (auto [ent, manager] : query)
             {
+                AudioSource source{};
+                source.sound = AnyAsset{"1d4d12b1-28a0-434d-8177-66fdc7a54747"};
+                source.gain = 1.5F;
+                cmds.add(ent, source);
+                cmds.add(ent, AudioPlay{});
                 cmds.remove<BuildEnd>(ent);
             }
         });
