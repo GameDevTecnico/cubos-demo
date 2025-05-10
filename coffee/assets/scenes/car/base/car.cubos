@@ -4,6 +4,8 @@
   },
   "coffee::Car": {
     "drivetrain": 0,
+    "backLightIntensity": 4.0,
+    "backLightIntensityHalfTime": 0.1,
     "dragConstant": 0.0,
     "rollingResistanceConstant": 0.0,
     "suspensionRestDist": 1.8,
