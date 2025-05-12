@@ -23,7 +23,6 @@ endfunction()
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize-recover=address")
 
 add_subdirectory(cars)
-#add_subdirectory(tanks)
 #add_subdirectory(scraps)
 #add_subdirectory(airships)
 add_subdirectory(ondisseia)
