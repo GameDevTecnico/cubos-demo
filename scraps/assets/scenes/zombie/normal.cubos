@@ -1,29 +1,20 @@
 {
-  "entities": {
-    "zombie.body": {
-      "cubos::engine::RenderVoxelGrid": {
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        },
-        "asset": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
-      },
-      "demo::ZombieController": {
-        "rePathTime": 3.0,
-        "hitTime": 1.0,
-        "item": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3",
-        "itemRoot": "coin",
-        "itemRate": 0.5,
-        "hpPenalization": 5.0
-      },
-      "demo::Health": {
-        "hp": 1,
-        "team": 1
-      }
-    }
+  "inherit": "cac2dbde-79db-4b45-8331-d83f829bc310",
+  "cubos::engine::RenderVoxelGrid": {
+    "offset": {
+      "y": 4.0
+    },
+    "asset": "1ba3d693-a2f8-42dd-94a7-bab15750c0fb"
   },
-  "imports": {
-    "zombie": "cac2dbde-79db-4b45-8331-d83f829bc310"
+  "demo::ZombieController": {
+    "rePathTime": 3.0,
+    "hitTime": 1.0,
+    "item": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3",
+    "itemRate": 0.5,
+    "hpPenalization": 5.0
+  },
+  "demo::Health": {
+    "hp": 1,
+    "team": 1
   }
 }

@@ -135,7 +135,7 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
 
                     // Spawn missing player.
                     auto sceneRead = assets.read(spawnPoint.scene);
-                    auto builder = cmds.spawn(sceneRead->blueprint);
+                    auto builder = cmds.spawn(sceneRead->blueprint());
 
                     auto [targetEnt, _] = *targets.first();
 
@@ -148,7 +148,7 @@ void demo::playerSpawnPointPlugin(Cubos& cubos)
                                                          .normal = spawnPoint.players[player - 1].normal,
                                                          .holding = spawnPoint.players[player - 1].holding});
 
-                    for (auto& [_, name] : sceneRead->blueprint.entities())
+                    for (auto& [_, name] : sceneRead->blueprint().entities())
                     {
                         spawnPoint.subEntities[player - 1].push_back(builder.entity(name));
                     }

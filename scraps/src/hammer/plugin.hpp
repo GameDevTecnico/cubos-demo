@@ -21,9 +21,6 @@ namespace demo
 
         /// @brief Result scene.
         cubos::engine::Asset<cubos::engine::Scene> result;
-
-        /// @brief Scene root entity name.
-        std::string root;
     };
 
     /// @brief Component used to describe ingredient types.
@@ -33,9 +30,6 @@ namespace demo
 
         /// @brief Ingredient scene.
         cubos::engine::Asset<cubos::engine::Scene> scene;
-
-        /// @brief Scene root entity name.
-        std::string root;
     };
 
     /// @brief Component which when added replaces itself by a IsIngredient relation to the Ingredient with the same

@@ -22,9 +22,6 @@ namespace demo
         /// The first model should represent the turret's gun without bullets, and the last model with full ammo.
         std::vector<cubos::engine::Asset<cubos::engine::VoxelGrid>> gunModels;
 
-        /// @brief Name of the root entity of the bullet scene.
-        std::string root;
-
         /// @brief Maximum range of the turret.
         float range = 50.0F;
 

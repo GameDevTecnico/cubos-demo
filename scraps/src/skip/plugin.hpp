@@ -15,9 +15,6 @@ namespace demo
 
         /// @brief Reward scene.
         cubos::engine::Asset<cubos::engine::Scene> reward;
-
-        /// @brief Scene root entity name.
-        std::string root;
     };
 
     void skipPlugin(cubos::engine::Cubos& cubos);

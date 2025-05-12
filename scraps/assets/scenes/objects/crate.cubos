@@ -1,33 +1,28 @@
 {
-  "entities": {
-    "crate": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "b7d99fd8-1715-4acf-83f1-2b3e1bc234c2",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "cubos::engine::BoxCollisionShape": {
-        "x": 3.0,
-        "y": 6.0,
-        "z": 3.0
-      },
-      "cubos::engine::Collider": {},
-      "demo::Breakable": {
-        "drop": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
-        "root": "planks",
-        "minDrops": 1,
-        "maxDrops": 3
-      },
-      "demo::Health": {
-        "hp": 1,
-        "team": 0
-      }
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "b7d99fd8-1715-4acf-83f1-2b3e1bc234c2",
+    "offset": {
+      "x": 0.0,
+      "y": 4.0,
+      "z": 0.0
     }
   },
-  "imports": {}
+  "cubos::engine::Position": {},
+  "cubos::engine::Rotation": {},
+  "cubos::engine::BoxCollisionShape": {
+    "x": 3.0,
+    "y": 6.0,
+    "z": 3.0
+  },
+  "cubos::engine::CollisionLayers": 1,
+  "cubos::engine::CollisionMask": 1,
+  "demo::Breakable": {
+    "drop": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
+    "minDrops": 1,
+    "maxDrops": 3
+  },
+  "demo::Health": {
+    "hp": 1,
+    "team": 0
+  }
 }

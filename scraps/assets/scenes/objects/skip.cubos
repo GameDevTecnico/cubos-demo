@@ -1,20 +1,13 @@
 {
-  "entities": {
-    "skip-machine": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "2a9bfa53-f9b0-4880-910d-9fce5373999c",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "demo::Skip": {
-        "reward": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3",
-        "root": "coin"
-      }
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "2a9bfa53-f9b0-4880-910d-9fce5373999c",
+    "offset": {
+      "y": 8.0
     }
+  },
+  "cubos::engine::Position": {},
+  "cubos::engine::Rotation": {},
+  "demo::Skip": {
+    "reward": "c13321cc-3fe0-4186-9ccd-df5bbf9249d3"
   }
 }

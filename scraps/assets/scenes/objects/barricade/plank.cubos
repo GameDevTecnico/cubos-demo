@@ -1,27 +1,21 @@
 {
-  "entities": {
-    "barricade": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "4007ed4b-5a45-48ec-84fe-1fe99b8c0c80",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "cubos::engine::BoxCollisionShape": {
-        "x": 4.0,
-        "y": 5.0,
-        "z": 4.0
-      },
-      "cubos::engine::Collider": {},
-      "demo::Health": {
-        "hp": 10,
-        "team": 0
-      }
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "4007ed4b-5a45-48ec-84fe-1fe99b8c0c80",
+    "offset": {
+      "y": 4.0
     }
   },
-  "imports": {}
+  "cubos::engine::Position": {},
+  "cubos::engine::Rotation": {},
+  "cubos::engine::BoxCollisionShape": {
+    "x": 4.0,
+    "y": 5.0,
+    "z": 4.0
+  },
+  "cubos::engine::CollisionLayers": 1,
+  "cubos::engine::CollisionMask": 1,
+  "demo::Health": {
+    "hp": 10,
+    "team": 0
+  }
 }

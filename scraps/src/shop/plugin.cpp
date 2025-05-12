@@ -17,10 +17,7 @@ CUBOS_REFLECT_IMPL(demo::Coin)
 
 CUBOS_REFLECT_IMPL(demo::Shop)
 {
-    return cubos::core::ecs::TypeBuilder<Shop>("demo::Shop")
-        .withField("item", &Shop::item)
-        .withField("root", &Shop::root)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Shop>("demo::Shop").withField("item", &Shop::item).build();
 }
 
 void demo::shopPlugin(Cubos& cubos)
@@ -46,7 +43,7 @@ void demo::shopPlugin(Cubos& cubos)
 
                     // Destroy the coin and spawn an item on the player's hand.
                     cmds.destroy(coinEnt);
-                    auto itemEnt = cmds.spawn(assets.read(shop.item)->blueprint).entity(shop.root);
+                    auto itemEnt = cmds.spawn(assets.read(shop.item)->blueprint()).entity();
                     cmds.relate(itemEnt, interaction.entity, ChildOf{});
                     cmds.add(itemEnt, Position{{0.0F, 8.0F, 0.0F}});
                 }

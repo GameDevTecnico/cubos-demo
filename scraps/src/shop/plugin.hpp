@@ -21,9 +21,6 @@ namespace demo
 
         /// @brief Item scene.
         cubos::engine::Asset<cubos::engine::Scene> item;
-
-        /// @brief Scene root entity name.
-        std::string root;
     };
 
     void shopPlugin(cubos::engine::Cubos& cubos);

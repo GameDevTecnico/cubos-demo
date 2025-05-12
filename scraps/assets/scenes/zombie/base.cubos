@@ -1,19 +1,15 @@
 {
-  "entities": {
-    "body": {
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::BoxCollisionShape": {
-        "x": 3.0,
-        "y": 7.0,
-        "z": 2.0
-      },
-      "cubos::engine::Collider": {}
-    }
+  "cubos::engine::Rotation": {
+    "w": 1.0,
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
   },
-  "imports": {}
+  "cubos::engine::BoxCollisionShape": {
+    "x": 3.0,
+    "y": 7.0,
+    "z": 2.0
+  },
+  "cubos::engine::CollisionLayers": 1,
+  "cubos::engine::CollisionMask": 1
 }

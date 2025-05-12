@@ -8,6 +8,8 @@
 #include <cubos/engine/render/lights/environment.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/imgui/plugin.hpp>
+#include <cubos/engine/utils/free_camera/plugin.hpp>
+#include <cubos/engine/tools/plugin.hpp>
 
 #include <glm/gtx/color_space.hpp>
 
@@ -69,7 +71,6 @@ int main(int argc, char** argv)
     cubos.startupSystem("configure project").before(settingsTag).call([](Settings& settings) {
         settings.setString("assets.app.osPath", APP_ASSETS_PATH);
         settings.setString("assets.builtin.osPath", BUILTIN_ASSETS_PATH);
-        settings.setBool("cubos.renderer.screenPicking.enabled", false);
     });
 
     cubos.startupSystem("set the Voxel Palette").tagged(assetsTag).call([](Assets& assets, RenderPalette& palette) {
@@ -91,7 +92,9 @@ int main(int argc, char** argv)
 
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged(assetsTag)
-        .call([](Commands cmds, const Assets& assets) { cmds.spawn(assets.read(MainSceneAsset)->blueprint); });
+        .call([](Commands cmds, const Assets& assets) {
+            cmds.spawn(assets.read(MainSceneAsset)->blueprint()).named("main");
+        });
 
     cubos.system("reload Main Scene on game over")
         .call([](Commands cmds, const Assets& assets, Query<Entity> all, Query<const demo::PlayerController&> players,
@@ -103,7 +106,7 @@ int main(int argc, char** argv)
                     cmds.destroy(entity);
                 }
 
-                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+                cmds.spawn(assets.read(MainSceneAsset)->blueprint()).named("main");
                 progression = {};
             }
         });

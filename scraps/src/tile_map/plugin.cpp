@@ -177,11 +177,16 @@ void demo::tileMapPlugin(Cubos& cubos)
                     for (size_t x = 0; x < mapSide; ++x)
                     {
                         auto asset = assets.create(std::move(chunks[y][x]));
-                        auto chunk = cmds.create()
-                                         .add(RenderVoxelGrid{.asset = asset, .offset = glm::vec3{0, -1.0F, 0}})
-                                         .add(Position{glm::vec3{map.tileSide * map.chunkSide * x, 0,
-                                                                 map.tileSide * map.chunkSide * y}})
-                                         .entity();
+                        auto chunk =
+                            cmds.create()
+                                .add(RenderVoxelGrid{
+                                    .asset = asset,
+                                    .offset = glm::vec3{static_cast<float>(map.chunkSide * map.tileSide) * 0.5F,
+                                                        static_cast<float>(1 + map.wallHeight) * 0.5F - 1.0F,
+                                                        static_cast<float>(map.chunkSide * map.tileSide) * 0.5F}})
+                                .add(Position{
+                                    glm::vec3{map.tileSide * map.chunkSide * x, 0, map.tileSide * map.chunkSide * y}})
+                                .entity();
                         cmds.relate(chunk, chunksRoot, ChildOf{});
                     }
                 }

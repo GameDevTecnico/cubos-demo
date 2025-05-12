@@ -1,23 +1,16 @@
 {
-  "entities": {
-    "ammo": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "03fffe50-2398-4f60-88a9-18876b4e2db2",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "demo::Ammo": {},
-      "demo::Holdable": true,
-      "demo::Health": {
-        "hp": 1,
-        "team": 0
-      }
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "03fffe50-2398-4f60-88a9-18876b4e2db2",
+    "offset": {
+      "y": 4.0
     }
   },
-  "imports": {}
+  "cubos::engine::Position": {},
+  "cubos::engine::Rotation": {},
+  "demo::Ammo": {},
+  "demo::Holdable": true,
+  "demo::Health": {
+    "hp": 1,
+    "team": 0
+  }
 }

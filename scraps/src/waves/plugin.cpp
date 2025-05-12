@@ -76,7 +76,7 @@ void demo::wavesPlugin(Cubos& cubos)
 
                     for (int i = 0; i < wave.waveZombiesBase + wave.waveZombiesIncrease * progression.daysSurvived; ++i)
                     {
-                        auto zombieEnt = cmds.spawn(assets.read(wave.zombie)->blueprint).entity(wave.zombieRoot);
+                        auto zombieEnt = cmds.spawn(assets.read(wave.zombie)->blueprint()).entity();
                         cmds.relate(zombieEnt, mapEnt, ChildOf{});
                         cmds.add(zombieEnt, wave.walker);
                     }

@@ -1,45 +1,37 @@
 {
-  "entities": {
-    "planks": {
-      "demo::Ingredient": {
-        "scene": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
-        "root": "planks"
-      }
-    },
-    "plate": {
-      "demo::Ingredient": {
-        "scene": "efa94da9-0b63-4550-b15a-f2240418183f",
-        "root": "plate"
-      }
-    },
-    "plank-barricade": {
-      "demo::Recipe": {
-        "result": "db73835d-c327-4171-abe9-019816ba32e8",
-        "root": "barricade"
-      },
-      "demo::Requires@planks": 2
-    },
-    "plated-barricade": {
-      "demo::Recipe": {
-        "result": "617ecec1-c006-42b6-9a6d-3b941e5fe4d3",
-        "root": "barricade"
-      },
-      "demo::Requires@planks": 2,
-      "demo::Requires@plate": 1
-    },
-    "turret": {
-      "demo::Recipe": {
-        "result": "f5d7596a-9b51-4429-a4cd-61181de030a1",
-        "root": "turret"
-      },
-      "demo::Requires@plate": 3
-    },
-    "ammo": {
-      "demo::Recipe": {
-        "result": "afb7dbc0-4387-4b62-8f28-9a1e249b1a9a",
-        "root": "ammo"
-      },
-      "demo::Requires@plate": 1
+  "#planks": {
+    "demo::Ingredient": {
+      "scene": "4827a4d2-c84d-46cf-b334-ff213e0018c0"
     }
+  },
+  "#plate": {
+    "demo::Ingredient": {
+      "scene": "efa94da9-0b63-4550-b15a-f2240418183f"
+    }
+  },
+  "#plank-barricade": {
+    "demo::Recipe": {
+      "result": "db73835d-c327-4171-abe9-019816ba32e8"
+    },
+    "demo::Requires#planks": 2
+  },
+  "#plated-barricade": {
+    "demo::Recipe": {
+      "result": "617ecec1-c006-42b6-9a6d-3b941e5fe4d3"
+    },
+    "demo::Requires#planks": 2,
+    "demo::Requires#plate": 1
+  },
+  "#turret": {
+    "demo::Recipe": {
+      "result": "f5d7596a-9b51-4429-a4cd-61181de030a1"
+    },
+    "demo::Requires#plate": 3
+  },
+  "#ammo": {
+    "demo::Recipe": {
+      "result": "afb7dbc0-4387-4b62-8f28-9a1e249b1a9a"
+    },
+    "demo::Requires#plate": 1
   }
 }

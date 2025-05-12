@@ -1,19 +1,12 @@
 {
-  "entities": {
-    "hammer": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "aceb9382-100a-48ca-91d4-07a90fc4777c",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "demo::Holdable": false,
-      "demo::Hammer": {}
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "aceb9382-100a-48ca-91d4-07a90fc4777c",
+    "offset": {
+      "y": 4.0
     }
   },
-  "imports": {}
+  "cubos::engine::Position": {},
+  "cubos::engine::Rotation": {},
+  "demo::Holdable": false,
+  "demo::Hammer": {}
 }

@@ -31,9 +31,6 @@ namespace demo
         /// @brief Item to drop on death.
         cubos::engine::Asset<cubos::engine::Scene> item;
 
-        /// @brief Item root entity name.
-        std::string itemRoot;
-
         /// @brief Item drop rate (from 0 to 1).
         float itemRate = 0.5F;
 

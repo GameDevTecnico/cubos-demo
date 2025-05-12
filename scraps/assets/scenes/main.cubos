@@ -1,69 +1,66 @@
 {
-  "entities": {
-    "render-target": {
-      "cubos::engine::RenderTarget": {},
-      "cubos::engine::HDR": {},
-      "cubos::engine::ToneMapping": {},
-      "cubos::engine::RenderDepth": {},
-      "cubos::engine::RenderPicker": {},
-      "cubos::engine::GBuffer": {},
-      "cubos::engine::GBufferRasterizer": {},
-      "cubos::engine::SSAO": {
-        "radius": 4
-      },
-      "cubos::engine::DeferredShading": {},
-      "cubos::engine::Bloom": {},
-      "cubos::engine::SplitScreen": {},
-      "cubos::engine::GizmosTarget": {}
+  "#render-target": {
+    "cubos::engine::RenderTarget": {},
+    "cubos::engine::HDR": {},
+    "cubos::engine::ToneMapping": {},
+    "cubos::engine::RenderDepth": {},
+    "cubos::engine::GBuffer": {},
+    "cubos::engine::GBufferRasterizer": {},
+    "cubos::engine::SSAO": {
+      "radius": 4
     },
-    "sun": {
-      "cubos::engine::DirectionalLight": {
-        "color": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        },
-        "intensity": 1.0
+    "cubos::engine::DeferredShading": {},
+    "cubos::engine::Bloom": {},
+    "cubos::engine::SplitScreen": {},
+    "cubos::engine::GizmosTarget": {}
+  },
+  "#sun": {
+    "cubos::engine::DirectionalLight": {
+      "color": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
       },
-      "cubos::engine::DirectionalShadowCaster": {},
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.30000001192092896,
-        "y": -0.10000000149011612,
-        "z": 0.5
-      },
-      "cubos::engine::Scale": 1.0
+      "intensity": 1.0
     },
-    "map": {
-      "demo::TileMapGenerator": {
-        "mapSide": 96,
-        "chunkSide": 16,
-        "tileSide": 8,
-        "border": 24,
-        "grass": "e0d9109d-97b3-400d-8f5d-d828f2bc7d85",
-        "roadDash": "e03ac906-f2cd-4f66-bdbb-eeb485d83968",
-        "roadLine": "0b4225ba-b8e1-4015-be82-881f7937696d",
-        "roadCorner": "4b8621be-9870-46b1-a441-59726e4afca3",
-        "roadCurve": "6cf89caf-b807-4c15-adc5-33bbc1b9577e",
-        "roadTJunction": "a7047ce7-5813-456d-af3d-c29a1ecb8b28",
-        "roadJunction": "7d1b7533-5184-4078-a40b-d5e5161ffb0f",
-        "roadSimple": "52c91b69-03ae-4643-9927-6ebc5107d441",
-        "sidewalk": "b00eacaa-e28e-47a4-86e9-ada73c086317",
-        "fenceStraight": "388b7d4d-12fe-444c-838c-bfd0e57b7472",
-        "fenceCurve": "9991af14-2b34-4103-bf76-1b5a579270dc",
-        "wallStraight": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
-        "wallCurve": "8826aac0-92a2-45b2-a6ca-989259e118df",
-        "crate": "961e6a09-53aa-42f0-ab73-5d04cd4072f0",
-        "car1": "9ef8e8f5-72eb-44ca-bad7-da7b3cabf5e7"
-      }
+    "cubos::engine::DirectionalShadowCaster": {},
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
     },
-    "hammer.hammer": {
-      "cubos::engine::ChildOf@map": {},
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.30000001192092896,
+      "y": -0.10000000149011612,
+      "z": 0.5
+    },
+    "cubos::engine::Scale": 1.0
+  },
+  "#map": {
+    "demo::TileMapGenerator": {
+      "mapSide": 96,
+      "chunkSide": 16,
+      "tileSide": 8,
+      "border": 24,
+      "grass": "e0d9109d-97b3-400d-8f5d-d828f2bc7d85",
+      "roadDash": "e03ac906-f2cd-4f66-bdbb-eeb485d83968",
+      "roadLine": "0b4225ba-b8e1-4015-be82-881f7937696d",
+      "roadCorner": "4b8621be-9870-46b1-a441-59726e4afca3",
+      "roadCurve": "6cf89caf-b807-4c15-adc5-33bbc1b9577e",
+      "roadTJunction": "a7047ce7-5813-456d-af3d-c29a1ecb8b28",
+      "roadJunction": "7d1b7533-5184-4078-a40b-d5e5161ffb0f",
+      "roadSimple": "52c91b69-03ae-4643-9927-6ebc5107d441",
+      "sidewalk": "b00eacaa-e28e-47a4-86e9-ada73c086317",
+      "fenceStraight": "388b7d4d-12fe-444c-838c-bfd0e57b7472",
+      "fenceCurve": "9991af14-2b34-4103-bf76-1b5a579270dc",
+      "wallStraight": "db7efa06-95cf-494e-a45d-63e5a44cba6c",
+      "wallCurve": "8826aac0-92a2-45b2-a6ca-989259e118df",
+      "crate": "961e6a09-53aa-42f0-ab73-5d04cd4072f0",
+      "car1": "9ef8e8f5-72eb-44ca-bad7-da7b3cabf5e7"
+    },
+    "#hammer": {
+      "inherit": "7442faec-69d6-4bac-8046-559783a08f99",
       "demo::Object": {
         "position": {
           "x": 28,
@@ -72,12 +69,25 @@
         "force": true
       }
     },
-    "player-spawn-point": {
-      "cubos::engine::ChildOf@map": {},
+    "#clock": {
+      "inherit": "49621b43-724b-4795-bf1d-4770b3d20b26",
+      "demo::Object": {
+        "position": {
+          "x": 23,
+          "y": 54
+        },
+        "size": {
+          "x": 1,
+          "y": 2
+        },
+        "force": true
+      }
+    },
+    "#player-spawn-point": {
       "demo::PlayerSpawnPoint": {
         "scene": "9a3a66c9-5d6d-4c95-b996-fbd2435ce70c",
-        "root": "player",
-        "camera": "camera",
+        "root": "#player",
+        "camera": "#camera",
         "players": [
           {
             "bindings": "602177be-b7e6-42b4-917e-3947c19e6c19",
@@ -123,22 +133,8 @@
         }
       }
     },
-    "clock.clock": {
-      "cubos::engine::ChildOf@map": {},
-      "demo::Object": {
-        "position": {
-          "x": 23,
-          "y": 54
-        },
-        "size": {
-          "x": 1,
-          "y": 2
-        },
-        "force": true
-      }
-    },
-    "counter1.counter": {
-      "cubos::engine::ChildOf@map": {},
+    "#counter1": {
+      "inherit": "51b6b40f-50a2-4446-a69d-f4105e856905",
       "demo::DayCounterDivisor": 1,
       "demo::Object": {
         "position": {
@@ -152,8 +148,8 @@
         "force": true
       }
     },
-    "counter2.counter": {
-      "cubos::engine::ChildOf@map": {},
+    "#counter2": {
+      "inherit": "51b6b40f-50a2-4446-a69d-f4105e856905",
       "demo::DayCounterDivisor": 10,
       "demo::Object": {
         "position": {
@@ -167,8 +163,8 @@
         "force": true
       }
     },
-    "plate-shop.vending-machine": {
-      "cubos::engine::ChildOf@map": {},
+    "#plate-shop": {
+      "inherit": "8a1826b1-9243-4312-af2c-10c810d48911",
       "demo::Object": {
         "position": {
           "x": 25,
@@ -181,8 +177,8 @@
         "force": true
       }
     },
-    "planks-shop.vending-machine": {
-      "cubos::engine::ChildOf@map": {},
+    "#planks-shop": {
+      "inherit": "7ede14e0-b747-4f92-9789-8c776d7ebb21",
       "demo::Object": {
         "position": {
           "x": 25,
@@ -195,8 +191,8 @@
         "force": true
       }
     },
-    "skip-machine.skip-machine": {
-      "cubos::engine::ChildOf@map": {},
+    "#skip-machine": {
+      "inherit": "453bfd4f-743e-4e6c-9abd-8e20599ecd39",
       "demo::Object": {
         "position": {
           "x": 25,
@@ -209,14 +205,12 @@
         "force": true
       }
     },
-    "waves-normal": {
-      "cubos::engine::ChildOf@map": {},
+    "#waves-normal": {
       "demo::Waves": {
         "waveZombiesBase": 1,
         "waveZombiesIncrease": 2,
         "wavesPerNight": 3,
         "zombie": "4d8ff909-46df-49c4-adf0-ca409b34510f",
-        "zombieRoot": "zombie.body",
         "walker": {
           "position": {
             "x": 10,
@@ -228,14 +222,12 @@
         }
       }
     },
-    "waves-tall": {
-      "cubos::engine::ChildOf@map": {},
+    "#waves-tall": {
       "demo::Waves": {
         "waveZombiesBase": -3,
         "waveZombiesIncrease": 1,
         "wavesPerNight": 3,
         "zombie": "553ba8d5-b017-4c2b-85d9-aa9d6a76d631",
-        "zombieRoot": "zombie.body",
         "walker": {
           "position": {
             "x": 10,
@@ -248,14 +240,7 @@
       }
     }
   },
-  "imports": {
-    "hammer": "7442faec-69d6-4bac-8046-559783a08f99",
-    "recipes": "e5871129-c6ea-4c85-aa40-42329f71361f",
-    "clock": "49621b43-724b-4795-bf1d-4770b3d20b26",
-    "counter1": "51b6b40f-50a2-4446-a69d-f4105e856905",
-    "counter2": "51b6b40f-50a2-4446-a69d-f4105e856905",
-    "plate-shop": "8a1826b1-9243-4312-af2c-10c810d48911",
-    "planks-shop": "7ede14e0-b747-4f92-9789-8c776d7ebb21",
-    "skip-machine": "453bfd4f-743e-4e6c-9abd-8e20599ecd39"
+  "#recipes": {
+    "inherit": "e5871129-c6ea-4c85-aa40-42329f71361f"
   }
 }

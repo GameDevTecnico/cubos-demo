@@ -281,7 +281,7 @@ static void makeParkingLotSection(const Cursor& cursor, Rect totalRect, int plac
 
             if (rand() % 100 <= 25)
             {
-                auto car = cursor.cmds.spawn(cursor.objects.car1->blueprint).entity("car");
+                auto car = cursor.cmds.spawn(cursor.objects.car1->blueprint()).entity();
                 cursor.cmds.relate(car, cursor.mapEnt, ChildOf{});
                 cursor.cmds.add(car, Object{.position = {cursor.tx - placeSizeX, cursor.ty + 1}, .size = {3, 2}});
             }
@@ -418,7 +418,7 @@ void demo::tileMapGeneratorPlugin(Cubos& cubos)
                                 int size = 1 + rand() % 5;
                                 for (int i = 0; i < size; ++i)
                                 {
-                                    auto crate = cursor.cmds.spawn(cursor.objects.crate->blueprint).entity("crate");
+                                    auto crate = cursor.cmds.spawn(cursor.objects.crate->blueprint()).entity();
                                     cursor.cmds.relate(crate, cursor.mapEnt, ChildOf{});
                                     cursor.cmds.add(crate, Object{.position = {cursor.tx, cursor.ty}, .size = {1, 1}});
                                 }

@@ -16,7 +16,6 @@ CUBOS_REFLECT_IMPL(demo::Breakable)
 {
     return cubos::core::ecs::TypeBuilder<Breakable>("demo::Breakable")
         .withField("drop", &Breakable::drop)
-        .withField("root", &Breakable::root)
         .withField("minDrops", &Breakable::minDrops)
         .withField("maxDrops", &Breakable::maxDrops)
         .build();
@@ -44,7 +43,7 @@ void demo::breakablePlugin(Cubos& cubos)
                 int dropCount = rand() % (breakable.maxDrops - breakable.minDrops + 1) + breakable.minDrops;
                 for (int i = 0; i < dropCount; ++i)
                 {
-                    auto dropEnt = cmds.spawn(assets.read(breakable.drop)->blueprint).entity(breakable.root);
+                    auto dropEnt = cmds.spawn(assets.read(breakable.drop)->blueprint()).entity();
                     cmds.relate(dropEnt, parentEnt, ChildOf{});
                     cmds.add(dropEnt, Object{.position = object.position + object.size / 2, .size = {1, 1}});
                 }

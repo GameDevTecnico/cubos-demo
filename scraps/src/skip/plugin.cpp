@@ -13,10 +13,7 @@ using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(demo::Skip)
 {
-    return cubos::core::ecs::TypeBuilder<Skip>("demo::Skip")
-        .withField("reward", &Skip::reward)
-        .withField("root", &Skip::root)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Skip>("demo::Skip").withField("reward", &Skip::reward).build();
 }
 
 void demo::skipPlugin(Cubos& cubos)
@@ -40,7 +37,7 @@ void demo::skipPlugin(Cubos& cubos)
                     // Give a reward.
                     for (int i = 1; i <= progression.daysSurvived + 1; ++i)
                     {
-                        auto rewardEnt = cmds.spawn(assets.read(skip.reward)->blueprint).entity(skip.root);
+                        auto rewardEnt = cmds.spawn(assets.read(skip.reward)->blueprint()).entity();
                         cmds.relate(rewardEnt, mapEnt, ChildOf{})
                             .add(rewardEnt, Object{.position = skipObject.position + glm::ivec2{1, 0}});
                     }

@@ -1,23 +1,16 @@
 {
-  "entities": {
-    "planks": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "61d52ff2-2e24-41f4-a9fd-ca12bbafab3e",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "demo::Holdable": true,
-      "demo::IsIngredientAsset": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
-      "demo::Health": {
-        "hp": 1,
-        "team": 0
-      }
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "61d52ff2-2e24-41f4-a9fd-ca12bbafab3e",
+    "offset": {
+      "y": 4.0
     }
   },
-  "imports": {}
+  "cubos::engine::Position": {},
+  "cubos::engine::Rotation": {},
+  "demo::Holdable": true,
+  "demo::IsIngredientAsset": "4827a4d2-c84d-46cf-b334-ff213e0018c0",
+  "demo::Health": {
+    "hp": 1,
+    "team": 0
+  }
 }

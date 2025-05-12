@@ -1,28 +1,27 @@
 {
-  "entities": {
-    "player": {
-      "cubos::engine::RenderVoxelGrid": {
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
+  "#player": {
+    "cubos::engine::RenderVoxelGrid": {
+      "offset": {
         "x": 0.0,
-        "y": 0.0,
+        "y": 4.0,
         "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Health": {
-        "hp": 3,
-        "team": 0
-      },
-      "demo::Target": 0.0
+      }
     },
-    "lantern": {
-      "cubos::engine::ChildOf@player": {},
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Health": {
+      "hp": 3,
+      "team": 0
+    },
+    "demo::Target": {
+      "cost": 0.0
+    },
+    "#lantern": {
       "cubos::engine::Position": {
         "x": 0.0,
         "y": 5.0,
@@ -45,28 +44,29 @@
         "innerSpotAngle": 80.0
       },
       "cubos::engine::SpotShadowCaster": {}
-    },
-    "camera": {
-      "cubos::engine::PerspectiveCamera": 70.0,
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Follow@player": {
-        "distance": 80.0,
-        "phi": 10.0,
-        "theta": 45.0,
-        "halfTime": 0.25
-      }
     }
   },
-  "imports": {}
+  "#camera": {
+    "cubos::engine::PerspectiveCamera": {
+      "fovY": 70.0
+    },
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Follow#player": {
+      "distance": 80.0,
+      "phi": 10.0,
+      "theta": 45.0,
+      "halfTime": 0.25
+    }
+  }
 }

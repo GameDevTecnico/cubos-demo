@@ -1,29 +1,21 @@
 {
-  "entities": {
-    "bullet": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "e57bb515-6ca8-47dd-8568-431958e06c58",
-        "offset": {
-          "x": -1.5,
-          "y": 0.0,
-          "z": -1.0
-        }
-      },
-      "cubos::engine::PointLight": {
-        "color": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 0.2
-        },
-        "intensity": 20.0,
-        "range": 15.0
-      },
-      "cubos::engine::BoxCollisionShape": {
-        "x": 1.5,
-        "y": 0.25,
-        "z": 1.0
-      },
-      "cubos::engine::Collider": {}
-    }
-  }
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "e57bb515-6ca8-47dd-8568-431958e06c58"
+  },
+  "cubos::engine::PointLight": {
+    "color": {
+      "x": 1.0,
+      "y": 1.0,
+      "z": 0.2
+    },
+    "intensity": 20.0,
+    "range": 15.0
+  },
+  "cubos::engine::BoxCollisionShape": {
+    "x": 1.5,
+    "y": 0.25,
+    "z": 1.0
+  },
+  "cubos::engine::CollisionLayers": 1,
+  "cubos::engine::CollisionMask": 1
 }

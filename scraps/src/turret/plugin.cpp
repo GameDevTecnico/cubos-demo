@@ -28,7 +28,6 @@ CUBOS_REFLECT_IMPL(demo::Turret)
     return cubos::core::ecs::TypeBuilder<Turret>("demo::Turret")
         .withField("bullet", &Turret::bullet)
         .withField("gunModels", &Turret::gunModels)
-        .withField("root", &Turret::root)
         .withField("range", &Turret::range)
         .withField("cooldown", &Turret::cooldown)
         .withField("timeSinceLastShot", &Turret::timeSinceLastShot)
@@ -180,15 +179,15 @@ void demo::turretPlugin(Cubos& cubos)
                         bulletPosition += targetGunRotation * glm::vec3{turret.bulletDistance, 0.0F, 0.0F};
 
                         // Instantiate the bullet scene.
-                        cmds.spawn(assets.read(turret.bullet)->blueprint)
-                            .add(turret.root, Position{bulletPosition})
-                            .add(turret.root, Rotation{targetGunRotation})
-                            .add(turret.root, Bullet{
-                                                  .shooter = turretEnt,
-                                                  .speed = turret.bulletSpeed,
-                                                  .maxTime = turret.maxBulletTime,
-                                                  .team = health.team,
-                                              });
+                        cmds.spawn(assets.read(turret.bullet)->blueprint())
+                            .add(Position{bulletPosition})
+                            .add(Rotation{targetGunRotation})
+                            .add(Bullet{
+                                .shooter = turretEnt,
+                                .speed = turret.bulletSpeed,
+                                .maxTime = turret.maxBulletTime,
+                                .team = health.team,
+                            });
                     }
                 }
             }

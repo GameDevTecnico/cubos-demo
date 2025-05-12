@@ -17,25 +17,17 @@ CUBOS_REFLECT_IMPL(demo::Hammer)
 
 CUBOS_REFLECT_IMPL(demo::Recipe)
 {
-    return cubos::core::ecs::TypeBuilder<Recipe>("demo::Recipe")
-        .withField("result", &Recipe::result)
-        .withField("root", &Recipe::root)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Recipe>("demo::Recipe").withField("result", &Recipe::result).build();
 }
 
 CUBOS_REFLECT_IMPL(demo::Ingredient)
 {
-    return cubos::core::ecs::TypeBuilder<Ingredient>("demo::Ingredient")
-        .withField("scene", &Ingredient::scene)
-        .withField("root", &Ingredient::root)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Ingredient>("demo::Ingredient").withField("scene", &Ingredient::scene).build();
 }
 
 CUBOS_REFLECT_IMPL(demo::IsIngredientAsset)
 {
-    return cubos::core::ecs::TypeBuilder<IsIngredientAsset>("demo::IsIngredientAsset")
-        .withField("scene", &IsIngredientAsset::scene)
-        .build();
+    return cubos::core::ecs::TypeBuilder<IsIngredientAsset>("demo::IsIngredientAsset").wrap(&IsIngredientAsset::scene);
 }
 
 CUBOS_REFLECT_IMPL(demo::IsIngredient)
@@ -45,7 +37,7 @@ CUBOS_REFLECT_IMPL(demo::IsIngredient)
 
 CUBOS_REFLECT_IMPL(demo::Requires)
 {
-    return cubos::core::ecs::TypeBuilder<Requires>("demo::Requires").withField("amount", &Requires::amount).build();
+    return cubos::core::ecs::TypeBuilder<Requires>("demo::Requires").wrap(&Requires::amount);
 }
 
 CUBOS_REFLECT_IMPL(demo::ConstructedFrom)
@@ -157,7 +149,7 @@ void demo::hammerPlugin(Cubos& cubos)
                         if (valid && totalAmount == 0)
                         {
                             cmds.destroy(bottomEnt);
-                            auto resultEnt = cmds.spawn(assets.read(recipe.result)->blueprint).entity(recipe.root);
+                            auto resultEnt = cmds.spawn(assets.read(recipe.result)->blueprint()).entity();
                             cmds.relate(resultEnt, mapEnt, ChildOf{});
                             cmds.relate(resultEnt, recipeEnt, ConstructedFrom{});
                             cmds.add(resultEnt, Object{.position = object.position, .size = object.size});
@@ -197,7 +189,7 @@ void demo::hammerPlugin(Cubos& cubos)
                     {
                         for (int i = 0; i < require.amount; ++i)
                         {
-                            auto dropEnt = cmds.spawn(assets.read(ingredient.scene)->blueprint).entity(ingredient.root);
+                            auto dropEnt = cmds.spawn(assets.read(ingredient.scene)->blueprint()).entity();
                             cmds.relate(dropEnt, topEnt, ChildOf{});
 
                             if (topEnt == mapEnt)

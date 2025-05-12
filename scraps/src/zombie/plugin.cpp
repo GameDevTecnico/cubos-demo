@@ -29,7 +29,6 @@ CUBOS_REFLECT_IMPL(demo::ZombieController)
         .withField("hitTime", &ZombieController::hitTime)
         .withField("hitTimeAcc", &ZombieController::hitTimeAcc)
         .withField("item", &ZombieController::item)
-        .withField("itemRoot", &ZombieController::itemRoot)
         .withField("itemRate", &ZombieController::itemRate)
         .withField("hpPenalization", &ZombieController::hpPenalization)
         .build();
@@ -193,7 +192,7 @@ void demo::zombiePlugin(Cubos& cubos)
             {
                 if (std::rand() / (float)RAND_MAX < controller.itemRate)
                 {
-                    auto dropEnt = cmds.spawn(assets.read(controller.item)->blueprint).entity(controller.itemRoot);
+                    auto dropEnt = cmds.spawn(assets.read(controller.item)->blueprint()).entity();
                     cmds.relate(dropEnt, mapEnt, ChildOf{});
                     cmds.add(dropEnt, Object{.position = walker.position, .size = {1, 1}});
                 }

@@ -1,37 +1,31 @@
 {
-  "entities": {
-    "car": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "63414965-81df-48a5-b18c-36ea3c39941d",
-        "offset": {
-          "x": -4.0,
-          "y": 0.0,
-          "z": -4.0
-        }
-      },
-      "cubos::engine::Position": {},
-      "cubos::engine::Rotation": {},
-      "cubos::engine::BoxCollisionShape": {
-        "x": 11.0,
-        "y": 10.0,
-        "z": 6.0
-      },
-      "cubos::engine::Collider": {
-        "transform": {
-          "d": {
-            "x": 8.0,
-            "y": 0.0,
-            "z": 4.0
-          }
-        }
-      },
-      "demo::Breakable": {
-        "drop": "efa94da9-0b63-4550-b15a-f2240418183f",
-        "root": "plate",
-        "minDrops": 1,
-        "maxDrops": 3
-      }
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "63414965-81df-48a5-b18c-36ea3c39941d",
+    "offset": {
+      "x": 8.0,
+      "y": 6.0,
+      "z": 4.0
     }
   },
-  "imports": {}
+  "cubos::engine::Position": {},
+  "cubos::engine::Rotation": {},
+  "demo::Breakable": {
+    "drop": "efa94da9-0b63-4550-b15a-f2240418183f",
+    "minDrops": 1,
+    "maxDrops": 3
+  },
+  "#collider": {
+    "cubos::engine::Position": {
+      "x": 8.0,
+      "y": 0.0,
+      "z": 4.0
+    },
+    "cubos::engine::BoxCollisionShape": {
+      "x": 11.0,
+      "y": 10.0,
+      "z": 6.0
+    },
+    "cubos::engine::CollisionLayers": 1,
+    "cubos::engine::CollisionMask": 1
+  }
 }

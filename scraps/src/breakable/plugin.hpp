@@ -16,9 +16,6 @@ namespace demo
         /// @brief Object to spawn in the same position as the entity when broken.
         cubos::engine::Asset<cubos::engine::Scene> drop;
 
-        /// @brief Name of the root entity of the drop scene.
-        std::string root;
-
         /// @brief Minimum number of items dropped.
         int minDrops{1};
 

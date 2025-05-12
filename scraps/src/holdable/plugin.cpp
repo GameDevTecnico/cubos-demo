@@ -9,9 +9,7 @@ using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(demo::Holdable)
 {
-    return cubos::core::ecs::TypeBuilder<Holdable>("demo::Holdable")
-        .withField("stackable", &Holdable::stackable)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Holdable>("demo::Holdable").wrap(&Holdable::stackable);
 }
 
 void demo::holdablePlugin(Cubos& cubos)

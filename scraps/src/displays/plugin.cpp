@@ -38,8 +38,7 @@ CUBOS_REFLECT_IMPL(demo::DayCounter)
 CUBOS_REFLECT_IMPL(demo::DayCounterDivisor)
 {
     return cubos::core::ecs::TypeBuilder<DayCounterDivisor>("demo::DayCounterDivisor")
-        .withField("divisor", &DayCounterDivisor::divisor)
-        .build();
+        .wrap(&DayCounterDivisor::divisor);
 }
 
 void demo::displaysPlugin(Cubos& cubos)
