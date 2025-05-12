@@ -1,0 +1,33 @@
+{
+    "#road": {
+        "inherit": "38308025-ed2e-4fed-a5df-b7c890a54576",
+        "cubos::engine::VoxelCollisionShape": "16b3883c-805c-4700-9d00-c20b693ca0b1",
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "16b3883c-805c-4700-9d00-c20b693ca0b1"
+        },
+        "cubos::engine::Position": {
+            "y": -5.0
+        },
+        "cubos::engine::Rotation": {
+            "x": 0.7071068,
+            "y": 0.0,
+            "z": -0.7071068,
+            "w": 0.0
+        }
+    },
+    "#delivery-place": {
+        "cubos::engine::Position": {
+            "x": 0.0,
+            "y": 8.0,
+            "z": 20.0
+        },
+        "cubos::engine::BoxCollisionShape": {
+            "x": 30,
+            "y": 15,
+            "z": 1
+        },
+        "cubos::engine::CollisionLayers": 2,
+        "cubos::engine::CollisionMask": 1,
+        "roll_racers::EndArea": {}
+    }
+}

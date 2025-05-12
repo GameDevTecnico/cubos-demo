@@ -1,0 +1,9 @@
+{
+  "inherit": "977a6825-bd4b-4290-aee9-1580c48a0919",
+  "#render-target": {
+    "roll_racers::ScoreUIManager": {},
+    "#instructions": {
+      "inherit": "264c9b69-c0fb-4327-a9f8-e62e3db2a85b"
+    }
+  }
+}

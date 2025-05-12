@@ -1,0 +1,159 @@
+{
+  "roll_racers::PlayerOwner": {
+    "player": 1
+  },
+  "roll_racers::Car": {
+    "drivetrain": 0,
+    "lowBackLightIntensity": 1.0,
+    "highBackLightIntensity": 8.0,
+    "headLightIntensity": 2.0,
+    "lightIntensityHalfTime": 0.1,
+    "dragConstant": 0.0,
+    "rollingResistanceConstant": 0.0,
+    "suspensionRestDist": 1.8,
+    "springStrength": 200.0,
+    "springDamper": 300.0,
+    "wheelRadius": 2.0,
+    "minSuspensionHeight": 0.9,
+    "suspensionHalfTime": 0.075,
+    "fastWheelSteeringAngle": 40.0,
+    "idleWheelSteeringAngle": 60.0,
+    "fastWheelSteeringVelocity": 100.0,
+    "wheelSteeringHalfTime": 0.1,
+    "tractionConstant": 10000.0,
+    "tractionPeakSlip": 0.2,
+    "corneringConstant": 5000.0,
+    "corneringPeakSlipAngle": 20.0,
+    "driveTorque": 2500.0
+  },
+  "cubos::engine::BoxCollisionShape": {
+    "x": 3.0,
+    "y": 2.0,
+    "z": 6.4
+  },
+  "cubos::engine::CollisionLayers": 1,
+  "cubos::engine::CollisionMask": 3,
+  "cubos::engine::PhysicsBundle": {
+    "mass": 100,
+    "centerOfMass": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "cubos::engine::Position": {
+    "x": 0,
+    "y": 5,
+    "z": 0
+  },
+  "cubos::engine::AudioSource": {
+    "sound": "3fa5cc2f-9b5c-44ba-8eba-44c30ada4630",
+    "looping": true,
+    "gain": 0.75,
+    "pitch": 1.0
+  },
+  "#horn": {
+    "cubos::engine::AudioSource": {
+      "sound": "38eb65e2-b06c-4fec-a551-4e08caa0747a",
+      "gain": 2.0
+    },
+    "cubos::engine::Position": {},
+    "roll_racers::Horn": {}
+  },
+  "#wheel-front-right": {
+    "roll_racers::Wheel": {
+      "axis": 0,
+      "mass": 25,
+      "gripFactor": 0.8
+    },
+    "cubos::engine::Position": {
+      "x": -2.6,
+      "y": -2.0,
+      "z": 3.8
+    },
+    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  },
+  "#wheel-front-left": {
+    "roll_racers::Wheel": {
+      "axis": 0,
+      "mass": 25,
+      "gripFactor": 0.8
+    },
+    "cubos::engine::Position": {
+      "x": 2.6,
+      "y": -2.0,
+      "z": 3.8
+    },
+    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  },
+  "#wheel-back-right": {
+    "roll_racers::Wheel": {
+      "axis": 1,
+      "mass": 25,
+      "gripFactor": 0.8
+    },
+    "cubos::engine::Position": {
+      "x": -2.6,
+      "y": -2.0,
+      "z": -3.4
+    },
+    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  },
+  "#wheel-back-left": {
+    "roll_racers::Wheel": {
+      "axis": 1,
+      "mass": 25,
+      "gripFactor": 0.8
+    },
+    "cubos::engine::Position": {
+      "x": 2.6,
+      "y": -2.0,
+      "z": -3.4
+    },
+    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "#model": {
+      "cubos::engine::Scale": 0.2,
+      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "#axle": {
+        "cubos::engine::Position": {
+          "y": 5.0
+        },
+        "cubos::engine::Rotation": {},
+        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+      }
+    }
+  }
+}

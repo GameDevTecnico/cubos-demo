@@ -1,0 +1,67 @@
+{
+  "roll_racers::InstructionsUI": {},
+  "cubos::engine::UIElement": {
+    "offset": {
+      "x": 0.0,
+      "y": -200.0
+    },
+    "anchor": {
+      "x": 0.5,
+      "y": 1.0
+    }
+  },
+  "#bg": {
+    "cubos::engine::UIElement": {
+      "size": {
+        "x": 1600.0,
+        "y": 300.0
+      }
+    },
+    "cubos::engine::UIColorRect": {
+      "color": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.5
+      }
+    },
+    "#add-players": {
+      "cubos::engine::UIElement": {
+        "offset": {
+          "x": 0.0,
+          "y": 70.0
+        },
+        "size": {
+          "x": 100.0,
+          "y": 100.0
+        },
+        "layer": 1
+      },
+      "cubos::engine::UIText": {
+        "text": "Space/A to add players,",
+        "fontSize": 80.0,
+        "fontAtlas": "bd0387d2-af3d-4c65-8561-33f5bcf6ab37"
+      },
+      "cubos::engine::UITextStretch": {}
+    },
+    "#start-game": {
+      "cubos::engine::UIElement": {
+        "offset": {
+          "x": 0.0,
+          "y": -50.0
+        },
+        "size": {
+          "x": 100.0,
+          "y": 100.0
+        },
+        "layer": 1
+      },
+      "cubos::engine::UIText": {
+        "text": "Tab/Start to start game",
+        "fontSize": 80.0,
+        "fontAtlas": "bd0387d2-af3d-4c65-8561-33f5bcf6ab37"
+      },
+      "cubos::engine::UITextStretch": {}
+    }
+  }
+}

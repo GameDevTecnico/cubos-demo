@@ -1,0 +1,258 @@
+{
+    "#road": {
+        "inherit": "38308025-ed2e-4fed-a5df-b7c890a54576",
+        "cubos::engine::VoxelCollisionShape": "add570e8-8688-4b57-8de7-914ce34f72c1",
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "add570e8-8688-4b57-8de7-914ce34f72c1"
+        },
+        "cubos::engine::Position": {
+            "y": 6.0
+        },
+        "cubos::engine::Rotation": {
+            "x": 0.0,
+            "y": 0.7071068,
+            "z": 0.0,
+            "w": 0.7071068
+        }
+    },
+    "#green-light-1": {
+        "roll_racers::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 10.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#green-light-2": {
+        "roll_racers::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 4.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#green-light-3": {
+        "roll_racers::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -2.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#green-light-4": {
+        "roll_racers::Semaphore": {
+            "stage": 2,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -8.0,
+            "y": 21.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-1": {
+        "roll_racers::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 10.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-2": {
+        "roll_racers::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 4.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-3": {
+        "roll_racers::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -2.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#yellow-light-4": {
+        "roll_racers::Semaphore": {
+            "stage": 1,
+            "intensity": 10.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -8.0,
+            "y": 18.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-1": {
+        "roll_racers::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 10.0,
+            "y": 15.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-2": {
+        "roll_racers::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": 4.0,
+            "y": 15.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-3": {
+        "roll_racers::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -2.0,
+            "y": 15.0,
+            "z": 12.5
+        }
+    },
+    "#red-light-4": {
+        "roll_racers::Semaphore": {
+            "stage": 0,
+            "intensity": 20.0
+        },
+        "cubos::engine::PointLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "intensity": 0.0,
+            "range": 2.0
+        },
+        "cubos::engine::Position": {
+            "x": -8.0,
+            "y": 15.0,
+            "z": 12.5
+        }
+    }
+}
