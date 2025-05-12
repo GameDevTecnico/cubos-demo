@@ -1,372 +1,372 @@
 {
-  "entities": {
-    "render-target": {
-      "cubos::engine::RenderTarget": {},
-      "cubos::engine::HDR": {},
-      "cubos::engine::ToneMapping": {},
-      "cubos::engine::RenderDepth": {},
-      "cubos::engine::RenderPicker": {},
-      "cubos::engine::GBuffer": {},
-      "cubos::engine::GBufferRasterizer": {},
-      "cubos::engine::SSAO": {},
-      "cubos::engine::DeferredShading": {},
-      "cubos::engine::Bloom": {},
-      "cubos::engine::SplitScreen": {},
-      "cubos::engine::GizmosTarget": {}
+  "#render-target": {
+    "cubos::engine::RenderTarget": {},
+    "cubos::engine::HDR": {},
+    "cubos::engine::ToneMapping": {},
+    "cubos::engine::RenderDepth": {},
+    "cubos::engine::RenderPicker": {},
+    "cubos::engine::GBuffer": {},
+    "cubos::engine::GBufferRasterizer": {},
+    "cubos::engine::SSAO": {},
+    "cubos::engine::DeferredShading": {},
+    "cubos::engine::Bloom": {},
+    "cubos::engine::SplitScreen": {},
+    "cubos::engine::GizmosTarget": {}
+  },
+  "#checkpoint": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 0.5,
+      "y": 5.0,
+      "z": 5.0
     },
-    "checkpoint": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 0.5,
-        "y": 5.0,
-        "z": 5.0
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 40.0,
-        "y": 0.0,
-        "z": 13.582549095153809
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 40.0,
+      "y": 0.0,
+      "z": 13.582549095153809
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Checkpoint": {
+      "isFinishLine": false,
+      "previous": "#finish-line"
+    }
+  },
+  "#collider1": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 100.0,
+      "y": 5.0,
+      "z": 0.10000000149011612
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 60.0,
+      "y": 0.0,
+      "z": 8.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Obstacle": {}
+  },
+  "#collider2": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 0.10000000149011612,
+      "y": 5.0,
+      "z": 100.0
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 70.0,
+      "y": 0.0,
+      "z": 60.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Obstacle": {}
+  },
+  "#collider3": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 100.0,
+      "y": 5.0,
+      "z": 0.10000000149011612
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 60.0,
+      "y": 0.0,
+      "z": 71.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Obstacle": {}
+  },
+  "#collider4": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 0.10000000149011612,
+      "y": 5.0,
+      "z": 100.0
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 6.0,
+      "y": 0.0,
+      "z": 60.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Obstacle": {}
+  },
+  "#collider5": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 19.0,
+      "y": 5.0,
+      "z": 5.0
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 36.5,
+      "y": 0.0,
+      "z": 53.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Obstacle": {}
+  },
+  "#collider6": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 11.5,
+      "y": 5.0,
+      "z": 14.0
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 45.0,
+      "y": 0.0,
+      "z": 32.5
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Obstacle": {}
+  },
+  "#collider7": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 20.0,
+      "y": 5.0,
+      "z": 32.0
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Obstacle": {}
+  },
+  "#finish-line": {
+    "cubos::engine::BoxCollisionShape": {
+      "x": 1.0,
+      "y": 5.0,
+      "z": 4.0
+    },
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 1,
+    "cubos::engine::Position": {
+      "x": 37.79999923706055,
+      "y": 0.0,
+      "z": 65.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 1.0,
+    "demo::Checkpoint": {
+      "isFinishLine": true,
+      "previous": "#checkpoint"
+    }
+  },
+  "#floor": {
+    "cubos::engine::Position": {
+      "x": 40.0,
+      "y": 38.6,
+      "z": 40.0
+    },
+    "cubos::engine::RenderVoxelGrid": {
+      "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c76"
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Scale": 0.4000000059604645
+  },
+  "#player1": {
+    "inherit": "e1346df9-5092-4fd1-be06-ff99e7894d23",
+    "#camera": {
       "cubos::engine::Scale": 1.0,
-      "demo::Checkpoint": {
-        "isFinishLine": false,
-        "previous": "finish-line"
-      }
+      "cubos::engine::DrawsTo#render-target": {}
     },
-    "collider1": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 100.0,
-        "y": 5.0,
-        "z": 0.10000000149011612
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 60.0,
-        "y": 0.0,
-        "z": 8.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
+    "cubos::engine::Position": {
+      "x": 31.799999237060547,
+      "y": 0.0,
+      "z": 63.599998474121094
+    },
+    "cubos::engine::Rotation": {
+      "w": 0.7071068286895752,
+      "x": 0.0,
+      "y": 0.7071068286895752,
+      "z": 0.0
+    },
+    "demo::Car": {
+      "acceleration": 5.0,
+      "angularVelocity": 0.0,
+      "braking": 20.0,
+      "forwardDrag": 0.10000000149011612,
+      "forwardDragCoefficient": 0.009999999776482582,
+      "lateralDrag": 0.0,
+      "lateralDragCoefficient": 0.0,
+      "linearVelocity": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::Scale": 1.0,
-      "demo::Obstacle": {}
+      "maxVelocity": 20.0,
+      "maxWheelAngle": 15.0,
+      "player": 1,
+      "steeringSpeed": 30.0,
+      "wheelAngle": 0.0,
+      "wheelBase": 3.200000047683716,
+      "wheelGrip": 0.30000001192092896
     },
-    "collider2": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 0.10000000149011612,
-        "y": 5.0,
-        "z": 100.0
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 70.0,
-        "y": 0.0,
-        "z": 60.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Obstacle": {}
-    },
-    "collider3": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 100.0,
-        "y": 5.0,
-        "z": 0.10000000149011612
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 60.0,
-        "y": 0.0,
-        "z": 71.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Obstacle": {}
-    },
-    "collider4": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 0.10000000149011612,
-        "y": 5.0,
-        "z": 100.0
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 6.0,
-        "y": 0.0,
-        "z": 60.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Obstacle": {}
-    },
-    "collider5": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 19.0,
-        "y": 5.0,
-        "z": 5.0
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 36.5,
-        "y": 0.0,
-        "z": 53.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Obstacle": {}
-    },
-    "collider6": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 11.5,
-        "y": 5.0,
-        "z": 14.0
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 45.0,
-        "y": 0.0,
-        "z": 32.5
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Obstacle": {}
-    },
-    "collider7": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 20.0,
-        "y": 5.0,
-        "z": 32.0
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Obstacle": {}
-    },
-    "finish-line": {
-      "cubos::engine::BoxCollisionShape": {
-        "x": 1.0,
-        "y": 5.0,
-        "z": 4.0
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::Position": {
-        "x": 37.79999923706055,
-        "y": 0.0,
-        "z": 65.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 1.0,
-      "demo::Checkpoint": {
-        "isFinishLine": true,
-        "previous": "checkpoint"
-      }
-    },
-    "floor": {
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "059c16e7-a439-44c7-9bdc-6e069dba0c76",
-        "offset": {
-          "x": 0.0,
-          "y": -2.0,
-          "z": 0.0
-        }
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 0.4000000059604645
-    },
-    "player1.camera": {
-      "cubos::engine::Scale": 1.0,
-      "cubos::engine::DrawsTo@render-target": {}
-    },
-    "player1.car": {
-      "cubos::engine::Position": {
+    "demo::Racer": {
+      "currentCheckpoint": "null",
+      "currentLapTime": 0.0,
+      "lapTimes": [],
+      "maxSuccessiveLaps": 0,
+      "startingPosition": {
         "x": 31.799999237060547,
         "y": 0.0,
         "z": 63.599998474121094
       },
-      "cubos::engine::Rotation": {
+      "startingRotation": {
         "w": 0.7071068286895752,
         "x": 0.0,
         "y": 0.7071068286895752,
         "z": 0.0
       },
-      "demo::Car": {
-        "acceleration": 5.0,
-        "angularVelocity": 0.0,
-        "braking": 20.0,
-        "forwardDrag": 0.10000000149011612,
-        "forwardDragCoefficient": 0.009999999776482582,
-        "lateralDrag": 0.0,
-        "lateralDragCoefficient": 0.0,
-        "linearVelocity": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "maxVelocity": 20.0,
-        "maxWheelAngle": 15.0,
-        "player": 1,
-        "steeringSpeed": 30.0,
-        "wheelAngle": 0.0,
-        "wheelBase": 3.200000047683716,
-        "wheelGrip": 0.30000001192092896
-      },
-      "demo::Racer": {
-        "currentCheckpoint": "null",
-        "currentLapTime": 0.0,
-        "lapTimes": [],
-        "maxSuccessiveLaps": 0,
-        "startingPosition": {
-          "x": 31.799999237060547,
-          "y": 0.0,
-          "z": 63.599998474121094
-        },
-        "startingRotation": {
-          "w": 0.7071068286895752,
-          "x": 0.0,
-          "y": 0.7071068286895752,
-          "z": 0.0
-        },
-        "successiveLaps": 0
-      }
-    },
-    "player2.camera": {
+      "successiveLaps": 0
+    }
+  },
+  "#player2": {
+    "inherit": "e1346df9-5092-4fd1-be06-ff99e7894d23",
+    "#camera": {
       "cubos::engine::Scale": 1.0,
-      "cubos::engine::DrawsTo@render-target": {}
+      "cubos::engine::DrawsTo#render-target": {}
     },
-    "player2.car": {
-      "cubos::engine::Position": {
+    "cubos::engine::Position": {
+      "x": 31.799999237060547,
+      "y": 0.0,
+      "z": 66.80000305175781
+    },
+    "cubos::engine::Rotation": {
+      "w": 0.7071068286895752,
+      "x": 0.0,
+      "y": 0.7071068286895752,
+      "z": 0.0
+    },
+    "demo::Car": {
+      "acceleration": 5.0,
+      "angularVelocity": 0.0,
+      "braking": 20.0,
+      "forwardDrag": 0.10000000149011612,
+      "forwardDragCoefficient": 0.009999999776482582,
+      "lateralDrag": 0.0,
+      "lateralDragCoefficient": 0.0,
+      "linearVelocity": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "maxVelocity": 20.0,
+      "maxWheelAngle": 15.0,
+      "player": 2,
+      "steeringSpeed": 30.0,
+      "wheelAngle": 0.0,
+      "wheelBase": 3.200000047683716,
+      "wheelGrip": 0.30000001192092896
+    },
+    "demo::Racer": {
+      "currentCheckpoint": "null",
+      "currentLapTime": 0.0,
+      "lapTimes": [],
+      "maxSuccessiveLaps": 0,
+      "startingPosition": {
         "x": 31.799999237060547,
         "y": 0.0,
         "z": 66.80000305175781
       },
-      "cubos::engine::Rotation": {
+      "startingRotation": {
         "w": 0.7071068286895752,
         "x": 0.0,
         "y": 0.7071068286895752,
         "z": 0.0
       },
-      "demo::Car": {
-        "acceleration": 5.0,
-        "angularVelocity": 0.0,
-        "braking": 20.0,
-        "forwardDrag": 0.10000000149011612,
-        "forwardDragCoefficient": 0.009999999776482582,
-        "lateralDrag": 0.0,
-        "lateralDragCoefficient": 0.0,
-        "linearVelocity": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "maxVelocity": 20.0,
-        "maxWheelAngle": 15.0,
-        "player": 2,
-        "steeringSpeed": 30.0,
-        "wheelAngle": 0.0,
-        "wheelBase": 3.200000047683716,
-        "wheelGrip": 0.30000001192092896
-      },
-      "demo::Racer": {
-        "currentCheckpoint": "null",
-        "currentLapTime": 0.0,
-        "lapTimes": [],
-        "maxSuccessiveLaps": 0,
-        "startingPosition": {
-          "x": 31.799999237060547,
-          "y": 0.0,
-          "z": 66.80000305175781
-        },
-        "startingRotation": {
-          "w": 0.7071068286895752,
-          "x": 0.0,
-          "y": 0.7071068286895752,
-          "z": 0.0
-        },
-        "successiveLaps": 0
-      }
-    },
-    "sun": {
-      "cubos::engine::DirectionalLight": {
-        "color": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
-        }
-      },
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.30000001192092896,
-        "y": -0.10000000149011612,
-        "z": 0.5
-      },
-      "cubos::engine::Scale": 1.0
+      "successiveLaps": 0
     }
   },
-  "imports": {
-    "player1": "e1346df9-5092-4fd1-be06-ff99e7894d23",
-    "player2": "e1346df9-5092-4fd1-be06-ff99e7894d23"
+  "#sun": {
+    "cubos::engine::DirectionalLight": {
+      "color": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      }
+    },
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.30000001192092896,
+      "y": -0.10000000149011612,
+      "z": 0.5
+    },
+    "cubos::engine::Scale": 1.0
   }
 }

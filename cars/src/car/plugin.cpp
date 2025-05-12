@@ -135,31 +135,39 @@ void demo::carPlugin(Cubos& cubos)
         .call([](Query<Entity, Car&, Position&, const CollidingWith&, Car&, Position&> query) {
             for (auto [ent, car, pos, collidingWith, otherCar, otherPos] : query)
             {
-                // Get the normal of the collision.
-                auto normal = collidingWith.normal;
-                if (collidingWith.entity != ent)
+                for (const auto& manifold : collidingWith.manifolds)
                 {
-                    normal = -normal;
+                    // Get the normal of the collision.
+                    auto normal = manifold.normal;
+                    if (collidingWith.entity != ent)
+                    {
+                        normal = -normal;
+                    }
+
+                    // Calculate the necessary offset to separate the cars.
+                    float penetration = 0.0F;
+                    for (const auto& point : manifold.points)
+                    {
+                        penetration = glm::max(penetration, point.penetration);
+                    }
+                    auto offset = normal * penetration;
+
+                    // Move the cars apart to prevent them from overlapping.
+                    pos.vec -= offset * 0.5F;
+                    otherPos.vec += offset * 0.5F;
+
+                    // Kill their relative velocity.
+                    auto relativeVelocity = otherCar.linearVelocity - car.linearVelocity;
+                    auto relativeVelocityAlongNormal = glm::dot(relativeVelocity, glm::normalize(normal));
+                    if (relativeVelocityAlongNormal > 0.0F)
+                    {
+                        continue;
+                    }
+
+                    auto impulse = -0.5F * relativeVelocityAlongNormal;
+                    car.linearVelocity -= impulse * normal;
+                    otherCar.linearVelocity += impulse * normal;
                 }
-
-                // Calculate the necessary offset to separate the cars.
-                auto offset = normal * collidingWith.penetration;
-
-                // Move the cars apart to prevent them from overlapping.
-                pos.vec -= offset * 0.5F;
-                otherPos.vec += offset * 0.5F;
-
-                // Kill their relative velocity.
-                auto relativeVelocity = otherCar.linearVelocity - car.linearVelocity;
-                auto relativeVelocityAlongNormal = glm::dot(relativeVelocity, glm::normalize(normal));
-                if (relativeVelocityAlongNormal > 0.0F)
-                {
-                    continue;
-                }
-
-                auto impulse = -0.5F * relativeVelocityAlongNormal;
-                car.linearVelocity -= impulse * normal;
-                otherCar.linearVelocity += impulse * normal;
             }
         });
 }

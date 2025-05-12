@@ -18,6 +18,8 @@
 #include <cubos/engine/render/voxels/palette.hpp>
 #include <cubos/engine/collisions/plugin.hpp>
 #include <cubos/engine/imgui/plugin.hpp>
+#include <cubos/engine/tools/plugin.hpp>
+#include <cubos/engine/utils/free_camera/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -31,6 +33,8 @@ int main(int argc, char** argv)
 {
     Cubos cubos{argc, argv};
     cubos.plugin(defaultsPlugin);
+    cubos.plugin(freeCameraPlugin);
+    cubos.plugin(toolsPlugin);
 
     // Add game components and plugins.
     cubos.plugin(demo::deadPlugin);
@@ -66,7 +70,7 @@ int main(int argc, char** argv)
         .call([](Commands cmds, const Assets& assets, Settings& settings) {
             if (settings.getBool("production", true))
             {
-                cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+                cmds.spawn(assets.read(MainSceneAsset)->blueprint()).named("main");
             }
         });
 

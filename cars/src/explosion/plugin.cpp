@@ -44,13 +44,14 @@ void demo::explosionPlugin(Cubos& cubos)
                     velocity *= 5.0F;
 
                     // Spawn the particle scene and add the Particle component.
-                    cmds.spawn(assets.read(ParticleAsset)->blueprint)
-                        .add("particle", Particle{.startLife = explosion.particleLife,
-                                                  .life = explosion.particleLife,
-                                                  .size = glm::linearRand(0.1F, 0.4F),
-                                                  .velocity = velocity})
-                        .add("particle", Position{.vec = position.vec})
-                        .add("particle", Scale{.factor = 0.0F});
+                    cmds.spawn(assets.read(ParticleAsset)->blueprint())
+                        .add(Particle{.startLife = explosion.particleLife,
+                                      .life = explosion.particleLife,
+                                      .size = glm::linearRand(0.1F, 0.4F),
+                                      .velocity = velocity})
+                        .add(Position{.vec = position.vec})
+                        .add(Scale{.factor = 0.0F})
+                        .named("particle");
                 }
             }
         });

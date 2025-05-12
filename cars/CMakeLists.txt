@@ -1,8 +1,6 @@
 # cars/CMakeLists.txt
 # Cars demo build configuration
 
-option(CARS_DISTRIBUTE "Build the game for distribution" OFF)
-
 add_executable(cars
     src/car/car.cpp
     src/car/plugin.cpp
@@ -49,4 +47,18 @@ else()
             BUILTIN_ASSETS_PATH="${CUBOS_ENGINE_ASSETS_PATH}"
         )
     endif()
+endif()
+
+# ------------------------ Configure game installation ------------------------
+
+if(DISTRIBUTE)
+    if(EMSCRIPTEN)
+        install(FILES $<TARGET_FILE_DIR:cars>/cars.html DESTINATION cars)
+        install(FILES $<TARGET_FILE_DIR:cars>/cars.wasm DESTINATION cars)
+        install(FILES $<TARGET_FILE_DIR:cars>/cars.js DESTINATION cars)
+    else()
+        install(TARGETS cars EXPORT cars RUNTIME DESTINATION cars)
+    endif()
+    install(DIRECTORY assets/ DESTINATION cars/assets)
+    install(DIRECTORY ${CUBOS_ENGINE_ASSETS_PATH}/ DESTINATION cars/builtin)
 endif()
