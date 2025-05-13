@@ -22,8 +22,34 @@ endfunction()
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize-recover=address")
 
-add_subdirectory(cars)
-add_subdirectory(scraps)
-add_subdirectory(airships)
-add_subdirectory(ondisseia)
-add_subdirectory(roll_racers)
+# Add the subdirectories for each demo project
+
+option(BUILD_CARS "Build legacy cars demo" ON)
+message("Building legacy cars demo: ${BUILD_CARS}")
+if(BUILD_CARS)
+    add_subdirectory(cars)
+endif()
+
+option(BUILD_SCRAPS "Build Scraps vs Zombies" ON)
+message("Building Scraps vs Zombies: ${BUILD_SCRAPS}")
+if(BUILD_SCRAPS)
+    add_subdirectory(scraps)
+endif()
+
+option(BUILD_AIRSHIPS "Build Airships" ON)
+message("Building Airships: ${BUILD_AIRSHIPS}")
+if(BUILD_AIRSHIPS)
+    add_subdirectory(airships)
+endif()
+
+option(BUILD_ONDISSEIA "Build Ondisseia" ON)
+message("Building Ondisseia: ${BUILD_ONDISSEIA}")
+if(BUILD_ONDISSEIA)
+    add_subdirectory(ondisseia)
+endif()
+
+option(BUILD_ROLL_RACERS "Build Roll Racers" ON)
+message("Building Roll Racers: ${BUILD_ROLL_RACERS}")
+if(BUILD_ROLL_RACERS)
+    add_subdirectory(roll_racers)
+endif()
