@@ -45,6 +45,7 @@ if(EMSCRIPTEN)
     target_link_options(airships-client PRIVATE
         "SHELL:--embed-file ${CMAKE_CURRENT_SOURCE_DIR}/../assets@/assets"
         "SHELL:--embed-file ${CUBOS_ENGINE_ASSETS_PATH}@/builtin"
+        "SHELL:--shell-file ${CMAKE_CURRENT_SOURCE_DIR}/emscripten.html"
     )
     target_compile_definitions(airships-client PRIVATE
         APP_ASSETS_PATH="/assets"
@@ -64,6 +65,14 @@ else()
     endif()
 endif()
 
+# ------------------------ Configure game installation ------------------------
+
 if(DISTRIBUTE)
-    install(TARGETS airships EXPORT airships-client RUNTIME DESTINATION airships)
+    if(EMSCRIPTEN)
+        install(FILES $<TARGET_FILE_DIR:airships-client>/airships-client.html DESTINATION airships)
+        install(FILES $<TARGET_FILE_DIR:airships-client>/airships-client.wasm DESTINATION airships)
+        install(FILES $<TARGET_FILE_DIR:airships-client>/airships-client.js DESTINATION airships)
+    else()
+        install(TARGETS airships-client EXPORT airships-client RUNTIME DESTINATION airships)
+    endif()
 endif()

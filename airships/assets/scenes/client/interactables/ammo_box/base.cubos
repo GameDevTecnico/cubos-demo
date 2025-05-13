@@ -1,28 +1,15 @@
 {
-  "entities": {
-    "root": {
-      "cubos::engine::Scale": 0.20,
-      "cubos::engine::Collider": {
-          "layer": 1,
-          "mask": 4,
-          "transform": {
-              "d": {
-                  "x": 0.0,
-                  "y": 0.0,
-                  "z": 0.0
-              }
-          }
-      },
-      "cubos::engine::BoxCollisionShape": {
-          "x": 8.0,
-          "y": 25.0,
-          "z": 8.0
-      },
-      "airships::client::Interpolated": "9b3901c0-568a-42e8-afcb-3d252ea59d37",
-      "airships::client::Box": {
-        "airships::client::freeSlots": [  ],
-        "airships::client::type": "ball"
-      }
-    }
+  "cubos::engine::Scale": 0.20,
+  "cubos::engine::CollisionLayers": 2,
+  "cubos::engine::CollisionMask": 4,
+  "cubos::engine::BoxCollisionShape": {
+    "x": 8.0,
+    "y": 25.0,
+    "z": 8.0
+  },
+  "airships::client::Interpolated": "9b3901c0-568a-42e8-afcb-3d252ea59d37",
+  "airships::client::Box": {
+    "airships::client::freeSlots": [],
+    "airships::client::type": "ball"
   }
 }

@@ -21,5 +21,5 @@ else()
 endif()
 
 if(DISTRIBUTE)
-    install(TARGETS airships EXPORT airships-server RUNTIME DESTINATION airships)
+    install(TARGETS airships-server EXPORT airships-server RUNTIME DESTINATION airships)
 endif()

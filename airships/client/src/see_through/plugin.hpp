@@ -25,7 +25,7 @@ namespace airships::client
         CUBOS_REFLECT;
 
         /// @brief Collision mask to use when raycasting for SeeThrough entities.
-        uint64_t mask{0};
+        uint32_t mask{0};
     };
 
     void seeThroughPlugin(cubos::engine::Cubos& cubos);

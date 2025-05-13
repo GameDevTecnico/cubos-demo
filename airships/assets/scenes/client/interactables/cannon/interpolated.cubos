@@ -1,19 +1,10 @@
 {
-    "entities": {
-        "root": {
-            "cubos::engine::Position": {},
-            "cubos::engine::RenderVoxelGrid": {
-                "asset": "f57b0042-b742-4fc3-a303-98bb5bc51102",
-                "offset": {
-                    "x": -5.0,
-                    "y": 0.0,
-                    "z": -5.0
-                }
-            },
-            "cubos::engine::AudioSource": {
-                "sound": "7401edb8-4dbb-4456-b546-06916889ee7a",
-                "gain": 20.0
-            }
-        }
-    }
+  "cubos::engine::Position": {},
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "f57b0042-b742-4fc3-a303-98bb5bc51102"
+  },
+  "cubos::engine::AudioSource": {
+    "sound": "7401edb8-4dbb-4456-b546-06916889ee7a",
+    "gain": 2.0
+  }
 }

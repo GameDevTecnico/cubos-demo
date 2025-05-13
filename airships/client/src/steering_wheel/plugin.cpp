@@ -101,9 +101,11 @@ void airships::client::steeringWheelPlugin(Cubos& cubos)
                     ratio = glm::clamp(ratio, 0.0F, 1.0F);
 
                     // Calculate the angle between the current drivable direction and the direction to the center
-                    auto forward = glm::vec2(glm::sin(glm::radians(drivable.yaw)), glm::cos(glm::radians(drivable.yaw)));
+                    auto forward =
+                        glm::vec2(glm::sin(glm::radians(drivable.yaw)), glm::cos(glm::radians(drivable.yaw)));
                     auto toCenter = glm::normalize(glm::vec2{-currentPosition.x, -currentPosition.z});
-                    auto diff = glm::degrees(glm::atan(toCenter.y, toCenter.x) - glm::atan(forward.y, forward.x)) / 180.0F;
+                    auto diff =
+                        glm::degrees(glm::atan(toCenter.y, toCenter.x) - glm::atan(forward.y, forward.x)) / 180.0F;
 
                     // Turn the wheel so that the drivable starts turning back
                     wheel.targetTurnAngle = glm::mix(wheel.targetTurnAngle, diff * wheel.maxTurnAngle, ratio);

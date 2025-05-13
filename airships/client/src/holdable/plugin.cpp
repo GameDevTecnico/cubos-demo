@@ -9,9 +9,7 @@ using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(airships::client::Holdable)
 {
-    return cubos::core::ecs::TypeBuilder<Holdable>("airships::client::Holdable")
-        .withField("airships::client::type", &Holdable::type)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Holdable>("airships::client::Holdable").wrap(&Holdable::type);
 }
 
 void airships::client::holdablePlugin(Cubos& cubos)

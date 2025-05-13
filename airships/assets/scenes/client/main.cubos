@@ -1,177 +1,135 @@
 {
-    "entities": {
-        "render-target": {
-            "cubos::engine::RenderTargetDefaults": {},
-            "cubos::engine::GizmosTarget": {},
-            "airships::client::RopeRasterizer": {}
-        },
-        "sun": {
-            "cubos::engine::DirectionalLight": {
-                "color": {
-                    "x": 1.0,
-                    "y": 0.6,
-                    "z": 0.2
-                },
-                "intensity": 3.0
+    "#render-target": {
+        "cubos::engine::RenderTargetDefaults": {},
+        "cubos::engine::GizmosTarget": {},
+        "airships::client::RopeRasterizer": {}
+    },
+    "#sun": {
+        "cubos::engine::DirectionalLight": {
+            "color": {
+                "x": 1.0,
+                "y": 0.6,
+                "z": 0.2
             },
-            "cubos::engine::Rotation": {
-                "w": 1.0,
-                "x": 0.3,
-                "y": -0.1,
-                "z": 0.5
-            }
+            "intensity": 3.0
         },
-        "level": {
-            "airships::client::MainMenu": {
-                "levelGenerator": [
-                    {
-                        "scene": "c8fd19c1-438d-45d6-8395-300dc1809f7f",
-                        "amount": 4
-                    },
-                    {
-                        "scene": "a796a308-0cad-4674-869d-c5e7177d711c",
-                        "amount": 10
-                    },
-                    {
-                        "scene": "f136a3a7-6ac1-4fa7-a425-857f38746814",
-                        "amount": 10
-                    },
-                    {
-                        "scene": "8816c9f2-cecd-40f5-bf0d-80b6d5078ed1",
-                        "amount": 40,
-                        "minHeight": -100,
-                        "maxHeight": 100
-                    },
-                    {
-                        "scene": "aad8ac6f-498f-4db4-ab98-e5b419e1ef6f",
-                        "amount": 10,
-                        "minHeight": -700,
-                        "maxHeight": -400
-                    },
-                    {
-                        "scene": "c5a17ac7-d9f7-40a4-a9b9-b563957a5cfe",
-                        "amount": 10,
-                        "minHeight": -700,
-                        "maxHeight": -400
-                    },
-                    {
-                        "scene": "a1c52dcc-fb88-415c-9c48-f0d27fb17570",
-                        "amount": 10,
-                        "minHeight": -700,
-                        "maxHeight": -400
-                    },
-                    {
-                        "scene": "4c528048-49e4-4312-a511-8a57daeb2210",
-                        "amount": 10,
-                        "minHeight": 200,
-                        "maxHeight": 500
-                    },
-                    {
-                        "scene": "72b6a9b3-91f3-4f38-b083-5106134a6975",
-                        "amount": 10,
-                        "minHeight": 200,
-                        "maxHeight": 500
-                    }
-                ],
-                "boatScene": "c1e41c8f-286f-4313-8155-0c60743ce4d3",
-                "boatSkins": [
-                    {
-                        "hull": {
-                            "grids": {
-                                "1": "d96613dd-6711-4913-ab05-2223ee952f88",
-                                "2": "6ad09b3e-4678-40c5-9d7a-9e89eedbf070",
-                                "3": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e"
-                            },
-                            "offset": {
-                                "x": -41.0,
-                                "y": -17.0,
-                                "z": -27.0
-                            }
-                        },
-                        "balloon": {
-                            "asset": "bac9c97f-b617-4bee-9eda-d1f641388098",
-                            "offset": {
-                                "x": -52.0,
-                                "y": 0.0,
-                                "z": -29.0
-                            }
-                        },
-                        "rudder": {
-                            "asset": "96a22061-8668-4bd2-8419-c92d21e1404e",
-                            "offset": {
-                                "x": -1.0,
-                                "y": -17.0,
-                                "z": -1.0
-                            }
-                        },
-                        "anchor": {
-                            "asset": "37647b07-0e4d-44e9-ad83-982893c6a97a",
-                            "offset": {
-                                "x": -5.5,
-                                "y": -17.0,
-                                "z": -3.0
-                            }
+        "cubos::engine::Rotation": {
+            "w": 1.0,
+            "x": 0.3,
+            "y": -0.1,
+            "z": 0.5
+        }
+    },
+    "#level": {
+        "airships::client::MainMenu": {
+            "levelGenerator": [
+                {
+                    "scene": "c8fd19c1-438d-45d6-8395-300dc1809f7f",
+                    "amount": 4
+                },
+                {
+                    "scene": "a796a308-0cad-4674-869d-c5e7177d711c",
+                    "amount": 10
+                },
+                {
+                    "scene": "f136a3a7-6ac1-4fa7-a425-857f38746814",
+                    "amount": 10
+                },
+                {
+                    "scene": "8816c9f2-cecd-40f5-bf0d-80b6d5078ed1",
+                    "amount": 40,
+                    "minHeight": -100,
+                    "maxHeight": 100
+                },
+                {
+                    "scene": "aad8ac6f-498f-4db4-ab98-e5b419e1ef6f",
+                    "amount": 10,
+                    "minHeight": -700,
+                    "maxHeight": -400
+                },
+                {
+                    "scene": "c5a17ac7-d9f7-40a4-a9b9-b563957a5cfe",
+                    "amount": 10,
+                    "minHeight": -700,
+                    "maxHeight": -400
+                },
+                {
+                    "scene": "a1c52dcc-fb88-415c-9c48-f0d27fb17570",
+                    "amount": 10,
+                    "minHeight": -700,
+                    "maxHeight": -400
+                },
+                {
+                    "scene": "4c528048-49e4-4312-a511-8a57daeb2210",
+                    "amount": 10,
+                    "minHeight": 200,
+                    "maxHeight": 500
+                },
+                {
+                    "scene": "72b6a9b3-91f3-4f38-b083-5106134a6975",
+                    "amount": 10,
+                    "minHeight": 200,
+                    "maxHeight": 500
+                }
+            ],
+            "boatScene": "c1e41c8f-286f-4313-8155-0c60743ce4d3",
+            "boatSkins": [
+                {
+                    "hull": {
+                        "grids": {
+                            "1": "d96613dd-6711-4913-ab05-2223ee952f88",
+                            "2": "6ad09b3e-4678-40c5-9d7a-9e89eedbf070",
+                            "3": "12294a74-691f-44fb-a5a7-4a4ccfde8d7e"
                         }
                     },
-                    {
-                        "hull": {
-                            "grids": {
-                                "1": "fdceae19-8c06-4916-99a7-7fd64d22ba5a",
-                                "2": "a7de97f1-6612-4d7d-994d-655b3d808e2d",
-                                "3": "f9e6e1d3-9d83-425f-be59-d522017be4ee"
-                            },
-                            "offset": {
-                                "x": -41.0,
-                                "y": -17.0,
-                                "z": -27.0
-                            }
-                        },
-                        "balloon": {
-                            "asset": "c2256f64-9a1b-474d-8bfb-36ac2838522a",
-                            "offset": {
-                                "x": -52.0,
-                                "y": 0.0,
-                                "z": -29.0
-                            }
-                        },
-                        "rudder": {
-                            "asset": "80a3c381-873d-42fb-8512-bb33bf202e0a",
-                            "offset": {
-                                "x": -1.0,
-                                "y": -17.0,
-                                "z": -1.0
-                            }
-                        },
-                        "anchor": {
-                            "asset": "66de1d50-3341-4c14-8f53-58ab3cef9995",
-                            "offset": {
-                                "x": -5.5,
-                                "y": -17.0,
-                                "z": -3.0
-                            }
+                    "balloon": {
+                        "asset": "bac9c97f-b617-4bee-9eda-d1f641388098"
+                    },
+                    "rudder": {
+                        "asset": "96a22061-8668-4bd2-8419-c92d21e1404e"
+                    },
+                    "anchor": {
+                        "asset": "37647b07-0e4d-44e9-ad83-982893c6a97a"
+                    }
+                },
+                {
+                    "hull": {
+                        "grids": {
+                            "1": "fdceae19-8c06-4916-99a7-7fd64d22ba5a",
+                            "2": "a7de97f1-6612-4d7d-994d-655b3d808e2d",
+                            "3": "f9e6e1d3-9d83-425f-be59-d522017be4ee"
                         }
+                    },
+                    "balloon": {
+                        "asset": "c2256f64-9a1b-474d-8bfb-36ac2838522a"
+                    },
+                    "rudder": {
+                        "asset": "80a3c381-873d-42fb-8512-bb33bf202e0a"
+                    },
+                    "anchor": {
+                        "asset": "66de1d50-3341-4c14-8f53-58ab3cef9995"
                     }
-                ],
-                "playerScene": "a88d914b-f1d7-463b-9a20-cf76bb5508d6",
-                "playerSkins": [
-                    {
-                        "idleAnimation": "d0e7e6fc-3579-442a-8c2d-efe72717d1d4",
-                        "walkAnimation": "1241a7cf-2199-45db-995f-a37bc741ff13"
-                    },
-                    {
-                        "idleAnimation": "0c8dc669-1e94-480a-a934-2413273cd57c",
-                        "walkAnimation": "cb61a528-8ec2-448c-a68a-9b0c2e9aadf1"
-                    },
-                    {
-                        "idleAnimation": "4924b425-1230-43d0-bfe4-9065061e7bcd",
-                        "walkAnimation": "7f1f59ae-4742-4aab-8b7f-8ed69c4263ac"
-                    },
-                    {
-                        "idleAnimation": "172e563a-311b-4c96-911c-758c8c792a34",
-                        "walkAnimation": "c5abc296-567a-44cb-a6b5-959ebfbad1fd"
-                    }
-                ]
-            }
+                }
+            ],
+            "playerScene": "a88d914b-f1d7-463b-9a20-cf76bb5508d6",
+            "playerSkins": [
+                {
+                    "idleAnimation": "d0e7e6fc-3579-442a-8c2d-efe72717d1d4",
+                    "walkAnimation": "1241a7cf-2199-45db-995f-a37bc741ff13"
+                },
+                {
+                    "idleAnimation": "0c8dc669-1e94-480a-a934-2413273cd57c",
+                    "walkAnimation": "cb61a528-8ec2-448c-a68a-9b0c2e9aadf1"
+                },
+                {
+                    "idleAnimation": "4924b425-1230-43d0-bfe4-9065061e7bcd",
+                    "walkAnimation": "7f1f59ae-4742-4aab-8b7f-8ed69c4263ac"
+                },
+                {
+                    "idleAnimation": "172e563a-311b-4c96-911c-758c8c792a34",
+                    "walkAnimation": "c5abc296-567a-44cb-a6b5-959ebfbad1fd"
+                }
+            ]
         }
     }
 }

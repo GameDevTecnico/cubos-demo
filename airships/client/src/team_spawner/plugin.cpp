@@ -60,7 +60,7 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
         .call([](Commands cmds, Assets& assets, Query<Entity, TeamSpawner&> query) {
             for (auto [ent, spawner] : query)
             {
-                auto boatEnt = cmds.spawn(assets.read(spawner.boatScene)->blueprint).entity("root");
+                auto boatEnt = cmds.spawn(assets.read(spawner.boatScene)->blueprint()).named("boat").entity();
                 cmds.add(boatEnt, spawner.boatSkin);
                 cmds.add(boatEnt, RandomPosition{.minHeight = 0, .maxHeight = 0});
                 cmds.add(boatEnt, TeamSpawnerDestroyDetect{});
@@ -68,7 +68,9 @@ void airships::client::teamSpawnerPlugin(Cubos& cubos)
 
                 for (auto& player : spawner.players)
                 {
-                    auto playerEnt = cmds.spawn(assets.read(spawner.playerScene)->blueprint).entity("root");
+                    auto playerEnt = cmds.spawn(assets.read(spawner.playerScene)->blueprint())
+                                         .named("player" + std::to_string(player.id))
+                                         .entity();
                     cmds.relate(playerEnt, boatEnt, ChildOf{});
                     cmds.add(playerEnt, player.skin);
                     cmds.add(playerEnt, PlayerId{.id = player.id});

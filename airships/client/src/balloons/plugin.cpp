@@ -30,9 +30,7 @@ CUBOS_REFLECT_EXTERNAL_IMPL(BalloonInfo::State)
 
 CUBOS_REFLECT_IMPL(BalloonInfo)
 {
-    return cubos::core::ecs::TypeBuilder<BalloonInfo>("airships::client::BalloonInfo")
-        .withField("state", &BalloonInfo::state)
-        .build();
+    return cubos::core::ecs::TypeBuilder<BalloonInfo>("airships::client::BalloonInfo").wrap(&BalloonInfo::state);
 }
 
 CUBOS_REFLECT_IMPL(PopBalloon)
@@ -57,8 +55,10 @@ namespace airships::client
         cubos.system("idling")
             .tagged(physicsApplyForcesTag)
             .call([](Commands cmds,
-                     Query<Entity, BalloonInfo&, const Position&, const RandomPosition&, const Mass&, Force&, Impulse&, const Velocity&>
-                         query, const Gravity& gravity) {
+                     Query<Entity, BalloonInfo&, const Position&, const RandomPosition&, const Mass&, Force&, Impulse&,
+                           const Velocity&>
+                         query,
+                     const Gravity& gravity) {
                 for (auto [ent, _, pos, rp, mass, force, imp, vel] : query)
                 {
                     force.add(-mass.mass * gravity.value);

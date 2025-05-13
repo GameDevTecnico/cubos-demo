@@ -1,83 +1,72 @@
 {
-  "entities": {
-    "root": {
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "61e1a0d2-a84b-4437-b89e-176b7f108230",
-        "offset": {
-          "x": -5.5,
-          "y": -7.0,
-          "z": -5.0
-        }
-      },
-      "cubos::engine::Collider": {},
-      "cubos::engine::AccumulatedCorrection": {
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "61e1a0d2-a84b-4437-b89e-176b7f108230"
+  },
+  "cubos::engine::AccumulatedCorrection": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cubos::engine::BoxCollisionShape": {
+    "x": 5.5,
+    "y": 7.0,
+    "z": 5.0
+  },
+  "cubos::engine::Force": {},
+  "cubos::engine::Torque": {},
+  "cubos::engine::Impulse": {},
+  "cubos::engine::AngularImpulse": {},
+  "cubos::engine::Mass": {
+    "inverseMass": 0.0,
+    "mass": 1000.0,
+    "changed": false
+  },
+  "cubos::engine::Inertia": {
+    "inverseInertia": {
+      "a": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::BoxCollisionShape": {
-        "x": 5.5,
-        "y": 7.0,
-        "z": 5.0
-      },
-      "cubos::engine::Force": {},
-      "cubos::engine::Torque": {},
-      "cubos::engine::Impulse": {},
-      "cubos::engine::AngularImpulse": {},
-      "cubos::engine::Mass": {
-        "inverseMass": 0.0,
-        "mass": 1000.0,
-        "changed": false
-      },
-      "cubos::engine::Inertia": {
-        "inverseInertia": {
-          "a": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          },
-          "b": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          },
-          "c": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          }
-        },
-        "autoUpdate": false
-      },
-      "cubos::engine::CenterOfMass": {
+      "b": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::PhysicsMaterial": {
-        "friction": 0.5,
-        "bounciness": 1.0,
-        "frictionMix": "Average",
-        "bouncinessMix": "Average"
-      },
-      "cubos::engine::Rotation": {
-        "w": 0.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::Scale": 2.0,
-      "cubos::engine::Velocity": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::AngularVelocity": {
+      "c": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       }
-    }
+    },
+    "autoUpdate": false
   },
-  "imports": {}
+  "cubos::engine::CenterOfMass": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cubos::engine::PhysicsMaterial": {
+    "friction": 0.5,
+    "bounciness": 1.0,
+    "frictionMix": "Average",
+    "bouncinessMix": "Average"
+  },
+  "cubos::engine::Rotation": {
+    "w": 0.0,
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cubos::engine::Scale": 2.0,
+  "cubos::engine::Velocity": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cubos::engine::AngularVelocity": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  }
 }

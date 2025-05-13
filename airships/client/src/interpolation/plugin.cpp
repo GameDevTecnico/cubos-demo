@@ -21,9 +21,7 @@ CUBOS_REFLECT_IMPL(airships::client::InterpolationOf)
 
 CUBOS_REFLECT_IMPL(airships::client::Interpolated)
 {
-    return cubos::core::ecs::TypeBuilder<Interpolated>("airships::client::Interpolated")
-        .withField("scene", &Interpolated::scene)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Interpolated>("airships::client::Interpolated").wrap(&Interpolated::scene);
 }
 
 namespace
@@ -65,7 +63,8 @@ void airships::client::interpolationPlugin(Cubos& cubos)
             for (auto [entity, interpolated] : query)
             {
                 auto scene = assets.read(interpolated.scene);
-                auto interpolatedEnt = cmds.spawn(scene->blueprint).entity("root");
+                auto builder = cmds.spawn(scene->blueprint()).named("interpolated");
+                auto interpolatedEnt = builder.entity();
                 cmds.relate(interpolatedEnt, entity, InterpolationOf{});
                 cmds.add(interpolatedEnt, InterpolatedDirty{});
             }
@@ -90,6 +89,7 @@ void airships::client::interpolationPlugin(Cubos& cubos)
         .call([](const FixedAccumulatedTime& acc, const DeltaTime& dt, const FixedDeltaTime& fdt,
                  Query<Position&, Rotation&, Scale&, const InterpolationOf&> query) {
             float alpha = (acc.value + dt.value()) / fdt.value;
+            alpha = glm::clamp(alpha, 0.0F, 1.0F);
 
             for (auto [position, rotation, scale, interpolation] : query)
             {

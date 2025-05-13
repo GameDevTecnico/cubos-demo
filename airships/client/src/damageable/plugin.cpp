@@ -7,9 +7,7 @@ using namespace cubos::engine;
 
 CUBOS_REFLECT_IMPL(airships::client::Damageable)
 {
-    return cubos::core::ecs::TypeBuilder<Damageable>("airships::client::Damageable")
-        .withField("health", &Damageable::health)
-        .build();
+    return cubos::core::ecs::TypeBuilder<Damageable>("airships::client::Damageable").wrap(&Damageable::health);
 }
 
 void airships::client::damageablePlugin(Cubos& cubos)

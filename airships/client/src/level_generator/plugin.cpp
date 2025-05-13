@@ -24,8 +24,7 @@ CUBOS_REFLECT_IMPL(airships::client::LevelGenerator::Object)
 CUBOS_REFLECT_IMPL(airships::client::LevelGenerator)
 {
     return cubos::core::ecs::TypeBuilder<LevelGenerator>("airships::client::LevelGenerator")
-        .withField("objects", &LevelGenerator::objects)
-        .build();
+        .wrap(&LevelGenerator::objects);
 }
 
 void airships::client::levelGeneratorPlugin(Cubos& cubos)
@@ -46,13 +45,12 @@ void airships::client::levelGeneratorPlugin(Cubos& cubos)
                     auto scene = assets.read(object.scene);
                     for (int i = 0; i < object.amount; ++i)
                     {
-                        auto root = cmds.spawn(scene->blueprint)
-                                        .add("root",
-                                             RandomPosition{
-                                                 .minHeight = static_cast<int>(object.minHeight),
-                                                 .maxHeight = static_cast<int>(object.maxHeight),
-                                             })
-                                        .entity("root");
+                        auto root = cmds.spawn(scene->blueprint())
+                                        .add(RandomPosition{
+                                            .minHeight = static_cast<int>(object.minHeight),
+                                            .maxHeight = static_cast<int>(object.maxHeight),
+                                        })
+                                        .entity();
                         cmds.relate(root, ent, ChildOf{});
                     }
                 }

@@ -17,8 +17,9 @@
 #include <cubos/core/reflection/external/primitives.hpp>
 
 #include <cubos/engine/collisions/plugin.hpp>
-#include <cubos/engine/collisions/collider.hpp>
 #include <cubos/engine/collisions/shapes/box.hpp>
+#include <cubos/engine/collisions/collision_layers.hpp>
+#include <cubos/engine/collisions/collision_mask.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/physics/plugins/gravity.hpp>
 
@@ -164,7 +165,8 @@ void airships::client::cannonPlugin(Cubos& cubos)
                             .add(Scale{0.5F})
                             .add(PhysicsBundle{
                                 .mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * cannon.bulletSpeed})
-                            .add(Collider{})
+                            .add(CollisionLayers{1})
+                            .add(CollisionMask{1})
                             .add(BoxCollisionShape{.box = {.halfSize = {3.5F, 3.5F, 3.5F}}})
                             .add(Bullet{})
                             .add(Interpolated{cannon.bulletScene})

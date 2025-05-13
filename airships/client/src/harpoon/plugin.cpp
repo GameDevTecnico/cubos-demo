@@ -15,7 +15,8 @@
 #include <cubos/core/reflection/external/primitives.hpp>
 
 #include <cubos/engine/collisions/plugin.hpp>
-#include <cubos/engine/collisions/collider.hpp>
+#include <cubos/engine/collisions/collision_layers.hpp>
+#include <cubos/engine/collisions/collision_mask.hpp>
 #include <cubos/engine/collisions/shapes/box.hpp>
 #include <cubos/engine/physics/plugin.hpp>
 #include <cubos/engine/physics/plugins/gravity.hpp>
@@ -91,34 +92,37 @@ void airships::client::harpoonPlugin(Cubos& cubos)
         });
 
     cubos.system("harpoon controls")
-        .call(
-            [](Input& inputs, const DeltaTime& dt, Query<HarpoonTube&, Rotation&, ChildOf&, Harpoon&, Rotation&> query) {
-                for (auto [tube, tubeRotation, childOf1, harpoon, harpoonRotation] : query)
-                {
-                    if (harpoon.player == -1)
-                        continue;
+        .call([](Input& inputs, const DeltaTime& dt,
+                 Query<HarpoonTube&, Rotation&, ChildOf&, Harpoon&, Rotation&> query) {
+            for (auto [tube, tubeRotation, childOf1, harpoon, harpoonRotation] : query)
+            {
+                if (harpoon.player == -1)
+                    continue;
 
-                    glm::quat yawQuat = glm::angleAxis(-inputs.axis("horizontal", harpoon.player) * dt.value(),
-                                                       glm::vec3(0.0F, 1.0F, 0.0F)); // Rotation around Y-axis
-                    glm::quat pitchQuat = glm::angleAxis(inputs.axis("vertical", harpoon.player) * dt.value(),
-                                                         glm::vec3(0.0F, 0.0F, 1.0F)); // Rotation around X-axis
+                glm::quat yawQuat = glm::angleAxis(-inputs.axis("horizontal", harpoon.player) * dt.value(),
+                                                   glm::vec3(0.0F, 1.0F, 0.0F)); // Rotation around Y-axis
+                glm::quat pitchQuat = glm::angleAxis(inputs.axis("vertical", harpoon.player) * dt.value(),
+                                                     glm::vec3(0.0F, 0.0F, 1.0F)); // Rotation around X-axis
 
-                    glm::vec3 harpoonEuler = glm::eulerAngles(yawQuat * harpoonRotation.quat);
-                    harpoonEuler.y = glm::clamp(harpoonEuler.y, glm::radians(45.0F), glm::radians(135.0F));
-                    harpoonRotation.quat = glm::quat(harpoonEuler);
+                glm::vec3 harpoonEuler = glm::eulerAngles(yawQuat * harpoonRotation.quat);
+                harpoonEuler.y = glm::clamp(harpoonEuler.y, glm::radians(45.0F), glm::radians(135.0F));
+                harpoonRotation.quat = glm::quat(harpoonEuler);
 
-                    glm::vec3 tubeEuler = glm::eulerAngles(pitchQuat * tubeRotation.quat);
-                    tubeEuler.z = glm::clamp(tubeEuler.z, glm::radians(-22.5F), 0.0F);
-                    tubeRotation.quat = glm::quat(tubeEuler);
+                glm::vec3 tubeEuler = glm::eulerAngles(pitchQuat * tubeRotation.quat);
+                tubeEuler.z = glm::clamp(tubeEuler.z, glm::radians(-22.5F), 0.0F);
+                tubeRotation.quat = glm::quat(tubeEuler);
 
-                    harpoon.harpoonLoaded = true;
-                }
-            });
+                harpoon.harpoonLoaded = true;
+            }
+        });
 
     cubos.system("fire harpoon")
         .call([](Commands cmds, Assets& assets, Input& inputs,
-                 Query<Entity, Arrow&, ChildOf&, HarpoonTube&, Rotation&, ChildOf&, Harpoon&, LocalToWorld&, ChildOf&, Velocity&> query) {
-            for (auto [ent, arrow, childOf0, tube, tubeRotation, childOf1, harpoon, harpoonLocalToWorld, childOf2, boatVelocity] : query)
+                 Query<Entity, Arrow&, ChildOf&, HarpoonTube&, Rotation&, ChildOf&, Harpoon&, LocalToWorld&, ChildOf&,
+                       Velocity&>
+                     query) {
+            for (auto [ent, arrow, childOf0, tube, tubeRotation, childOf1, harpoon, harpoonLocalToWorld, childOf2,
+                       boatVelocity] : query)
             {
                 if (harpoon.player == -1)
                 {
@@ -138,9 +142,11 @@ void airships::client::harpoonPlugin(Cubos& cubos)
                     cmds.add(ent, Position{.vec = harpoonPosition + forward * 22.5F})
                         .add(ent, Rotation{.quat = harpoonRotation})
                         .add(ent, Scale{0.5F})
-                        .add(ent, PhysicsBundle{
-                            .mass = 1.0F, .velocity = boatVelocity.vec, .impulse = forward * harpoon.bulletSpeed})
-                        .add(ent, Collider{})
+                        .add(ent, PhysicsBundle{.mass = 1.0F,
+                                                .velocity = boatVelocity.vec,
+                                                .impulse = forward * harpoon.bulletSpeed})
+                        .add(ent, CollisionLayers{1})
+                        .add(ent, CollisionMask{1})
                         .add(ent, BoxCollisionShape{.box = {.halfSize = {3.5F, 3.5F, 3.5F}}})
                         .add(ent, Bullet{})
                         .add(ent, Interpolated{harpoon.bulletScene});

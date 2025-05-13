@@ -1,32 +1,20 @@
 {
-    "entities": {
-        "root": {
-            "cubos::engine::Position": {},
-            "cubos::engine::RenderVoxelGrid": {
-                "asset": "6e012cc0-bccf-4af6-8229-6e304510b880",
-                "offset": {
-                    "x": -12.0,
-                    "y": 0.0,
-                    "z": -6.0
-                }
-            }
-        },
-        "head": {
-            "cubos::engine::ChildOf@root": {},
-            "cubos::engine::Position": {
-                "x": 0.0,
-                "y": 16.0,
-                "z": -5.0
-            },
-            "cubos::engine::RenderVoxelGrid": {
-                "asset": "65b57394-48f8-4447-a709-84a3763e1973",
-                "offset": {
-                    "x": -9.0,
-                    "y": -9.0,
-                    "z": 0.0
-                }
-            },
-            "airships::client::SteeringWheelHead": {}
+    "cubos::engine::Position": {},
+    "cubos::engine::RenderVoxelGrid": {
+        "asset": "6e012cc0-bccf-4af6-8229-6e304510b880",
+        "offset": {
+            "z": 5.0
         }
+    },
+    "#head": {
+        "cubos::engine::Position": {
+            "x": 0.0,
+            "y": 7.0,
+            "z": 2.5
+        },
+        "cubos::engine::RenderVoxelGrid": {
+            "asset": "65b57394-48f8-4447-a709-84a3763e1973"
+        },
+        "airships::client::SteeringWheelHead": {}
     }
 }

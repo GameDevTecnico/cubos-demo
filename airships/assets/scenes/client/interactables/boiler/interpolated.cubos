@@ -1,55 +1,28 @@
 {
-  "entities": {
-    "root": {
-      "cubos::engine::Position": {},
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "2727fcb2-0209-46ce-9d9b-c0532678cf99",
-        "offset": {
-          "x": -24.0,
-          "y": 0.0,
-          "z": -20.0
-        }
-      }
+  "cubos::engine::Position": {},
+  "cubos::engine::RenderVoxelGrid": {
+    "asset": "2727fcb2-0209-46ce-9d9b-c0532678cf99"
+  },
+  "#flames": {
+    "cubos::engine::Position": {},
+    "airships::client::RenderAnimation": {
+      "animation": "e64e1944-7f69-41f3-b094-cfab7d20cb8d"
+    }
+  },
+  "#smoke": {
+    "cubos::engine::Position": {},
+    "airships::client::RenderAnimation": {
+      "animation": "cd139c44-dfa2-407f-a109-eb6b6326fd2b"
+    }
+  },
+  "#lever": {
+    "cubos::engine::Position": {},
+    "cubos::engine::RenderVoxelGrid": {
+      "asset": "fd2c9446-cd22-49d7-8739-8b2a2ea46333"
     },
-    "flames": {
-      "cubos::engine::Position": {},
-      "cubos::engine::ChildOf@root": {},
-      "airships::client::RenderAnimation": {
-        "animation": "e64e1944-7f69-41f3-b094-cfab7d20cb8d",
-        "offset": {
-          "x": -24.0,
-          "y": 0.0,
-          "z": -20.0
-        }
-      }
-    },
-    "smoke": {
-      "cubos::engine::Position": {},
-      "cubos::engine::ChildOf@root": {},
-      "airships::client::RenderAnimation": {
-        "animation": "cd139c44-dfa2-407f-a109-eb6b6326fd2b",
-        "offset": {
-          "x": -24.0,
-          "y": 0.0,
-          "z": -20.0
-        }
-      }
-    },
-    "lever": {
-      "cubos::engine::Position": {},
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::RenderVoxelGrid": {
-        "asset": "fd2c9446-cd22-49d7-8739-8b2a2ea46333",
-        "offset": {
-          "x": -24.0,
-          "y": 0.0,
-          "z": -20.0
-        }
-      },
-      "airships::client::BoilerLeverAnimator": {
-        "minHeight": -3.0,
-        "maxHeight": 3.0
-      }
+    "airships::client::BoilerLeverAnimator": {
+      "minHeight": -3.0,
+      "maxHeight": 3.0
     }
   }
 }

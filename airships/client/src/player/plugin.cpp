@@ -83,12 +83,12 @@ void airships::client::playerPlugin(Cubos& cubos)
         .tagged(fixedStepTag)
         .before(collisionsTag)
         .call([](Commands cmds,
-                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&, const PlayerSkin&, const PlayerId&,
-                       Position&, Rotation&, const ChildOf&, const LocalToWorld&>
+                 Query<LocalToWorld&, const Follow&, RenderAnimation&, const InterpolationOf&, Player&,
+                       const PlayerSkin&, const PlayerId&, Position&, Rotation&, const ChildOf&, const LocalToWorld&>
                      players,
                  const FixedDeltaTime& dt, const Input& input) {
-            for (auto [cameraLTW, follow, animation, interpolationOf, player, skin, playerId, pos, rot, childOf, boatLTW] :
-                 players)
+            for (auto [cameraLTW, follow, animation, interpolationOf, player, skin, playerId, pos, rot, childOf,
+                       boatLTW] : players)
             {
                 if (playerId.id == -1 || !player.interactingWith.isNull())
                 {
@@ -170,18 +170,26 @@ void airships::client::playerPlugin(Cubos& cubos)
                     parentLTW = ltw.mat;
                 }
 
-                // Get the normal of the collision.
-                auto normal = collidingWith.normal;
-                if (collidingWith.entity != ent)
+                for (auto& manifold : collidingWith.manifolds)
                 {
-                    normal = -normal;
+                    // Get the normal of the collision.
+                    auto normal = manifold.normal;
+                    if (collidingWith.entity != ent)
+                    {
+                        normal = -normal;
+                    }
+
+                    // Transform the normal into the parent space.
+                    normal = glm::normalize(glm::vec3(glm::inverse(parentLTW) * glm::vec4(normal, 0.0F)));
+
+                    // Calculate the necessary offset to separate the player from the collider.
+                    float penetration = 0.0F;
+                    for (auto& contact : manifold.points)
+                    {
+                        penetration = std::max(penetration, contact.penetration);
+                    }
+                    pos.vec -= normal * penetration;
                 }
-
-                // Transform the normal into the parent space.
-                normal = glm::normalize(glm::vec3(glm::inverse(parentLTW) * glm::vec4(normal, 0.0F)));
-
-                // Calculate the necessary offset to separate the player from the collider.
-                pos.vec -= normal * collidingWith.penetration;
             }
         });
 }

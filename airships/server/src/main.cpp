@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     cubos.startupSystem("load and spawn the Main Scene")
         .tagged(assetsTag)
         .call([](Commands cmds, const Assets& assets, Settings& settings) {
-            cmds.spawn(assets.read(MainSceneAsset)->blueprint);
+            cmds.spawn(assets.read(MainSceneAsset)->blueprint()).named("main");
         });
 
     cubos.run();

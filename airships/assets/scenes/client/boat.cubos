@@ -1,319 +1,259 @@
 {
-  "entities": {
-    "root": {
-      "airships::client::Interpolated": "2ba04847-081b-441c-ab19-fb392e3a305a",
-      "airships::client::Drivable": {
-        "topLinearVelocity": 50.0,
-        "linearAcceleration": 25.0,
-        "topAngularVelocity": 60.0,
-        "angularAcceleration": 45.0,
-        "maxRoll": 20.0,
-        "rollLerpFactor": 0.99,
-        "buoyancyDoubleHeight": -500.0,
-        "buoyancyIncreaseHeight": -100.0,
-        "buoyancyDecreaseHeight": 100.0,
-        "buoyancyZeroHeight": 500.0,
-        "verticalDampening": 0.1
-      },
-      "airships::client::Damageable": 3,
-      "airships::client::DrivableDestruction": -1000.0,
-      "cubos::engine::Collider": {
-        "transform": {
-          "a": {
-            "x": 1.0,
-            "y": 0.0,
-            "z": 0.0,
-            "w": 0.0
-          },
-          "b": {
-            "x": 0.0,
-            "y": 1.0,
-            "z": 0.0,
-            "w": 0.0
-          },
-          "c": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 1.0,
-            "w": 0.0
-          },
-          "d": {
-            "x": 0.0,
-            "y": 16.0,
-            "z": -4.5,
-            "w": 1.0
-          }
-        }
-      },
-      "cubos::engine::AccumulatedCorrection": {
+  "airships::client::Interpolated": "2ba04847-081b-441c-ab19-fb392e3a305a",
+  "airships::client::Drivable": {
+    "topLinearVelocity": 50.0,
+    "linearAcceleration": 25.0,
+    "topAngularVelocity": 60.0,
+    "angularAcceleration": 45.0,
+    "maxRoll": 20.0,
+    "rollLerpFactor": 0.99,
+    "buoyancyDoubleHeight": -500.0,
+    "buoyancyIncreaseHeight": -100.0,
+    "buoyancyDecreaseHeight": 100.0,
+    "buoyancyZeroHeight": 500.0,
+    "verticalDampening": 0.1
+  },
+  "airships::client::Damageable": 3,
+  "airships::client::DrivableDestruction": {
+    "destroyHeight": -1000.0
+  },
+  "cubos::engine::AccumulatedCorrection": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cubos::engine::BoxCollisionShape": {
+    "x": 13.0,
+    "y": 24.5,
+    "z": 26.0
+  },
+  "cubos::engine::Force": {},
+  "cubos::engine::Torque": {},
+  "cubos::engine::Impulse": {},
+  "cubos::engine::AngularImpulse": {},
+  "cubos::engine::Mass": {
+    "inverseMass": 0.002,
+    "mass": 500.0,
+    "changed": true
+  },
+  "cubos::engine::Inertia": {
+    "inverseInertia": {
+      "a": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::BoxCollisionShape": {
-        "x": 13.0,
-        "y": 24.5,
-        "z": 26.0
-      },
-      "cubos::engine::Force": {},
-      "cubos::engine::Torque": {},
-      "cubos::engine::Impulse": {},
-      "cubos::engine::AngularImpulse": {},
-      "cubos::engine::Mass": {
-        "inverseMass": 0.002,
-        "mass": 500.0,
-        "changed": true
-      },
-      "cubos::engine::Inertia": {
-        "inverseInertia": {
-          "a": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          },
-          "b": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          },
-          "c": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          }
-        },
-        "autoUpdate": false
-      },
-      "cubos::engine::CenterOfMass": {
+      "b": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "cubos::engine::PhysicsMaterial": {
-        "friction": 0.0,
-        "bounciness": 0.3,
-        "frictionMix": "Average",
-        "bouncinessMix": "Average"
-      },
-      "cubos::engine::Velocity": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "cubos::engine::AngularVelocity": {
+      "c": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       }
     },
-    "hull": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Scale": 0.5,
-      "cubos::engine::Rotation": {
-        "w": 0.7071068,
-        "x": 0.0,
-        "y": 0.7071068,
-        "z": 0.0
-      }
+    "autoUpdate": false
+  },
+  "cubos::engine::CenterOfMass": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cubos::engine::PhysicsMaterial": {
+    "friction": 0.0,
+    "bounciness": 0.3,
+    "frictionMix": "Average",
+    "bouncinessMix": "Average"
+  },
+  "cubos::engine::Velocity": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "cubos::engine::AngularVelocity": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "#hull": {
+    "cubos::engine::Scale": 0.5,
+    "cubos::engine::Rotation": {
+      "w": 0.7071068,
+      "x": 0.0,
+      "y": 0.7071068,
+      "z": 0.0
     },
-    "front-collider-1": {
-      "cubos::engine::ChildOf@hull": {},
+    "#front-collider-1": {
       "cubos::engine::Position": {
         "x": -25.0,
         "y": 2.0,
         "z": 9.0
       },
-      "cubos::engine::Collider": {
-        "layer": 1,
-        "mask": 4
-      },
+      "cubos::engine::CollisionLayers": 2,
+      "cubos::engine::CollisionMask": 4,
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
         "y": 10.0,
         "z": 5.0
       }
     },
-    "front-collider-2": {
-      "cubos::engine::ChildOf@hull": {},
+    "#front-collider-2": {
       "cubos::engine::Position": {
         "x": -25.0,
         "y": 2.0,
         "z": -9.0
       },
-      "cubos::engine::Collider": {
-        "layer": 1,
-        "mask": 4
-      },
+      "cubos::engine::CollisionLayers": 2,
+      "cubos::engine::CollisionMask": 4,
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
         "y": 10.0,
         "z": 5.0
       }
     },
-    "back-collider": {
-      "cubos::engine::ChildOf@hull": {},
+    "#back-collider": {
       "cubos::engine::Position": {
         "x": 43.0,
         "y": 2.0,
         "z": 0.0
       },
-      "cubos::engine::Collider": {
-        "layer": 1,
-        "mask": 4
-      },
+      "cubos::engine::CollisionLayers": 2,
+      "cubos::engine::CollisionMask": 4,
       "cubos::engine::BoxCollisionShape": {
         "x": 4.0,
         "y": 10.0,
         "z": 24.0
       }
     },
-    "front-right-collider": {
-      "cubos::engine::ChildOf@hull": {},
+    "#front-right-collider": {
       "cubos::engine::Position": {
         "x": -14.0,
         "y": 2.0,
         "z": -18.0
       },
-      "cubos::engine::Collider": {
-        "layer": 1,
-        "mask": 4
-      },
+      "cubos::engine::CollisionLayers": 2,
+      "cubos::engine::CollisionMask": 4,
       "cubos::engine::BoxCollisionShape": {
         "x": 15.0,
         "y": 10.0,
         "z": 4.0
       }
     },
-    "back-right-collider": {
-      "cubos::engine::ChildOf@hull": {},
+    "#back-right-collider": {
       "cubos::engine::Position": {
         "x": 24.0,
         "y": 2.0,
         "z": -23.0
       },
-      "cubos::engine::Collider": {
-        "layer": 1,
-        "mask": 4
-      },
+      "cubos::engine::CollisionLayers": 2,
+      "cubos::engine::CollisionMask": 4,
       "cubos::engine::BoxCollisionShape": {
         "x": 15.0,
         "y": 10.0,
         "z": 4.0
       }
     },
-    "front-left-collider": {
-      "cubos::engine::ChildOf@hull": {},
+    "#front-left-collider": {
       "cubos::engine::Position": {
         "x": -14.0,
         "y": 2.0,
         "z": 18.0
       },
-      "cubos::engine::Collider": {
-        "layer": 1,
-        "mask": 4
-      },
+      "cubos::engine::CollisionLayers": 2,
+      "cubos::engine::CollisionMask": 4,
       "cubos::engine::BoxCollisionShape": {
         "x": 15.0,
         "y": 10.0,
         "z": 4.0
       }
     },
-    "back-left-collider": {
-      "cubos::engine::ChildOf@hull": {},
+    "#back-left-collider": {
       "cubos::engine::Position": {
         "x": 24.0,
         "y": 2.0,
         "z": 23.0
       },
-      "cubos::engine::Collider": {
-        "layer": 1,
-        "mask": 4
-      },
+      "cubos::engine::CollisionLayers": 2,
+      "cubos::engine::CollisionMask": 4,
       "cubos::engine::BoxCollisionShape": {
         "x": 15.0,
         "y": 10.0,
         "z": 4.0
       }
-    },
-    "ammo_box1.root": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Position": {
-        "x": 7.5,
-        "y": 0.0,
-        "z": -17.5
-      }
-    },
-    "steering-wheel.root": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": -11.5
-      }
-    },
-    "boiler.root": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": -2.75
-      },
-      "cubos::engine::Rotation": {
-        "w": -0.7071068,
-        "x": 0.0,
-        "y": 0.7071068,
-        "z": 0.0
-      }
-    },
-    "cannon1.root": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Position": {
-        "x": -11.75,
-        "y": 0.0,
-        "z": -2.25
-      },
-      "cubos::engine::Rotation": {
-        "w": 1.0,
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    "cannon2.root": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Position": {
-        "x": 11.75,
-        "y": 0.0,
-        "z": -2.25
-      },
-      "cubos::engine::Rotation": {
-        "w": 0.0,
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.0
-      }
-    },
-    "harpoon.root": {
-      "cubos::engine::ChildOf@root": {},
-      "cubos::engine::Position": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 15.0
-      },
-      "cubos::engine::Rotation": {
-        "w": 0.7071068,
-        "x": 0.0,
-        "y": 0.7071068,
-        "z": 0.0
-      }
     }
   },
-  "imports": {
-    "boiler": "16c5fcbd-a418-4d36-87e1-bfc01d9b15dc",
-    "steering-wheel": "d0815d31-57a0-46f5-b348-9e32803f9a67",
-    "cannon1": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
-    "cannon2": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
-    "harpoon": "e93db0f7-8db1-4987-8e49-dc2020e3a75b",
-    "ammo_box1": "fb0ef08a-1d45-4dba-b3b7-d7ee894f7023"
+  "#ammo-box1": {
+    "inherit": "fb0ef08a-1d45-4dba-b3b7-d7ee894f7023",
+    "cubos::engine::Position": {
+      "x": 7.5,
+      "y": 3.0,
+      "z": -17.5
+    }
+  },
+  "#steering-wheel": {
+    "inherit": "d0815d31-57a0-46f5-b348-9e32803f9a67",
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 5.0,
+      "z": -13.5
+    }
+  },
+  "#boiler": {
+    "inherit": "16c5fcbd-a418-4d36-87e1-bfc01d9b15dc",
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 8.0,
+      "z": -2.75
+    },
+    "cubos::engine::Rotation": {
+      "w": -0.7071068,
+      "x": 0.0,
+      "y": 0.7071068,
+      "z": 0.0
+    }
+  },
+  "#cannon1": {
+    "inherit": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
+    "cubos::engine::Position": {
+      "x": -10.75,
+      "y": 3.0,
+      "z": -2.25
+    },
+    "cubos::engine::Rotation": {
+      "w": 1.0,
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "#cannon2": {
+    "inherit": "5a91f3bd-18e3-41cd-8c94-aebb72a7281d",
+    "cubos::engine::Position": {
+      "x": 10.75,
+      "y": 3.0,
+      "z": -2.25
+    },
+    "cubos::engine::Rotation": {
+      "w": 0.0,
+      "x": 0.0,
+      "y": 1.0,
+      "z": 0.0
+    }
+  },
+  "#harpoon": {
+    "inherit": "e93db0f7-8db1-4987-8e49-dc2020e3a75b",
+    "cubos::engine::Position": {
+      "x": 0.0,
+      "y": 3.5,
+      "z": 15.0
+    },
+    "cubos::engine::Rotation": {
+      "w": 0.7071068,
+      "x": 0.0,
+      "y": 0.7071068,
+      "z": 0.0
+    }
   }
 }

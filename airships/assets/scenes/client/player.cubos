@@ -1,31 +1,24 @@
 {
-  "entities": {
-    "root": {
-      "cubos::engine::Scale": 0.375,
-      "cubos::engine::Collider": {
-        "layer": 2,
-        "mask": 6
-      },
-      "cubos::engine::BoxCollisionShape": {
-        "x": 4.0,
-        "y": 10.0,
-        "z": 2.0
-      },
-      "airships::client::Interpolated": "0f559f54-b436-4a99-adb9-8a66e1a2a70e",
-      "airships::client::Player": {
-        "horizontalAxis": "horizontal",
-        "verticalAxis": "vertical",
-        "interactAction": "interact",
-        "holdablePos": {
-          "x": 0.0,
-          "y": 16.0,
-          "z": 0.0
-        },
-        "interactDistance": 7.5,
-        "moveSpeed": 20.0,
-        "halfRotationTime": 0.025
-      }
-    }
+  "cubos::engine::Scale": 0.375,
+  "cubos::engine::CollisionLayers": 4,
+  "cubos::engine::CollisionMask": 6,
+  "cubos::engine::BoxCollisionShape": {
+    "x": 4.0,
+    "y": 10.0,
+    "z": 2.0
   },
-  "imports": {}
+  "airships::client::Interpolated": "0f559f54-b436-4a99-adb9-8a66e1a2a70e",
+  "airships::client::Player": {
+    "horizontalAxis": "horizontal",
+    "verticalAxis": "vertical",
+    "interactAction": "interact",
+    "holdablePos": {
+      "x": 0.0,
+      "y": 16.0,
+      "z": 0.0
+    },
+    "interactDistance": 7.5,
+    "moveSpeed": 20.0,
+    "halfRotationTime": 0.025
+  }
 }

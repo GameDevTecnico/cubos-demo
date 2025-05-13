@@ -1,49 +1,34 @@
 {
-    "entities": {
-        "root": {
-            "cubos::engine::Scale": 0.25,
-            "cubos::engine::Collider": {
-                "layer": 1,
-                "mask": 4,
-                "transform": {
-                    "d": {
-                        "x": 0.0,
-                        "y": 0.0,
-                        "z": 0.0
-                    }
-                }
-            },
-            "airships::client::Interpolated": "773d55b5-7c23-4ec3-b5f3-6a08b65e74bc",
-            "cubos::engine::BoxCollisionShape": {
-                "x": 5.0,
-                "y": 10.0,
-                "z": 5.0
-            },
-            "airships::client::Harpoon": {
-                "player": -1,
-                "harpoonLoaded": false,
-                "bulletScene": "41845b51-88de-403b-b0e6-cc89ceee3bde",
-                "bulletSpeed": 200.0
-            }
+    "cubos::engine::Scale": 0.25,
+    "cubos::engine::CollisionLayers": 2,
+    "cubos::engine::CollisionMask": 4,
+    "airships::client::Interpolated": "773d55b5-7c23-4ec3-b5f3-6a08b65e74bc",
+    "cubos::engine::BoxCollisionShape": {
+        "x": 5.0,
+        "y": 0.0,
+        "z": 5.0
+    },
+    "airships::client::Harpoon": {
+        "player": -1,
+        "harpoonLoaded": false,
+        "bulletScene": "41845b51-88de-403b-b0e6-cc89ceee3bde",
+        "bulletSpeed": 200.0
+    },
+    "#tube": {
+        "cubos::engine::Position": {
+            "x": -2.5,
+            "y": 5.5,
+            "z": 0.0
         },
-        "tube": {
-            "cubos::engine::ChildOf@root": {},
-            "cubos::engine::Position": {
-                "x": 0.0,
-                "y": 9.5,
-                "z": 0.0
-            },
-            "cubos::engine::Rotation": {
-                "w": 1.0,
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "airships::client::Interpolated": "d9672d6f-3620-4a1b-bbd8-d5a8c452fe23",
-            "airships::client::HarpoonTube": {}
+        "cubos::engine::Rotation": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
         },
-        "arrow": {
-            "cubos::engine::ChildOf@tube": {},
+        "airships::client::Interpolated": "d9672d6f-3620-4a1b-bbd8-d5a8c452fe23",
+        "airships::client::HarpoonTube": {},
+        "#arrow": {
             "cubos::engine::Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -57,7 +42,6 @@
             },
             "airships::client::Interpolated": "656da0b6-abab-4483-93c6-e0cb6fe305d5",
             "airships::client::Arrow": {}
-
         }
     }
 }
