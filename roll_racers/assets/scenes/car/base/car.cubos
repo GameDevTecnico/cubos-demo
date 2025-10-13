@@ -71,16 +71,16 @@
       "y": -2.0,
       "z": 3.8
     },
-    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
       "#axle": {
         "cubos::engine::Position": {
           "y": 5.0
         },
         "cubos::engine::Rotation": {},
-        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+        "roll_racers::InterpolatedPrev": "8247fe36-19f5-4450-9550-da8d0480a41e"
       }
     }
   },
@@ -95,16 +95,16 @@
       "y": -2.0,
       "z": 3.8
     },
-    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
       "#axle": {
         "cubos::engine::Position": {
           "y": 5.0
         },
         "cubos::engine::Rotation": {},
-        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+        "roll_racers::InterpolatedPrev": "8247fe36-19f5-4450-9550-da8d0480a41e"
       }
     }
   },
@@ -119,16 +119,16 @@
       "y": -2.0,
       "z": -3.4
     },
-    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
       "#axle": {
         "cubos::engine::Position": {
           "y": 5.0
         },
         "cubos::engine::Rotation": {},
-        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+        "roll_racers::InterpolatedPrev": "8247fe36-19f5-4450-9550-da8d0480a41e"
       }
     }
   },
@@ -143,16 +143,16 @@
       "y": -2.0,
       "z": -3.4
     },
-    "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+    "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
     "#model": {
       "cubos::engine::Scale": 0.2,
-      "roll_racers::Interpolated": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
+      "roll_racers::InterpolatedPrev": "0c94a196-1e3f-45d7-a4bd-5603f490f5e1",
       "#axle": {
         "cubos::engine::Position": {
           "y": 5.0
         },
         "cubos::engine::Rotation": {},
-        "roll_racers::Interpolated": "8247fe36-19f5-4450-9550-da8d0480a41e"
+        "roll_racers::InterpolatedPrev": "8247fe36-19f5-4450-9550-da8d0480a41e"
       }
     }
   }

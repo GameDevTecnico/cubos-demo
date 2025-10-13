@@ -6,6 +6,7 @@
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/interpolation/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -19,9 +20,10 @@ CUBOS_REFLECT_IMPL(roll_racers::InterpolationOf)
         .build();
 }
 
-CUBOS_REFLECT_IMPL(roll_racers::Interpolated)
+CUBOS_REFLECT_IMPL(roll_racers::InterpolatedPrev)
 {
-    return cubos::core::ecs::TypeBuilder<Interpolated>("roll_racers::Interpolated").wrap(&Interpolated::scene);
+    return cubos::core::ecs::TypeBuilder<InterpolatedPrev>("roll_racers::InterpolatedPrev")
+        .wrap(&InterpolatedPrev::scene);
 }
 
 CUBOS_REFLECT_IMPL(roll_racers::InterpolatedDirty)
@@ -44,29 +46,37 @@ void roll_racers::interpolationPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(fixedStepPlugin);
     cubos.depends(assetsPlugin);
+    cubos.depends(cubos::engine::interpolationPlugin);
 
     cubos.resource<State>();
 
-    cubos.component<Interpolated>();
+    cubos.component<InterpolatedPrev>();
     cubos.component<InterpolatedDirty>();
 
     cubos.relation<InterpolationOf>();
 
     cubos.observer("spawn Interpolated scenes")
-        .onAdd<Interpolated>()
-        .call([](Commands cmds, const Assets& assets, Query<Entity, const Interpolated&> query) {
-            for (auto [entity, interpolated] : query)
+        .onAdd<InterpolatedPrev>()
+        .call([](Commands cmds, const Assets& assets,
+                 Query<Entity, const InterpolatedPrev&, const Position&, const Rotation&, const Scale&> query) {
+            for (auto [entity, interpolated, position, rotation, scale] : query)
             {
                 auto interpolatedEnt = cmds.spawn(assets.read(interpolated.scene)->blueprint()).entity();
                 cmds.relate(interpolatedEnt, entity, InterpolationOf{});
                 cmds.add(interpolatedEnt, InterpolatedDirty{});
+                cmds.add(interpolatedEnt, Interpolated{.currentPosition = position.vec,
+                                                       .currentScale = scale.factor,
+                                                       .previousPosition = position.vec,
+                                                       .previousScale = scale.factor,
+                                                       .nextPosition = position.vec,
+                                                       .nextScale = scale.factor});
             }
         });
 
     cubos.system("add ChildOf to interpolated entities")
         .call([](Commands cmds,
-                 Query<Entity, const InterpolatedDirty&, const InterpolationOf&, const ChildOf&, const Interpolated&,
-                       Entity>
+                 Query<Entity, const InterpolatedDirty&, const InterpolationOf&, const ChildOf&,
+                       const InterpolatedPrev&, Entity>
                      query,
                  Query<Entity, const InterpolationOf&> interpolationQuery) {
             for (auto [entity, dirty, interpolation, childOf, interpolated, parent] : query)
@@ -77,6 +87,7 @@ void roll_racers::interpolationPlugin(Cubos& cubos)
             }
         });
 
+    /**
     cubos.system("do interpolation on InterpolationOf sources")
         .before(fixedStepTag)
         .call([](const FixedAccumulatedTime& acc, const DeltaTime& dt, const FixedDeltaTime& fdt,
@@ -119,4 +130,5 @@ void roll_racers::interpolationPlugin(Cubos& cubos)
                 }
             }
         });
+    **/
 }
