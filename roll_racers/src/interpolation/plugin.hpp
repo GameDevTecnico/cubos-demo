@@ -31,7 +31,7 @@ namespace roll_racers
     ///
     /// Any children entities with the same component will put their interpolated entities as children of the
     /// interpolated counterpart of this entity.
-    struct Interpolated
+    struct InterpolatedFlag
     {
         CUBOS_REFLECT;
 

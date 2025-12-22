@@ -1,3 +1,4 @@
 {
-    "cubos::engine::Position": {}
+    "cubos::engine::Position": {},
+    "cubos::engine::Interpolated": {}
 }

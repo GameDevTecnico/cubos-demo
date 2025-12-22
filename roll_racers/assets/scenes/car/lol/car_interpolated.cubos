@@ -4,5 +4,6 @@
     "cubos::engine::RenderVoxelGrid": {
       "asset": "058b48d0-a537-4211-9376-539dc3f25c45"
     }
-  }
+  },
+  "cubos::engine::Interpolated": {}
 }

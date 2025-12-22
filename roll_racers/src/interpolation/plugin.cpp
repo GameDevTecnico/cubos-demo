@@ -6,6 +6,8 @@
 #include <cubos/engine/transform/plugin.hpp>
 #include <cubos/engine/fixed_step/plugin.hpp>
 #include <cubos/engine/assets/plugin.hpp>
+#include <cubos/engine/interpolation/plugin.hpp>
+#include <cubos/engine/physics/plugin.hpp>
 
 using namespace cubos::engine;
 
@@ -19,9 +21,10 @@ CUBOS_REFLECT_IMPL(roll_racers::InterpolationOf)
         .build();
 }
 
-CUBOS_REFLECT_IMPL(roll_racers::Interpolated)
+CUBOS_REFLECT_IMPL(roll_racers::InterpolatedFlag)
 {
-    return cubos::core::ecs::TypeBuilder<Interpolated>("roll_racers::Interpolated").wrap(&Interpolated::scene);
+    return cubos::core::ecs::TypeBuilder<InterpolatedFlag>("roll_racers::InterpolatedFlag")
+        .wrap(&InterpolatedFlag::scene);
 }
 
 CUBOS_REFLECT_IMPL(roll_racers::InterpolatedDirty)
@@ -44,17 +47,19 @@ void roll_racers::interpolationPlugin(Cubos& cubos)
     cubos.depends(transformPlugin);
     cubos.depends(fixedStepPlugin);
     cubos.depends(assetsPlugin);
+    cubos.depends(physicsPlugin);
+    cubos.depends(cubos::engine::interpolationPlugin);
 
     cubos.resource<State>();
 
-    cubos.component<Interpolated>();
+    cubos.component<InterpolatedFlag>();
     cubos.component<InterpolatedDirty>();
 
     cubos.relation<InterpolationOf>();
 
     cubos.observer("spawn Interpolated scenes")
-        .onAdd<Interpolated>()
-        .call([](Commands cmds, const Assets& assets, Query<Entity, const Interpolated&> query) {
+        .onAdd<InterpolatedFlag>()
+        .call([](Commands cmds, const Assets& assets, Query<Entity, const InterpolatedFlag&> query) {
             for (auto [entity, interpolated] : query)
             {
                 auto interpolatedEnt = cmds.spawn(assets.read(interpolated.scene)->blueprint()).entity();
@@ -65,8 +70,8 @@ void roll_racers::interpolationPlugin(Cubos& cubos)
 
     cubos.system("add ChildOf to interpolated entities")
         .call([](Commands cmds,
-                 Query<Entity, const InterpolatedDirty&, const InterpolationOf&, const ChildOf&, const Interpolated&,
-                       Entity>
+                 Query<Entity, const InterpolatedDirty&, const InterpolationOf&, const ChildOf&,
+                       const InterpolatedFlag&, Entity>
                      query,
                  Query<Entity, const InterpolationOf&> interpolationQuery) {
             for (auto [entity, dirty, interpolation, childOf, interpolated, parent] : query)
@@ -77,6 +82,32 @@ void roll_racers::interpolationPlugin(Cubos& cubos)
             }
         });
 
+    cubos.system("detect fixedStep for InterpolationOf").tagged(fixedStepTag).call([](State& state) {
+        state.stepped = true;
+    });
+
+    cubos.system("update interpolated of interpolated targets (hack)")
+        .after(fixedStepTag)
+        .call([](State& state, Query<Position&, Rotation&, Scale&, Interpolated&, InterpolationOf&, const Position&,
+                                     const Rotation&, const Scale&>
+                                   query) {
+            if (state.stepped)
+            {
+                state.stepped = false;
+
+                for (auto [position1, rotation1, scale1, interpolated, interpolation, position2, rotation2, scale2] :
+                     query)
+                {
+                    interpolated.nextPosition = position2.vec;
+                    interpolated.currentPosition = position1.vec;
+                    /* we have no intepolation of rotation and scale yet */
+                    rotation1.quat = rotation2.quat;
+                    scale1.factor = scale2.factor;
+                }
+            }
+        });
+
+    /*
     cubos.system("do interpolation on InterpolationOf sources")
         .before(fixedStepTag)
         .call([](const FixedAccumulatedTime& acc, const DeltaTime& dt, const FixedDeltaTime& fdt,
@@ -96,27 +127,5 @@ void roll_racers::interpolationPlugin(Cubos& cubos)
                 scale.factor = glm::mix(interpolation.previousScale, interpolation.nextScale, alpha);
             }
         });
-
-    cubos.system("detect fixedStep for InterpolationOf").tagged(fixedStepTag).call([](State& state) {
-        state.stepped = true;
-    });
-
-    cubos.system("update InterpolationOf relations from targets")
-        .after(fixedStepTag)
-        .call([](State& state, Query<InterpolationOf&, const Position&, const Rotation&, const Scale&> query) {
-            if (state.stepped)
-            {
-                state.stepped = false;
-
-                for (auto [interpolation, position, rotation, scale] : query)
-                {
-                    interpolation.previousPosition = interpolation.nextPosition;
-                    interpolation.previousRotation = interpolation.nextRotation;
-                    interpolation.previousScale = interpolation.nextScale;
-                    interpolation.nextPosition = position.vec;
-                    interpolation.nextRotation = rotation.quat;
-                    interpolation.nextScale = scale.factor;
-                }
-            }
-        });
+    */
 }
